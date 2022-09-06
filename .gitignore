@@ -2,3 +2,5 @@
 *.a
 *.os
 .sconsign.dblite
+compile_commands.json
+.cache
