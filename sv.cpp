@@ -1,6 +1,18 @@
 #include"VocalTractModel5.h"
 #include<SDL.h>
 #include<ncurses.h>
+struct v
+{
+	enum csp{k,t,m,d,o,kt,od,ko};
+	csp cs;
+	bool n;
+	bool vs,ns,nt,sv;
+	bool sd;
+	enum ssp{u,a,s};
+	ssp ss;
+	int vv;
+	bool mp,sg;
+};
 struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
