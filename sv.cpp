@@ -35,13 +35,13 @@ int main()
 {
 	SDL_Init(SDL_INIT_AUDIO);
 	SDL_AudioSpec sn;
-    sn.freq=22000;
-    sn.format=AUDIO_U8;
-    sn.samples=1024;
-    sn.callback=pc;
-    sn.userdata=NULL;
-    sn.channels=1;
-    SDL_OpenAudio(&sn,NULL);
+	sn.freq=22000;
+	sn.format=AUDIO_U8;
+	sn.samples=1024;
+	sn.callback=pc;
+	sn.userdata=NULL;
+	sn.channels=1;
+	SDL_OpenAudio(&sn,NULL);
 	SDL_PauseAudio(0);
 	initscr();
 	cbreak();
