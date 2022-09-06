@@ -1,4 +1,5 @@
-e=Environment(COMPILATIONDB_USE_ABSPATH=True)
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-O2')
+e.ParseConfig('sdl2-config --cflags --libs')
 e.Tool('compilation_db')
 e.CompilationDatabase()
-e.StaticLibrary('sv',Glob('*.cpp'))
+e.Program('sv',Glob('*.cpp'))
