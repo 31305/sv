@@ -111,7 +111,12 @@ template<typename TFloat>
 void
 RosenbergBGlottalSource<TFloat>::setup(TFloat amplitude)
 {
+	if(prevAmplitude_<amplitude*0.0000001) {
+		t_ = 0.0;
+	}
+
 	if (tnMin_ == tnMax_ || amplitude == prevAmplitude_) {
+		prevAmplitude_ = amplitude;
 		return;
 	}
 
