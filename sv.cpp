@@ -24,11 +24,12 @@ int main()
 	SDL_PauseAudio(0);
 	initscr();
 	cbreak();
+	keypad(stdscr,TRUE);
 	noecho();
 	while(1)
 	{
 		char g=getch();
-		if(g==27)break;
+		if(g=='0'||1)break;
 	}
 	endwin();
 	SDL_Quit();

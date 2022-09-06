@@ -185,6 +185,7 @@ private:
 		NJ7 = 6, /*  N21 - AIR  */
 		TOTAL_NASAL_JUNCTIONS = TOTAL_NASAL_SECTIONS / 3
 	};
+public:
 	enum ParameterIndex {
 		PARAM_GLOT_PITCH = 0,
 		PARAM_GLOT_VOL   = 1,
@@ -202,8 +203,13 @@ private:
 		PARAM_R7         = 13,
 		PARAM_R8         = 14,
 		PARAM_VELUM      = 15,
-		TOTAL_PARAMETERS = 16
+		PARAM_R6A        = 16,
+		PARAM_RR0        = 17,
+		PARAM_RR1        = 18,
+		PARAM_VB         = 19,
+		TOTAL_PARAMETERS = 20
 	};
+private:
 	enum LogParameters {
 		log_param_vtm5_pitch
 	};
@@ -254,6 +260,21 @@ private:
 			upperCoeff = c * (r2_2 - r0_2 - r1_2);
 		}
 	};
+	struct Junction4 {
+		TFloat leftCoeff{};
+		TFloat rightCoeff{};
+		TFloat upperCoeff{};
+		void configure(TFloat leftRadius, TFloat rightRadius, TFloat upperRadius) {
+			// Flow equations.
+			const TFloat r0_2 =  leftRadius *  leftRadius;
+			const TFloat r1_2 = rightRadius * rightRadius;
+			const TFloat r2_2 = upperRadius * upperRadius;
+			const TFloat c = 1.0f / (r0_2 + r1_2 + 2.0 * r2_2);
+			leftCoeff  = c * (r0_2 - r1_2 - 2.0 * r2_2);
+			rightCoeff = c * (r1_2 - r0_2 - 2.0 * r2_2);
+			upperCoeff = c * (- r0_2 - r1_2);
+		}
+	};
 	struct Section {
 		std::array<TFloat, SectionDelay + 1> top{};
 		std::array<TFloat, SectionDelay + 1> bottom{};
@@ -287,6 +308,20 @@ private:
 		left.bottom[inPtr_] = (right.bottom[outPtr_] + upper.bottom[outPtr_] + junction.leftCoeff  * partialInflux) * dampingFactor_;
 		right.top[  inPtr_] = ( left.top[   outPtr_] + upper.bottom[outPtr_] + junction.rightCoeff * partialInflux) * dampingFactor_;
 		upper.top[  inPtr_] = ( left.top[   outPtr_] + right.bottom[outPtr_] + junction.upperCoeff * partialInflux) * dampingFactor_;
+	}
+	void propagateJunction4u(Section& left, Junction4& junction, Section& right, Section& upper) {
+		// Flow equations.
+		const TFloat partialInflux = left.top[outPtr_] + right.bottom[outPtr_] + 2.0 * upper.bottom[outPtr_];
+		left.bottom[inPtr_] = (right.bottom[outPtr_] + 2.0 * upper.bottom[outPtr_] + junction.leftCoeff  * partialInflux) * dampingFactor_;
+		right.top[inPtr_] = (left.top[outPtr_] + 2.0 * upper.bottom[outPtr_] + junction.rightCoeff * partialInflux) * dampingFactor_;
+		upper.top[inPtr_] = (left.top[outPtr_] + right.bottom[outPtr_] + upper.bottom[outPtr_] + junction.upperCoeff * partialInflux) * dampingFactor_;
+	}
+	void propagateJunction4d(Section& left, Junction4& junction, Section& right, Section& upper) {
+		// Flow equations.
+		const TFloat partialInflux = left.top[outPtr_] + right.bottom[outPtr_] + 2.0 * upper.top[outPtr_];
+		left.bottom[inPtr_] = (right.bottom[outPtr_] + 2.0 * upper.top[outPtr_] + junction.leftCoeff  * partialInflux) * dampingFactor_;
+		right.top[inPtr_] = (left.top[outPtr_] + 2.0 * upper.top[outPtr_] + junction.rightCoeff * partialInflux) * dampingFactor_;
+		upper.bottom[inPtr_] = (left.top[outPtr_] + right.bottom[outPtr_] + upper.top[outPtr_] + junction.upperCoeff * partialInflux) * dampingFactor_;
 	}
 
 	VocalTractModel5(const VocalTractModel5&) = delete;
