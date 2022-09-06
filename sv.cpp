@@ -23,6 +23,7 @@ int main()
     SDL_OpenAudio(&sn,NULL);
 	SDL_PauseAudio(0);
 	initscr();
+	noecho();
 	while(1)
 	{
 		char g=getch();
