@@ -1,5 +1,6 @@
 #include"VocalTractModel5.h"
 #include<SDL.h>
+#include<ncurses.h>
 struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
@@ -21,7 +22,13 @@ int main()
     sn.channels=1;
     SDL_OpenAudio(&sn,NULL);
 	SDL_PauseAudio(0);
-	SDL_Delay(1000);
+	initscr();
+	while(1)
+	{
+		char g=getch();
+		if(g==27)break;
+	}
+	endwin();
 	SDL_Quit();
 	return 0;
 }

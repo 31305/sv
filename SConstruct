@@ -1,4 +1,4 @@
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-O2')
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-O2',LIBS=['ncurses'])
 e.ParseConfig('sdl2-config --cflags --libs')
 e.Tool('compilation_db')
 e.CompilationDatabase()
