@@ -13,6 +13,15 @@ struct v
 	int vv;
 	bool mp,sg;
 };
+struct ck
+{
+	int s;
+	ck(int ds){s=ds;k=new double[s];}
+	~ck(){delete k;}
+	double *k;
+	int u,d;
+	int ak(){if(u>d)return u-d;else return u+s-d;}
+};
 struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
