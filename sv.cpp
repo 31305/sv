@@ -58,7 +58,7 @@ int ssk(int p)
 	char s;
 	while(read(p,&s,1)>0)
 	{
-		if(s=='1')return 0;
+		if(s=='0')return 0;
 	}
 	return 1;
 }
