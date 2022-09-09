@@ -4,18 +4,25 @@
 #include<sys/stat.h>
 #include<sys/file.h>
 #include<unistd.h>
+#include<array>
 struct v
 {
 	enum csp{k,t,m,d,o,kt,od,ko};
 	csp cs;
 	bool n;
-	bool vs,ns,nt,sv;
+	bool vs,rvs,ns,nt,sv;
 	bool sd;
 	enum ssp{u,a,s};
 	ssp ss;
 	int vv;
 	bool mp,sg;
+	bool pg;
 };
+static std::array<v,64> vc=[]()->std::array<v,64>
+{
+	std::array<v,64> d;
+	return d;
+}();
 struct ck
 {
 	int s;
