@@ -110,18 +110,13 @@ struct ck
 	ck(size_t ds){s=ds;k=new n[s];}
 	~ck(){delete k;}
 	n *k;
-	size_t u,d;
-	size_t ak(){if(u>d)return u-d;else return u+s-d;}
+	void v(size_t &a){a++;if(a==s)a=0;}
+	size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
 };
 struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
 };
-void pc(void *,Uint8 *d,int s)
-{
-	for(int k=0;k<s;k++)
-		d[k]=sin(2.0*M_PI*100.0*(double)k/1024.0)*127+128;
-}
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -167,15 +162,60 @@ unsigned char tns(KeySym t)
 void k(int p)
 {
 	SDL_Init(SDL_INIT_AUDIO);
-	SDL_AudioSpec sn;
-	sn.freq=22000;
-	sn.format=AUDIO_U8;
-	sn.samples=1024;
-	sn.callback=pc;
-	sn.userdata=NULL;
-	sn.channels=1;
-	SDL_OpenAudio(&sn,NULL);
-	SDL_PauseAudio(0);
+	bool ck=1;
+	int yk=0;
+	std::vector<unsigned char> nv;
+	auto vk=[&ck,&yk,&nv]()
+	{
+		struct vyp
+		{
+			vyp(size_t kd):mc(kd){mc.k[0]=0;}
+			::ck<float> mc;
+			size_t d=0,u=1;
+		};
+		auto pc=[](void *vy,Uint8 *d,int s)
+		{
+			auto vyk=((vyp*)vy);
+			for(int k=0;k<s;k+=sizeof(float))
+			{
+				if(vyk->mc.ak(vyk->d,vyk->u)==0)
+				{
+					printf("<");
+					*((float*)(d+k))=0;
+				}
+				else
+				{
+					*((float*)(d+k))=vyk->mc.k[vyk->d];
+					vyk->mc.v(vyk->d);
+				}
+			}
+		};
+		GS::VTM::VocalTractModel5<double,1> mt;
+		vyp vy(mt.outputSampleRate());
+		SDL_AudioSpec sn;
+		sn.freq=mt.outputSampleRate();
+		sn.format=AUDIO_F32;
+		sn.samples=1024;
+		sn.callback=pc;
+		sn.userdata=&vy;
+		sn.channels=1;
+		SDL_OpenAudio(&sn,NULL);
+		SDL_PauseAudio(0);
+		unsigned long k;
+		while(1)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(16));
+			while(vy.mc.ak(vy.d,vy.u)<mt.outputSampleRate()*0.5)
+			{
+				vy.mc.k[vy.u]=sin(2.0*M_PI*100.0*(double)k/1024.0)*0.5;
+				vy.mc.v(vy.u);
+				k++;
+			};
+			if(ck==0)break;
+		}
+		SDL_PauseAudio(1);
+		SDL_CloseAudio();
+	};
 	Display *d=XOpenDisplay(0);
 	for(int i=XK_KP_0;i<=XK_KP_9;i++)
 	{
@@ -183,13 +223,9 @@ void k(int p)
 		XGrabKey(d,XKeysymToKeycode(d,i),16|LockMask,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
 	}
 	XEvent g;
-	bool ck=1;
-	int yk=0;
 	int tk=0;
 	int pt;
-	auto vk=[](){};
-	std::thread vkk(vk);
-	std::vector<unsigned char> nv; 
+	std::thread vkk(vk); 
 	while(ck)
 	{
 		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress)
