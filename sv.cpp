@@ -170,14 +170,21 @@ void k(int p)
 	}
 	XEvent g;
 	bool ck=1;
+	int yk=0;
+	int tk=0;
 	while(ck)
 	{
-		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress&&XLookupKeysym(&(g.xkey),1)==XK_KP_0)
+		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress)
 		{
-			ck=0;
+			auto t=XLookupKeysym(&(g.xkey),1);
+			if(tk==0)
+			{
+				if(t==XK_KP_0)ck=0;
+			}
 		}
 		ck=ck&ssk(p);
-		SDL_Delay(40);
+		const int kn=40;
+		SDL_Delay(kn);
 	}
 	XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
 	SDL_Quit();
