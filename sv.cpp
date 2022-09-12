@@ -172,6 +172,7 @@ void k(int p)
 			vyp(size_t kd):mc(kd){mc.k[0]=0;}
 			::ck<float> mc;
 			size_t d=0,u=1;
+			bool v=0;
 		};
 		auto pc=[](void *vy,Uint8 *d,int s)
 		{
@@ -180,7 +181,7 @@ void k(int p)
 			{
 				if(vyk->mc.ak(vyk->d,vyk->u)==0)
 				{
-					printf("<");
+					if(vyk->v)printf("<");
 					*((float*)(d+k))=0;
 				}
 				else
@@ -204,15 +205,17 @@ void k(int p)
 		unsigned long k;
 		while(1)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(16));
-			while(vy.mc.ak(vy.d,vy.u)<mt.outputSampleRate()*0.5)
+			while(vy.mc.ak(vy.d,vy.u)<vy.mc.s-1)
 			{
 				vy.mc.k[vy.u]=sin(2.0*M_PI*100.0*(double)k/1024.0)*0.5;
 				vy.mc.v(vy.u);
 				k++;
 			};
+			vy.v=1;
 			if(ck==0)break;
+			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		}
+		vy.v=0;
 		SDL_PauseAudio(1);
 		SDL_CloseAudio();
 	};
@@ -228,38 +231,42 @@ void k(int p)
 	std::thread vkk(vk); 
 	while(ck)
 	{
-		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress)
+		while(XCheckMaskEvent(d,-1,&g))
 		{
-			auto t=tns(XLookupKeysym(&(g.xkey),1));
-			if(yk==0)
+			if(g.type==KeyPress)
 			{
-				if(t==0)ck=0;
-				else if(t==1)
+				auto t=tns(XLookupKeysym(&(g.xkey),1));
+				if(yk==0)
 				{
-					yk=1;
-					nv.resize(0);
-				}
-			}
-			else if(yk==1)
-			{
-				if(tk>0)
-				{
-					if(t==0&&pt==0)
+					if(t==0)ck=0;
+					else if(t==1)
 					{
-						yk=0;
+						yk=1;
+						nv.resize(0);
 					}
-					else nv.push_back(pt*10+t);
 				}
-				else
+				else if(yk==1)
 				{
-					tk=1000;
-					pt=t;
+					if(tk>0)
+					{
+						tk=0;
+						if(t==0&&pt==0)
+						{
+							yk=0;
+						}
+						else nv.push_back(pt*10+t);
+					}
+					else
+					{
+						tk=1000;
+						pt=t;
+					}
 				}
 			}
 		}
 		ck=ck&ssk(p);
 		const int kn=40;
-		SDL_Delay(kn);
+		std::this_thread::sleep_for(std::chrono::milliseconds(kn));
 		if(tk>0)tk-=kn;
 	}
 	vkk.join();
