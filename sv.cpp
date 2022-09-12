@@ -150,6 +150,20 @@ int ssk(int p)
 	}
 	return 1;
 }
+unsigned char tns(KeySym t)
+{
+	if(t==XK_KP_0)return 0;
+	if(t==XK_KP_1)return 1;
+	if(t==XK_KP_2)return 2;
+	if(t==XK_KP_3)return 3;
+	if(t==XK_KP_4)return 4;
+	if(t==XK_KP_5)return 5;
+	if(t==XK_KP_6)return 6;
+	if(t==XK_KP_7)return 7;
+	if(t==XK_KP_8)return 8;
+	if(t==XK_KP_9)return 9;
+	return 0;
+}
 void k(int p)
 {
 	SDL_Init(SDL_INIT_AUDIO);
@@ -172,20 +186,47 @@ void k(int p)
 	bool ck=1;
 	int yk=0;
 	int tk=0;
+	int pt;
+	auto vk=[](){};
+	std::thread vkk(vk);
+	std::vector<int> nv; 
 	while(ck)
 	{
 		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress)
 		{
-			auto t=XLookupKeysym(&(g.xkey),1);
-			if(tk==0)
+			auto t=tns(XLookupKeysym(&(g.xkey),1));
+			if(yk==0)
 			{
-				if(t==XK_KP_0)ck=0;
+				if(t==0)ck=0;
+				else if(t==1)
+				{
+					yk=1;
+					nv.resize(0);
+				}
+			}
+			else if(yk==1)
+			{
+				if(tk>0)
+				{
+					if(t==0&&pt==0)
+					{
+						yk=0;
+					}
+					else nv.push_back(pt*10+t);
+				}
+				else
+				{
+					tk=1000;
+					pt=t;
+				}
 			}
 		}
 		ck=ck&ssk(p);
 		const int kn=40;
 		SDL_Delay(kn);
+		if(tk>0)tk-=kn;
 	}
+	vkk.join();
 	XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
 	SDL_Quit();
 }
