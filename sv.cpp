@@ -162,26 +162,24 @@ void k(int p)
 	sn.channels=1;
 	SDL_OpenAudio(&sn,NULL);
 	SDL_PauseAudio(0);
-	Display *d=XOpenDisplay(0);for(int i=XK_KP_0;i<=XK_KP_9;i++)
+	Display *d=XOpenDisplay(0);
+	for(int i=XK_KP_0;i<=XK_KP_9;i++)
 	{
 		XGrabKey(d,XKeysymToKeycode(d,i),16,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
 		XGrabKey(d,XKeysymToKeycode(d,i),16|LockMask,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
 	}
 	XEvent g;
-	while(1)
+	bool ck=1;
+	while(ck)
 	{
-		XCheckMaskEvent(d,-1,&g);
-		if(g.type==KeyPress)
+		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress&&XLookupKeysym(&(g.xkey),1)==XK_KP_0)
 		{
-			if(XLookupKeysym(&(g.xkey),1)==XK_KP_0)
-			{
-				XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
-				break;
-			}
+			ck=0;
 		}
-		if(!ssk(p))break;
-		SDL_Delay(16);
+		ck=ck&ssk(p);
+		SDL_Delay(40);
 	}
+	XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
 	SDL_Quit();
 }
 int main(int argc,char** argv)
