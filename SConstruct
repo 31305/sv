@@ -1,5 +1,5 @@
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-O2',LIBS=['ncurses'])
-e.ParseConfig('sdl2-config --cflags --libs')
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-O2')
+e.ParseConfig('pkg-config --cflags --libs ncurses x11 sdl2')
 e.Tool('compilation_db')
 e.CompilationDatabase()
 e.Program('sv',Glob('*.cpp'))

@@ -5,6 +5,11 @@
 #include<sys/file.h>
 #include<unistd.h>
 #include<array>
+#include<thread>
+#include<X11/Xlib.h>
+#include<X11/XKBlib.h>
+#define XK_MISCELLANY
+#include<X11/keysymdef.h>
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -98,14 +103,15 @@ constexpr v vc[]=
 	{(v::csp)0,1,0,1},
 	{v::csp::k,0,1},
 };
+template<typename n>
 struct ck
 {
-	int s;
-	ck(int ds){s=ds;k=new double[s];}
+	size_t s;
+	ck(size_t ds){s=ds;k=new n[s];}
 	~ck(){delete k;}
-	double *k;
-	int u,d;
-	int ak(){if(u>d)return u-d;else return u+s-d;}
+	n *k;
+	size_t u,d;
+	size_t ak(){if(u>d)return u-d;else return u+s-d;}
 };
 struct b
 {
@@ -156,10 +162,24 @@ void k(int p)
 	sn.channels=1;
 	SDL_OpenAudio(&sn,NULL);
 	SDL_PauseAudio(0);
-	bool ck=1;
-	while(ck)
+	Display *d=XOpenDisplay(0);for(int i=XK_KP_0;i<=XK_KP_9;i++)
 	{
-		ck=ssk(p);
+		XGrabKey(d,XKeysymToKeycode(d,i),16,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
+		XGrabKey(d,XKeysymToKeycode(d,i),16|LockMask,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
+	}
+	XEvent g;
+	while(1)
+	{
+		XCheckMaskEvent(d,-1,&g);
+		if(g.type==KeyPress)
+		{
+			if(XLookupKeysym(&(g.xkey),1)==XK_KP_0)
+			{
+				XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
+				break;
+			}
+		}
+		if(!ssk(p))break;
 		SDL_Delay(16);
 	}
 	SDL_Quit();
