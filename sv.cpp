@@ -189,7 +189,7 @@ void k(int p)
 	int pt;
 	auto vk=[](){};
 	std::thread vkk(vk);
-	std::vector<int> nv; 
+	std::vector<unsigned char> nv; 
 	while(ck)
 	{
 		if(XCheckMaskEvent(d,-1,&g)&&g.type==KeyPress)
