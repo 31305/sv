@@ -117,6 +117,21 @@ struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
 };
+unsigned char tns(KeySym t)
+{
+	if(t==XK_KP_0)return 0;
+	if(t==XK_KP_1)return 1;
+	if(t==XK_KP_2)return 2;
+	if(t==XK_KP_3)return 3;
+	if(t==XK_KP_4)return 4;
+	if(t==XK_KP_5)return 5;
+	if(t==XK_KP_6)return 6;
+	if(t==XK_KP_7)return 7;
+	if(t==XK_KP_8)return 8;
+	if(t==XK_KP_9)return 9;
+	return 0;
+}
+std::basic_string<unsigned char> ss[]={{},{}};
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -144,20 +159,6 @@ int ssk(int p)
 		if(s=='0')return 0;
 	}
 	return 1;
-}
-unsigned char tns(KeySym t)
-{
-	if(t==XK_KP_0)return 0;
-	if(t==XK_KP_1)return 1;
-	if(t==XK_KP_2)return 2;
-	if(t==XK_KP_3)return 3;
-	if(t==XK_KP_4)return 4;
-	if(t==XK_KP_5)return 5;
-	if(t==XK_KP_6)return 6;
-	if(t==XK_KP_7)return 7;
-	if(t==XK_KP_8)return 8;
-	if(t==XK_KP_9)return 9;
-	return 0;
 }
 void k(int p)
 {
@@ -202,8 +203,20 @@ void k(int p)
 		sn.channels=1;
 		SDL_OpenAudio(&sn,NULL);
 		SDL_PauseAudio(0);
+		bool ssv=getenv("SSV");
+		size_t sssk=0;
+		while(ssv)
+		{
+			auto &s=ss[sssk];
+			double mk=0.1;
+			if(!ck)
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
+				break;
+			}
+		}
 		unsigned long k;
-		while(1)
+		while(!ssv)
 		{
 			while(vy.mc.ak(vy.d,vy.u)<vy.mc.s-1)
 			{
