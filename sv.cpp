@@ -120,7 +120,11 @@ struct bck
 	bck(size_t ds,size_t dcs):s(ds),cs(dcs){k=new n[cs*s];}
 	~bck(){delete k;}
 	n *k;
-	n& d(size_t c,size_t ks){return k[c*s+ks];}
+	const n& d(size_t c,size_t ks){return k[c*s+ks];}
+	const size_t v(size_t a){a++;if(a==s)a=0;return a;}
+	const size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
+	const size_t cv(size_t a){a++;if(a==s)a=0;return a;}
+	const size_t cak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
 };
 struct b
 {
