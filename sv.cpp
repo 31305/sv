@@ -107,11 +107,20 @@ template<typename n>
 struct ck
 {
 	size_t s;
-	ck(size_t ds){s=ds;k=new n[s];}
+	ck(size_t ds):s(ds){k=new n[s];}
 	~ck(){delete k;}
 	n *k;
 	void v(size_t &a){a++;if(a==s)a=0;}
 	size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
+};
+template<typename n>
+struct bck
+{
+	size_t s,cs;
+	bck(size_t ds,size_t dcs):s(ds),cs(dcs){k=new n[cs*s];}
+	~bck(){delete k;}
+	n *k;
+	n& d(size_t c,size_t ks){return k[c*s+ks];}
 };
 struct b
 {
@@ -296,6 +305,11 @@ int main(int argc,char** argv)
 		while(mt.outputBuffer().size()==0)
 			mt.execSynthesisStep();
 		printf("%lf,%lf,%lu\n",mt.internalSampleRate(),mt.outputSampleRate(),mt.outputBuffer().size());
+		bck<int> k(2,3);
+		k.d(0,0)=1;
+		for(int i=0;i<2*3;i++)
+			printf("%d,",k.k[i]);
+		printf("\n");
 	}
 	else es(k,argv[1][0]!='0');
 	return 0;
