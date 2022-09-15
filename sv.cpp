@@ -110,8 +110,8 @@ struct ck
 	ck(size_t ds):s(ds){k=new n[s];}
 	~ck(){delete k;}
 	n *k;
-	void v(size_t &a){a++;if(a==s)a=0;}
-	size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
+	const size_t v(size_t a){a++;if(a==s)a=0;return a;}
+	const size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
 };
 template<typename n>
 struct bck
@@ -120,7 +120,7 @@ struct bck
 	bck(size_t ds,size_t dcs):s(ds),cs(dcs){k=new n[cs*s];}
 	~bck(){delete k;}
 	n *k;
-	const n& d(size_t c,size_t ks){return k[c*s+ks];}
+	n& d(size_t c,size_t ks){return k[c*s+ks];}
 	const size_t v(size_t a){a++;if(a==s)a=0;return a;}
 	const size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
 	const size_t cv(size_t a){a++;if(a==s)a=0;return a;}
@@ -201,7 +201,7 @@ void k(int p)
 				else
 				{
 					*((float*)(d+k))=vyk->mc.k[vyk->d];
-					vyk->mc.v(vyk->d);
+					vyk->d=vyk->mc.v(vyk->d);
 				}
 			}
 		};
@@ -214,12 +214,12 @@ void k(int p)
 		sn.callback=pc;
 		sn.userdata=&vy;
 		sn.channels=1;
-		SDL_OpenAudio(&sn,NULL);
-		SDL_PauseAudio(0);
+		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
+		SDL_PauseAudioDevice(ys,0);
 		bool ssv=getenv("SSV");
-		size_t sssk=0;
 		while(ssv)
 		{
+			size_t sssk=0;
 			auto &s=ss[sssk];
 			double mk=0.1;
 			if(!ck)
@@ -234,7 +234,7 @@ void k(int p)
 			while(vy.mc.ak(vy.d,vy.u)<vy.mc.s-1)
 			{
 				vy.mc.k[vy.u]=sin(2.0*M_PI*100.0*(double)k/1024.0)*0.5;
-				vy.mc.v(vy.u);
+				vy.u=vy.mc.v(vy.u);
 				k++;
 			};
 			vy.v=1;
@@ -242,8 +242,8 @@ void k(int p)
 			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		}
 		vy.v=0;
-		SDL_PauseAudio(1);
-		SDL_CloseAudio();
+		SDL_PauseAudioDevice(ys,1);
+		SDL_CloseAudioDevice(ys);
 	};
 	Display *d=XOpenDisplay(0);
 	for(int i=XK_KP_0;i<=XK_KP_9;i++)
