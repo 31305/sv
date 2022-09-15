@@ -290,6 +290,13 @@ int main(int argc,char** argv)
 {
 	if(argc<2)
 		printf("0|1?\n");
+	else if(argv[1][0]=='2')
+	{
+		GS::VTM::VocalTractModel5<double,1> mt;
+		while(mt.outputBuffer().size()==0)
+			mt.execSynthesisStep();
+		printf("%lf,%lf,%lu\n",mt.internalSampleRate(),mt.outputSampleRate(),mt.outputBuffer().size());
+	}
 	else es(k,argv[1][0]!='0');
 	return 0;
 }
