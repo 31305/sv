@@ -144,7 +144,7 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-std::basic_string<unsigned char> ss[]={{},{}};
+std::vector<std::basic_string<unsigned char>> ss={{},{}};
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -219,9 +219,29 @@ void k(int p)
 		bool ssv=getenv("SSV");
 		while(ssv)
 		{
-			size_t sssk=0;
-			auto &s=ss[sssk];
 			double mk=0.1;
+			for(size_t sssk=0;sssk<ss.size();sssk++)
+			{
+				auto &s=ss[sssk];
+				for(size_t vk=0;vk<s.size();vk++)
+				{
+					double nk=0.004;
+					for(int k=0;k<mk;k+=nk)
+					{
+						for(int dk=0;dk<nk;dk+=1/mt.internalSampleRate())
+						{
+							mt.execSynthesisStep();
+							for(size_t k=0;k<mt.outputBuffer().size();k++)
+							{
+								while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
+									std::this_thread::sleep_for(std::chrono::milliseconds(16));
+								vy.mc.k[vy.u]=mt.outputBuffer()[k];
+								vy.u=vy.mc.v(vy.u);
+							}
+						}
+					}
+				}
+			}
 			if(!ck)
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
