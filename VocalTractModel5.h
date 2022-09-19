@@ -344,7 +344,10 @@ private:
 
 	/*  MEMORY FOR TUBE AND TUBE COEFFICIENTS  */
 	std::array<Section, TOTAL_SECTIONS> oropharynx_;
+	Section RK[3];
 	Junction2 oropharynxJunction_[TOTAL_JUNCTIONS];
+	Junction2 RG[2];
+	Junction4 RSG[2];
 	std::array<Section, TOTAL_NASAL_SECTIONS> nasal_;
 	Junction2 nasalJunction_[TOTAL_NASAL_JUNCTIONS];
 	Junction3 velumJunction_;
@@ -433,6 +436,9 @@ VocalTractModel5<TFloat, SectionDelay>::reset()
 	for (auto& elem : oropharynx_) {
 		elem.reset();
 	}
+	RK[0].reset();
+	RK[1].reset();
+	RK[2].reset();
 	for (auto& elem : nasal_) {
 		elem.reset();
 	}
@@ -574,7 +580,7 @@ VocalTractModel5<TFloat, SectionDelay>::execSynthesisStep()
 		const TFloat maxGlottalLossFactor = 1.0f - glotAmplitude * (config_.maxGlottalLoss / 100.0f);
 		const TFloat glottalLossFactor = minGlottalLossFactor + (maxGlottalLossFactor - minGlottalLossFactor) * pulse;
 
-		signal = vocalTract(noisyPulse + aspAmplitude * fricationNoise,
+		signal = vocalTract(currentParameter_[PARAM_VB] + noisyPulse + aspAmplitude * fricationNoise,
 							config_.fricationFactor * bandpassFilter_->filter(fricationNoise),
 							glottalLossFactor);
 	}
@@ -620,7 +626,11 @@ void
 VocalTractModel5<TFloat, SectionDelay>::calculateTubeCoefficients()
 {
 	// Configure oropharynx junctions.
-	for (int i = J1, j = PARAM_R1; i < J8; ++i, ++j) {
+	for (int i = J1, j = PARAM_R1; i < J5; ++i, ++j) {
+		oropharynxJunction_[i].configure(currentParameter_[j], currentParameter_[j + 1]);
+	}
+	oropharynxJunction_[J5].configure(currentParameter_[PARAM_R5],currentParameter_[PARAM_R6A]);
+	for (int i = J7, j = PARAM_R7; i < J8; ++i, ++j) {
 		oropharynxJunction_[i].configure(currentParameter_[j], currentParameter_[j + 1]);
 	}
 
@@ -632,6 +642,11 @@ VocalTractModel5<TFloat, SectionDelay>::calculateTubeCoefficients()
 
 	// Configure 1st nasal junction.
 	nasalJunction_[NJ1].configure(currentParameter_[PARAM_VELUM], config_.nasalRadius[NR2]);
+	
+	RG[0].configure(currentParameter_[PARAM_RR0],currentParameter_[PARAM_RR1]);
+	RG[1].configure(currentParameter_[PARAM_RR1],currentParameter_[PARAM_RR0]);
+	RSG[0].configure(currentParameter_[PARAM_R6A],currentParameter_[PARAM_R6],currentParameter_[PARAM_RR0]);
+	RSG[1].configure(currentParameter_[PARAM_R6],currentParameter_[PARAM_R7],currentParameter_[PARAM_RR0]);
 }
 
 /******************************************************************************
@@ -676,10 +691,13 @@ VocalTractModel5<TFloat, SectionDelay>::vocalTract(TFloat input, TFloat fricatio
 	propagate(oropharynx_[S19], oropharynx_[S20]);
 	propagate(oropharynx_[S20], oropharynx_[S21]);
 	propagateJunction(oropharynx_[S21], oropharynxJunction_[J5], oropharynx_[S22]);
-	propagate(oropharynx_[S22], oropharynx_[S23]);
+	propagateJunction4u(oropharynx_[S22],RSG[0],oropharynx_[S23],RK[0]);
 	propagate(oropharynx_[S23], oropharynx_[S24]);
 	propagate(oropharynx_[S24], oropharynx_[S25]);
-	propagateJunction(oropharynx_[S25], oropharynxJunction_[J6], oropharynx_[S26]);
+	propagateJunction(RK[0], RG[0], RK[1]);
+	RK[1].top[outPtr_]*=(1.0+0.004*(float)rand()/RAND_MAX);
+	propagateJunction(RK[1], RG[1], RK[2]);
+	propagateJunction4d(oropharynx_[S25],RSG[1],oropharynx_[S26],RK[2]);
 	propagate(oropharynx_[S26], oropharynx_[S27]);
 	propagateJunction(oropharynx_[S27], oropharynxJunction_[J7], oropharynx_[S28]);
 	propagate(oropharynx_[S28], oropharynx_[S29]);
@@ -780,6 +798,15 @@ VocalTractModel5<TFloat, SectionDelay>::setAllParameters(const std::vector<float
 					parameters[i] * config_.radiusCoef[i - PARAM_R1],
 					TFloat{GS_VTM5_MIN_RADIUS});
 	}
+
+	size_t i;
+	i=PARAM_R6A;
+	currentParameter_[i] = std::max(parameters[i] * config_.radiusCoef[R6], TFloat{GS_VTM5_MIN_RADIUS});
+	i=PARAM_RR0;
+	currentParameter_[i] = std::max(parameters[i] * config_.radiusCoef[R6], TFloat{GS_VTM5_MIN_RADIUS});
+	i=PARAM_RR1;
+	currentParameter_[i] = std::max(parameters[i] * config_.radiusCoef[R6], TFloat{GS_VTM5_MIN_RADIUS});
+	i=PARAM_VB;currentParameter_[i]=parameters[i];
 
 	currentParameter_[PARAM_VELUM] = parameters[PARAM_VELUM];
 }
