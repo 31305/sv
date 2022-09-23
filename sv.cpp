@@ -144,14 +144,20 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-double vm(const v& dv,char vk)
+double vm(const v& dv,char vk,bool db)
 {
 	double vmk[][8]=
 		{{0.8,0.65,0.65,0.65,1.31,1.23,1.31,1.67},
 		{0.8,0.52,0.45,0.79,1.49,1.67,1.02,1.59},
 		{0.8,1.045,1.565,1.75,0.94,0.68,0.785,1.12},
 		{0.8,1.67,1.905,1.985,0.81,0.495,0.73,1.485},
-		{0.8,1.91,1.44,0.6,1.02,1.33,1.56,0.55}};
+		{0.8,1.91,1.44,0.6,1.02,1.33,1.56,0.55},
+		{0.8,1.31,0.73,1.31,2.12,0.63,1.78,0.65},
+		{0.8,0.89,1.1,0.97,0.89,0.34,0.29,1.12},
+		{0.8,0.68,1.12,1.695,1.385,1.07,1.045,2.06},
+		{0.8,0.885,0.99,0.81,0.755,1.045,1.225,1.12},
+		{0.8,0.885,0.99,0.81,0.755,1.045,1.225,1.12},
+		{0.8,1.1,0.94,0.42,1.49,1.67,1.78,1.05}};
 	if(dv.sv)
 	{
 		if(dv.cs==v::csp::k)
@@ -166,6 +172,32 @@ double vm(const v& dv,char vk)
 		}
 		else if(dv.cs==v::csp::o)
 			return vmk[4][vk];
+		else if(dv.cs==v::csp::m)
+			return vmk[5][vk];
+		else if(dv.cs==v::csp::d)
+			return vmk[6][vk];
+		else if(dv.cs==v::csp::kt)
+		{
+			if(!dv.vg)
+				return vmk[7][vk];
+			else
+			{
+				if(!db)
+					return vmk[0][vk];
+				else return vmk[8][vk];
+			}
+		}
+		else if(dv.cs==v::csp::ko)
+		{
+			if(!dv.vg)
+				return vmk[9][vk];
+			else
+			{
+				if(!db)
+					return vmk[0][vk];
+				else return vmk[10][vk];
+			}
+		}
 	}
 	return 0;
 }
