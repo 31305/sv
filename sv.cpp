@@ -163,6 +163,7 @@ double vm(const v& dv,char vk,bool db)
 		{0.8,1.7,1.3,0.99,0.1,1.07,0.73,1.49},
 		{0.8,1.36,1.74,1.87,0.94,0,0.79,0.79},
 		{0.8,1.31,1.49,1.25,0.76,0.1,1.44,1.31},
+		{0.8,1.2,1.5,1.35,1.2,1.2,0.4,1},
 		{0.8,1.67,1.91,1.99,0.63,0.29,0.58,1.49},
 		{0.8,1.36,1.74,1.87,0.94,0.37,0.79,0.79},
 		{0.8,1.31,1.49,1.25,0.9,0.2,0.4,1.31},
@@ -207,6 +208,35 @@ double vm(const v& dv,char vk,bool db)
 				else return vmk[10][vk];
 			}
 		}
+	}
+	else if(dv.ns)return vmk[11][vk];
+	else if(dv.vs)return vmk[12][vk];
+	else if(dv.vv==1)return vmk[13][vk];
+	else if(dv.vv==2)return vmk[14][vk];
+	else if(dv.vv==3)return vmk[15][vk];
+	else if(dv.vv==4)return vmk[16][vk];
+	else if(dv.vv==5)return vmk[11][vk];
+	else if(dv.nt)
+	{
+		if(dv.cs==v::csp::t)
+			return vmk[17][vk];
+		else if(dv.cs==v::csp::m)
+			return vmk[15][vk];
+		else if(dv.cs==v::csp::d)
+			return vmk[6][vk];
+		else if(dv.cs==v::csp::o)
+			return vmk[4][vk];
+	}
+	else if(dv.sm)
+	{
+		if(dv.cs==v::csp::t)
+			return vmk[14][vk];
+		else if(dv.cs==v::csp::m)
+			return vmk[18][vk];
+		else if(dv.cs==v::csp::d)
+			return vmk[19][vk];
+		else if(dv.cs==v::csp::k)
+			return vmk[12][vk];
 	}
 	return 0;
 }
