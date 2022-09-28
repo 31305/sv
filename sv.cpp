@@ -209,28 +209,49 @@ double vm(const v& dv,char vk,bool db)
 			}
 		}
 	}
-	else if(dv.ns)return vmk[11][vk];
+	else if(dv.ns)return std::min(vmk[0][vk],std::min(vmk[2][vk],vmk[4][vk]));
 	else if(dv.vs)return vmk[12][vk];
 	else if(dv.vv==1)return vmk[13][vk];
-	else if(dv.vv==2)return vmk[14][vk];
-	else if(dv.vv==3)return vmk[15][vk];
-	else if(dv.vv==4)return vmk[16][vk];
+	else if(dv.vv==2)
+	{
+		if(vk==6-1)return 0.1;
+		else return vmk[14][vk];
+	}
+	else if(dv.vv==3)
+	{
+		if(vk==6-1)return 1;
+		else return vmk[15][vk];
+	}
+	else if(dv.vv==4)
+	{
+		if(vk==7-1)return 0.1;
+		else return vmk[16][vk];
+	}
 	else if(dv.vv==5)return vmk[11][vk];
 	else if(dv.nt)
 	{
 		if(dv.cs==v::csp::t)
 			return vmk[17][vk];
 		else if(dv.cs==v::csp::m)
-			return vmk[15][vk];
+		{
+			if(vk==6-1)return 0.47;
+			else return vmk[15][vk];
+		}
 		else if(dv.cs==v::csp::d)
 			return vmk[6][vk];
 		else if(dv.cs==v::csp::o)
-			return vmk[4][vk];
+		{
+			if(vk==8-1)return 0.4;
+			else return vmk[4][vk];
+		}
 	}
 	else if(dv.sm)
 	{
 		if(dv.cs==v::csp::t)
-			return vmk[14][vk];
+		{
+			if(vk==6-1)return 0.13;
+			else return vmk[14][vk];
+		}
 		else if(dv.cs==v::csp::m)
 			return vmk[18][vk];
 		else if(dv.cs==v::csp::d)
