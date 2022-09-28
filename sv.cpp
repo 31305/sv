@@ -144,7 +144,7 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-double vm(const v& dv,char vk,bool db)
+double vm(const v& dv,char vk,bool db=0)
 {
 	double vmk[][8]=
 		{{0.8,0.65,0.65,0.65,1.31,1.23,1.31,1.67},
@@ -260,6 +260,12 @@ double vm(const v& dv,char vk,bool db)
 			return vmk[12][vk];
 	}
 	return 0;
+}
+double sdvm(const v &dv)
+{
+	if(dv.vv==3)return 0.1;
+	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
+	else return vm(dv,6-1);
 }
 std::vector<std::basic_string<unsigned char>> ss={{},{}};
 void es(void(*k)(int),bool n)
