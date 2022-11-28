@@ -267,7 +267,7 @@ double sdvm(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1);
 }
-std::vector<std::basic_string<unsigned char>> ss={{},{}};
+std::vector<std::basic_string<unsigned char>> ss={{1,1,1,1},{}};
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -340,6 +340,7 @@ void k(int p)
 		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
 		SDL_PauseAudioDevice(ys,0);
 		bool ssv=getenv("SSV");
+		double ct=0;
 		while(ssv)
 		{
 			double mk=0.1;
@@ -348,20 +349,38 @@ void k(int p)
 				auto &s=ss[sssk];
 				for(size_t vk=0;vk<s.size();vk++)
 				{
+					const v pv=vc[s[vk]-1];
+					double dm=mk;
+					double vd=pv.sv?(pv.sd?dm*2:dm):dm*0.75;
 					double nk=0.004;
-					for(int k=0;k<mk;k+=nk)
+					for(double k=0;k<vd;k+=nk)
 					{
-						for(int dk=0;dk<nk;dk+=1/mt.internalSampleRate())
+						mt.setParameter(mt.PARAM_GLOT_PITCH,-7);
+						mt.setParameter(mt.PARAM_GLOT_VOL,60);
+						mt.setParameter(mt.PARAM_ASP_VOL,0);
+						mt.setParameter(mt.PARAM_FRIC_VOL,0);
+						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
+							mt.setParameter(i,1?1:vm(vc[1-1],i-mt.PARAM_R1));
+						mt.setParameter(mt.PARAM_R6A,1?1:sdvm(vc[1-1]));
+						mt.setParameter(mt.PARAM_RR0,1);
+						mt.setParameter(mt.PARAM_RR1,1);
+						mt.setParameter(mt.PARAM_VELUM,0);
+						mt.setParameter(mt.PARAM_VB,0);
+						for(double dk=0;dk<nk;dk+=1.0/mt.internalSampleRate())
 						{
 							mt.execSynthesisStep();
 							for(size_t k=0;k<mt.outputBuffer().size();k++)
 							{
 								while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 									std::this_thread::sleep_for(std::chrono::milliseconds(16));
-								vy.mc.k[vy.u]=mt.outputBuffer()[k];
+								double tp=mt.outputBuffer()[k];
+								ct=std::max(ct,abs(tp));
+								vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
 								vy.u=vy.mc.v(vy.u);
 							}
+							mt.outputBuffer().resize(0);
 						}
+						if(0)printf("%lf,%lf",k,vd);
 					}
 				}
 			}
@@ -370,6 +389,7 @@ void k(int p)
 				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
 				break;
 			}
+			std::cout<<ct<<std::endl;
 		}
 		unsigned long k;
 		while(!ssv)

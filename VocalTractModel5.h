@@ -761,6 +761,9 @@ VocalTractModel5<TFloat, SectionDelay>::setParameter(int parameter, float value)
 	case PARAM_FRIC_CF:
 	case PARAM_FRIC_BW:
 	case PARAM_VELUM:
+	case PARAM_RR0:
+	case PARAM_RR1:
+	case PARAM_VB:
 		currentParameter_[parameter] = value;
 		break;
 	case PARAM_R1:
@@ -773,6 +776,11 @@ VocalTractModel5<TFloat, SectionDelay>::setParameter(int parameter, float value)
 	case PARAM_R8:
 		currentParameter_[parameter] = std::max(
 						value * config_.radiusCoef[parameter - PARAM_R1],
+						TFloat{GS_VTM5_MIN_RADIUS});
+		break;
+	case PARAM_R6A:
+		currentParameter_[parameter] = std::max(
+						value * config_.radiusCoef[R6],
 						TFloat{GS_VTM5_MIN_RADIUS});
 		break;
 	default:
