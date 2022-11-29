@@ -268,6 +268,15 @@ double sdvm(const v &dv)
 	else return vm(dv,6-1);
 }
 std::vector<std::basic_string<unsigned char>> ss={{1,1,1,1},{}};
+int ssk(int p)
+{
+	char s;
+	while(read(p,&s,1)>0)
+	{
+		if(s=='0')return 0;
+	}
+	return 1;
+}
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -277,7 +286,18 @@ void es(void(*k)(int),bool n)
 	{
 		int ss=open(sn,O_RDONLY|O_NONBLOCK);
 		if(!flock(ss,LOCK_EX|LOCK_NB))
-			k(ss);
+		{
+			if(n)k(ss);
+			else
+			{
+				bool ck=1;
+				while(ck)
+				{
+					ck=ssk(ss);
+					std::this_thread::sleep_for(std::chrono::milliseconds(16));
+				}
+			}
+		}
 	}
 	else if(p>0)
 	{
@@ -286,15 +306,6 @@ void es(void(*k)(int),bool n)
 		if(n)s='1';
 		write(ss,&s,1);
 	}
-}
-int ssk(int p)
-{
-	char s;
-	while(read(p,&s,1)>0)
-	{
-		if(s=='0')return 0;
-	}
-	return 1;
 }
 void k(int p)
 {
@@ -339,7 +350,8 @@ void k(int p)
 		sn.channels=1;
 		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
 		SDL_PauseAudioDevice(ys,0);
-		bool ssv=getenv("SSV");
+		bool ssv=0;
+		{char* p=getenv("SSV");if(p)if(p[0]=='1')ssv=1;}
 		double ct=0;
 		while(ssv)
 		{
@@ -360,10 +372,10 @@ void k(int p)
 						mt.setParameter(mt.PARAM_ASP_VOL,0);
 						mt.setParameter(mt.PARAM_FRIC_VOL,0);
 						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
-							mt.setParameter(i,1?1:vm(vc[1-1],i-mt.PARAM_R1));
-						mt.setParameter(mt.PARAM_R6A,1?1:sdvm(vc[1-1]));
-						mt.setParameter(mt.PARAM_RR0,1);
-						mt.setParameter(mt.PARAM_RR1,1);
+							mt.setParameter(i,0?1:vm(vc[1-1],i-mt.PARAM_R1));
+						mt.setParameter(mt.PARAM_R6A,0?1:sdvm(vc[1-1]));
+						mt.setParameter(mt.PARAM_RR0,0);
+						mt.setParameter(mt.PARAM_RR1,0);
 						mt.setParameter(mt.PARAM_VELUM,0);
 						mt.setParameter(mt.PARAM_VB,0);
 						for(double dk=0;dk<nk;dk+=1.0/mt.internalSampleRate())
