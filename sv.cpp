@@ -25,6 +25,7 @@ struct v
 };
 constexpr v vc[]=
 {
+	{},
 	{v::csp::k,0,0,0,0,1,0,0,v::ssp::a,0,0,0},
 	{v::csp::k,0,0,0,0,1,0,0,v::ssp::u,0,0,0},
 	{v::csp::k,0,0,0,0,1,0,0,v::ssp::s,0,0,0},
@@ -353,34 +354,40 @@ void k(int p)
 		bool ssv=0;
 		{char* p=getenv("SSV");if(p)if(p[0]=='1')ssv=1;}
 		double ct=0;
+		double ms[2][mt.TOTAL_PARAMETERS];
+		for(int k=0;k<2;k++)
+			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
+				ms[k][pk]=0;
 		while(ssv)
 		{
 			double mk=0.1;
+			std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
 			for(size_t sssk=0;sssk<ss.size();sssk++)
 			{
 				auto &s=ss[sssk];
 				for(size_t vk=0;vk<s.size();vk++)
 				{
-					const v pv=vc[s[vk]-1];
+					const v pv=vc[s[vk]];
 					double dm=mk;
 					double vd=pv.sv?(pv.sd?dm*2:dm):dm*0.75;
 					double nk=0.004;
-					for(double k=0;k<vd;k+=nk)
+					for(int k=0;k<floor(vd/nk);k++)
 					{
-						mt.setParameter(mt.PARAM_GLOT_PITCH,-7);
-						mt.setParameter(mt.PARAM_GLOT_VOL,60);
-						mt.setParameter(mt.PARAM_ASP_VOL,0);
-						mt.setParameter(mt.PARAM_FRIC_VOL,0);
+						ms[1][mt.PARAM_GLOT_PITCH]=-7;
+						ms[1][mt.PARAM_GLOT_VOL]=60;
 						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
-							mt.setParameter(i,0?1:vm(vc[1-1],i-mt.PARAM_R1));
-						mt.setParameter(mt.PARAM_R6A,0?1:sdvm(vc[1-1]));
-						mt.setParameter(mt.PARAM_RR0,0);
-						mt.setParameter(mt.PARAM_RR1,0);
-						mt.setParameter(mt.PARAM_VELUM,0);
-						mt.setParameter(mt.PARAM_VB,0);
-						for(double dk=0;dk<nk;dk+=1.0/mt.internalSampleRate())
+							ms[1][i]=vm(vc[1],i-mt.PARAM_R1);
+						ms[1][mt.PARAM_R6A]=sdvm(vc[1]);
+						double ks[mt.TOTAL_PARAMETERS];
+						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+							ks[k]=(ms[1][k]-ms[0][k])/floor(nk*mt.internalSampleRate());
+						for(int dk=0;dk<floor(nk*mt.internalSampleRate());dk++)
 						{
+							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+								mt.setParameter(k,ms[0][k]);
 							mt.execSynthesisStep();
+							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+								ms[0][k]+=ks[k];
 							for(size_t k=0;k<mt.outputBuffer().size();k++)
 							{
 								while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
@@ -401,7 +408,7 @@ void k(int p)
 				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
 				break;
 			}
-			std::cout<<ct<<std::endl;
+			if(0)std::cout<<ct<<std::endl;
 		}
 		unsigned long k;
 		while(!ssv)
