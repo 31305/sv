@@ -145,7 +145,8 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-double vm(const v& dv,char vk,bool db=0)
+const double nv=GS_VTM5_MIN_RADIUS;
+double vm(const v& dv,short vk,bool db=0)
 {
 	double vmk[][8]=
 		{{0.8,0.65,0.65,0.65,1.31,1.23,1.31,1.67},
@@ -212,10 +213,14 @@ double vm(const v& dv,char vk,bool db=0)
 	}
 	else if(dv.ns)return std::min(vmk[0][vk],std::min(vmk[2][vk],vmk[4][vk]));
 	else if(dv.vs)return vmk[12][vk];
-	else if(dv.vv==1)return vmk[13][vk];
+	else if(dv.vv==1)
+	{
+		if(vk==5-1)return nv;
+		else return vmk[13][vk];
+	}
 	else if(dv.vv==2)
 	{
-		if(vk==6-1)return 0.1;
+		if(vk==6-1)return nv;
 		else return vmk[14][vk];
 	}
 	else if(dv.vv==3)
@@ -225,10 +230,14 @@ double vm(const v& dv,char vk,bool db=0)
 	}
 	else if(dv.vv==4)
 	{
-		if(vk==7-1)return 0.1;
+		if(vk==7-1)return nv;
 		else return vmk[16][vk];
 	}
-	else if(dv.vv==5)return vmk[11][vk];
+	else if(dv.vv==5)
+	{
+		if(vk==8-1)return nv;
+		else return vmk[11][vk];
+	}
 	else if(dv.nt)
 	{
 		if(dv.cs==v::csp::t)
@@ -264,9 +273,13 @@ double vm(const v& dv,char vk,bool db=0)
 }
 double sdvm(const v &dv)
 {
-	if(dv.vv==3)return 0.1;
+	if(dv.vv==3)return nv;
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1);
+}
+double nvs(const v &dv)
+{
+	return 0;
 }
 std::vector<std::basic_string<unsigned char>> ss={{1,1,1,1},{}};
 int ssk(int p)
@@ -361,7 +374,6 @@ void k(int p)
 		while(ssv)
 		{
 			double mk=0.1;
-			std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
 			for(size_t sssk=0;sssk<ss.size();sssk++)
 			{
 				auto &s=ss[sssk];
@@ -370,9 +382,24 @@ void k(int p)
 					const v pv=vc[s[vk]];
 					double dm=mk;
 					double vd=pv.sv?(pv.sd?dm*2:dm):dm*0.75;
-					double nk=0.004;
-					for(int k=0;k<floor(vd/nk);k++)
+					int gs=std::max(1,(int)(0.004*mt.internalSampleRate()));
+					double nk=(double)gs/mt.internalSampleRate();
+					int ks=vd/nk;
+					for(int k=0;k<ks;k++)
 					{
+						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g)
+						{
+							int ls=floor(lk/nk);
+							if(k>=ls)return;
+							if(g==1.0)
+								ms[1][s]=ms[0][s]+(l-ms[0][s])/(double)(ls-k);
+							else
+							{
+								double hs=pow(ms[0][s],g);
+								double hl=pow(l,g);
+								ms[1][s]=pow(hs+(hl-hs)/(double)(ls-k),1/g);
+							}
+						};
 						ms[1][mt.PARAM_GLOT_PITCH]=-7;
 						ms[1][mt.PARAM_GLOT_VOL]=60;
 						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
@@ -380,8 +407,8 @@ void k(int p)
 						ms[1][mt.PARAM_R6A]=sdvm(vc[1]);
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
-							ks[k]=(ms[1][k]-ms[0][k])/floor(nk*mt.internalSampleRate());
-						for(int dk=0;dk<floor(nk*mt.internalSampleRate());dk++)
+							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
+						for(int dk=0;dk<gs;dk++)
 						{
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 								mt.setParameter(k,ms[0][k]);
@@ -399,7 +426,7 @@ void k(int p)
 							}
 							mt.outputBuffer().resize(0);
 						}
-						if(0)printf("%lf,%lf",k,vd);
+						if(0)printf("%d,%lf",k,vd);
 					}
 				}
 			}
@@ -410,7 +437,7 @@ void k(int p)
 			}
 			if(0)std::cout<<ct<<std::endl;
 		}
-		unsigned long k;
+		unsigned long k=0;
 		while(!ssv)
 		{
 			while(vy.mc.ak(vy.d,vy.u)<vy.mc.s-1)
@@ -435,7 +462,7 @@ void k(int p)
 	}
 	XEvent g;
 	int tk=0;
-	int pt;
+	int pt=0;
 	std::thread vkk(vk); 
 	while(ck)
 	{
