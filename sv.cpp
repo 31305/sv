@@ -277,8 +277,52 @@ double sdvm(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1);
 }
-double nvs(const v &dv)
+double hgs(const v &dv)
 {
+	if(dv.sm)
+	{
+		if(dv.cs==v::csp::t)return 5.6;
+		else if(dv.cs==v::csp::m)return 5.6;
+		else if(dv.cs==v::csp::d)return 5.8;
+	}
+	else if(dv.vv&&!dv.n)
+	{
+		double m[5]={4.7,5.6,5.6,6.5,7};
+		return m[(int)dv.vv];
+	}
+	else if(dv.nt&&dv.cs==v::csp::o)return 7;
+	return 0;
+}
+double hgv(const v &dv)
+{
+	if(dv.sm)
+	{
+		if(dv.cs==v::csp::t)return 4400;
+		else if(dv.cs==v::csp::m)return 2500;
+		else if(dv.cs==v::csp::d)return 5500;
+	}
+	else if(dv.vv&&!dv.n)
+	{
+		double m[5]={2000,3800,4500,4500,2000};
+		return m[(int)dv.vv];
+	}
+	else if(dv.nt&&dv.cs==v::csp::o)return 3300;
+	return 0;
+}
+double hgd(const v &dv)
+{
+	if(dv.sm)
+	{
+		if(dv.cs==v::csp::t)return 2300;
+		else if(dv.cs==v::csp::m)return 1700;
+		else if(dv.cs==v::csp::d)return 500;
+	}
+	else if(dv.vv&&!dv.n)
+	{
+		double m[5]={2000,1000,2000,2000,700};
+		return m[(int)dv.vv];
+	}
+	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
 std::vector<std::basic_string<unsigned char>> ss={{1,1,1,1},{}};
