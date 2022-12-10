@@ -325,7 +325,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-std::vector<std::basic_string<unsigned char>> ss={{1,1,1,1},{}};
+std::vector<std::basic_string<unsigned char>> ss={{44,5,75,1},{}};
 int ssk(int p)
 {
 	char s;
@@ -423,6 +423,10 @@ void k(int p)
 				auto &s=ss[sssk];
 				for(size_t vk=0;vk<s.size();vk++)
 				{
+					v pv0={},pv1={};
+					bool dv,nv;
+					if(vk==0)dv=1;else pv0=vc[s[vk-1]];
+					if(vk==s.size()-1)nv=1;else pv1=vc[s[vk+1]];
 					const v pv=vc[s[vk]];
 					double dm=mk;
 					double vd=pv.sv?(pv.sd?dm*2:dm):dm*0.75;
@@ -447,8 +451,10 @@ void k(int p)
 						ms[1][mt.PARAM_GLOT_PITCH]=-7;
 						ms[1][mt.PARAM_GLOT_VOL]=60;
 						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
-							ms[1][i]=vm(vc[1],i-mt.PARAM_R1);
-						ms[1][mt.PARAM_R6A]=sdvm(vc[1]);
+							ms[1][i]=vm(pv,i-mt.PARAM_R1);
+						ms[1][mt.PARAM_R6A]=sdvm(pv);
+						bool sm=0;
+						if(!dv&&pv0.sm){sm=1;ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);}
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
