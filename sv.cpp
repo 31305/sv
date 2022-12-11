@@ -230,7 +230,7 @@ double vm(const v& dv,short vk,bool db=0)
 	}
 	else if(dv.vv==4)
 	{
-		if(vk==7-1)return nv;
+		if(vk==7-1||vk==6-1)return nv;
 		else return vmk[16][vk];
 	}
 	else if(dv.vv==5)
@@ -325,7 +325,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-std::vector<std::basic_string<unsigned char>> ss={{44,5,75,1},{}};
+std::vector<std::basic_string<unsigned char>> ss={{44,4,75,5,43,1,66,2,49,75,34,70,2,75,1,77},{34,34,34}};
 int ssk(int p)
 {
 	char s;
@@ -410,7 +410,7 @@ void k(int p)
 		SDL_PauseAudioDevice(ys,0);
 		bool ssv=0;
 		{char* p=getenv("SSV");if(p)if(p[0]=='1')ssv=1;}
-		double ct=0;
+		double ct=12000;
 		double ms[2][mt.TOTAL_PARAMETERS];
 		for(int k=0;k<2;k++)
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
@@ -424,7 +424,7 @@ void k(int p)
 				for(size_t vk=0;vk<s.size();vk++)
 				{
 					v pv0={},pv1={};
-					bool dv,nv;
+					bool dv=0,nv=0;
 					if(vk==0)dv=1;else pv0=vc[s[vk-1]];
 					if(vk==s.size()-1)nv=1;else pv1=vc[s[vk+1]];
 					const v pv=vc[s[vk]];
@@ -449,16 +449,27 @@ void k(int p)
 								ms[1][s]=pow(hs+(hl-hs)/(double)(ls-k),1/g);
 							}
 						};
+						const double m1=0.2,m2=0.35;
+						const std::array<int,9> svk={7,8,9,10,11,12,13,14,mt.PARAM_R6A};
+						const auto svm=[](const v &dv,int k){if(k<8)return vm(dv,k);else return sdvm(dv);};
 						if(vk==0&&k==0)
 						{
 							ms[0][mt.PARAM_GLOT_PITCH]=-7;
 							ms[0][mt.PARAM_GLOT_VOL]=0;
 							ms[0][mt.PARAM_FRIC_VOL]=0;
-							for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
-								ms[0][i]=vm(pv,i-mt.PARAM_R1);
+							for(size_t k=0;k<svk.size();k++)
+								ms[0][svk[k]]=svm(pv,k);
 							ms[0][mt.PARAM_R6A]=sdvm(pv);
+							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+								ms[1][k]=ms[0][k];
 						}
-						if(vk==0&&pv.s)ps(mt.PARAM_GLOT_VOL,60,dm*0.2,1);
+						for(size_t k=0;k<svk.size();k++)
+							ps(svk[k],svm(pv,k),dm*m2,1);
+						if(!nv)
+							for(size_t k=0;k<svk.size();k++)
+								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd-dm*m2,1);
+						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
+						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd-dm*m1,1);
 						bool sm=0;
 						v smv;
 						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
@@ -493,8 +504,8 @@ void k(int p)
 				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
 				break;
 			}
-			if(0)std::cout<<ct<<std::endl;
 		}
+		if(1)std::cout<<ct<<std::endl;
 		unsigned long k=0;
 		while(!ssv)
 		{
