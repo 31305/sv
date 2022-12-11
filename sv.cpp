@@ -362,7 +362,7 @@ void es(void(*k)(int),bool n)
 		int ss=open(sn,O_WRONLY);
 		char s='0';
 		if(n)s='1';
-		write(ss,&s,1);
+		if(write(ss,&s,1)==-1){};
 	}
 }
 void k(int p)
@@ -429,7 +429,8 @@ void k(int p)
 					if(vk==s.size()-1)nv=1;else pv1=vc[s[vk+1]];
 					const v pv=vc[s[vk]];
 					double dm=mk;
-					double vd=pv.sv?(pv.sd?dm*2:dm):dm*0.75;
+					double vvd=dm*0.75;
+					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
 					int gs=std::max(1,(int)(0.004*mt.internalSampleRate()));
 					double nk=(double)gs/mt.internalSampleRate();
 					int ks=vd/nk;
@@ -448,13 +449,20 @@ void k(int p)
 								ms[1][s]=pow(hs+(hl-hs)/(double)(ls-k),1/g);
 							}
 						};
-						ms[1][mt.PARAM_GLOT_PITCH]=-7;
-						ms[1][mt.PARAM_GLOT_VOL]=60;
-						for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
-							ms[1][i]=vm(pv,i-mt.PARAM_R1);
-						ms[1][mt.PARAM_R6A]=sdvm(pv);
+						if(vk==0&&k==0)
+						{
+							ms[0][mt.PARAM_GLOT_PITCH]=-7;
+							ms[0][mt.PARAM_GLOT_VOL]=0;
+							ms[0][mt.PARAM_FRIC_VOL]=0;
+							for(int i=mt.PARAM_R1;i<=mt.PARAM_R8;i++)
+								ms[0][i]=vm(pv,i-mt.PARAM_R1);
+							ms[0][mt.PARAM_R6A]=sdvm(pv);
+						}
+						if(vk==0&&pv.s)ps(mt.PARAM_GLOT_VOL,60,dm*0.2,1);
 						bool sm=0;
-						if(!dv&&pv0.sm){sm=1;ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);}
+						v smv;
+						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
+						sm=1;ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
