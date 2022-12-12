@@ -325,7 +325,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-std::vector<std::basic_string<unsigned char>> ss={{44,4,75,5,43,1,66,2,49,75,34,70,2,75,1,77},{34,34,34}};
+std::vector<std::basic_string<unsigned char>> ss={{44,4,75,5,43,1,66,2,49,75,34,70,2,75,1,77},};
 int ssk(int p)
 {
 	char s;
@@ -436,10 +436,11 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
-						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g)
+						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g,double dk=0)
 						{
 							int ls=floor(lk/nk);
-							if(k>=ls)return;
+							int ds=floor(dk/nk);
+							if(k>=ls||k<ds)return;
 							if(g==1.0)
 								ms[1][s]=ms[0][s]+(l-ms[0][s])/(double)(ls-k);
 							else
@@ -467,9 +468,9 @@ void k(int p)
 							ps(svk[k],svm(pv,k),dm*m2,1);
 						if(!nv)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd-dm*m2,1);
+								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd,1,vd-dm*m2);
 						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
-						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd-dm*m1,1);
+						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						bool sm=0;
 						v smv;
 						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
