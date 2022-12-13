@@ -494,7 +494,8 @@ void k(int p)
 								vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
 								vy.u=vy.mc.v(vy.u);
 							}
-							mt.outputBuffer().resize(0);
+							if(mt.outputBuffer().size()>0)
+								mt.outputBuffer().resize(0);
 						}
 						if(0)printf("%d,%lf",k,vd);
 					}
