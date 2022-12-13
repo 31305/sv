@@ -420,9 +420,14 @@ void k(int p)
 		{
 			double mk=0.1;
 			std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
-			for(size_t sssk=0;sssk<ss.size();sssk++)
+			while(ck)	
 			{
-				auto &s=ss[sssk];
+				if(vs!=0)
+					while(yk!=3)
+						std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
+				if(yk==3)yk=0;
+				auto &s=ss[vs];
+				vs++;
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
@@ -508,6 +513,7 @@ void k(int p)
 				}
 				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
 					vp();
+				vy.v=0;
 			}
 			vy.v=0;
 			if(!ck)
