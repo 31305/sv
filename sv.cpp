@@ -370,8 +370,9 @@ void k(int p)
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
+	int vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&ck,&yk,&nv]()
+	auto vk=[&ck,&yk,&nv,&vs]()
 	{
 		struct vyp
 		{
@@ -418,9 +419,26 @@ void k(int p)
 		while(ssv)
 		{
 			double mk=0.1;
+			std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
 			for(size_t sssk=0;sssk<ss.size();sssk++)
 			{
 				auto &s=ss[sssk];
+				auto vp=[&mt,&vy,&ct,&mk]()
+				{
+					mt.execSynthesisStep();
+					for(size_t k=0;k<mt.outputBuffer().size();k++)
+					{
+						while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
+							std::this_thread::sleep_for(std::chrono::milliseconds(16));
+						double tp=mt.outputBuffer()[k];
+						ct=std::max(ct,abs(tp));
+						vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
+						vy.u=vy.mc.v(vy.u);
+					}
+					vy.v=1;
+					if(mt.outputBuffer().size()>0)
+						mt.outputBuffer().resize(0);
+				};
 				for(size_t vk=0;vk<s.size();vk++)
 				{
 					v pv0={},pv1={};
@@ -460,7 +478,6 @@ void k(int p)
 							ms[0][mt.PARAM_FRIC_VOL]=0;
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
-							ms[0][mt.PARAM_R6A]=sdvm(pv);
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 								ms[1][k]=ms[0][k];
 						}
@@ -482,28 +499,20 @@ void k(int p)
 						{
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 								mt.setParameter(k,ms[0][k]);
-							mt.execSynthesisStep();
+							vp();
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 								ms[0][k]+=ks[k];
-							for(size_t k=0;k<mt.outputBuffer().size();k++)
-							{
-								while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
-									std::this_thread::sleep_for(std::chrono::milliseconds(16));
-								double tp=mt.outputBuffer()[k];
-								ct=std::max(ct,abs(tp));
-								vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
-								vy.u=vy.mc.v(vy.u);
-							}
-							if(mt.outputBuffer().size()>0)
-								mt.outputBuffer().resize(0);
 						}
 						if(0)printf("%d,%lf",k,vd);
 					}
 				}
+				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
+					vp();
 			}
+			vy.v=0;
 			if(!ck)
 			{
-				std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
+				if(0)std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
 				break;
 			}
 		}
@@ -534,6 +543,10 @@ void k(int p)
 	XEvent g;
 	int tk=0;
 	int pt=0;
+	const int sks=4;
+	char sk[sks+1];
+	sk[sks]=0;
+	int skk=0;
 	std::thread vkk(vk); 
 	while(ck)
 	{
@@ -549,6 +562,11 @@ void k(int p)
 					{
 						yk=1;
 						nv.resize(0);
+					}
+					else if(t==2)
+					{
+						yk=2;
+						skk=0;
 					}
 				}
 				else if(yk==1)
@@ -566,6 +584,16 @@ void k(int p)
 					{
 						tk=1000;
 						pt=t;
+					}
+				}
+				else if(yk==2)
+				{
+					sk[sks-1-skk]='0'+t;
+					skk++;
+					if(skk==sks)
+					{
+						vs=atoi(sk);
+						yk=3;
 					}
 				}
 			}
