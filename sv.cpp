@@ -423,9 +423,10 @@ void k(int p)
 			while(ck)	
 			{
 				if(vs!=0)
-					while(yk!=3)
+					while(yk!=3&&ck)
 						std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
 				if(yk==3)yk=0;
+				if(vs>=ss.size())continue;
 				auto &s=ss[vs];
 				vs++;
 				auto vp=[&mt,&vy,&ct,&mk]()
