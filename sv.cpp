@@ -501,7 +501,7 @@ void k(int p)
 							ps(svk[k],svm(pv,k),dm*m2,1);
 						if(!nv)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd,1,vd-dm*m2);
+								ps(svk[k],std::min(svm(pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
