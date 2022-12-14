@@ -505,10 +505,15 @@ void k(int p)
 						if(!nv)
 						{
 							if(pv1.n)
-								ps(mt.PARAM_VELUM,1,vd,1,vd-dm*m2);
-							else
+							{
+								if(pv.sv||pv.nt)
+									ps(mt.PARAM_VELUM,1,vd,1,vd-dm*m2);
+							}
+							else if(!pv.n)
 								ps(mt.PARAM_VELUM,ndv,vd,1,vd-dm*m2);
 						}
+						if(pv.n)
+							ps(mt.PARAM_VELUM,1,dm*m1,1);
 						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						bool sm=0;
