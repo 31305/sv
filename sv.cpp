@@ -271,11 +271,11 @@ double vm(const v& dv,short vk,bool db=0)
 	}
 	return 0;
 }
-double sdvm(const v &dv)
+double sdvm(const v &dv,bool db=0)
 {
 	if(dv.vv==3)return nv;
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
-	else return vm(dv,6-1);
+	else return vm(dv,6-1,db);
 }
 double hgs(const v &dv)
 {
@@ -388,7 +388,7 @@ void k(int p)
 			{
 				if(vyk->mc.ak(vyk->d,vyk->u)==0)
 				{
-					if(vyk->v)printf("<");
+					if(vyk->v)printf("<\n");
 					*((float*)(d+k))=0;
 				}
 				else
@@ -477,7 +477,7 @@ void k(int p)
 						};
 						const double m1=0.2,m2=0.35;
 						const std::array<int,9> svk={7,8,9,10,11,12,13,14,mt.PARAM_R6A};
-						const auto svm=[](const v &dv,int k){if(k<8)return vm(dv,k);else return sdvm(dv);};
+						const auto svm=[](const v &dv,int k,bool db=0){if(k<8)return vm(dv,k,db);else return sdvm(dv,db);};
 						const double ds=-7,ns=-9;
 						const double ndv=0.1;
 						if(vk==0&&k==0)
@@ -502,6 +502,9 @@ void k(int p)
 						if(!nv)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd,1,vd-dm*m2);
+						if(pv.vg)
+							for(size_t k=0;k<svk.size();k++)
+								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
 						if(!nv)
 						{
 							if(pv1.n)
@@ -514,6 +517,7 @@ void k(int p)
 						}
 						if(pv.n)
 							ps(mt.PARAM_VELUM,1,dm*m1,1);
+						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						bool sm=0;
