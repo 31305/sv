@@ -23,6 +23,15 @@ void k2()
 		if(mt.outputBuffer().size()>0)mt.outputBuffer().resize(0);
 	}
 }
+void k3()
+{
+	const double kk=16;
+	while(1)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds((int)kk));
+	}
+
+}
 int main()
 {
 	k1();

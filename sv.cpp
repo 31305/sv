@@ -370,7 +370,7 @@ void k(int p)
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
-	int vs=0;
+	size_t vs=0;
 	std::vector<unsigned char> nv;
 	auto vk=[&ck,&yk,&nv,&vs]()
 	{
@@ -424,7 +424,8 @@ void k(int p)
 			{
 				if(vs!=0)
 					while(yk!=3&&ck)
-						std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
+						std::this_thread::sleep_for(std::chrono::milliseconds(16));
+				if(!ck)break;
 				if(yk==3)yk=0;
 				if(vs>=ss.size())continue;
 				auto &s=ss[vs];
@@ -477,21 +478,37 @@ void k(int p)
 						const double m1=0.2,m2=0.35;
 						const std::array<int,9> svk={7,8,9,10,11,12,13,14,mt.PARAM_R6A};
 						const auto svm=[](const v &dv,int k){if(k<8)return vm(dv,k);else return sdvm(dv);};
+						const double ds=-7,ns=-9;
+						const double ndv=0.1;
 						if(vk==0&&k==0)
 						{
-							ms[0][mt.PARAM_GLOT_PITCH]=-7;
+							ms[0][mt.PARAM_GLOT_PITCH]=ns;
 							ms[0][mt.PARAM_GLOT_VOL]=0;
 							ms[0][mt.PARAM_FRIC_VOL]=0;
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
+							ms[0][mt.PARAM_VELUM]=pv.n?1:ndv;
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 								ms[1][k]=ms[0][k];
 						}
+						if(pv.ss==v::ssp::u)
+							ps(mt.PARAM_GLOT_PITCH,ds,dm*m1,1);
+						if(pv.ss==v::ssp::a)
+							ps(mt.PARAM_GLOT_PITCH,ns,dm*m1,1);;
+						if(pv.ss==v::ssp::s)
+							ps(mt.PARAM_GLOT_PITCH,ds,dm,1);
 						for(size_t k=0;k<svk.size();k++)
 							ps(svk[k],svm(pv,k),dm*m2,1);
 						if(!nv)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],std::min(svm(pv,k),svm(pv1,k)),vd,1,vd-dm*m2);
+						if(!nv)
+						{
+							if(pv1.n)
+								ps(mt.PARAM_VELUM,1,vd,1,vd-dm*m2);
+							else
+								ps(mt.PARAM_VELUM,ndv,vd,1,vd-dm*m2);
+						}
 						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						bool sm=0;
