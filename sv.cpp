@@ -457,6 +457,21 @@ void k(int p)
 					double dm=mk;
 					double vvd=dm*0.75;
 					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
+					if(!dv&&pv0.sv&&!pv0.sd)
+					{	
+						double mk=dm+vd;
+						int vs=1;
+						for(size_t k=vk+1;k<s.size()&&k<vk+6;k++)
+						{
+							if(!vc[s[k]].sv)
+							{
+								mk+=vvd;
+								vs++;
+							}
+							else break;
+						}
+						if(vs>1)vd+=std::max(3.0*dm-mk,(double)0.0);
+					}
 					int gs=std::max(1,(int)(0.004*mt.internalSampleRate()));
 					double nk=(double)gs/mt.internalSampleRate();
 					int ks=vd/nk;
