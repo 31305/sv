@@ -544,6 +544,9 @@ void k(int p)
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
+						if(pv.vv&&!pv.n)
+							ps(mt.PARAM_VB,60,vd,1,vd-dm*m1);
+						ps(mt.PARAM_VB,0,dm*m1,1);
 						bool sm=0;
 						v smv;
 						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
