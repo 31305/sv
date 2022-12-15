@@ -567,6 +567,18 @@ void k(int p)
 						bool sm=0;
 						v smv;
 						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
+						if(pv.sm&&!(pv.cs==v::csp::k))
+						{
+							if(k==0)
+							{
+								ms[1][mt.PARAM_FRIC_POS]=hgs(pv);
+								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
+								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
+							}
+							ps(mt.PARAM_FRIC_VOL,20,dm*m1,1);
+							if(!(!nv&&pv1.sm))
+								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
+						}
 						sm=1;ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
