@@ -326,7 +326,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-std::vector<std::basic_string<unsigned char>> ss={{44,4,75,5,43,1,66,2,49,75,34,70,2,75,1,77},};
+std::vector<std::basic_string<unsigned char>> ss={{47,1,73,68,1,58,2,70,3,70,1,75},};
 int ssk(int p)
 {
 	char s;
@@ -501,6 +501,7 @@ void k(int p)
 							ms[0][mt.PARAM_GLOT_PITCH]=ns;
 							ms[0][mt.PARAM_GLOT_VOL]=0;
 							ms[0][mt.PARAM_FRIC_VOL]=0;
+							ms[0][mt.PARAM_FRIC_POS]=0;
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
 							ms[0][mt.PARAM_VELUM]=pv.n?1:ndv;
@@ -567,7 +568,6 @@ void k(int p)
 						bool sm=0;
 						v smv;
 						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
-						sm=1;ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);
 						if(pv.sm&&!(pv.cs==v::csp::k))
 						{
 							if(k==0)
@@ -576,9 +576,23 @@ void k(int p)
 								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
 							}
-							ps(mt.PARAM_FRIC_VOL,50,dm*m1,1);
+							ps(mt.PARAM_FRIC_VOL,20,dm*m1,1);
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
+						}
+						if(pv.vv==2&&!pv.n)
+						{
+							if(k==0)
+							{
+								ms[1][mt.PARAM_FRIC_POS]=hgs(pv);
+								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
+								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
+							}
+							if(!(!nv&&pv1.vv==2&&!pv1.n))
+							{
+								ps(mt.PARAM_FRIC_VOL,30,dm*m1,1);
+								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
+							}
 						}
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
@@ -700,6 +714,8 @@ int main(int argc,char** argv)
 {
 	if(argc<2)
 		printf("0|1?\n");
+	else if(argv[1][0]=='3')
+		k(0);
 	else if(argv[1][0]=='2')
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
