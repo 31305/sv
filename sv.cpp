@@ -576,7 +576,7 @@ void k(int p)
 								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
 							}
-							ps(mt.PARAM_FRIC_VOL,20,dm*m1,1);
+							ps(mt.PARAM_FRIC_VOL,50,dm*m1,1);
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
