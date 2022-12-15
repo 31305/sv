@@ -146,6 +146,7 @@ unsigned char tns(KeySym t)
 	return 0;
 }
 const double nv=GS_VTM5_MIN_RADIUS;
+const double sgvv=0.1;
 double vm(const v& dv,short vk,bool db=0)
 {
 	double vmk[][8]=
@@ -215,12 +216,12 @@ double vm(const v& dv,short vk,bool db=0)
 	else if(dv.vs)return vmk[12][vk];
 	else if(dv.vv==1)
 	{
-		if(vk==5-1)return nv;
+		if(vk==5-1)return dv.sg?sgvv:nv;
 		else return vmk[13][vk];
 	}
 	else if(dv.vv==2)
 	{
-		if(vk==6-1)return nv;
+		if(vk==6-1)return dv.sg?sgvv:nv;
 		else return vmk[14][vk];
 	}
 	else if(dv.vv==3)
@@ -230,12 +231,12 @@ double vm(const v& dv,short vk,bool db=0)
 	}
 	else if(dv.vv==4)
 	{
-		if(vk==7-1||vk==6-1)return nv;
+		if(vk==7-1||vk==6-1)return dv.sg?sgvv:nv;
 		else return vmk[16][vk];
 	}
 	else if(dv.vv==5)
 	{
-		if(vk==8-1)return nv;
+		if(vk==8-1)return dv.sg?sgvv:nv;
 		else return vmk[11][vk];
 	}
 	else if(dv.nt)
@@ -273,7 +274,7 @@ double vm(const v& dv,short vk,bool db=0)
 }
 double sdvm(const v &dv,bool db=0)
 {
-	if(dv.vv==3)return nv;
+	if(dv.vv==3)return dv.sg?sgvv:nv;
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1,db);
 }
@@ -497,14 +498,37 @@ void k(int p)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm*m1,1);;
 						if(pv.ss==v::ssp::s)
 							ps(mt.PARAM_GLOT_PITCH,ds,dm,1);
-						for(size_t k=0;k<svk.size();k++)
-							ps(svk[k],svm(pv,k),dm*m2,1);
+						if(!pv.vs)
+							for(size_t k=0;k<svk.size();k++)
+								ps(svk[k],svm(pv,k),dm*m2,1);
+						auto gr=[](const v& dv)
+						{
+							v nv=dv;
+							nv.sg=0;
+							return nv;
+						};
 						if(!nv)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],std::min(svm(pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2);
+								ps(svk[k],std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
+						if(!dv&&pv0.mp)
+						{
+							if(k==0)ms[0][mt.PARAM_ASP_VOL]=18;
+							ps(mt.PARAM_ASP_VOL,0,dm*m1*0.5,1,dm*m1);
+						}
+						if(!pv.vs)
+							ps(mt.PARAM_ASP_VOL,0,dm*m1*0.5,1,dm*m1);
+						else
+						{
+							ps(mt.PARAM_ASP_VOL,18,dm*m2,1);
+							ps(mt.PARAM_ASP_VOL,0,vd-dm*m1,1,vd-dm*m2);
+						}
+						if(pv.sm&&pv.cs==v::csp::k)
+							ps(mt.PARAM_ASP_VOL,18,vd,1,vd-dm*m1);
+						if(pv.vv&&!pv.n)
+							ps(mt.PARAM_GLOT_VOL,0,vd-dm*m1,1,vd-dm*m2);
 						if(!nv)
 						{
 							if(pv1.n)
