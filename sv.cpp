@@ -457,9 +457,11 @@ void k(int p)
 					double dm=mk;
 					double vvd=dm*0.75;
 					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
-					if(!dv&&pv0.sv&&!pv0.sd)
+					if(!nv&&pv.sv&&pv1.sv)
+						vd+=vvd;
+					if(!dv&&pv0.sv&&!pv.sv)
 					{	
-						double mk=dm+vd;
+						double mk=(pv0.sd?2.0*dm:dm)+vd;
 						int vs=1;
 						for(size_t k=vk+1;k<s.size()&&k<vk+6;k++)
 						{
@@ -525,7 +527,7 @@ void k(int p)
 						};
 						if(!nv&&!pv1.vs)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2);
+								ps(svk[k],pv.ns?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
@@ -594,6 +596,8 @@ void k(int p)
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 							}
 						}
+						if(!nv&&pv.sv&&pv1.sv)
+							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
