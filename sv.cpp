@@ -327,8 +327,11 @@ double hgd(const v &dv)
 	return 0;
 }
 std::vector<std::basic_string<unsigned char>> ss=
-	{{47,1,73,68,1,58,2,70,3,70,1,75},
-	{53,37,68,5,70,1,76,75,1,50,4,68,4,70,2,75},};
+{
+	{47,1,73,68,1,58,2,70,3,70,1,75},
+	{53,37,51,48,10,44,2,76,75,1,69,13,44,2,76,47,10,66,2,76,53,13,44,13,49,70,7,53,69,2,76,44,1,49,4,43,1,70,2,75},
+	{53,37,68,5,70,1,76,75,1,50,4,68,4,70,2,75},
+};
 int ssk(int p)
 {
 	char s;
@@ -459,6 +462,7 @@ void k(int p)
 					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
 					if(!nv&&pv.sv&&pv1.sv)
 						vd+=vvd;
+					if(!dv&&pv0.sv&&!pv.sv&&!nv&&!pv1.sv)vd=dm;
 					if(!dv&&pv0.sv&&!pv.sv)
 					{	
 						double mk=(pv0.sd?2.0*dm:dm)+vd;
@@ -479,11 +483,16 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
-						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g,double dk=0)
+						[[maybe_unused]]auto ps=[&mt,k,&ms,nk,&mk](int s,double l,double lk,float g,double dk=0)
 						{
 							int ls=floor(lk/nk);
 							int ds=floor(dk/nk);
 							if(k>=ls||k<ds)return;
+							if(((s>=mt.PARAM_R1&&s<=mt.PARAM_R8)||s==mt.PARAM_R6A)&&l>ms[0][s])
+							{
+								ms[1][s]=ms[0][s]+nk*(1.0/mk+(double)(s-mt.PARAM_R1)/7.0/mk/0.5);
+								return;
+							}
 							if(g==1.0)
 								ms[1][s]=ms[0][s]+(l-ms[0][s])/(double)(ls-k);
 							else
@@ -526,7 +535,7 @@ void k(int p)
 							ps(mt.PARAM_GLOT_PITCH,ds,dm,1);
 						if(!pv.vs)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv,k),dm*m2,1);
+								ps(svk[k],svm(pv,k),dm,1);
 						auto gr=[](const v& dv)
 						{
 							v nv=dv;
@@ -541,8 +550,8 @@ void k(int p)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
 						if(!dv&&pv0.mp)
 						{
-							if(k==0)ms[0][mt.PARAM_ASP_VOL]=18;
-							ps(mt.PARAM_ASP_VOL,0,dm*m1*0.5,1,dm*m1);
+							if(k==0)ms[0][mt.PARAM_ASP_VOL]=48;
+							ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
 						}
 						if(!pv.vs)
 							ps(mt.PARAM_ASP_VOL,0,dm*m1*0.5,1,dm*m1);
@@ -586,7 +595,9 @@ void k(int p)
 								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
 							}
-							ps(mt.PARAM_FRIC_VOL,20,dm*m1,1);
+							const double gt=30;
+							if(!dv&&pv.vv&&!pv.n)ms[1][mt.PARAM_FRIC_VOL]=gt;
+							ps(mt.PARAM_FRIC_VOL,gt,dm*m1,1);
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
