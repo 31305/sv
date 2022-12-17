@@ -487,10 +487,22 @@ void k(int p)
 						{
 							int ls=floor(lk/nk);
 							int ds=floor(dk/nk);
-							if(k>=ls||k<ds)return;
-							if(((s>=mt.PARAM_R1&&s<=mt.PARAM_R8)||s==mt.PARAM_R6A)&&l>ms[0][s])
+							if(k>ls||k<ds)return;
+							if(k==ls)
 							{
-								ms[1][s]=ms[0][s]+nk*(1.0/mk/0.5+(double)(s-mt.PARAM_R1)/7.0/mk/0.5*0);
+								ms[1][s]=l;
+								return;
+							}
+							if(((s>=mt.PARAM_R1&&s<=mt.PARAM_R8)||s==mt.PARAM_R6A))
+							{
+								if(l>ms[0][s])
+									ms[1][s]=ms[0][s]+nk*(1.0/mk/0.5+(double)(s-mt.PARAM_R1)/7.0/mk/0.5*0);
+								else
+								{
+									double gg=2.0/(double)(ls-ds);
+									if((ls-k)*gg<=ms[0][s]-l)
+										ms[1][s]=ms[0][s]-gg;
+								}
 								return;
 							}
 							if(g==1.0)
@@ -505,7 +517,7 @@ void k(int p)
 						const double m1=0.2,m2=0.35;
 						const std::array<int,9> svk={7,8,9,10,11,12,13,14,mt.PARAM_R6A};
 						const auto svm=[](const v &dv,int k,bool db=0){if(k<8)return vm(dv,k,db);else return sdvm(dv,db);};
-						const double ds=-7,ns=-9;
+						const double ds=-15,ns=-17;
 						const double ndv=0.1;
 						if(vk==0&&k==0)
 						{
@@ -550,11 +562,11 @@ void k(int p)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
 						if(!dv&&pv0.mp)
 						{
-							if(k==0)ms[0][mt.PARAM_ASP_VOL]=58;
-							ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
+							if(k==0)ms[0][mt.PARAM_ASP_VOL]=38;
+							if(0)ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
 						}
 						if(!pv.vs)
-							ps(mt.PARAM_ASP_VOL,0,dm*m1*0.5,1,dm*m1);
+							ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
 						else
 						{
 							ps(mt.PARAM_ASP_VOL,25,dm*m2,1);
@@ -583,7 +595,7 @@ void k(int p)
 							ps(mt.PARAM_GLOT_VOL,60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						if(pv.vv&&!pv.n)
-							ps(mt.PARAM_VB,20,vd,1,vd-dm*m1);
+							ps(mt.PARAM_VB,10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						bool sm=0;
 						v smv;
