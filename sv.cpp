@@ -326,7 +326,9 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-std::vector<std::basic_string<unsigned char>> ss={{47,1,73,68,1,58,2,70,3,70,1,75},};
+std::vector<std::basic_string<unsigned char>> ss=
+	{{47,1,73,68,1,58,2,70,3,70,1,75},
+	{53,37,68,5,70,1,76,75,1,50,4,68,4,70,2,75},};
 int ssk(int p)
 {
 	char s;
@@ -420,7 +422,6 @@ void k(int p)
 		while(ssv)
 		{
 			double mk=0.1;
-			std::this_thread::sleep_for(std::chrono::milliseconds((int)(0.5*mk*1000.0)));
 			while(ck)	
 			{
 				if(vs!=0)
@@ -443,7 +444,6 @@ void k(int p)
 						vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
 						vy.u=vy.mc.v(vy.u);
 					}
-					vy.v=1;
 					if(mt.outputBuffer().size()>0)
 						mt.outputBuffer().resize(0);
 				};
@@ -502,13 +502,21 @@ void k(int p)
 						{
 							ms[0][mt.PARAM_GLOT_PITCH]=ns;
 							ms[0][mt.PARAM_GLOT_VOL]=0;
+							ms[0][mt.PARAM_ASP_VOL]=0;
 							ms[0][mt.PARAM_FRIC_VOL]=0;
 							ms[0][mt.PARAM_FRIC_POS]=0;
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
 							ms[0][mt.PARAM_VELUM]=pv.n?1:ndv;
+							mt.reset();
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+							{
 								ms[1][k]=ms[0][k];
+								mt.setParameter(k,ms[0][k]);
+							}
+							if(1)for(int dk=0;dk<mk*mt.internalSampleRate();dk++)
+								vp();
+							vy.v=1;
 						}
 						if(pv.ss==v::ssp::u)
 							ps(mt.PARAM_GLOT_PITCH,ds,dm*m1,1);
@@ -562,7 +570,7 @@ void k(int p)
 						if(pv.n)
 							ps(mt.PARAM_VELUM,1,dm*m1,1);
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
-						if(pv.sv||pv.nt||pv.n)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
+						if(pv.sv||pv.nt||pv.n||pv.sg)ps(mt.PARAM_GLOT_VOL,60,dm*m1,1);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						if(pv.vv&&!pv.n)
 							ps(mt.PARAM_VB,20,vd,1,vd-dm*m1);
@@ -695,7 +703,7 @@ void k(int p)
 				}
 				else if(yk==2)
 				{
-					sk[sks-1-skk]='0'+t;
+					sk[skk]='0'+t;
 					skk++;
 					if(skk==sks)
 					{
