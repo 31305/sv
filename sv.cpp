@@ -554,7 +554,7 @@ void k(int p)
 							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
 						if(!pv.vs)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv,k),dm,1,0,1);
+								ps(svk[k],svm(pv,k),vd,1,0,1);
 						auto gr=[](const v& dv)
 						{
 							v nv=dv;
@@ -566,7 +566,7 @@ void k(int p)
 								ps(svk[k],pv.ns?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm,1);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
+								ps(svk[k],svm(pv,k,1),vd-dm*m2,1,dm*m2);
 						if(!dv&&pv0.mp)
 						{
 							if(k==0)ms[0][mt.PARAM_ASP_VOL]=38;
