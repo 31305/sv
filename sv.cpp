@@ -118,9 +118,9 @@ template<typename n>
 struct bck
 {
 	size_t s,cs;
+	n *k;
 	bck(size_t ds,size_t dcs):s(ds),cs(dcs){k=new n[cs*s];}
 	~bck(){delete k;}
-	n *k;
 	n& d(size_t c,size_t ks){return k[c*s+ks];}
 	const size_t v(size_t a){a++;if(a==s)a=0;return a;}
 	const size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
@@ -289,7 +289,7 @@ double hgs(const v &dv)
 	else if(dv.vv&&!dv.n)
 	{
 		double m[5]={4.7,5.6,5.6,6.5,7};
-		return m[(int)dv.vv];
+		return m[(int)dv.vv-1];
 	}
 	else if(dv.nt&&dv.cs==v::csp::o)return 7;
 	return 0;
@@ -550,7 +550,8 @@ void k(int p)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm*m2,1);
 						if(!nv&&pv1.ss==v::ssp::s)
 							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
-						double nvm=ms[1][mt.PARAM_R1+(int)(hgs(pv))];
+						double nvm=0;
+						if(!dv&&pv0.vv&&!pv0.n)nvm=ms[1][mt.PARAM_R1+(int)(hgs(pv0))];
 						if(!pv.vs&&!dv)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
@@ -624,13 +625,15 @@ void k(int p)
 						{
 							if(k==0)
 							{
-								ms[1][mt.PARAM_FRIC_POS]=hgs(pv);
-								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
-								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
+								ms[1][mt.PARAM_FRIC_POS]=hgs(pv0);
+								ms[1][mt.PARAM_FRIC_CF]=hgv(pv0);
+								ms[1][mt.PARAM_FRIC_BW]=hgd(pv0);
 							}
-							double tt=100.0*std::min(std::max(8.0*(0.7-nvm),0.0),1.0)
-								*std::min(std::max(36.0*(nvm-0.3),0.0),1.0);
-							ms[1][mt.PARAM_FRIC_VOL]=tt==0.0?0:60.0+20.0*(log(tt)/log(10));
+							double km=nk*k;
+							double tt=0.05*std::min(std::max(8.0*(0.7-nvm),0.0),1.0)
+								*std::min(std::max(36.0*(nvm-0.3),0.0),1.0)
+								*std::max(std::min(1.0,(dm-km)/dm),0.0);
+							ms[1][mt.PARAM_FRIC_VOL]=tt==0.0?0:(60.0+20.0*(log(tt)/log(10)));
 						}
 						if(pv.vv==2&&!pv.n)
 						{
