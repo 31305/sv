@@ -245,7 +245,7 @@ double vm(const v& dv,short vk,bool db=0)
 			return vmk[17][vk];
 		else if(dv.cs==v::csp::m)
 		{
-			if(vk==6-1)return 0.47;
+			if(vk==6-1)return 0?0.47:0.0;
 			else return vmk[15][vk];
 		}
 		else if(dv.cs==v::csp::d)
@@ -501,7 +501,7 @@ void k(int p)
 								if(l>ms[0][s])
 									ms[1][s]=ms[0][s]+nk*
 										(1.0/mk/((s==mt.PARAM_R5||s==mt.PARAM_R7)?0.5
-												:0.2));
+												:0.5));
 								else
 								{
 									double gg=2.0/(double)(ls-ds);
@@ -637,6 +637,17 @@ void k(int p)
 						}
 						if(!nv&&pv.sv&&pv1.sv)
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
+						if(pv.nt&&pv.cs==v::csp::m)
+						{
+							double dk=dm*m1;
+							double km=nk*k;
+							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
+							double vm=0.9*g*(1.1+sin(2*M_PI*km/mk*2))*0.5;
+							ms[1][mt.PARAM_RR0]=vm;
+							ms[1][mt.PARAM_RR1]=vm;
+							ps(mt.PARAM_R6,0,dk,1);
+							ms[1][mt.PARAM_R6];
+						}
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;

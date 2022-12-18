@@ -695,7 +695,7 @@ VocalTractModel5<TFloat, SectionDelay>::vocalTract(TFloat input, TFloat fricatio
 	propagate(oropharynx_[S23], oropharynx_[S24]);
 	propagate(oropharynx_[S24], oropharynx_[S25]);
 	propagateJunction(RK[0], RG[0], RK[1]);
-	RK[1].top[outPtr_]*=(1.0+0.004*(float)rand()/RAND_MAX);
+	RK[1].top[outPtr_]*=(1.0+0.000*(float)rand()/RAND_MAX);
 	propagateJunction(RK[1], RG[1], RK[2]);
 	propagateJunction4d(oropharynx_[S25],RSG[1],oropharynx_[S26],RK[2]);
 	propagate(oropharynx_[S26], oropharynx_[S27]);
