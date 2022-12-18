@@ -250,7 +250,7 @@ double vm(const v& dv,short vk,bool db=0)
 		}
 		else if(dv.cs==v::csp::d)
 			return vmk[6][vk];
-		else if(dv.cs==v::csp::o)
+		else if(dv.cs==v::csp::od)
 		{
 			if(vk==8-1)return 0.4;
 			else return vmk[4][vk];
@@ -329,8 +329,11 @@ double hgd(const v &dv)
 std::vector<std::basic_string<unsigned char>> ss=
 {
 	{47,1,73,68,1,58,2,70,3,70,1,75},
-	{53,37,51,48,10,44,2,76,75,1,69,13,44,2,76,47,10,66,2,76,53,13,44,13,49,70,7,53,69,2,76,44,1,49,4,43,1,70,2,75},
-	{53,37,68,5,70,1,76,75,1,50,4,68,4,70,2,75},
+	{53,37,51,48,10,44,2,76,75,3,69,13,44,2,76,47,10,66,2,76,53,15,44,13,49,70,7,53,69,2,76,44,3,49,4,43,1,70,2,75},
+	{53,37,68,5,70,3,76,75,1,50,4,68,4,70,2,75},
+	{71,1,51,4,44,2,47,56,3,61,1,51,4,44,2,47,56,3,47,44,37,66,1,46,43,42},
+	{71,1,51,4,44,2,47,47,44,39,66,1,46,43,3,77},
+	{49,7,76,50,41,46,43,5,71,6,68,1,43,1,66,7,75,19,53,5,70},
 };
 int ssk(int p)
 {
@@ -483,7 +486,7 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
-						[[maybe_unused]]auto ps=[&mt,k,&ms,nk,&mk](int s,double l,double lk,float g,double dk=0)
+						[[maybe_unused]]auto ps=[&mt,k,&ms,nk,&mk](int s,double l,double lk,float g,double dk=0,bool ng=0)
 						{
 							int ls=floor(lk/nk);
 							int ds=floor(dk/nk);
@@ -493,10 +496,12 @@ void k(int p)
 								ms[1][s]=l;
 								return;
 							}
-							if(((s>=mt.PARAM_R1&&s<=mt.PARAM_R8)||s==mt.PARAM_R6A))
+							if(ng)
 							{
 								if(l>ms[0][s])
-									ms[1][s]=ms[0][s]+nk*(1.0/mk/0.5+(double)(s-mt.PARAM_R1)/7.0/mk/0.5*0);
+									ms[1][s]=ms[0][s]+nk*
+										(1.0/mk/((s==mt.PARAM_R5||s==mt.PARAM_R7)?0.5
+												:0.2));
 								else
 								{
 									double gg=2.0/(double)(ls-ds);
@@ -544,10 +549,12 @@ void k(int p)
 						if(pv.ss==v::ssp::a)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm*m1,1);;
 						if(pv.ss==v::ssp::s)
-							ps(mt.PARAM_GLOT_PITCH,ds,dm,1);
+							ps(mt.PARAM_GLOT_PITCH,ns,dm*m2,1);
+						if(!nv&&pv1.ss==v::ssp::s)
+							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
 						if(!pv.vs)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv,k),dm,1);
+								ps(svk[k],svm(pv,k),dm,1,0,1);
 						auto gr=[](const v& dv)
 						{
 							v nv=dv;
@@ -556,7 +563,7 @@ void k(int p)
 						};
 						if(!nv&&!pv1.vs)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],pv.ns?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm);
+								ps(svk[k],pv.ns?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm,1);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,1),vd-dm*m2,1,dm*m2);
