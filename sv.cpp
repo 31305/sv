@@ -486,7 +486,7 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
-						[[maybe_unused]]auto ps=[&mt,k,&ms,nk,&mk](int s,double l,double lk,float g,double dk=0,bool ng=0)
+						[[maybe_unused]]auto ps=[&mt,k,&ms,nk](int s,double l,double lk,float g,double dk=0,bool ng=0,double vg=0)
 						{
 							int ls=floor(lk/nk);
 							int ds=floor(dk/nk);
@@ -499,9 +499,7 @@ void k(int p)
 							if(ng)
 							{
 								if(l>ms[0][s])
-									ms[1][s]=ms[0][s]+nk*
-										(1.0/mk/((s==mt.PARAM_R5||s==mt.PARAM_R7)?0.5
-												:0.5));
+									ms[1][s]=ms[0][s]+nk*vg;
 								else
 								{
 									double gg=2.0/(double)(ls-ds);
@@ -552,18 +550,22 @@ void k(int p)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm*m2,1);
 						if(!nv&&pv1.ss==v::ssp::s)
 							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
-						if(!pv.vs)
+						double nvm=ms[1][mt.PARAM_R1+(int)(hgs(pv))];
+						if(!pv.vs&&!dv)
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv,k),vd,1,0,1);
+								ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
+										(pv0.vv==5?0.3
+										 :pv0.vv==3?0.25
+										 :0.6));
 						auto gr=[](const v& dv)
 						{
 							v nv=dv;
 							nv.sg=0;
 							return nv;
 						};
-						if(!nv&&!pv1.vs)
+						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k))
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],pv.ns?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm,1);
+								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2,1,1.0/dm/0.5);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,k,1),vd-dm*m2,1,dm*m2);
@@ -601,12 +603,9 @@ void k(int p)
 						if(pv.sv||pv.nt||pv.n||pv.sg)
 							ps(mt.PARAM_GLOT_VOL,60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m2);
-						if(pv.vv&&!pv.n)
+						if(pv.vv&&!pv.n&&pv.vv!=4)
 							ps(mt.PARAM_VB,10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
-						bool sm=0;
-						v smv;
-						if(k==0)if(!dv&&(pv0.sm||(pv.vv&&!pv.n))){sm=1;smv=pv0;}
 						if(pv.sm&&!(pv.cs==v::csp::k))
 						{
 							if(k==0)
@@ -620,6 +619,18 @@ void k(int p)
 							ps(mt.PARAM_FRIC_VOL,gt,dm*m1,1);
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
+						}
+						if(0&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
+						{
+							if(k==0)
+							{
+								ms[1][mt.PARAM_FRIC_POS]=hgs(pv);
+								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
+								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
+							}
+							double tt=100.0*std::min(std::max(8.0*(0.7-nvm),0.0),1.0)
+								*std::min(std::max(36.0*(nvm-0.3),0.0),1.0);
+							ms[1][mt.PARAM_FRIC_VOL]=tt==0.0?0:60.0+20.0*(log(tt)/log(10));
 						}
 						if(pv.vv==2&&!pv.n)
 						{
@@ -642,11 +653,10 @@ void k(int p)
 							double dk=dm*m1;
 							double km=nk*k;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
-							double vm=0.9*g*(1.1+sin(2*M_PI*km/mk*2))*0.5;
+							double vm=0.9*g*(1.1+sin(2*M_PI*km/dm*2))*0.5;
 							ms[1][mt.PARAM_RR0]=vm;
 							ms[1][mt.PARAM_RR1]=vm;
 							ps(mt.PARAM_R6,0,dk,1);
-							ms[1][mt.PARAM_R6];
 						}
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
