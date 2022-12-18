@@ -569,10 +569,10 @@ void k(int p)
 								ps(svk[k],svm(pv,k,1),vd-dm*m2,1,dm*m2);
 						if(!dv&&pv0.mp)
 						{
-							if(k==0)ms[0][mt.PARAM_ASP_VOL]=38;
-							if(0)ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
+							if(k==0)ms[0][mt.PARAM_ASP_VOL]=28;
+							ps(mt.PARAM_ASP_VOL,0,std::min(vd,dm),1,std::min(vd,dm)-dm*m2);
 						}
-						if(!pv.vs)
+						if(!pv.vs&&!(!dv&&pv0.mp))
 							ps(mt.PARAM_ASP_VOL,0,dm*m2,1,dm*m2*0.5);
 						else
 						{
@@ -615,8 +615,8 @@ void k(int p)
 								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
 							}
-							const double gt=30;
-							if(!dv&&pv.vv&&!pv.n)ms[1][mt.PARAM_FRIC_VOL]=gt;
+							const double gt=pv.cs==v::csp::m?35:30;
+							if(!dv&&pv0.vv&&!pv.n)ms[1][mt.PARAM_FRIC_VOL]=gt;
 							ps(mt.PARAM_FRIC_VOL,gt,dm*m1,1);
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
@@ -669,7 +669,7 @@ void k(int p)
 			vy.v=0;
 			if(!ck)
 			{
-				if(0)std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
+				if(1)std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
 				break;
 			}
 		}
