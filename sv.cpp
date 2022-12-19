@@ -621,7 +621,7 @@ void k(int p)
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
-						if(1&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
+						if(0&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
 						{
 							if(k==0)
 							{
