@@ -486,7 +486,7 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
-						[[maybe_unused]]auto ps=[&mt,k,&ms,nk](int s,double l,double lk,float g,double dk=0,bool ng=0,double vg=0)
+						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g,double dk=0,bool ng=0,double vg=0)
 						{
 							int ls=floor(lk/nk);
 							int ds=floor(dk/nk);
