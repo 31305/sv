@@ -305,7 +305,7 @@ double hgv(const v &dv)
 	else if(dv.vv&&!dv.n)
 	{
 		double m[5]={2000,3800,4500,4500,2000};
-		return m[(int)dv.vv];
+		return m[(int)dv.vv-1];
 	}
 	else if(dv.nt&&dv.cs==v::csp::o)return 3300;
 	return 0;
@@ -321,7 +321,7 @@ double hgd(const v &dv)
 	else if(dv.vv&&!dv.n)
 	{
 		double m[5]={2000,1000,2000,2000,700};
-		return m[(int)dv.vv];
+		return m[(int)dv.vv-1];
 	}
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
@@ -621,7 +621,7 @@ void k(int p)
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
-						if(0&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
+						if(1&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
 						{
 							if(k==0)
 							{
