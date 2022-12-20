@@ -332,6 +332,7 @@ std::vector<std::basic_string<unsigned char>> ss=
 	{53,37,51,48,10,44,2,76,75,3,69,13,44,2,76,47,10,66,2,76,53,15,44,13,49,70,7,53,69,2,76,44,3,49,4,43,1,70,2,75},
 	{53,37,68,5,70,3,76,75,1,50,4,68,4,70,2,75},
 	{49,7,76,50,41,46,43,5,71,6,68,1,43,1,66,7,75,19,53,5,70},
+	{43,2,66,44,1,69,2,44,75,1,49,66,2,66,37,58,2,43,3,77},
 };
 int ssk(int p)
 {
@@ -601,7 +602,7 @@ void k(int p)
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n||pv.sg)
 							ps(mt.PARAM_GLOT_VOL,60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
-						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m2);
+						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						if(pv.vv&&!pv.n&&pv.vv!=4)
 							ps(mt.PARAM_VB,10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
@@ -649,12 +650,13 @@ void k(int p)
 						}
 						if(!nv&&pv.sv&&pv1.sv)
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
-						if(pv.nt&&pv.cs==v::csp::m)
+						if(pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv)))
 						{
 							double dk=dm*m1;
 							double km=nk*k;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
-							double vm=0.9*g*(1.1+sin(2*M_PI*km/dm*2))*0.5;
+							double vm=0.9*g*(1.1+sin(2*M_PI*km/dm*1.5))*0.5;
+							vm=std::min(vm,ms[1][mt.PARAM_R7]);
 							ms[1][mt.PARAM_RR0]=vm;
 							ms[1][mt.PARAM_RR1]=vm;
 							ps(mt.PARAM_R6,0,dk,1);
