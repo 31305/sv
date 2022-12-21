@@ -333,6 +333,7 @@ std::vector<std::basic_string<unsigned char>> ss=
 	{53,37,68,5,70,3,76,75,1,50,4,68,4,70,2,75},
 	{49,7,76,50,41,46,43,5,71,6,68,1,43,1,66,7,75,19,53,5,70},
 	{43,2,66,44,1,69,2,44,75,1,49,66,2,66,37,58,2,43,3,77},
+	{44,4,48,61,44,1,71,1,66,8,44,46,8,58,3,43,1,66,4,75},
 };
 int ssk(int p)
 {
@@ -660,7 +661,6 @@ void k(int p)
 							bool br=1;
 							if(br)ms[1][mt.PARAM_RR0]=rvm;
 							if(br)ms[1][mt.PARAM_RR1]=rvm;
-							if(0&&br)ms[1][mt.PARAM_R6]=(1.0-g)*svm(pv,mt.PARAM_R6);
 							if(!br)ms[1][mt.PARAM_R6]=rvm+(1.0-g)*svm(pv,mt.PARAM_R6);
 						}
 						double ks[mt.TOTAL_PARAMETERS];
