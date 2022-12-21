@@ -523,6 +523,7 @@ void k(int p)
 						const double ndv=0.1;
 						if(vk==0&&k==0)
 						{
+							mt.reset();
 							ms[0][mt.PARAM_GLOT_PITCH]=ns;
 							ms[0][mt.PARAM_GLOT_VOL]=0;
 							ms[0][mt.PARAM_ASP_VOL]=0;
@@ -531,7 +532,6 @@ void k(int p)
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
 							ms[0][mt.PARAM_VELUM]=pv.n?1:ndv;
-							mt.reset();
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							{
 								ms[1][k]=ms[0][k];
@@ -655,11 +655,13 @@ void k(int p)
 							double dk=dm*m1;
 							double km=nk*k;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
-							double vm=0.9*g*(1.1+sin(2*M_PI*km/dm*1.5))*0.5;
-							vm=std::min(vm,ms[1][mt.PARAM_R7]);
-							ms[1][mt.PARAM_RR0]=vm;
-							ms[1][mt.PARAM_RR1]=vm;
-							ps(mt.PARAM_R6,0,dk,1);
+							double rvm=0.9*g*(1.1+sin(2*M_PI*km/dm*1.5))*0.5;
+							rvm=std::min(rvm,ms[1][mt.PARAM_R7]);
+							bool br=1;
+							if(br)ms[1][mt.PARAM_RR0]=rvm;
+							if(br)ms[1][mt.PARAM_RR1]=rvm;
+							if(0&&br)ms[1][mt.PARAM_R6]=(1.0-g)*svm(pv,mt.PARAM_R6);
+							if(!br)ms[1][mt.PARAM_R6]=rvm+(1.0-g)*svm(pv,mt.PARAM_R6);
 						}
 						double ks[mt.TOTAL_PARAMETERS];
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
