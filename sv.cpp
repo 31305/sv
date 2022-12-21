@@ -245,7 +245,7 @@ double vm(const v& dv,short vk,bool db=0)
 			return vmk[17][vk];
 		else if(dv.cs==v::csp::m)
 		{
-			if(vk==6-1)return 0?0.47:0.0;
+			if(vk==6-1)return 1?0:!db?0.47:0.0;
 			else return vmk[15][vk];
 		}
 		else if(dv.cs==v::csp::d)
@@ -566,7 +566,7 @@ void k(int p)
 						};
 						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k))
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,pv.vg),svm(pv1,k)),vd,1,vd-dm*m2,1,1.0/dm/0.5);
+								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):std::min(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k)),vd,1,vd-dm*m2,1,1.0/dm/0.5);
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,k,1),vd-dm*m2,1,dm*m2);
@@ -651,7 +651,7 @@ void k(int p)
 						}
 						if(!nv&&pv.sv&&pv1.sv)
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
-						if(pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv)))
+						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv)))
 						{
 							double dk=dm*m1;
 							double km=nk*k;
