@@ -462,6 +462,7 @@ void k(int p)
 				if(pv.size()>0)
 				{
 					dv=ls[pv[pv.size()-1]].vm;
+					kp=ls[pv[pv.size()-1]].nv;
 					pv.pop_back();
 				}
 				else if(yk==3)
@@ -472,9 +473,10 @@ void k(int p)
 					double ss=0.001*(double)SDL_GetTicks();
 					size_t vk=vs;
 					pv.push_back(vs);
-					while(!(ls[vk].nv==0||(ls[vk].nv==kp&&vss<10)))
+					while(!(ls[vk].nv==0||(ls[vk].nv==kp&&ss-vss<10)))
 					{
 						pv.push_back(ls[vk].nv);
+						vk=ls[vk].nv;
 					}
 				}
 				else continue;
@@ -728,6 +730,7 @@ void k(int p)
 				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
+				vss=0.001*(double)SDL_GetTicks();
 			}
 			vy.v=0;
 			if(!ck)
