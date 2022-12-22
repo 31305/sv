@@ -326,6 +326,24 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
+const std::basic_string<v> vs(const std::basic_string<unsigned char> &d)
+{
+	std::basic_string<v> v;
+	for(auto k=d.begin();k!=d.end();k++)
+		v.push_back(vc[*k]);
+	return v;
+};
+struct vv
+{
+	std::basic_string<v> vm;
+	size_t nv=0;
+	bool nsv=0;
+};
+std::vector<vv> ls=
+{
+	{},
+	{.vm=vs({47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31})},
+};
 std::vector<std::basic_string<unsigned char>> ss=
 {
 	{47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31},
@@ -334,6 +352,7 @@ std::vector<std::basic_string<unsigned char>> ss=
 	{49,7,76,50,41,46,43,5,71,6,68,1,43,1,66,7,75,19,53,5,70},
 	{43,2,66,44,1,69,2,44,75,1,49,66,2,66,37,58,2,43,3,77},
 	{44,4,48,61,44,1,71,1,66,8,44,46,8,58,3,43,1,66,4,75},
+	{},
 };
 int ssk(int p)
 {
@@ -381,7 +400,7 @@ void k(int p)
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&ck,&yk,&nv,&vs]()
+	auto vk=[&ck,&yk,&vs]()
 	{
 		struct vyp
 		{
@@ -428,16 +447,38 @@ void k(int p)
 		while(ssv)
 		{
 			double mk=0.1;
+			std::vector<size_t> pv;
+			size_t kp=0;
+			double vss=0;
 			while(ck)	
 			{
-				if(vs!=0)
-					while(yk!=3&&ck)
-						std::this_thread::sleep_for(std::chrono::milliseconds(16));
+				while(yk!=3&&ck&&pv.size()==0)
+				{
+					double ks=0.016;
+					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
+				}
 				if(!ck)break;
-				if(yk==3)yk=0;
-				if(vs>=ss.size())continue;
+				std::basic_string<v> dv;				
+				if(pv.size()>0)
+				{
+					dv=ls[pv[pv.size()-1]].vm;
+					pv.pop_back();
+				}
+				else if(yk==3)
+				{
+					yk=0;
+					if(vs>=ss.size())continue;
+					if(ls[vs].nsv)continue;
+					double ss=0.001*(double)SDL_GetTicks();
+					size_t vk=vs;
+					pv.push_back(vs);
+					while(!(ls[vk].nv==0||(ls[vk].nv==kp&&vss<10)))
+					{
+						pv.push_back(ls[vk].nv);
+					}
+				}
+				else continue;
 				auto &s=ss[vs];
-				vs++;
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
@@ -722,7 +763,7 @@ void k(int p)
 	XEvent g;
 	int tk=0;
 	int pt=0;
-	const int sks=4;
+	const int sks=2;
 	char sk[sks+1];
 	sk[sks]=0;
 	int skk=0;
@@ -739,7 +780,7 @@ void k(int p)
 					if(t==0)ck=0;
 					else if(t==1)
 					{
-						yk=1;
+						if(0)yk=1;
 						nv.resize(0);
 					}
 					else if(t==2)
