@@ -343,6 +343,9 @@ std::vector<vv> ls=
 {
 	{},
 	{.vm=vs({47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31})},
+	{.vm=vs({43,1,70,66,44,1,71,44,1,48,61,2,44,9}),.nsv=1},
+	{.vm=vs({71,4,44,7,68,4,44,47,1,70,7,51,43,6,68,43,5,49,67,8,66,9,77}),.nv=2},
+	{.vm=vs({71,4,44,7,68,4,44,47,1,70,7,51,43,6,75}),.nv=2,.nsv=1},
 };
 std::vector<std::basic_string<unsigned char>> ss=
 {
@@ -437,9 +440,10 @@ void k(int p)
 		sn.channels=1;
 		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
 		SDL_PauseAudioDevice(ys,0);
-		bool ssv=0;
-		{char* p=getenv("SSV");if(p)if(p[0]=='1')ssv=1;}
-		double ct=12000;
+		bool ssv=1;
+		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
+		const double ctdm=12000;
+		double ct=ctdm;
 		double ms[2][mt.TOTAL_PARAMETERS];
 		for(int k=0;k<2;k++)
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
@@ -458,29 +462,28 @@ void k(int p)
 					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
 				}
 				if(!ck)break;
-				std::basic_string<v> dv;				
+				std::basic_string<v> gv;				
 				if(pv.size()>0)
 				{
-					dv=ls[pv[pv.size()-1]].vm;
+					gv=ls[pv[pv.size()-1]].vm;
 					kp=ls[pv[pv.size()-1]].nv;
 					pv.pop_back();
 				}
 				else if(yk==3)
 				{
 					yk=0;
-					if(vs>=ss.size())continue;
+					if(vs>=ls.size())continue;
 					if(ls[vs].nsv)continue;
 					double ss=0.001*(double)SDL_GetTicks();
 					size_t vk=vs;
 					pv.push_back(vs);
 					while(!(ls[vk].nv==0||(ls[vk].nv==kp&&ss-vss<10)))
 					{
-						pv.push_back(ls[vk].nv);
 						vk=ls[vk].nv;
+						pv.push_back(vk);
 					}
 				}
 				else continue;
-				auto &s=ss[vs];
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
@@ -496,13 +499,14 @@ void k(int p)
 					if(mt.outputBuffer().size()>0)
 						mt.outputBuffer().resize(0);
 				};
-				for(size_t vk=0;vk<s.size();vk++)
+				for(size_t vk=0;vk<gv.size();vk++)
 				{
 					v pv0={},pv1={};
 					bool dv=0,nv=0;
-					if(vk==0)dv=1;else pv0=vc[s[vk-1]];
-					if(vk==s.size()-1)nv=1;else pv1=vc[s[vk+1]];
-					const v pv=vc[s[vk]];
+					if(vk==0)dv=1;else pv0=gv[vk-1];
+					if(vk==gv.size()-1)nv=1;else pv1=gv[vk+1];
+					const v pv=gv[vk];
+					if(0)printf("%d",pv.sv);
 					double dm=mk;
 					double vvd=dm*0.75;
 					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
@@ -513,9 +517,9 @@ void k(int p)
 					{	
 						double mk=(pv0.sd?2.0*dm:dm)+vd;
 						int vs=1;
-						for(size_t k=vk+1;k<s.size()&&k<vk+6;k++)
+						for(size_t k=vk+1;k<gv.size()&&k<vk+6;k++)
 						{
-							if(!vc[s[k]].sv)
+							if(!gv[k].sv)
 							{
 								mk+=vvd;
 								vs++;
@@ -590,7 +594,7 @@ void k(int p)
 						if(pv.ss==v::ssp::a)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm*m1,1);;
 						if(pv.ss==v::ssp::s)
-							ps(mt.PARAM_GLOT_PITCH,ns,dm*m2,1);
+							ps(mt.PARAM_GLOT_PITCH,ns,dm,1);
 						if(!nv&&pv1.ss==v::ssp::s)
 							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
 						double nvm=0;
@@ -727,6 +731,7 @@ void k(int p)
 						if(0)printf("%d,%lf",k,vd);
 					}
 				}
+				if(0)printf("\n");
 				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
@@ -739,7 +744,7 @@ void k(int p)
 				break;
 			}
 		}
-		if(1)std::cout<<ct<<std::endl;
+		if(ct>ctdm)std::cout<<ct<<std::endl;
 		unsigned long k=0;
 		while(!ssv)
 		{
