@@ -619,12 +619,12 @@ void k(int p)
 						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k))
 							for(size_t k=0;k<svk.size();k++)
 							{
-								auto nv=[k](double s1,double s2)
+								auto nv=[k](double s1,double s2,bool pc)
 								{
-									if(k<0)return std::max(s1,s2);
+									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k)),vd,1,vd-dm*m2,1,1.0/dm/0.5);
+								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m2,1,1.0/dm/0.5);
 							}
 						if(pv.vg)
 							for(size_t k=0;k<svk.size();k++)
