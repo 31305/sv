@@ -349,7 +349,7 @@ std::vector<vv> ls=
 	{.vm=vs({31,51,4,55,51,32,70,3,49,4,55,52,43,4,55,51,1,70,7,51,43,4,71,66,8,77}),.nv=4},
 	{.vm=vs({68,46,43,1,55,51,32,70,1,71,1,44,10,51,48,3,65,1,75}),.nv=4},
 	{.vm=vs({49,4,55,52,43,4,55,51,1,70,7,51,43,6,75}),.nv=2,.nsv=1},
-	{.vm=vs({})}
+	{.vm=vs({66,5,31,46,2,49,1,55,52,43,5,77,71,2,44,9,46,1,44,66,1,43,7,66,13,76,47,1,51,43,1,70,66,31,43,5,49,6,76,49,67,4,70,1,49,1,55,52,43,5,56,1,66,13,44,67,1,49,1,55,52,43,5,43,6,1,69,7,51,5,71,3,60,56,1,75,43,6,47,56,1,70,43,18,70,4}),.nv=7},
 };
 std::vector<std::basic_string<unsigned char>> ss=
 {
@@ -486,6 +486,7 @@ void k(int p)
 						vk=ls[vk].nv;
 						pv.push_back(vk);
 					}
+					continue;
 				}
 				else continue;
 				auto vp=[&mt,&vy,&ct,&mk]()
@@ -620,7 +621,7 @@ void k(int p)
 							{
 								auto nv=[k](double s1,double s2)
 								{
-									if(k<4)return std::min(s1,s2);
+									if(k<0)return std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
 								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k)),vd,1,vd-dm*m2,1,1.0/dm/0.5);
@@ -703,7 +704,7 @@ void k(int p)
 							}
 							if(!(!nv&&pv1.vv==2&&!pv1.n))
 							{
-								ps(mt.PARAM_FRIC_VOL,30,dm*m1,1);
+								ps(mt.PARAM_FRIC_VOL,30,dm*m2,1,dm*m1);
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 							}
 						}
