@@ -571,7 +571,16 @@ void k(int p)
 						};
 						const double m1=0.2,m2=0.35;
 						const std::array<int,9> svk={7,8,9,10,11,12,13,14,mt.PARAM_R6A};
-						const auto svm=[](const v &dv,int k,bool db=0){if(k<8)return vm(dv,k,db);else return sdvm(dv,db);};
+						const auto svm=[](const v &dv,int k,bool db=0)
+						{
+							if(k<8)
+							{
+								if(0&&dv.vv&&vm(dv,k)>sgvv)
+									return 2.0;
+								return vm(dv,k,db);
+							}
+							else return sdvm(dv,db);
+						};
 						const double ds=-15,ns=-17;
 						const double ndv=0.1;
 						if(vk==0&&k==0)
