@@ -175,7 +175,7 @@ double vm(const v& dv,short vk,bool db=0)
 	{
 		if(dv.cs==v::csp::k)
 		{
-			if(dv.sd)return vmk[1][vk];
+			if(dv.sd&&db)return vmk[1][vk];
 			else return vmk[0][vk];
 		}
 		else if(dv.cs==v::csp::t)
@@ -538,6 +538,7 @@ void k(int p)
 					int ks=vd/nk;
 					for(int k=0;k<ks;k++)
 					{
+						double km=nk*k;
 						[[maybe_unused]]auto ps=[k,&ms,nk](int s,double l,double lk,float g,double dk=0,bool ng=0,double vg=0)
 						{
 							int ls=floor(lk/nk);
@@ -635,7 +636,7 @@ void k(int p)
 								};
 								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m2,1,1.0/dm/0.5);
 							}
-						if(pv.vg)
+						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
 								ps(svk[k],svm(pv,k,1),vd-dm*m2,1,dm*m2);
 						if(!dv&&pv0.mp)
@@ -722,7 +723,6 @@ void k(int p)
 						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv)))
 						{
 							double dk=dm*m1;
-							double km=nk*k;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
 							double rvm=0.9*g*(1.1+sin(2*M_PI*km/dm*1.5))*0.5;
 							rvm=std::min(rvm,ms[1][mt.PARAM_R7]);
