@@ -912,7 +912,6 @@ int main(int argc,char** argv)
 			s/=ct;
 			vs.write(reinterpret_cast<char*>(&s),sizeof(double));
 		}
-		std::cout<<ct<<std::endl;
 		vs.close();
 	}
 	else es(k,argv[1][0]!='0');

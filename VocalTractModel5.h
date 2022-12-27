@@ -397,6 +397,8 @@ VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 	config_.tnMax                = 24;
 	config_.breathiness          = 5;
 	config_.length               = 17.5;
+	if(char *c=getenv("MD"))
+		sscanf(c,"%lf",&config_.length);
 	config_.temperature          = 35;
 	config_.lossFactor           = 0.4;
 	config_.modulation           = 1;
