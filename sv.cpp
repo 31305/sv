@@ -407,7 +407,7 @@ void k(int p)
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&ck,&yk,&vs]()
+	auto vk=[&p,&ck,&yk,&vs]()
 	{
 		struct vyp
 		{
@@ -460,14 +460,30 @@ void k(int p)
 			double vss=0;
 			while(ck)	
 			{
-				while(yk!=3&&ck&&pv.size()==0)
+				while(p&&yk!=3&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
 				}
 				if(!ck)break;
-				std::basic_string<v> gv;				
-				if(pv.size()>0)
+				std::basic_string<v> gv;
+				if(!p)
+				{
+					std::string l;
+					if(std::cin.eof())
+					{
+						ck=0;break;
+					}
+					getline(std::cin,l);
+					int v;
+					std::istringstream g(l);
+					while(g>>v)
+					{
+						gv.push_back(vc[v]);
+						std::cout<<v<<std::endl;
+					}
+				}
+				else if(pv.size()>0)
 				{
 					gv=ls[pv[pv.size()-1]].vm;
 					kp=ls[pv[pv.size()-1]].nv;
@@ -776,6 +792,11 @@ void k(int p)
 		SDL_PauseAudioDevice(ys,1);
 		SDL_CloseAudioDevice(ys);
 	};
+	if(!p)
+	{
+		vk();
+		return;
+	}
 	Display *d=XOpenDisplay(0);
 	for(int i=XK_KP_0;i<=XK_KP_9;i++)
 	{
