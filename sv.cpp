@@ -688,8 +688,8 @@ void k(int p)
 						if(pv.sv||pv.nt||pv.n||pv.sg)
 							ps(mt.PARAM_GLOT_VOL,60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
-						if(pv.vv&&!pv.n&&pv.vv!=2)
-							ps(mt.PARAM_VB,10,vd,1,vd-dm*m1);
+						if(pv.vv&&!pv.n&&pv.vv!=4&&pv.vv!=2&&!(!nv&&pv1.vv==pv.vv)&&!nv)
+							ps(mt.PARAM_VB,pv.n?5:10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						if(pv.sm&&!(pv.cs==v::csp::k))
 						{
@@ -705,7 +705,7 @@ void k(int p)
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
-						if(0&&!dv&&pv0.vv&&!pv0.n&&(pv.sv))
+						if(1&&!dv&&pv0.vv&&pv0.vv!=1&&!pv0.n&&(pv.sv))
 						{
 							if(k==0)
 							{
