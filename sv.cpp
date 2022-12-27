@@ -887,6 +887,34 @@ int main(int argc,char** argv)
 			printf("%d,",k.k[i]);
 		printf("\n");
 	}
+	else if(argv[1][0]=='4')
+	{
+		GS::VTM::VocalTractModel5<double,1> mt;
+		mt.setParameter(mt.PARAM_GLOT_PITCH,-12);
+		mt.setParameter(mt.PARAM_GLOT_VOL,60);
+		mt.setParameter(mt.PARAM_ASP_VOL,0);
+		mt.setParameter(mt.PARAM_FRIC_VOL,0);
+		mt.setParameter(mt.PARAM_FRIC_POS,0);
+		mt.setParameter(mt.PARAM_VELUM,0);
+		mt.setParameter(mt.PARAM_RR0,0);
+		mt.setParameter(mt.PARAM_RR1,0);
+		for(int k=0;k<8;k++)
+			mt.setParameter(mt.PARAM_R1+k,vm(vc[1],k));
+		mt.setParameter(mt.PARAM_R6A,sdvm(vc[1]));
+		while(mt.outputBuffer().size()<mt.outputSampleRate()*0.03)
+			mt.execSynthesisStep();
+		auto vs=std::ofstream("/tmp/v",std::ios::binary);
+		double ct=12000;
+		for(size_t k=0;k<mt.outputBuffer().size();k++)
+		{
+			double s=mt.outputBuffer()[k];
+			if(abs(s)>ct)ct=abs(s);
+			s/=ct;
+			vs.write(reinterpret_cast<char*>(&s),sizeof(double));
+		}
+		std::cout<<ct<<std::endl;
+		vs.close();
+	}
 	else es(k,argv[1][0]!='0');
 	return 0;
 }
