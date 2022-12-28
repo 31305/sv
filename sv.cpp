@@ -609,7 +609,7 @@ void k(int p)
 							ms[0][mt.PARAM_FRIC_POS]=0;
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
-							ms[0][mt.PARAM_VELUM]=pv.n?1:ndv;
+							ms[0][mt.PARAM_VELUM]=pv.n?0.5:ndv;
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							{
 								ms[1][k]=ms[0][k];
