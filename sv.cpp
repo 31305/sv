@@ -338,6 +338,7 @@ struct vv
 	std::basic_string<v> vm;
 	size_t nv=0;
 	bool nsv=0;
+	size_t pv=0;
 };
 std::vector<vv> ls=
 {
@@ -460,39 +461,17 @@ void k(int p)
 			double vss=0;
 			while(ck)	
 			{
-				while(p&&yk!=3&&ck&&pv.size()==0)
+				while(p&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
 				}
 				if(!ck)break;
 				std::basic_string<v> gv;
-				if(!p)
+				auto vsk=[&pv,&kp,&vss](size_t vs)
 				{
-					std::string l;
-					if(std::cin.eof())
-					{
-						ck=0;break;
-					}
-					getline(std::cin,l);
-					int v;
-					std::istringstream g(l);
-					while(g>>v)
-					{
-						gv.push_back(vc[v]);
-					}
-				}
-				else if(pv.size()>0)
-				{
-					gv=ls[pv[pv.size()-1]].vm;
-					kp=pv[pv.size()-1];
-					pv.pop_back();
-				}
-				else if(yk==3)
-				{
-					yk=0;
-					if(vs>=ls.size())continue;
-					if(ls[vs].nsv)continue;
+					if(vs>=ls.size())return;
+					if(ls[vs].nsv)return;
 					double ss=0.001*(double)SDL_GetTicks();
 					size_t vk=vs;
 					pv.push_back(vs);
@@ -511,6 +490,51 @@ void k(int p)
 						vk=ls[vk].nv;
 						pv.push_back(vk);
 					}
+
+				};
+				if(!p)
+				{
+					std::string l;
+					if(std::cin.eof())
+					{
+						ck=0;break;
+					}
+					getline(std::cin,l);
+					int v;
+					std::istringstream g(l);
+					while(g>>v)
+					{
+						gv.push_back(vc[v]);
+					}
+				}
+				else if(yk==16)
+				{
+					yk=0;
+					if(0)printf("16 %ld\n",vs);
+					gv=ls[kp].vm;
+				}
+				else if(pv.size()>0)
+				{
+					gv=ls[pv[pv.size()-1]].vm;
+					kp=pv[pv.size()-1];
+					pv.pop_back();
+				}
+				else if(yk==3)
+				{
+					yk=0;
+					if(ls[kp].pv)
+						vsk(ls[kp].pv);
+					continue;
+				}
+				else if(yk==12)
+				{
+					yk=0;
+					vsk(vs);
+					continue;
+				}
+				else if(yk!=0)
+				{
+					yk=0;
 					continue;
 				}
 				else continue;
@@ -823,7 +847,8 @@ void k(int p)
 	char sk[sks+1];
 	sk[sks]=0;
 	int skk=0;
-	std::thread vkk(vk); 
+	std::thread vkk(vk);
+	const size_t pgtv=400;
 	while(ck)
 	{
 		while(XCheckMaskEvent(d,-1,&g))
@@ -833,7 +858,7 @@ void k(int p)
 				auto t=tns(XLookupKeysym(&(g.xkey),1));
 				if(yk==0)
 				{
-					if(t==0)ck=0;
+					if(t==9)ck=0;
 					else if(t==1)
 					{
 						if(0)yk=1;
@@ -844,6 +869,19 @@ void k(int p)
 						yk=2;
 						skk=0;
 					}
+					else if(t==3)
+						yk=3;
+					else if(t==6)
+					{
+						yk=6;
+						tk=pgtv;
+						vs=0;
+					}
+				}
+				else if(yk==6)
+				{
+					vs++;
+					tk=pgtv;
 				}
 				else if(yk==1)
 				{
@@ -869,7 +907,7 @@ void k(int p)
 					if(skk==sks)
 					{
 						vs=atoi(sk);
-						yk=3;
+						yk=12;
 					}
 				}
 			}
@@ -878,6 +916,8 @@ void k(int p)
 		const int kn=40;
 		std::this_thread::sleep_for(std::chrono::milliseconds(kn));
 		if(tk>0)tk-=kn;
+		if(tk<=0&&yk==6)
+			yk=16;
 	}
 	vkk.join();
 	XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
