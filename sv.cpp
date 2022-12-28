@@ -208,7 +208,7 @@ double vm(const v& dv,short vk,bool db=0)
 			{
 				if(!db)
 					return vmk[0][vk];
-				else return vmk[4][vk];
+				else return vmk[20][vk];
 			}
 		}
 	}
