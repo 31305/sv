@@ -341,8 +341,7 @@ struct vv
 	size_t pv=0;
 };
 std::vector<vv> ls=
-{
-	{},
+{{},
 	{.vm=vs({47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31})},
 	{.vm=vs({43,1,70,66,44,1,71,44,1,48,61,2,44,9}),.nsv=1},
 	{.vm=vs({71,4,44,7,68,4,44,47,1,70,7,51,43,6,68,43,5,49,67,8,66,9,77}),.nv=2,.pv=5},
@@ -856,7 +855,7 @@ void k(int p,bool lp=0)
 	sk[sks]=0;
 	int skk=0;
 	std::thread vkk(vk);
-	const size_t pgtv=400;
+	const size_t pgtv=300;
 	while(ck)
 	{
 		while(XCheckMaskEvent(d,-1,&g))
