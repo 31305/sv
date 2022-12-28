@@ -208,7 +208,7 @@ double vm(const v& dv,short vk,bool db=0)
 			{
 				if(!db)
 					return vmk[0][vk];
-				else return vmk[20][vk];
+				else return vmk[4][vk];
 			}
 		}
 	}
@@ -253,7 +253,7 @@ double vm(const v& dv,short vk,bool db=0)
 		else if(dv.cs==v::csp::od)
 		{
 			if(vk==8-1)return 0.4;
-			else return vmk[4][vk];
+			else return vmk[20][vk];
 		}
 	}
 	else if(dv.sm)
@@ -747,6 +747,10 @@ void k(int p)
 							if(!br)ms[1][mt.PARAM_R6]=rvm+(1.0-g)*svm(pv,mt.PARAM_R6);
 						}
 						double ks[mt.TOTAL_PARAMETERS];
+						const double vsv=0.01;
+						if(0)for(int k=0;k<(int)svk.size();k++)
+							ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
+						if(0)ms[1][mt.PARAM_GLOT_PITCH]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
 						for(int dk=0;dk<gs;dk++)
