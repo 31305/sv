@@ -401,14 +401,14 @@ void es(void(*k)(int),bool n)
 		if(write(ss,&s,1)==-1){};
 	}
 }
-void k(int p)
+void k(int p,bool lp=0)
 {
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&p,&ck,&yk,&vs]()
+	auto vk=[&lp,&ck,&yk,&vs]()
 	{
 		struct vyp
 		{
@@ -453,21 +453,22 @@ void k(int p)
 		for(int k=0;k<2;k++)
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
 				ms[k][pk]=0;
+		std::vector<size_t> kps;	
 		while(ssv)
 		{
 			double mk=0.1;
 			std::vector<size_t> pv;
 			size_t kp=0;
 			double vss=0;
+			std::basic_string<v> gv;
 			while(ck)	
 			{
-				while(p&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
+				while(yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
 				}
 				if(!ck)break;
-				std::basic_string<v> gv;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
 				{
 					if(vs>=ls.size())return;
@@ -492,20 +493,25 @@ void k(int p)
 					}
 
 				};
-				if(!p)
+				if(lp)
 				{
-					std::string l;
-					if(std::cin.eof())
+					if(yk==3)
 					{
-						ck=0;break;
+						gv.resize(0);
+						std::string l;
+						if(std::cin.eof())
+						{
+							ck=0;break;
+						}
+						getline(std::cin,l);
+						int v;
+						std::istringstream g(l);
+						while(g>>v)
+							gv.push_back(vc[v]);
+						yk=0;
 					}
-					getline(std::cin,l);
-					int v;
-					std::istringstream g(l);
-					while(g>>v)
-					{
-						gv.push_back(vc[v]);
-					}
+					else if(yk==16)yk=0;
+					else {yk=0;continue;}
 				}
 				else if(yk==16)
 				{
@@ -829,7 +835,7 @@ void k(int p)
 		SDL_PauseAudioDevice(ys,1);
 		SDL_CloseAudioDevice(ys);
 	};
-	if(!p)
+	if(0&&lp)
 	{
 		vk();
 		return;
@@ -912,7 +918,7 @@ void k(int p)
 				}
 			}
 		}
-		ck=ck&ssk(p);
+		if(p)ck=ck&ssk(p);
 		const int kn=40;
 		std::this_thread::sleep_for(std::chrono::milliseconds(kn));
 		if(tk>0)tk-=kn;
@@ -928,7 +934,7 @@ int main(int argc,char** argv)
 	if(argc<2)
 		printf("0|1?\n");
 	else if(argv[1][0]=='3')
-		k(0);
+		k(0,1);
 	else if(argv[1][0]=='2')
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
@@ -968,6 +974,6 @@ int main(int argc,char** argv)
 		}
 		vs.close();
 	}
-	else es(k,argv[1][0]!='0');
+	else es([](int p){k(p);},argv[1][0]!='0');
 	return 0;
 }
