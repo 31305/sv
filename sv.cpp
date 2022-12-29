@@ -726,7 +726,7 @@ void k(int p,bool lp=0)
 								if(pv.sv||pv.nt)
 									ps(mt.PARAM_VELUM,nnv,vd,1,vd-dm*m2);
 							}
-							else if(!pv.n)
+							else if(!pv.n||pv.vv==3)
 								ps(mt.PARAM_VELUM,ndv,vd,1,vd-dm*m2);
 						}
 						if(pv.n)
@@ -786,7 +786,7 @@ void k(int p,bool lp=0)
 						{
 							double dk=dm*m1;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
-							double rvm=0.9*g*(1.2+sin(2*M_PI*km/dm*1.5))*0.5;
+							double rvm=0.9*g*(1.2+sin(2*M_PI*km/vd*1.1))*0.5;
 							rvm=std::min(rvm,ms[1][mt.PARAM_R7]);
 							bool br=1;
 							if(0)printf("%lf\n",g);
