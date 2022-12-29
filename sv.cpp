@@ -252,7 +252,7 @@ double vm(const v& dv,short vk,bool db=0)
 			return vmk[6][vk];
 		else if(dv.cs==v::csp::od)
 		{
-			if(vk==8-1)return 0.4;
+			if(vk==8-1||vk==7-1)return 0.4;
 			else return vmk[20][vk];
 		}
 	}
@@ -350,7 +350,7 @@ std::vector<vv> ls=
 	{.vm=vs({68,46,43,1,55,51,32,70,1,71,1,44,10,51,48,3,65,1,75}),.nv=4,.pv=8},
 	{.vm=vs({49,4,55,52,43,4,55,51,1,70,7,51,43,6,75}),.nv=2,.nsv=1},
 	{.vm=vs({66,5,31,46,2,49,1,55,52,43,5,77,71,2,44,9,46,1,44,66,1,43,7,66,13,76,47,1,51,43,1,70,66,31,43,5,49,6,76,49,67,4,70,1,49,1,55,52,43,5,56,1,66,13,44,67,1,49,1,55,52,43,5,43,6,1,69,7,51,5,71,3,60,56,1,75,43,6,47,56,1,70,43,18,70,4}),.nv=7,.pv=9},
-	{.vm=vs({43,2,68,8,71,44,1,67,1,75,5,49,1,55,52,43,35,51,4,49,43,5,61,61,2,44,50,9,61,44,43,1,55,51,32,70,39,66,66,1,44,1,71,44,1,47,70,4,71,61,8,77}),.nv=4},
+	{.vm=vs({43,2,68,8,71,44,1,67,1,75,5,49,1,55,52,43,35,51,4,49,43,5,66,66,2,44,50,9,66,44,43,1,55,51,32,70,39,66,66,1,44,1,71,44,1,47,70,4,71,66,8,77}),.nv=4},
 };
 std::vector<std::basic_string<unsigned char>> ss=
 {
@@ -639,7 +639,7 @@ void k(int p,bool lp=0)
 							else return sdvm(dv,db);
 						};
 						const double ds=-15,ns=-17;
-						const double ndv=0.1;
+						const double ndv=0.1,nnv=0.5;
 						if(vk==0&&k==0)
 						{
 							mt.reset();
@@ -648,9 +648,10 @@ void k(int p,bool lp=0)
 							ms[0][mt.PARAM_ASP_VOL]=0;
 							ms[0][mt.PARAM_FRIC_VOL]=0;
 							ms[0][mt.PARAM_FRIC_POS]=0;
+							if(0)printf("%lf\n",ms[0][mt.PARAM_RR0]);
 							for(size_t k=0;k<svk.size();k++)
 								ms[0][svk[k]]=svm(pv,k);
-							ms[0][mt.PARAM_VELUM]=pv.n?0.5:ndv;
+							ms[0][mt.PARAM_VELUM]=pv.n?nnv:ndv;
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							{
 								ms[1][k]=ms[0][k];
@@ -718,18 +719,18 @@ void k(int p,bool lp=0)
 							if(pv1.n)
 							{
 								if(pv.sv||pv.nt)
-									ps(mt.PARAM_VELUM,1,vd,1,vd-dm*m2);
+									ps(mt.PARAM_VELUM,nnv,vd,1,vd-dm*m2);
 							}
 							else if(!pv.n)
 								ps(mt.PARAM_VELUM,ndv,vd,1,vd-dm*m2);
 						}
 						if(pv.n)
-							ps(mt.PARAM_VELUM,1,dm*m1,1);
+							ps(mt.PARAM_VELUM,nnv,dm*m1,1);
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n||pv.sg)
-							ps(mt.PARAM_GLOT_VOL,60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
+							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
-						if(pv.vv&&!pv.n&&pv.vv!=4&&pv.vv!=2&&!(!nv&&pv1.vv==pv.vv)&&!nv)
+						if(pv.vv&&!pv.n&&pv.vv!=1&&pv.vv!=4&&pv.vv!=2&&!(!nv&&pv1.vv==pv.vv)&&!nv)
 							ps(mt.PARAM_VB,pv.n?5:10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						if(pv.sm&&!(pv.cs==v::csp::k))
@@ -776,17 +777,25 @@ void k(int p,bool lp=0)
 						}
 						if(!nv&&pv.sv&&pv1.sv)
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
-						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv)))
+						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv==1)))
 						{
 							double dk=dm*m1;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
-							double rvm=0.9*g*(1.1+sin(2*M_PI*km/dm*1.5))*0.5;
+							double rvm=0.9*g*(1.2+sin(2*M_PI*km/dm*1.5))*0.5;
 							rvm=std::min(rvm,ms[1][mt.PARAM_R7]);
 							bool br=1;
+							if(0)printf("%lf\n",g);
 							if(br)ms[1][mt.PARAM_RR0]=rvm;
 							if(br)ms[1][mt.PARAM_RR1]=rvm;
 							if(!br)ms[1][mt.PARAM_R6]=rvm+(1.0-g)*svm(pv,mt.PARAM_R6);
 						}
+						if(!(pv.nt&&pv.cs==v::csp::m))
+						{
+							ps(mt.PARAM_RR0,0,dm*m1,1);
+							ps(mt.PARAM_RR1,0,dm*m1,1);
+						}
+						if(k==0&&pv.vv==1&&!pv.sg)
+							printf("%lf\n",ms[1][mt.PARAM_R5]);
 						double ks[mt.TOTAL_PARAMETERS];
 						const double vsv=0.01;
 						if(0)for(int k=0;k<(int)svk.size();k++)
