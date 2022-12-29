@@ -617,8 +617,8 @@ void k(int p,bool lp=0)
 								else
 								{
 									double gg=2.0/(double)(ls-ds);
-									if((ls-k)*gg<=ms[0][s]-l)
-										ms[1][s]=ms[0][s]-gg;
+									if((ls-k)*gg<=ms[0][s]-l||ls-k==1)
+										ms[1][s]=ms[0][s]+(l-ms[0][s])/(double)(ls-k);
 								}
 								return;
 							}
@@ -799,8 +799,6 @@ void k(int p,bool lp=0)
 							ps(mt.PARAM_RR0,0,dm*m1,1);
 							ps(mt.PARAM_RR1,0,dm*m1,1);
 						}
-						if(k==0&&pv.vv==1&&!pv.sg)
-							printf("%lf\n",ms[1][mt.PARAM_R5]);
 						double ks[mt.TOTAL_PARAMETERS];
 						const double vsv=0.01;
 						if(0)for(int k=0;k<(int)svk.size();k++)
