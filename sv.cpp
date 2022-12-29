@@ -545,6 +545,8 @@ void k(int p,bool lp=0)
 					continue;
 				}
 				else continue;
+				if(0)for(size_t k=1;k<gv.size()-1;k++)
+					if(gv[k].vs&&gv[k+1].sm)gv[k]=gv[k+1];
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
@@ -691,7 +693,7 @@ void k(int p,bool lp=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],(pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m2,1,1.0/dm/0.5);
+								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m2,1,1.0/dm/0.5);
 							}
 						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
