@@ -339,6 +339,7 @@ struct vv
 	size_t nv=0;
 	bool nsv=0;
 	size_t pv=0;
+	bool sv=0;
 };
 std::vector<vv> ls=
 {{},
@@ -350,7 +351,9 @@ std::vector<vv> ls=
 	{.vm=vs({68,46,43,1,55,51,32,70,1,71,1,44,10,51,48,3,65,1,75}),.nv=4,.pv=8},
 	{.vm=vs({49,4,55,52,43,4,55,51,1,70,7,51,43,6,75}),.nv=2,.nsv=1},
 	{.vm=vs({66,5,31,46,2,49,1,55,52,43,5,77,71,2,44,9,46,1,44,66,1,43,7,66,13,76,47,1,51,43,1,70,66,31,43,5,49,6,76,49,67,4,70,1,49,1,55,52,43,5,56,1,66,13,44,67,1,49,1,55,52,43,5,43,6,1,69,7,51,5,71,3,60,56,1,75,43,6,47,56,1,70,43,18,70,4}),.nv=7,.pv=9},
-	{.vm=vs({43,2,68,8,71,44,1,67,1,75,5,49,1,55,52,43,35,51,4,49,43,5,66,66,2,44,50,9,66,44,43,1,55,51,32,70,39,66,66,1,44,1,71,44,1,47,70,4,71,66,8,77}),.nv=4},
+	{.vm=vs({43,2,68,8,71,44,1,67,1,75,5,49,1,55,52,43,35,51,4,49,43,5,66,66,2,44,50,9,66,44,43,1,55,51,32,70,39,66,66,1,44,1,71,44,1,47,70,4,71,66,8,77}),.nv=4,.pv=11},
+	{.vm=vs({71,1,44,8,51,48,3,65,31}),.nv=2,.nsv=1},
+	{.vm=vs({43,5,46,3,68,68,46,7,61,11,43,6,49,1,55,52,43,5,61,19,61,11,43,3,43,4,70,43,18,70,4}),.nv=10,.sv=1},
 };
 std::vector<std::basic_string<unsigned char>> ss=
 {
@@ -463,7 +466,7 @@ void k(int p,bool lp=0)
 			std::basic_string<v> gv;
 			while(ck)	
 			{
-				while(yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
+				while(!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
@@ -526,7 +529,7 @@ void k(int p,bool lp=0)
 					kp=pv[pv.size()-1];
 					pv.pop_back();
 				}
-				else if(yk==3)
+				else if(yk==3||ls[kp].sv)
 				{
 					yk=0;
 					if(ls[kp].pv)
@@ -545,8 +548,8 @@ void k(int p,bool lp=0)
 					continue;
 				}
 				else continue;
-				if(0)for(size_t k=1;k<gv.size()-1;k++)
-					if(gv[k].vs&&gv[k+1].sm)gv[k]=gv[k+1];
+				if(1)for(size_t k=1;k<gv.size()-2;k++)
+					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
@@ -958,6 +961,17 @@ int main(int argc,char** argv)
 		for(int i=0;i<2*3;i++)
 			printf("%d,",k.k[i]);
 		printf("\n");
+	}
+	else if(argv[1][0]=='5')
+	{
+		std::vector<bool> p(ls.size());
+		for(size_t k=0;k<p.size();k++)
+			p[k]=0;
+		for(size_t k=0;k<ls.size();k++)
+			p[ls[k].pv]=1;
+		for(size_t k=0;k<ls.size();k++)
+			if(!ls[k].nsv&&!p[k])
+				printf("%ld\n",k);
 	}
 	else if(argv[1][0]=='4')
 	{
