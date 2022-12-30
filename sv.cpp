@@ -145,7 +145,7 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-const double nv=GS_VTM5_MIN_RADIUS;
+const double nv=1?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
 double vm(const v& dv,short vk,bool db=0)
 {
@@ -790,6 +790,8 @@ void k(int p,bool lp=0)
 						}
 						if(!nv&&pv.sv&&pv1.sv)
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd,1,vd-vvd-dm*m1);
+						if(0&&pv.sv)
+							ps(mt.PARAM_GLOT_VOL,57,dm,1,dm-dm*m2);
 						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv==1)))
 						{
 							double dk=dm*m1;
