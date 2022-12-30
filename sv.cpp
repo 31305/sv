@@ -549,7 +549,7 @@ void k(int p,bool lp=0)
 					continue;
 				}
 				else continue;
-				if(1)for(size_t k=1;k<gv.size()-2;k++)
+				if(1)for(size_t k=1;k+2<gv.size();k++)
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
