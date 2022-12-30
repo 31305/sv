@@ -490,7 +490,7 @@ void k(int p,bool lp=0)
 						}
 						return 0;
 					};	
-					while(!(ls[vk].nv==0||((ls[vk].nv==ls[kp].nv||ls[vk].nv==kp||(pnv(ls[vk].nv)&&ls[vk].nsv))&&ss-vss<10)))
+					while(!(ls[vk].nv==0||((ls[vk].nv==ls[kp].nv||ls[vk].nv==kp||(pnv(ls[vk].nv)&&ls[vk].nv))&&ss-vss<10)))
 					{
 						vk=ls[vk].nv;
 						pv.push_back(vk);
@@ -769,9 +769,10 @@ void k(int p,bool lp=0)
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv0);
 							}
 							double km=nk*k;
+							double vk=dm*m2;
 							double tt=0.05*std::min(std::max(8.0*(0.7-nvm),0.0),1.0)
 								*std::min(std::max(36.0*(nvm-0.3),0.0),1.0)
-								*std::max(std::min(1.0,(dm-km)/dm),0.0);
+								*std::max(std::min(1.0,(vk-km)/vk),0.0);
 							ms[1][mt.PARAM_FRIC_VOL]=tt==0.0?0:(60.0+20.0*(log(tt)/log(10)));
 						}
 						if(pv.vv==2&&!pv.n)
