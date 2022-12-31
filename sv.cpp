@@ -112,7 +112,6 @@ void k(int p)
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
-	std::vector<unsigned char> nv;
 	auto vk=[&ck,&yk,&vs]()
 	{
 		bool ssv=1;
@@ -199,7 +198,6 @@ void k(int p)
 	}
 	XEvent g;
 	int tk=0;
-	int pt=0;
 	const int sks=2;
 	char sk[sks+1];
 	sk[sks]=0;
@@ -216,11 +214,6 @@ void k(int p)
 				if(yk==0)
 				{
 					if(t==9)ck=0;
-					else if(t==1)
-					{
-						if(0)yk=1;
-						nv.resize(0);
-					}
 					else if(t==2)
 					{
 						yk=2;
@@ -239,23 +232,6 @@ void k(int p)
 				{
 					vs++;
 					tk=pgtv;
-				}
-				else if(yk==1)
-				{
-					if(tk>0)
-					{
-						tk=0;
-						if(t==0&&pt==0)
-						{
-							yk=0;
-						}
-						else nv.push_back(pt*10+t);
-					}
-					else
-					{
-						tk=1000;
-						pt=t;
-					}
 				}
 				else if(yk==2)
 				{
