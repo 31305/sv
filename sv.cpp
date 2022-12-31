@@ -104,7 +104,7 @@ lsp ls;
 void svk(size_t vk)
 {
 	char sn[256];
-	sprintf(sn,"c2dec 2400 %s/kls/%ld - | aplay -fS16_LE -c1 -r8000",tsn.c_str(),vk);
+	sprintf(sn,"c2dec 2400 %s/kls/%ld - | aplay -fS16_LE -c1 -r8000 2>/dev/null",tsn.c_str(),vk);
 	system(sn);	
 }
 void k(int p)
@@ -175,7 +175,7 @@ void k(int p)
 				{
 					yk=0;
 					vsk(vs);
-					printf("%ld\n",kp);
+					if(0)printf("%ld\n",kp);
 					continue;
 				}
 				else if(yk!=0)
@@ -304,7 +304,7 @@ int main(int argc,char** argv)
 		for(size_t k=0;k<p.size();k++)
 			p[k]=0;
 		for(size_t k=0;k<ls.ss();k++)
-			p[ls[k+1].pv-1]=1;
+			if(ls[k+1].pv)p[ls[k+1].pv-1]=1;
 		for(size_t k=0;k<ls.ss();k++)
 			if(!p[k])
 				printf("%ld\n",k+1);
