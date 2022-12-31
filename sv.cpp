@@ -1,5 +1,6 @@
 #include<sys/types.h>
 #include<iostream>
+#include<fstream>
 #include<SDL.h>
 #include<sys/stat.h>
 #include<sys/file.h>
@@ -25,13 +26,6 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
-struct vv
-{
-	size_t pv0=0;
-	bool snv=0;
-	bool vpv=0;
-	size_t pv=0;
-};
 int ssk(int p)
 {
 	char s;
@@ -71,23 +65,46 @@ void es(void(*k)(int),bool n)
 		if(write(ss,&s,1)==-1){};
 	}
 }
-//std::vector<vv> ls;
+std::string tsn;
+struct vv
+{
+	size_t pv0=0;
+	bool snv=0;
+	bool vpv=0;
+	size_t pv=0;
+};
 struct lsp
 {
+	size_t s=0;
 	vv operator[](size_t s)
 	{
-		return {};
+		vv dv;
+		char sn[256];
+		sprintf(sn,"%s/vvs/%ld",tsn.c_str(),s);
+		auto sp=std::ifstream(sn);
+		sp>>dv.pv0;
+		sp>>dv.snv;
+		sp>>dv.vpv;
+		sp>>dv.pv;
+		sp.close();
+		return dv;
 	}
-	static size_t ss()
-	{
-		return 0;
+	size_t ss()
+	{	
+		if(!s)
+		{
+			auto sd=std::ifstream(tsn+std::string("/ss"));
+			sd>>s;
+			sd.close();
+		}
+		return s;
 	}
 };
 lsp ls;
 void svk(size_t vk)
 {
 	char sn[256];
-	sprintf(sn,"c2dec 2400 kls/%ld - | aplay -fS16_LE -c1 -r8000",vk);
+	sprintf(sn,"c2dec 2400 %s/kls/%ld - | aplay -fS16_LE -c1 -r8000",tsn.c_str(),vk);
 	system(sn);	
 }
 void k(int p)
@@ -115,7 +132,7 @@ void k(int p)
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
 				{
-					if(vs>=ls.ss())return;
+					if(vs>ls.ss())return;
 					double ss=0.001*(double)SDL_GetTicks();
 					size_t vk=vs;
 					pv.push_back(vs);
@@ -129,12 +146,11 @@ void k(int p)
 						}
 						return 0;
 					};	
-					while(!(ls[vk].pv0==0||((ls[vk].pv0==ls[kp].pv0||ls[vk].pv0==kp||(pnv(ls[vk].pv0)&&ls[vk].pv0))&&ss-vss<10)))
+					while(!(ls[vk].pv0==0||(ls[vk].pv0==kp&&ss-vss<10)||(!ls[vk].snv&&pnv(ls[vk].pv0))))
 					{
 						vk=ls[vk].pv0;
 						pv.push_back(vk);
 					}
-
 				};
 				if(yk==16)
 				{
@@ -159,6 +175,7 @@ void k(int p)
 				{
 					yk=0;
 					vsk(vs);
+					printf("%ld\n",kp);
 					continue;
 				}
 				else if(yk!=0)
@@ -167,6 +184,7 @@ void k(int p)
 					continue;
 				}
 				else continue;
+				svk(kp);
 				vss=0.001*(double)SDL_GetTicks();
 			}
 			if(!ck)
@@ -264,18 +282,32 @@ void k(int p)
 }
 int main(int argc,char** argv)
 {
+	char *sn=getenv("SSSS");
+	if(sn)
+		tsn=std::string(sn);
+	else
+	{
+		std::string s=std::string(argv[0]);
+		tsn=s.substr(0,s.find_last_of("/"));
+	}
 	if(argc<2)
 		printf("0|1?\n");
+	else if(argv[1][0]=='3')
+	{
+		char sn[256];
+		sprintf(sn,"arecord -c 1 -f S16_LE -r 8000 | ffmpeg -f s16le -ar 8000 -i pipe: -filter:a loudnorm -f s16le -ar 8000 pipe: | c2enc 2400 - - | tee %s/kls/%s| c2dec 2400 - - | aplay -c 1 -r 8000 -f S16_LE",tsn.c_str(),argv[2]);
+		system(sn);	
+	}
 	else if(argv[1][0]=='5')
 	{
 		std::vector<bool> p(ls.ss());
 		for(size_t k=0;k<p.size();k++)
 			p[k]=0;
 		for(size_t k=0;k<ls.ss();k++)
-			p[ls[k].pv]=1;
+			p[ls[k+1].pv-1]=1;
 		for(size_t k=0;k<ls.ss();k++)
 			if(!p[k])
-				printf("%ld\n",k);
+				printf("%ld\n",k+1);
 	}
 	else es([](int p){k(p);},argv[1][0]!='0');
 	return 0;
