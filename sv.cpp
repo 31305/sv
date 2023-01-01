@@ -145,6 +145,7 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
+const bool pp=0;
 const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
 double vm(const v& dv,short vk,bool db=0)
@@ -618,8 +619,8 @@ void k(int p,bool lp=0)
 								else
 								{
 									double gg=2.0/(double)(ls-ds);
-									if((ls-k)*gg<=ms[0][s]-l||ls-k==1)
-										ms[1][s]=ms[0][s]+(l-ms[0][s])/(double)(ls-k);
+									if((ls-k)*gg<=ms[0][s]-l||(!pp&&ls-k==1))
+										ms[1][s]=ms[0][s]+(pp?-gg:((l-ms[0][s])/(double)(ls-k)));
 								}
 								return;
 							}
@@ -680,12 +681,20 @@ void k(int p,bool lp=0)
 						if(!pv.vs&&!dv)
 							for(size_t k=0;k<svk.size();k++)
 							{
-								ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
+								bool vdv=0;
+								if(pp)vdv=1;
+								if(vdv)
+									ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
+										(pv0.vv==5?0.3
+										 :pv0.vv==3?0.25
+										 :pv0.vv==1?0.6
+										 :0.4));
+								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(k==mt.PARAM_R8?0.3
 										 :k==mt.PARAM_R6A?0.3
 										 :k==mt.PARAM_R5?0.6
-										 :k==mt.PARAM_R7?(km<dm*m1?0.6:0.3)
-										 :0.4));
+										 :(k==mt.PARAM_R7||k==mt.PARAM_R6)?(km<dm*m1?0.6:0.3)
+										 :0.5));
 								if(0)ps(svk[k],svm(pv,k),dm*m2,
 										pv.vv==3?2
 										:pv.vv==5?2
@@ -798,7 +807,7 @@ void k(int p,bool lp=0)
 							ps(mt.PARAM_GLOT_VOL,57,dm,1,dm-dm*m2);
 						if(1&&pv.nt&&pv.cs==v::csp::m&&(1||!(!dv&&pv0.vv==1)))
 						{
-							double dk=dm*m1;
+							double dk=pv.sv?dm*m1:dm*m2;
 							double g=km<dk?(km/dk):(vd-km<dk)?((vd-km)/dk):1;
 							double rvm=0.9*g*(1.2+sin(2*M_PI*km/dm*2))*0.5;
 							rvm=std::min(rvm,ms[1][mt.PARAM_R7]);
@@ -806,7 +815,7 @@ void k(int p,bool lp=0)
 							if(0)printf("%lf\n",g);
 							if(br)ms[1][mt.PARAM_RR0]=rvm;
 							if(br)ms[1][mt.PARAM_RR1]=rvm;
-							if(br)ps(mt.PARAM_R6,0,(!dv&&pv0.sv)?dm*0.05:dm*m2,1);
+							if(br)ps(mt.PARAM_R6,0,dk,1);
 							if(!br)ms[1][mt.PARAM_R6]=rvm+(1.0-g)*svm(pv,mt.PARAM_R6);
 						}
 						if(!(pv.nt&&pv.cs==v::csp::m))
@@ -988,6 +997,8 @@ int main(int argc,char** argv)
 	}
 	else if(argv[1][0]=='4')
 	{
+		std::array<size_t,27> pv={1,4,7,10,13,19,25,31,37,43,44,45,46,47,48,49,53,55,58,60,63,65,68,70,73,75,76};
+		size_t vk=atoi(argv[2]);
 		GS::VTM::VocalTractModel5<double,1> mt;
 		mt.setParameter(mt.PARAM_GLOT_PITCH,-12);
 		mt.setParameter(mt.PARAM_GLOT_VOL,60);
@@ -998,8 +1009,9 @@ int main(int argc,char** argv)
 		mt.setParameter(mt.PARAM_RR0,0);
 		mt.setParameter(mt.PARAM_RR1,0);
 		for(int k=0;k<8;k++)
-			mt.setParameter(mt.PARAM_R1+k,vm(vc[1],k));
-		mt.setParameter(mt.PARAM_R6A,sdvm(vc[1]));
+			mt.setParameter(mt.PARAM_R1+k,vm(vc[pv[vk]],k));
+		mt.setParameter(mt.PARAM_R6A,sdvm(vc[pv[vk]]));
+		mt.setParameter(mt.PARAM_VELUM,vc[pv[vk]].n);
 		while(mt.outputBuffer().size()<mt.outputSampleRate()*0.03)
 			mt.execSynthesisStep();
 		auto vs=std::ofstream("/tmp/v",std::ios::binary);

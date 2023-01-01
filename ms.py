@@ -7,16 +7,16 @@ from os import system
 lv=open('/tmp/lv','rb').read()
 lv=struct.unpack('d'*math.floor(len(lv)/8),lv)
 f,s,a=pyworld.wav2world(numpy.array(lv),44100)
-ct=0
+ct=[]
 dk=10
 def ctm(s):
     ct=0
-    for k in range(0,len(s)):
-        for pk in range(dk,len(s[k])):
-            if abs(s[k][pk])>ct:
-                ct=abs(s[k][pk])
+    for pk in range(dk,len(s)):
+        if abs(s[pk])>ct:
+            ct=abs(s[pk])
     return ct
-ct=ctm(s)
+for k in range(0,len(s)):
+    ct.append(ctm(s[k]))
 ns=1e10
 nk=0
 nsk=0
@@ -25,14 +25,14 @@ for md in numpy.arange(10,20,0.5):
     v=open('/tmp/v','rb').read()
     v=struct.unpack('d'*math.floor(len(v)/8),v)
     f2,s2,a2=pyworld.wav2world(numpy.array(v),44100)
-    ct2=ctm(s2)
     mk=math.floor(len(f2)/2)
+    ct2=ctm(s2[mk])
     ts=1e10
     sk=0
     for k in range(0,len(s)):
         t=0
         for pk in range(dk,len(s[k])):
-            t+=abs(s[k][pk]/ct-s2[mk][pk]/ct2)
+            t+=abs(s[k][pk]/ct[k]-s2[mk][pk]/ct2)
         if t<ts:
             ts=t
             sk=k
