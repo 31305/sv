@@ -681,20 +681,20 @@ void k(int p,bool lp=0)
 						if(!pv.vs&&!dv)
 							for(size_t k=0;k<svk.size();k++)
 							{
-								bool vdv=0;
+								bool vdv=1;
 								if(pp)vdv=1;
 								if(vdv)
 									ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
-										(pv0.vv==5?0.3
-										 :pv0.vv==3?0.25
+										(pv0.vv==5?0.4
+										 :pv0.vv==3?0.5
 										 :pv0.vv==1?0.6
-										 :0.4));
-								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
-										(k==mt.PARAM_R8?0.3
-										 :k==mt.PARAM_R6A?0.3
-										 :k==mt.PARAM_R5?0.6
-										 :(k==mt.PARAM_R7||k==mt.PARAM_R6)?(km<dm*m1?0.6:0.3)
 										 :0.5));
+								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
+										(svk[k]==mt.PARAM_R8?0.4
+										 :svk[k]==mt.PARAM_R6A?0.5
+										 :svk[k]==mt.PARAM_R5?0.6
+										 :(svk[k]==mt.PARAM_R7||svk[k]==mt.PARAM_R6)?(km<dm*m1?0.6:0.5)
+										 :0.6));
 								if(0)ps(svk[k],svm(pv,k),dm*m2,
 										pv.vv==3?2
 										:pv.vv==5?2
@@ -772,7 +772,7 @@ void k(int p,bool lp=0)
 							if(!(!nv&&pv1.sm))
 								ps(mt.PARAM_FRIC_VOL,0,vd,1,vd-dm*m1);
 						}
-						if(1&&!dv&&pv0.vv&&!pv0.n&&!pv.sm&&pv.vv!=2)
+						if(1&&!dv&&pv0.vv&&!pv0.n&&!pv.sm&&pv.vv!=2&&pv.vv!=5)
 						{
 							if(k==0)
 							{
