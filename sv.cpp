@@ -146,7 +146,7 @@ unsigned char tns(KeySym t)
 	return 0;
 }
 const bool pp=0;
-const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
+const double nv=1?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
 double vm(const v& dv,short vk,bool db=0)
 {
