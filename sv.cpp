@@ -176,7 +176,7 @@ double vm(const v& dv,short vk,bool db=0)
 	{
 		if(dv.cs==v::csp::k)
 		{
-			if(dv.sd)return vmk[1][vk];
+			if(dv.sd)return vmk[0][vk];
 			else return vmk[0][vk];
 		}
 		else if(dv.cs==v::csp::t)
@@ -749,13 +749,18 @@ void k(int p,bool lp=0)
 							else if(!pv.n||pv.vv==3)
 								ps(mt.PARAM_VELUM,pv.n?nnv/2.0:ndv,vd,1,vd-dm*m2);
 						}
+						if(0&&!pv.n&&k==0&&!dv&&pv0.n)
+						{
+							ms[1][mt.PARAM_VELUM]=ndv;
+							ms[1][mt.PARAM_GLOT_VOL]=20;
+						}
 						if(pv.n)
 							ps(mt.PARAM_VELUM,nnv,dm*m1,1);
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n||pv.sg)
 							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
-						if(pv.vv&&pv.vv!=2&&!(!nv&&pv1.vv==pv.vv)&&!nv)
+						if(pv.vv&&pv.vv!=2&&!(!nv&&(pv1.vv==pv.vv))&&!nv)
 							ps(mt.PARAM_VB,pv.n?5:15,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						if(pv.sm&&!(pv.cs==v::csp::k))
@@ -824,10 +829,12 @@ void k(int p,bool lp=0)
 							ps(mt.PARAM_RR1,0,dm*m1,1);
 						}
 						double ks[mt.TOTAL_PARAMETERS];
-						const double vsv=0.01;
+						const double vsv=0.07;
 						if(0)for(int k=0;k<(int)svk.size();k++)
 							ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
-						if(0)ms[1][mt.PARAM_GLOT_PITCH]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
+						if(0)ms[1][mt.PARAM_GLOT_PITCH]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX	);
+						double tvsv=0.011;
+						if(0)ms[1][mt.PARAM_GLOT_VOL]*=(1.0-tvsv+2.0*tvsv*(double)rand()/(double)RAND_MAX);
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
 						for(int dk=0;dk<gs;dk++)
