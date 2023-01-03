@@ -247,6 +247,7 @@ double vm(const v& dv,short vk,bool db=0)
 		else if(dv.cs==v::csp::m)
 		{
 			if(vk==6-1)return 0?0:!db?0.2:0.0;
+			else if(0&&vk==5-1)return 1; 
 			else return vmk[15][vk];
 		}
 		else if(dv.cs==v::csp::d)
@@ -684,11 +685,12 @@ void k(int p,bool lp=0)
 								bool vdv=1;
 								if(pp)vdv=1;
 								if(vdv)
-									ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m?1:0)),vd,1,0,1,1.0/dm/
-										(pv0.vv==5?0.4
+									ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
+										(km<dm*m1?(
+										 pv0.vv==5?0.4
 										 :pv0.vv==3?0.5
 										 :pv0.vv==1?0.6
-										 :0.5));
+										 :0.5):0.9));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
@@ -716,7 +718,7 @@ void k(int p,bool lp=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m2,1,1.0/dm/0.5);
+								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-vvd,1,1.0/dm/0.5);
 							}
 						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
