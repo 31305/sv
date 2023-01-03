@@ -70,7 +70,7 @@ struct vv
 {
 	size_t pv0=0;
 	bool snv=0;
-	bool vpv=0;
+	size_t vpv=0;
 	size_t pv=0;
 };
 struct lsp
