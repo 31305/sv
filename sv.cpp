@@ -690,7 +690,9 @@ void k(int p,bool lp=0)
 										 pv0.vv==5?0.4
 										 :pv0.vv==3?0.5
 										 :pv0.vv==1?0.6
-										 :0.5):0.9));
+										 :0.5):
+										 !pv.sv?0.2:
+										 0.9));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
@@ -718,7 +720,7 @@ void k(int p,bool lp=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-vvd,1,1.0/dm/0.5);
+								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m1,1,1.0/dm/0.5);
 							}
 						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
