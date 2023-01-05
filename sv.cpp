@@ -871,7 +871,7 @@ void k(int p,bool lp=0)
 				break;
 			}
 		}
-		if(ct>ctdm)std::cout<<ct<<std::endl;
+		if(ct>ctdm)fprintf(stderr,"%lf\n",ct);
 		unsigned long k=0;
 		while(!ssv)
 		{
