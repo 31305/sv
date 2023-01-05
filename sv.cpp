@@ -430,7 +430,7 @@ void k(int p,bool lp=0,bool sl=0)
 			{
 				if(vyk->mc.ak(vyk->d,vyk->u)==0)
 				{
-					if(vyk->v)printf("<\n");
+					if(vyk->v)fprintf(stderr,"<\n");
 					*((float*)(d+k))=0;
 				}
 				else
@@ -873,7 +873,7 @@ void k(int p,bool lp=0,bool sl=0)
 				break;
 			}
 		}
-		if(ct>ctdm)std::cout<<ct<<std::endl;
+		if(ct>ctdm)fprintf(stderr,"%lf\n",ct);
 		unsigned long k=0;
 		while(!ssv)
 		{
