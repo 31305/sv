@@ -390,7 +390,7 @@ template<typename TFloat, unsigned int SectionDelay>
 void
 VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 {
-	config_.outputRate           = 44100;
+	config_.outputRate           = 16000;
 	config_.waveform             = 0;
 	config_.tp                   = 40;
 	config_.tnMin                = 24;
