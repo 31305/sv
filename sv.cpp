@@ -300,7 +300,7 @@ double hgv(const v &dv)
 {
 	if(dv.sm)
 	{
-		if(dv.cs==v::csp::t)return 4400;
+		if(dv.cs==v::csp::t)return 4600;
 		else if(dv.cs==v::csp::m)return 2500;
 		else if(dv.cs==v::csp::d)return 5500;
 	}
@@ -316,7 +316,7 @@ double hgd(const v &dv)
 {
 	if(dv.sm)
 	{
-		if(dv.cs==v::csp::t)return 2300;
+		if(dv.cs==v::csp::t)return 1000;
 		else if(dv.cs==v::csp::m)return 1700;
 		else if(dv.cs==v::csp::d)return 500;
 	}
@@ -407,14 +407,14 @@ void es(void(*k)(int),bool n)
 		if(write(ss,&s,1)==-1){};
 	}
 }
-void k(int p,bool lp=0)
+void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&lp,&ck,&yk,&vs]()
+	auto vk=[&lp,&ck,&yk,&vs,&sl]()
 	{
 		struct vyp
 		{
@@ -445,12 +445,12 @@ void k(int p,bool lp=0)
 		SDL_AudioSpec sn;
 		sn.freq=mt.outputSampleRate();
 		sn.format=AUDIO_F32;
-		sn.samples=1024;
+		sn.samples=256;
 		sn.callback=pc;
 		sn.userdata=&vy;
 		sn.channels=1;
 		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
-		SDL_PauseAudioDevice(ys,0);
+		if(!sl)SDL_PauseAudioDevice(ys,0);
 		bool ssv=1;
 		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
 		const double ctdm=12000;
@@ -561,7 +561,7 @@ void k(int p,bool lp=0)
 						gv[k]=dv;
 					}
 				}
-				auto vp=[&mt,&vy,&ct,&mk]()
+				auto vp=[&sl,&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
 					for(size_t k=0;k<mt.outputBuffer().size();k++)
@@ -570,7 +570,9 @@ void k(int p,bool lp=0)
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
 						double tp=mt.outputBuffer()[k];
 						ct=std::max(ct,abs(tp));
-						vy.mc.k[vy.u]=std::max(std::min(tp/ct,1.0),-1.0);
+						auto ls=std::max(std::min(tp/ct,1.0),-1.0);
+						vy.mc.k[vy.u]=ls;
+						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
 						vy.u=vy.mc.v(vy.u);
 					}
 					if(mt.outputBuffer().size()>0)
