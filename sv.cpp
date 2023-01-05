@@ -552,7 +552,15 @@ void k(int p,bool lp=0)
 				}
 				else continue;
 				if(1)for(size_t k=1;k+2<gv.size();k++)
+				{
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
+					if(gv[k].ns&&gv[k+1].vv)
+					{
+						v dv=gv[k+1];
+						dv.n=1;dv.sg=0;dv.mp=0;
+						gv[k]=dv;
+					}
+				}
 				auto vp=[&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
