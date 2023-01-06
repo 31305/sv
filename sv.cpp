@@ -848,6 +848,11 @@ void k(int p,bool lp=0,bool sl=0)
 							ps(mt.PARAM_RR0,0,dm*m1,1);
 							ps(mt.PARAM_RR1,0,dm*m1,1);
 						}
+						if(0&&pv.sd)
+						{
+							ps(mt.PARAM_GLOT_VOL,55,dm,1,dm*m2);
+							ps(mt.PARAM_GLOT_VOL,60,vd-dm*m2,1,dm);
+						}
 						double ks[mt.TOTAL_PARAMETERS];
 						const double vsv=0.07;
 						if(0)for(int k=0;k<(int)svk.size();k++)
