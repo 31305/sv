@@ -262,7 +262,7 @@ double vm(const v& dv,short vk,bool db=0)
 	{
 		if(dv.cs==v::csp::t)
 		{
-			if(vk==6-1)return 0.13;
+			if(vk==6-1)return 0.2;
 			else return vmk[14][vk];
 		}
 		else if(dv.cs==v::csp::m)
@@ -300,7 +300,7 @@ double hgv(const v &dv)
 {
 	if(dv.sm)
 	{
-		if(dv.cs==v::csp::t)return 4600;
+		if(dv.cs==v::csp::t)return 7000;
 		else if(dv.cs==v::csp::m)return 2500;
 		else if(dv.cs==v::csp::d)return 5500;
 	}
@@ -316,7 +316,7 @@ double hgd(const v &dv)
 {
 	if(dv.sm)
 	{
-		if(dv.cs==v::csp::t)return 1000;
+		if(dv.cs==v::csp::t)return 3000;
 		else if(dv.cs==v::csp::m)return 1700;
 		else if(dv.cs==v::csp::d)return 500;
 	}
@@ -566,11 +566,11 @@ void k(int p,bool lp=0,bool sl=0)
 					mt.execSynthesisStep();
 					for(size_t k=0;k<mt.outputBuffer().size();k++)
 					{
-						while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
+						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
 						double tp=mt.outputBuffer()[k];
 						ct=std::max(ct,abs(tp));
-						auto ls=std::max(std::min(tp/ct,1.0),-1.0);
+						float ls=std::max(std::min(tp/ct,1.0),-1.0);
 						vy.mc.k[vy.u]=ls;
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
 						vy.u=vy.mc.v(vy.u);
@@ -700,7 +700,9 @@ void k(int p,bool lp=0,bool sl=0)
 										 pv0.vv==5?0.4
 										 :pv0.vv==3?0.5
 										 :pv0.vv==1?0.6
-										 :0.5):0.9));
+										 :0.5):
+										 pv.vv?0.2:
+										 0.9));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
@@ -728,7 +730,13 @@ void k(int p,bool lp=0,bool sl=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k):nv(svm(pv.sg?gr(pv):pv,k,1),svm(pv1,k),0),vd,1,vd-dm*m1,1,1.0/dm/0.5);
+								ps(svk[k],
+										(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k)
+										:nv(svm(pv.sg?gr(pv):pv,k,1)
+											,(pv.vv==1&&pv1.nt&&pv1.cs==v::csp::m
+												&&svk[k]==mt.PARAM_R6A)?0.4:svm(pv1,k)
+											,0)
+										,vd,1,vd-dm*m1,1,1.0/dm/0.5);
 							}
 						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
@@ -783,7 +791,7 @@ void k(int p,bool lp=0,bool sl=0)
 								ms[1][mt.PARAM_FRIC_CF]=hgv(pv);
 								ms[1][mt.PARAM_FRIC_BW]=hgd(pv);
 							}
-							const double gt=pv.cs==v::csp::m?35:30;
+							const double gt=(pv.cs==v::csp::m)?35:30;
 							if(!dv&&pv0.vv&&!pv.n)ms[1][mt.PARAM_FRIC_VOL]=gt;
 							ps(mt.PARAM_FRIC_VOL,gt,dm*m1,1);
 							if(!(!nv&&pv1.sm))
@@ -991,6 +999,8 @@ int main(int argc,char** argv)
 		printf("0|1?\n");
 	else if(argv[1][0]=='3')
 		k(0,1);
+	else if(argv[1][0]=='6')
+		k(0,1,1);
 	else if(argv[1][0]=='2')
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
