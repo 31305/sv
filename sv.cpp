@@ -739,7 +739,7 @@ void k(int p,bool lp=0,bool sl=0)
 											,(pv.vv==1&&pv1.nt&&pv1.cs==v::csp::m
 												&&svk[k]==mt.PARAM_R6A)?0.4:svm(pv1,k)
 											,0)
-										,vd,1,vd-dm*m1,1,1.0/dm/0.5);
+										,vd,1,vd-dm*(pv.sv?m2:m1),1,1.0/dm/0.5);
 							}
 						if(pv.sd)
 							for(size_t k=0;k<svk.size();k++)
@@ -857,10 +857,11 @@ void k(int p,bool lp=0,bool sl=0)
 							ps(mt.PARAM_GLOT_VOL,60,vd-dm*m2,1,dm);
 						}
 						double ks[mt.TOTAL_PARAMETERS];
-						const double vsv=0.07;
+						const double vsv=0.05;
 						if(0)for(int k=0;k<(int)svk.size();k++)
 							ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
-						if(0)ms[1][mt.PARAM_GLOT_PITCH]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX	);
+						double ssv=0.2;
+						if(0)ms[0][mt.PARAM_GLOT_PITCH]*=(1.0-ssv+2.0*ssv*(double)rand()/(double)RAND_MAX	);
 						double tvsv=0.011;
 						if(0)ms[1][mt.PARAM_GLOT_VOL]*=(1.0-tvsv+2.0*tvsv*(double)rand()/(double)RAND_MAX);
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
