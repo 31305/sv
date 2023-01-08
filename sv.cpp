@@ -146,8 +146,12 @@ unsigned char tns(KeySym t)
 	return 0;
 }
 const bool pp=0;
-const double nv=1?0.1:GS_VTM5_MIN_RADIUS;
+const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
+double vnv(const v &dv,bool db)
+{
+	return (dv.sg||dv.n)?sgvv:nv;
+}
 double vm(const v& dv,short vk,bool db=0)
 {
 	double vmk[][8]=
@@ -217,12 +221,12 @@ double vm(const v& dv,short vk,bool db=0)
 	else if(dv.vs)return vmk[12][vk];
 	else if(dv.vv==1)
 	{
-		if(vk==5-1)return dv.sg?sgvv:nv;
+		if(vk==5-1)return vnv(dv,db);
 		else return vmk[13][vk];
 	}
 	else if(dv.vv==2)
 	{
-		if(vk==6-1)return dv.sg?sgvv:nv;
+		if(vk==6-1)return vnv(dv,db);
 		else return vmk[14][vk];
 	}
 	else if(dv.vv==3)
@@ -232,12 +236,12 @@ double vm(const v& dv,short vk,bool db=0)
 	}
 	else if(dv.vv==4)
 	{
-		if(vk==7-1||vk==6-1)return dv.sg?sgvv:nv;
+		if(vk==7-1||vk==6-1)return vnv(dv,db);
 		else return vmk[16][vk];
 	}
 	else if(dv.vv==5)
 	{
-		if(vk==8-1)return dv.sg?sgvv:nv;
+		if(vk==8-1)return vnv(dv,db);
 		else return vmk[11][vk];
 	}
 	else if(dv.nt)
@@ -246,7 +250,7 @@ double vm(const v& dv,short vk,bool db=0)
 			return vmk[17][vk];
 		else if(dv.cs==v::csp::m)
 		{
-			if(vk==6-1)return 0?0:!db?0.2:0.0;
+			if(vk==6-1)return 1?0:!db?0.2:0.0;
 			else if(0&&vk==5-1)return 1; 
 			else return vmk[15][vk];
 		}
@@ -276,7 +280,7 @@ double vm(const v& dv,short vk,bool db=0)
 }
 double sdvm(const v &dv,bool db=0)
 {
-	if(dv.vv==3)return dv.sg?sgvv:nv;
+	if(dv.vv==3)return vnv(dv,db);
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1,db);
 }
@@ -660,7 +664,7 @@ void k(int p,bool lp=0,bool sl=0)
 							else return sdvm(dv,db);
 						};
 						const double ds=-15,ns=-17;
-						const double ndv=0.1,nnv=0.5;
+						const double ndv=vnv(vc[51],1),nnv=0.5;
 						if(vk==0&&k==0)
 						{
 							mt.reset();
@@ -699,13 +703,12 @@ void k(int p,bool lp=0,bool sl=0)
 								if(pp)vdv=1;
 								if(vdv)
 									ps(svk[k],svm(pv,k),vd,1,0,1,1.0/dm/
-										(km<dm*m1?(
-										 pv0.vv==5?0.4
-										 :pv0.vv==3?0.5
-										 :pv0.vv==1?0.6
-										 :0.5):
-										 pv.vv?0.2:
-										 0.9));
+										(km<dm*m1&&pv0.vv==5&&svk[k]==mt.PARAM_R8?0.4
+										 :km<dm*m1&&pv0.vv==3&&svk[k]==mt.PARAM_R6A?0.5
+										 :km<dm*m1&&pv0.vv==1&&svk[k]==mt.PARAM_R5?0.6
+										 :km<dm*m1&&pv0.vv==4&&svk[k]==mt.PARAM_R7?0.6
+										 :km<dm*m1&&pv0.vv==2&&svk[k]==mt.PARAM_R6?0.6
+										 :pv.vv?0.2:(pv.nt&&pv.cs==v::csp::m)?0.9:km<dm*m2?0.7:0.5));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
@@ -719,10 +722,11 @@ void k(int p,bool lp=0,bool sl=0)
 										:pv.vv==1?0.5
 										:1);
 							}
-						auto gr=[](const v& dv)
+						[[maybe_unused]]auto gr=[](const v& dv)
 						{
 							v nv=dv;
 							nv.sg=0;
+							nv.n=0;
 							return nv;
 						};
 						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k))
@@ -733,11 +737,11 @@ void k(int p,bool lp=0,bool sl=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								ps(svk[k],
+								if(!(pv.vv&&!pv.n&&pv1.nt&&pv1.cs==v::csp::m))
+									ps(svk[k],
 										(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k)
-										:nv(svm(pv.sg?gr(pv):pv,k,1)
-											,(pv.vv==1&&pv1.nt&&pv1.cs==v::csp::m
-												&&svk[k]==mt.PARAM_R6A)?0.4:svm(pv1,k)
+										:nv(svm(pv,k,1)
+											,svm(pv1,k)
 											,0)
 										,vd,1,vd-dm*(pv.sv?m2:m1),1,1.0/dm/0.5);
 							}
@@ -769,7 +773,7 @@ void k(int p,bool lp=0,bool sl=0)
 								if(pv.sv||pv.nt)
 									ps(mt.PARAM_VELUM,nnv,vd,1,vd-dm*m2);
 							}
-							else if(!pv.n||pv.vv==3)
+							else if(!pv.n)
 								ps(mt.PARAM_VELUM,pv.n?nnv/2.0:ndv,vd,1,vd-dm*m2);
 						}
 						if(0&&!pv.n&&k==0&&!dv&&pv0.n)
@@ -783,8 +787,8 @@ void k(int p,bool lp=0,bool sl=0)
 						if(pv.sv||pv.nt||pv.n||pv.sg)
 							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
-						if(pv.vv&&pv.vv!=2&&!(!nv&&(pv1.vv==pv.vv||(pv.vv==5&&((pv1.nt&&(pv1.cs==v::csp::t||pv1.cs==v::csp::m))))))&&!nv)
-							ps(mt.PARAM_VB,pv.n?5:(pv.vv==4&&pv1.vv==1)?0:10,vd,1,vd-dm*m1);
+						if(pv.vv&&pv.vv!=2&&!(!nv&&(pv1.vv==pv.vv))&&!nv)
+							ps(mt.PARAM_VB,pv.n?5:1,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						if(pv.sm&&!(pv.cs==v::csp::k))
 						{
