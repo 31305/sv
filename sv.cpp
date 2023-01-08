@@ -708,7 +708,7 @@ void k(int p,bool lp=0,bool sl=0)
 										 :km<dm*m1&&pv0.vv==1&&svk[k]==mt.PARAM_R5?0.6
 										 :km<dm*m1&&pv0.vv==4&&svk[k]==mt.PARAM_R7?0.6
 										 :km<dm*m1&&pv0.vv==2&&svk[k]==mt.PARAM_R6?0.6
-										 :pv.vv?0.2:(pv.nt&&pv.cs==v::csp::m)?0.9:km<dm*m2?0.7:0.5));
+										 :km<dm*m1?0.5:pv.vv?0.2:(pv.nt&&pv.cs==v::csp::m)?0.9:km<dm*m2?0.7:0.5));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
