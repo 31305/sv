@@ -708,7 +708,7 @@ void k(int p,bool lp=0,bool sl=0)
 										 :km<dm*m1&&pv0.vv==1&&svk[k]==mt.PARAM_R5?0.6
 										 :km<dm*m1&&pv0.vv==4&&svk[k]==mt.PARAM_R7?0.6
 										 :km<dm*m1&&pv0.vv==2&&svk[k]==mt.PARAM_R6?0.6
-										 :km<dm*m1?0.5:pv.vv?0.2:(pv.nt&&pv.cs==v::csp::m)?0.9:km<dm*m2?0.7:0.5));
+										 :pv.vv?(km<dm*m1?0.5:0.2):(pv.nt&&pv.cs==v::csp::m)?0.9:km<dm*m2?0.7:0.5));
 								else ps(svk[k],svm(pv,k,(pv.nt&&pv.cs==v::csp::m)?1:0),vd,1,0,1,1.0/dm/
 										(svk[k]==mt.PARAM_R8?0.4
 										 :svk[k]==mt.PARAM_R6A?0.5
@@ -729,7 +729,8 @@ void k(int p,bool lp=0,bool sl=0)
 							nv.n=0;
 							return nv;
 						};
-						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k))
+						if(!nv&&!pv1.vs&&!(pv1.sm&&pv1.cs==v::csp::k)
+								&&!(pv.vv&&!pv.n&&pv1.nt&&pv1.cs==v::csp::m))
 							for(size_t k=0;k<svk.size();k++)
 							{
 								auto nv=[k](double s1,double s2,bool pc)
@@ -737,8 +738,7 @@ void k(int p,bool lp=0,bool sl=0)
 									if(k<4&&pc)return 0?(s1+s2)*0.5:std::max(s1,s2);
 									else return std::min(s1,s2);
 								};
-								if(!(pv.vv&&!pv.n&&pv1.nt&&pv1.cs==v::csp::m))
-									ps(svk[k],
+								ps(svk[k],
 										(pv.vs||pv.ns||(pv.sm&&pv.cs==v::csp::k))?svm(pv1,k)
 										:nv(svm(pv,k,1)
 											,svm(pv1,k)
