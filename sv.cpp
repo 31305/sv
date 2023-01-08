@@ -150,7 +150,7 @@ const double nv=1?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
 double vnv(const v &dv,bool db)
 {
-	return (dv.sg||dv.n)?sgvv:nv;
+	return (!db&&(dv.sg||dv.n))?sgvv:nv;
 }
 double vm(const v& dv,short vk,bool db=0)
 {
