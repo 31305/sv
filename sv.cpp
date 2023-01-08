@@ -146,7 +146,7 @@ unsigned char tns(KeySym t)
 	return 0;
 }
 const bool pp=0;
-const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
+const double nv=1?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
 double vnv(const v &dv,bool db)
 {
@@ -664,7 +664,7 @@ void k(int p,bool lp=0,bool sl=0)
 							else return sdvm(dv,db);
 						};
 						const double ds=-15,ns=-17;
-						const double ndv=vnv(vc[51],1),nnv=0.5;
+						const double ndv=1?0.1:vnv(vc[51],1),nnv=0.5;
 						if(vk==0&&k==0)
 						{
 							mt.reset();
@@ -774,7 +774,7 @@ void k(int p,bool lp=0,bool sl=0)
 									ps(mt.PARAM_VELUM,nnv,vd,1,vd-dm*m2);
 							}
 							else if(!pv.n)
-								ps(mt.PARAM_VELUM,pv.n?nnv/2.0:ndv,vd,1,vd-dm*m2);
+								ps(mt.PARAM_VELUM,pv.n?nnv/2.0:ndv,vd-dm*m1,1,vd-dm*m2);
 						}
 						if(0&&!pv.n&&k==0&&!dv&&pv0.n)
 						{
@@ -788,7 +788,7 @@ void k(int p,bool lp=0,bool sl=0)
 							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						if(pv.vv&&pv.vv!=2&&!(!nv&&(pv1.vv==pv.vv))&&!nv)
-							ps(mt.PARAM_VB,pv.n?5:1,vd,1,vd-dm*m1);
+							ps(mt.PARAM_VB,pv.n?5:10,vd,1,vd-dm*m1);
 						ps(mt.PARAM_VB,0,dm*m1,1);
 						if(pv.sm&&!(pv.cs==v::csp::k))
 						{
