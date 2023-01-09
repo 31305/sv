@@ -395,7 +395,7 @@ VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 	config_.tp                   = 40;
 	config_.tnMin                = 24;
 	config_.tnMax                = 24;
-	config_.breathiness          = 5;
+	config_.breathiness          = 0;
 	config_.length               = 17.5;
 	if(char *c=getenv("MD"))
 		sscanf(c,"%lf",&config_.length);
@@ -747,7 +747,8 @@ VocalTractModel5<TFloat, SectionDelay>::vocalTract(TFloat input, TFloat fricatio
 	}
 
 	// Return summed output from mouth and nose.
-	return mouthOutputFlow + nasalOutputFlow;
+	return mouthOutputFlow
+		+ nasalOutputFlow*(1?1.0:std::max(0.0,currentParameter_[PARAM_VELUM]-GS_VTM5_MIN_RADIUS)*2.0);
 }
 
 template<typename TFloat, unsigned int SectionDelay>
