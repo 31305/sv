@@ -21,27 +21,35 @@ struct smk
 	LPCNetEncState *s1;
 	LPCNetState *s2;
 	FILE* fin,*fout;
+	short pcm[LPCNET_FRAME_SIZE];
+	size_t b=0;
 	smk()
 	{
 		s1=lpcnet_encoder_create();
 		s2=lpcnet_create();
 	}
+	bool bk(double s)
+	{
+		if(b<LPCNET_FRAME_SIZE)
+		{
+			pcm[b]=s;
+			b++;
+			return 0;
+		}
+		else 
+		{
+			k();
+			b=0;
+			return 1;
+		}
+	}
 	void k()
 	{
 		float features[NB_TOTAL_FEATURES];
-		short pcm[LPCNET_FRAME_SIZE];
-		size_t ret;
-		ret = fread(pcm, sizeof(pcm[0]), LPCNET_FRAME_SIZE, fin);
-		if (feof(fin) || ret != LPCNET_FRAME_SIZE)return;
 		lpcnet_compute_single_frame_features(s1, pcm, features);
-		fwrite(features, sizeof(float), NB_TOTAL_FEATURES, fout);
-		float *in_features=features;
 		float nl[NB_FEATURES];
-		ret = fread(in_features, sizeof(features[0]), NB_TOTAL_FEATURES, fin);
-		if (feof(fin) || ret != NB_TOTAL_FEATURES)return;
-		RNN_COPY(nl, in_features, NB_FEATURES);
+		RNN_COPY(nl, features, NB_FEATURES);
 		lpcnet_synthesize(s2, features, pcm, LPCNET_FRAME_SIZE);
-		fwrite(pcm, sizeof(pcm[0]), LPCNET_FRAME_SIZE, fout);
 	}
 	~smk()
 	{
@@ -463,7 +471,7 @@ void k(int p,bool lp=0,bool sl=0)
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&lp,&ck,&yk,&vs,&sl]()
+	auto vk=[&ssmk,&lp,&ck,&yk,&vs,&sl]()
 	{
 		struct vyp
 		{
@@ -491,6 +499,7 @@ void k(int p,bool lp=0,bool sl=0)
 		};
 		GS::VTM::VocalTractModel5<double,1> mt;
 		double pg=44100;
+		bool mkb=1;
 		vyp vy(48000);
 		SDL_AudioSpec sn;
 		sn.freq=mt.outputSampleRate();
@@ -551,7 +560,7 @@ void k(int p,bool lp=0,bool sl=0)
 						pv.push_back(vk);
 					}
 				};
-				if(!sl&&yk==5)
+				auto bvp=[&mt,&pg,&sn,&ys,&mkb]()
 				{
 					double sg=mt.outputSampleRate();
 					mt.tgp(pg);
@@ -561,8 +570,8 @@ void k(int p,bool lp=0,bool sl=0)
 					ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
 					SDL_PauseAudioDevice(ys,0);
 					pg=sg;
-					yk=0;continue;
-				}
+					mkb=!mkb;
+				};
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -579,8 +588,13 @@ void k(int p,bool lp=0,bool sl=0)
 						while(g>>v)
 							gv.push_back(vc[v]);
 						yk=0;
+						if(!mkb)bvp();
 					}
-					else if(yk==16)yk=0;
+					else if(yk==16)
+					{
+						yk=0;
+						if(mkb)bvp();
+					}
 					else {yk=0;continue;}
 				}
 				else if(yk==16)
@@ -588,6 +602,7 @@ void k(int p,bool lp=0,bool sl=0)
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
 					vsk(kp);
+					if(mkb)bvp();
 					continue;
 				}
 				else if(pv.size()>0)
@@ -601,6 +616,7 @@ void k(int p,bool lp=0,bool sl=0)
 					yk=0;
 					if(ls[kp].pv)
 						vsk(ls[kp].pv);
+					if(!mkb)bvp();
 					continue;
 				}
 				else if(yk==12)
@@ -625,19 +641,30 @@ void k(int p,bool lp=0,bool sl=0)
 						gv[k]=dv;
 					}
 				}
-				auto vp=[&sl,&mt,&vy,&ct,&mk]()
+				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&mk]()
 				{
 					mt.execSynthesisStep();
-					for(size_t k=0;k<mt.outputBuffer().size();k++)
+					auto p=[&](double ds)
 					{
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
-						double tp=mt.outputBuffer()[k];
+						double tp=ds;
 						ct=std::max(ct,abs(tp));
 						float ls=std::max(std::min(tp/ct,1.0),-1.0);
 						vy.mc.k[vy.u]=ls;
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
 						vy.u=vy.mc.v(vy.u);
+					};
+					for(size_t k=0;k<mt.outputBuffer().size();k++)
+					{
+						if(!mkb)
+							p(mt.outputBuffer()[k]);
+						else
+						{
+							if(ssmk.bk(mt.outputBuffer()[k]))
+								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
+									p(ssmk.pcm[k]);
+						}
 					}
 					if(mt.outputBuffer().size()>0)
 						mt.outputBuffer().resize(0);
