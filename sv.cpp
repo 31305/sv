@@ -662,7 +662,7 @@ void k(int p,bool lp=0,bool sl=0)
 							p(mt.outputBuffer()[k]);
 						else
 						{
-							if(ssmk.bk(mt.outputBuffer()[k]/24000.0*SHRT_MAX))
+							if(ssmk.bk(std::min(mt.outputBuffer()[k]/24000.0,1.0)*SHRT_MAX))
 								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
 									p((double)ssmk.pcm[k]/(double)SHRT_MAX);
 						}
