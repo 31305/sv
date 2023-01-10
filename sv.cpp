@@ -513,8 +513,6 @@ void k(int p,bool lp=0,bool sl=0)
 		if(!sl)SDL_PauseAudioDevice(ys,0);
 		bool ssv=1;
 		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
-		const double ctdm=12000;
-		double ct=ctdm;
 		double ms[2][mt.TOTAL_PARAMETERS];
 		for(int k=0;k<2;k++)
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
@@ -573,6 +571,12 @@ void k(int p,bool lp=0,bool sl=0)
 					pg=sg;
 					mkb=!mkb;
 				};
+				if(yk==16)
+				{
+					if(mkb)bvp();
+				}
+				else if(!pv.size())
+					if(!mkb)bvp();
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -589,12 +593,10 @@ void k(int p,bool lp=0,bool sl=0)
 						while(g>>v)
 							gv.push_back(vc[v]);
 						yk=0;
-						if(!mkb)bvp();
 					}
 					else if(yk==16)
 					{
 						yk=0;
-						if(mkb)bvp();
 					}
 					else {yk=0;continue;}
 				}
@@ -603,7 +605,6 @@ void k(int p,bool lp=0,bool sl=0)
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
 					vsk(kp);
-					if(mkb)bvp();
 					continue;
 				}
 				else if(pv.size()>0)
@@ -617,7 +618,6 @@ void k(int p,bool lp=0,bool sl=0)
 					yk=0;
 					if(ls[kp].pv)
 						vsk(ls[kp].pv);
-					if(!mkb)bvp();
 					continue;
 				}
 				else if(yk==12)
@@ -642,27 +642,29 @@ void k(int p,bool lp=0,bool sl=0)
 						gv[k]=dv;
 					}
 				}
+				const double ctdm=mkb?24000:12000;
+				double ct=ctdm;
 				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
-					auto p=[&](double ds)
+					auto p=[&](double ls)
 					{
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
-						double tp=ds;
-						ct=std::max(ct,abs(tp));
-						float ls=!mkb?std::max(std::min(tp/ctdm,1.0),-1.0):tp;
 						vy.mc.k[vy.u]=ls;
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
 						vy.u=vy.mc.v(vy.u);
 					};
 					for(size_t k=0;k<mt.outputBuffer().size();k++)
 					{
+						double tp=mt.outputBuffer()[k];
+						ct=std::max(ct,abs(tp));
+						float ls=std::max(std::min(tp/ctdm,1.0),-1.0);
 						if(!mkb)
-							p(mt.outputBuffer()[k]);
+							p(ls);
 						else
 						{
-							if(ssmk.bk(std::min(mt.outputBuffer()[k]/24000.0,1.0)*SHRT_MAX))
+							if(ssmk.bk(ls*SHRT_MAX))
 								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
 									p((double)ssmk.pcm[k]/(double)SHRT_MAX);
 						}
@@ -984,6 +986,7 @@ void k(int p,bool lp=0,bool sl=0)
 				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
+				if(ct>ctdm)fprintf(stderr,"%lf > %lf\n",ct,ctdm);
 				vss=0.001*(double)SDL_GetTicks();
 			}
 			vy.v=0;
@@ -993,7 +996,6 @@ void k(int p,bool lp=0,bool sl=0)
 				break;
 			}
 		}
-		if(ct>ctdm)fprintf(stderr,"%lf\n",ct);
 		unsigned long k=0;
 		while(!ssv)
 		{
