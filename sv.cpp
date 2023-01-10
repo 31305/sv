@@ -10,6 +10,46 @@
 #include<X11/XKBlib.h>
 #define XK_MISCELLANY
 #include<X11/keysymdef.h>
+#ifdef SMK
+extern "C"
+{
+#include"LPCNet/include/lpcnet.h"
+#include"LPCNet/src/common.h"
+}
+struct smk
+{
+	LPCNetEncState *s1;
+	LPCNetState *s2;
+	FILE* fin,*fout;
+	smk()
+	{
+		s1=lpcnet_encoder_create();
+		s2=lpcnet_create();
+	}
+	void k()
+	{
+		float features[NB_TOTAL_FEATURES];
+		short pcm[LPCNET_FRAME_SIZE];
+		size_t ret;
+		ret = fread(pcm, sizeof(pcm[0]), LPCNET_FRAME_SIZE, fin);
+		if (feof(fin) || ret != LPCNET_FRAME_SIZE)return;
+		lpcnet_compute_single_frame_features(s1, pcm, features);
+		fwrite(features, sizeof(float), NB_TOTAL_FEATURES, fout);
+		float *in_features=features;
+		float nl[NB_FEATURES];
+		ret = fread(in_features, sizeof(features[0]), NB_TOTAL_FEATURES, fin);
+		if (feof(fin) || ret != NB_TOTAL_FEATURES)return;
+		RNN_COPY(nl, in_features, NB_FEATURES);
+		lpcnet_synthesize(s2, features, pcm, LPCNET_FRAME_SIZE);
+		fwrite(pcm, sizeof(pcm[0]), LPCNET_FRAME_SIZE, fout);
+	}
+	~smk()
+	{
+		lpcnet_encoder_destroy(s1);
+		lpcnet_destroy(s2);
+	}
+};
+#endif
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -415,6 +455,9 @@ void es(void(*k)(int),bool n)
 }
 void k(int p,bool lp=0,bool sl=0)
 {
+#ifdef SMK
+	smk ssmk;
+#endif
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
@@ -447,7 +490,8 @@ void k(int p,bool lp=0,bool sl=0)
 			}
 		};
 		GS::VTM::VocalTractModel5<double,1> mt;
-		vyp vy(mt.outputSampleRate());
+		double pg=44100;
+		vyp vy(48000);
 		SDL_AudioSpec sn;
 		sn.freq=mt.outputSampleRate();
 		sn.format=AUDIO_F32;
@@ -475,7 +519,7 @@ void k(int p,bool lp=0,bool sl=0)
 			std::basic_string<v> gv;
 			while(ck)	
 			{
-				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
+				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=5&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
@@ -507,6 +551,18 @@ void k(int p,bool lp=0,bool sl=0)
 						pv.push_back(vk);
 					}
 				};
+				if(!sl&&yk==5)
+				{
+					double sg=mt.outputSampleRate();
+					mt.tgp(pg);
+					SDL_PauseAudioDevice(ys,1);
+					SDL_CloseAudioDevice(ys);
+					sn.freq=pg;
+					ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
+					SDL_PauseAudioDevice(ys,0);
+					pg=sg;
+					yk=0;continue;
+				}
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -954,6 +1010,10 @@ void k(int p,bool lp=0,bool sl=0)
 			if(g.type==KeyPress)
 			{
 				auto t=tns(XLookupKeysym(&(g.xkey),1));
+				if(t==5)
+				{
+					yk=5;
+				}
 				if(yk==0)
 				{
 					if(t==9)ck=0;

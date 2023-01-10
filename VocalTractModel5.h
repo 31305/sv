@@ -61,6 +61,17 @@ public:
 
 	virtual double internalSampleRate() const { return sampleRate_; }
 	virtual double outputSampleRate() const { return config_.outputRate; }
+	void ps()
+	{
+		srConv_ = std::make_unique<SampleRateConverter<TFloat>>(
+						sampleRate_,
+						config_.outputRate,
+						[&](float sample) {
+							// Does not use the 0.5 factor.
+							outputBuffer_.push_back(outputDiffFilter_.filter(sample) * config_.outputRate);
+						});
+	}
+	void tgp(TFloat ng){ config_.outputRate = ng; ps(); };
 
 	virtual void setParameter(int parameter, float value);
 	virtual void setAllParameters(const std::vector<float>& parameters);
@@ -390,7 +401,7 @@ template<typename TFloat, unsigned int SectionDelay>
 void
 VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 {
-	config_.outputRate           = 44100;
+	config_.outputRate           = 16000;
 	config_.waveform             = 0;
 	config_.tp                   = 40;
 	config_.tnMin                = 24;
@@ -515,13 +526,7 @@ VocalTractModel5<TFloat, SectionDelay>::initializeSynthesizer()
 							outputBuffer_.push_back(sample);
 						});
 	} else {
-		srConv_ = std::make_unique<SampleRateConverter<TFloat>>(
-						sampleRate_,
-						config_.outputRate,
-						[&](float sample) {
-							// Does not use the 0.5 factor.
-							outputBuffer_.push_back(outputDiffFilter_.filter(sample) * config_.outputRate);
-						});
+		ps();
 	}
 
 	bandpassFilter_       = std::make_unique<BandpassFilter<TFloat>>();
