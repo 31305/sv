@@ -320,7 +320,7 @@ double hgd(const v &dv)
 {
 	if(dv.sm)
 	{
-		if(dv.cs==v::csp::t)return 3000;
+		if(dv.cs==v::csp::t)return 1000;
 		else if(dv.cs==v::csp::m)return 1700;
 		else if(dv.cs==v::csp::d)return 500;
 	}
@@ -475,10 +475,11 @@ void k(int p,bool lp=0,bool sl=0)
 			std::basic_string<v> gv;
 			while(ck)	
 			{
-				while(!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
+				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
-					std::this_thread::sleep_for(std::chrono::milliseconds((int)(ks*1000.0)));
+					std::this_thread::sleep_for(std::chrono::milliseconds
+							((int)(ks*1000.0)));
 				}
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
@@ -508,7 +509,7 @@ void k(int p,bool lp=0,bool sl=0)
 				};
 				if(lp)
 				{
-					if(yk==3)
+					if(yk==3||sl)
 					{
 						gv.resize(0);
 						std::string l;
