@@ -1,4 +1,5 @@
 #include"VocalTractModel5.h"
+#include<climits>
 #include<SDL.h>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -641,7 +642,7 @@ void k(int p,bool lp=0,bool sl=0)
 						gv[k]=dv;
 					}
 				}
-				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&mk]()
+				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
 					auto p=[&](double ds)
@@ -650,7 +651,7 @@ void k(int p,bool lp=0,bool sl=0)
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
 						double tp=ds;
 						ct=std::max(ct,abs(tp));
-						float ls=std::max(std::min(tp/ct,1.0),-1.0);
+						float ls=!mkb?std::max(std::min(tp/ctdm,1.0),-1.0):tp;
 						vy.mc.k[vy.u]=ls;
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
 						vy.u=vy.mc.v(vy.u);
@@ -661,9 +662,9 @@ void k(int p,bool lp=0,bool sl=0)
 							p(mt.outputBuffer()[k]);
 						else
 						{
-							if(ssmk.bk(mt.outputBuffer()[k]))
+							if(ssmk.bk(mt.outputBuffer()[k]/24000.0*SHRT_MAX))
 								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
-									p(ssmk.pcm[k]);
+									p((double)ssmk.pcm[k]/(double)SHRT_MAX);
 						}
 					}
 					if(mt.outputBuffer().size()>0)
