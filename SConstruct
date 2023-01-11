@@ -1,4 +1,4 @@
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-g -Wall')
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-g -Wall',LIBS='pthread')
 e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
 e.Tool('compilation_db')
 e.CompilationDatabase()
