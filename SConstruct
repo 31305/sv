@@ -1,4 +1,4 @@
-smk=True
+smk=0
 e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS='-g -Wall')
 e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
 if smk:

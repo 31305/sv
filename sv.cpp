@@ -466,6 +466,8 @@ void k(int p,bool lp=0,bool sl=0)
 {
 #ifdef SMK
 	smk ssmk;
+#else
+	int ssmk;
 #endif
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
@@ -500,7 +502,8 @@ void k(int p,bool lp=0,bool sl=0)
 		};
 		GS::VTM::VocalTractModel5<double,1> mt;
 		double pg=44100;
-		bool mkb=1;
+		bool mkbk=getenv("SDSN")&&getenv("MKB")&&!sl;
+		bool mkb=mkbk;
 		vyp vy(48000);
 		SDL_AudioSpec sn;
 		sn.freq=mt.outputSampleRate();
@@ -559,15 +562,18 @@ void k(int p,bool lp=0,bool sl=0)
 						pv.push_back(vk);
 					}
 				};
-				auto bvp=[&mt,&pg,&sn,&ys,&mkb]()
+				auto bvp=[&sl,&mt,&pg,&sn,&ys,&mkb]()
 				{
 					double sg=mt.outputSampleRate();
 					mt.tgp(pg);
-					SDL_PauseAudioDevice(ys,1);
-					SDL_CloseAudioDevice(ys);
-					sn.freq=pg;
-					ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
-					SDL_PauseAudioDevice(ys,0);
+					if(!sl)
+					{
+						SDL_PauseAudioDevice(ys,1);
+						SDL_CloseAudioDevice(ys);
+						sn.freq=pg;
+						ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
+						SDL_PauseAudioDevice(ys,0);
+					}
 					pg=sg;
 					mkb=!mkb;
 				};
@@ -576,7 +582,7 @@ void k(int p,bool lp=0,bool sl=0)
 					if(mkb)bvp();
 				}
 				else if(!pv.size())
-					if(!mkb)bvp();
+					if(!mkb&&mkbk)bvp();
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -642,12 +648,12 @@ void k(int p,bool lp=0,bool sl=0)
 						gv[k]=dv;
 					}
 				}
-				const double ctdm=mkb?24000:12000;
+				const double ctdm=mkb?12000:12000;
 				double ct=ctdm;
 				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
-					auto p=[&](double ls)
+					auto p=[&](float ls)
 					{
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
@@ -664,9 +670,13 @@ void k(int p,bool lp=0,bool sl=0)
 							p(ls);
 						else
 						{
+#ifdef SMK
 							if(ssmk.bk(ls*SHRT_MAX))
 								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
 									p((double)ssmk.pcm[k]/(double)SHRT_MAX);
+#else
+							p(ls);
+#endif
 						}
 					}
 					if(mt.outputBuffer().size()>0)
