@@ -402,8 +402,6 @@ void
 VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 {
 	config_.outputRate           = 44100;
-	if(getenv("SDSN"))
-		config_.outputRate=16000;
 	config_.waveform             = 0;
 	config_.tp                   = 50;
 	config_.tnMin                = 44;
