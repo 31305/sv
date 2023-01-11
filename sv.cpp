@@ -11,54 +11,6 @@
 #include<X11/XKBlib.h>
 #define XK_MISCELLANY
 #include<X11/keysymdef.h>
-#ifdef SMK
-extern "C"
-{
-#include"LPCNet/include/lpcnet.h"
-#include"LPCNet/src/common.h"
-}
-struct smk
-{
-	LPCNetEncState *s1;
-	LPCNetState *s2;
-	FILE* fin,*fout;
-	short pcm[LPCNET_FRAME_SIZE];
-	size_t b=0;
-	smk()
-	{
-		s1=lpcnet_encoder_create();
-		s2=lpcnet_create();
-	}
-	bool bk(double s)
-	{
-		if(b<LPCNET_FRAME_SIZE)
-		{
-			pcm[b]=s;
-			b++;
-			return 0;
-		}
-		else 
-		{
-			k();
-			b=0;
-			return 1;
-		}
-	}
-	void k()
-	{
-		float features[NB_TOTAL_FEATURES];
-		lpcnet_compute_single_frame_features(s1, pcm, features);
-		float nl[NB_FEATURES];
-		RNN_COPY(nl, features, NB_FEATURES);
-		lpcnet_synthesize(s2, features, pcm, LPCNET_FRAME_SIZE);
-	}
-	~smk()
-	{
-		lpcnet_encoder_destroy(s1);
-		lpcnet_destroy(s2);
-	}
-};
-#endif
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -464,17 +416,12 @@ void es(void(*k)(int),bool n)
 }
 void k(int p,bool lp=0,bool sl=0)
 {
-#ifdef SMK
-	smk ssmk;
-#else
-	int ssmk;
-#endif
 	SDL_Init(SDL_INIT_AUDIO);
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
 	std::vector<unsigned char> nv;
-	auto vk=[&ssmk,&lp,&ck,&yk,&vs,&sl]()
+	auto vk=[&lp,&ck,&yk,&vs,&sl]()
 	{
 		struct vyp
 		{
@@ -501,9 +448,6 @@ void k(int p,bool lp=0,bool sl=0)
 			}
 		};
 		GS::VTM::VocalTractModel5<double,1> mt;
-		double pg=44100;
-		bool mkbk=getenv("SDSN")&&getenv("MKB")&&!sl;
-		bool mkb=mkbk;
 		vyp vy(48000);
 		SDL_AudioSpec sn;
 		sn.freq=mt.outputSampleRate();
@@ -562,27 +506,18 @@ void k(int p,bool lp=0,bool sl=0)
 						pv.push_back(vk);
 					}
 				};
-				auto bvp=[&sl,&mt,&pg,&sn,&ys,&mkb]()
+				[[maybe_unused]]auto bvp=[&sl,&mt,&sn,&ys](double ng)
 				{
-					double sg=mt.outputSampleRate();
-					mt.tgp(pg);
+					mt.tgp(ng);
 					if(!sl)
 					{
 						SDL_PauseAudioDevice(ys,1);
 						SDL_CloseAudioDevice(ys);
-						sn.freq=pg;
+						sn.freq=ng;
 						ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
 						SDL_PauseAudioDevice(ys,0);
 					}
-					pg=sg;
-					mkb=!mkb;
 				};
-				if(yk==16)
-				{
-					if(mkb)bvp();
-				}
-				else if(!pv.size())
-					if(!mkb&&mkbk)bvp();
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -648,9 +583,9 @@ void k(int p,bool lp=0,bool sl=0)
 						gv[k]=dv;
 					}
 				}
-				const double ctdm=mkb?12000:12000;
+				const double ctdm=12000;
 				double ct=ctdm;
-				auto vp=[&ssmk,&mkb,&sl,&mt,&vy,&ct,&ctdm,&mk]()
+				auto vp=[&sl,&mt,&vy,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
 					auto p=[&](float ls)
@@ -666,18 +601,7 @@ void k(int p,bool lp=0,bool sl=0)
 						double tp=mt.outputBuffer()[k];
 						ct=std::max(ct,abs(tp));
 						float ls=std::max(std::min(tp/ctdm,1.0),-1.0);
-						if(!mkb)
-							p(ls);
-						else
-						{
-#ifdef SMK
-							if(ssmk.bk(ls*SHRT_MAX))
-								for(size_t k=0;k<LPCNET_FRAME_SIZE;k++)
-									p((double)ssmk.pcm[k]/(double)SHRT_MAX);
-#else
-							p(ls);
-#endif
-						}
+						p(ls);
 					}
 					if(mt.outputBuffer().size()>0)
 						mt.outputBuffer().resize(0);
