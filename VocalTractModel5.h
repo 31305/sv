@@ -406,8 +406,8 @@ VocalTractModel5<TFloat, SectionDelay>::loadConfiguration()
 		config_.outputRate=16000;
 	config_.waveform             = 0;
 	config_.tp                   = 50;
-	config_.tnMin                = 24;
-	config_.tnMax                = 24;
+	config_.tnMin                = 44;
+	config_.tnMax                = 44;
 	config_.breathiness          = 0;
 	config_.length               = 17.5;
 	if(char *c=getenv("MD"))
