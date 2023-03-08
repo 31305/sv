@@ -7,10 +7,12 @@
 #include<unistd.h>
 #include<array>
 #include<thread>
+#ifdef KG
 #include<X11/Xlib.h>
 #include<X11/XKBlib.h>
 #define XK_MISCELLANY
 #include<X11/keysymdef.h>
+#endif
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -132,6 +134,7 @@ struct b
 {
 	GS::VTM::VocalTractModel5<double,1> m;
 };
+#ifdef KG
 unsigned char tns(KeySym t)
 {
 	if(t==XK_KP_0)return 0;
@@ -146,6 +149,7 @@ unsigned char tns(KeySym t)
 	if(t==XK_KP_9)return 9;
 	return 0;
 }
+#endif
 const bool pp=0;
 const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
