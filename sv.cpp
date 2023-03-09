@@ -881,7 +881,7 @@ struct vks
 						if(0)for(int k=0;k<(int)svk.size();k++)
 							ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
 						double ssv=0.2;
-						if(0)ms[0][mt.PARAM_GLOT_PITCH]*=(1.0-ssv+2.0*ssv*(double)rand()/(double)RAND_MAX	);
+						if(0)ms[0][mt.PARAM_GLOT_PITCH]*=(1.0-ssv+2.0*ssv*(double)rand()/(double)RAND_MAX);
 						double tvsv=0.011;
 						if(0)ms[1][mt.PARAM_GLOT_VOL]*=(1.0-tvsv+2.0*tvsv*(double)rand()/(double)RAND_MAX);
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
@@ -1019,11 +1019,7 @@ struct vks
 		}
 	};
 };
-struct svn
-{
-	int ns=0;
-};
-struct sdvn:svn
+struct sdvn
 {
 	void bvp(GS::VTM::VocalTractModel5<double,1> &mt,SDL_AudioSpec &sn,SDL_AudioDeviceID &ys,double ng)
 	{
@@ -1037,7 +1033,6 @@ struct sdvn:svn
 	SDL_AudioDeviceID ys;
 	sdvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy)
 	{
-		ns=dns;
 		SDL_AudioSpec sn;
 		sn.freq=dns;
 		sn.format=AUDIO_F32;
@@ -1054,10 +1049,35 @@ struct sdvn:svn
 		SDL_CloseAudioDevice(ys);
 	}
 };
-struct jvn:svn
+#ifdef EMSCRIPTEN
+struct jvn
 {
-	jvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy){}
+	uint8_t vs[4096];
+	static void ppk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void*)
+	{
+        if(!ss)return;
+        WebAudioWorkletProcessorCreateOptions vk={.name="sv",};
+        emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,0);
+	}
+	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void*)
+	{
+		if(!ss)return;
+		int ns[1]={1};
+        EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
+		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,tpk,0);
+	}
+	static EM_BOOL tpk(int,const AudioSampleFrame*,int,AudioSampleFrame*,int,const AudioParamFrame*,void*)
+	{
+		return EM_TRUE;
+	}
+	jvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy)
+	{
+		EmscriptenWebAudioCreateAttributes vv={.latencyHint="interactive",.sampleRate=(uint32_t)dns};
+        EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
+		emscripten_start_wasm_audio_worklet_thread_async(pv,vs,sizeof(vs),ppk,0);
+	}
 };
+#endif
 struct ntv
 {
 
@@ -1104,7 +1124,12 @@ void k(int p,bool lp=0,bool sl=0)
 	}
 	else
 	{
-
+		while(v.ck)
+		{
+			int t=0;
+			std::cin>>t;
+			v.nt(t);
+		}
 	}
 	vkk.join();
 	SDL_Quit();
