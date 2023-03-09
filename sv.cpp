@@ -425,63 +425,27 @@ void es(void(*k)(int),bool n)
 	}
 }
 #endif
+uint64_t ks()
+{
+	return SDL_GetTicks64();
+};
 struct vks
 {
-	const bool lp=0,sl=0;
+	bool lp=0,sl=0;
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
+	GS::VTM::VocalTractModel5<double,1> mt;
+	struct vyp
+	{
+		vyp(size_t kd):mc(kd){mc.k[0]=0;}
+		::ck<float> mc;
+		size_t d=0,u=1;
+		bool v=0;
+	};
+	vyp vy=vyp(48000);
 	void vk()
 	{
-	}
-	void nt()
-	{
-	}
-};
-void k(int p,bool lp=0,bool sl=0)
-{
-	SDL_Init(SDL_INIT_AUDIO);
-	bool ck=1;
-	int yk=0;
-	size_t vs=0;
-	std::vector<unsigned char> nv;
-	auto vk=[&lp,&ck,&yk,&vs,&sl]()
-	{
-		struct vyp
-		{
-			vyp(size_t kd):mc(kd){mc.k[0]=0;}
-			::ck<float> mc;
-			size_t d=0,u=1;
-			bool v=0;
-		};
-		auto pc=[](void *vy,Uint8 *d,int s)
-		{
-			auto vyk=((vyp*)vy);
-			for(int k=0;k<s;k+=sizeof(float))
-			{
-				if(vyk->mc.ak(vyk->d,vyk->u)==0)
-				{
-					if(vyk->v)fprintf(stderr,"<\n");
-					*((float*)(d+k))=0;
-				}
-				else
-				{
-					*((float*)(d+k))=vyk->mc.k[vyk->d];
-					vyk->d=vyk->mc.v(vyk->d);
-				}
-			}
-		};
-		GS::VTM::VocalTractModel5<double,1> mt;
-		vyp vy(48000);
-		SDL_AudioSpec sn;
-		sn.freq=mt.outputSampleRate();
-		sn.format=AUDIO_F32;
-		sn.samples=256;
-		sn.callback=pc;
-		sn.userdata=&vy;
-		sn.channels=1;
-		auto ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
-		if(!sl)SDL_PauseAudioDevice(ys,0);
 		bool ssv=1;
 		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
 		double ms[2][mt.TOTAL_PARAMETERS];
@@ -509,7 +473,7 @@ void k(int p,bool lp=0,bool sl=0)
 				{
 					if(vs>=ls.size())return;
 					if(ls[vs].nsv)return;
-					double ss=0.001*(double)SDL_GetTicks();
+					double ss=0.001*(double)ks();
 					size_t vk=vs;
 					pv.push_back(vs);
 					auto pnv=[&kp](size_t k)
@@ -528,18 +492,6 @@ void k(int p,bool lp=0,bool sl=0)
 							vk=ls[vk].vpv;
 						else vk=ls[vk].nv;
 						pv.push_back(vk);
-					}
-				};
-				[[maybe_unused]]auto bvp=[&sl,&mt,&sn,&ys](double ng)
-				{
-					mt.tgp(ng);
-					if(!sl)
-					{
-						SDL_PauseAudioDevice(ys,1);
-						SDL_CloseAudioDevice(ys);
-						sn.freq=ng;
-						ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
-						SDL_PauseAudioDevice(ys,0);
 					}
 				};
 				if(lp)
@@ -609,7 +561,7 @@ void k(int p,bool lp=0,bool sl=0)
 				}
 				const double ctdm=12000;
 				double ct=ctdm;
-				auto vp=[&sl,&mt,&vy,&ct,&ctdm,&mk]()
+				auto vp=[this,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
 					auto p=[&](float ls)
@@ -945,7 +897,7 @@ void k(int p,bool lp=0,bool sl=0)
 					vp();
 				vy.v=0;
 				if(ct>ctdm)fprintf(stderr,"%lf > %lf\n",ct,ctdm);
-				vss=0.001*(double)SDL_GetTicks();
+				vss=0.001*(double)ks();
 			}
 			vy.v=0;
 			if(!ck)
@@ -968,105 +920,184 @@ void k(int p,bool lp=0,bool sl=0)
 			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		}
 		vy.v=0;
-		SDL_PauseAudioDevice(ys,1);
-		SDL_CloseAudioDevice(ys);
-	};
-	if(0&&lp)
-	{
-		vk();
-		return;
 	}
-	Display *d=XOpenDisplay(0);
-	for(int i=XK_KP_0;i<=XK_KP_9;i++)
-	{
-		XGrabKey(d,XKeysymToKeycode(d,i),16,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
-		XGrabKey(d,XKeysymToKeycode(d,i),16|LockMask,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
-	}
-	XEvent g;
 	int tk=0;
 	int pt=0;
-	const int sks=2;
+	static const int sks=2;
 	char sk[sks+1];
-	sk[sks]=0;
 	int skk=0;
-	std::thread vkk(vk);
 	const size_t pgtv=300;
-	while(ck)
+	std::vector<unsigned char> nv;
+	uint64_t ns=0; 
+	void nt(unsigned char t)
 	{
-		while(XCheckMaskEvent(d,-1,&g))
+		sk[sks]=0;
+		if(t==5)
 		{
-			if(g.type==KeyPress)
+			yk=5;
+		}
+		if(yk==0)
+		{
+			if(t==9)ck=0;
+			else if(t==1)
 			{
-				auto t=tns(XLookupKeysym(&(g.xkey),1));
-				if(t==5)
-				{
-					yk=5;
-				}
-				if(yk==0)
-				{
-					if(t==9)ck=0;
-					else if(t==1)
-					{
-						if(0)yk=1;
-						nv.resize(0);
-					}
-					else if(t==2)
-					{
-						yk=2;
-						skk=0;
-					}
-					else if(t==3)
-						yk=3;
-					else if(t==6)
-					{
-						yk=6;
-						tk=pgtv;
-						vs=0;
-					}
-				}
-				else if(yk==6)
-				{
-					vs++;
-					tk=pgtv;
-				}
-				else if(yk==1)
-				{
-					if(tk>0)
-					{
-						tk=0;
-						if(t==0&&pt==0)
-						{
-							yk=0;
-						}
-						else nv.push_back(pt*10+t);
-					}
-					else
-					{
-						tk=1000;
-						pt=t;
-					}
-				}
-				else if(yk==2)
-				{
-					sk[skk]='0'+t;
-					skk++;
-					if(skk==sks)
-					{
-						vs=atoi(sk);
-						yk=12;
-					}
-				}
+				if(0)yk=1;
+				nv.resize(0);
+			}
+			else if(t==2)
+			{
+				yk=2;
+				skk=0;
+			}
+			else if(t==3)
+				yk=3;
+			else if(t==6)
+			{
+				yk=6;
+				tk=pgtv;
+				vs=0;
 			}
 		}
-		if(p)ck=ck&ssk(p);
-		const int kn=40;
-		std::this_thread::sleep_for(std::chrono::milliseconds(kn));
-		if(tk>0)tk-=kn;
+		else if(yk==6)
+		{
+			vs++;
+			tk=pgtv;
+		}
+		else if(yk==1)
+		{
+			if(tk>0)
+			{
+				tk=0;
+				if(t==0&&pt==0)
+				{
+					yk=0;
+				}
+				else nv.push_back(pt*10+t);
+			}
+			else
+			{
+				tk=1000;
+				pt=t;
+			}
+		}
+		else if(yk==2)
+		{
+			sk[skk]='0'+t;
+			skk++;
+			if(skk==sks)
+			{
+				vs=atoi(sk);
+				yk=12;
+			}
+		}
+		auto ss=ks();
+		if(tk>0)tk-=(ss-ns);
+		ns=ss;
 		if(tk<=0&&yk==6)
 			yk=16;
 	}
+	static void pc(void *vy,Uint8 *d,int s)
+	{
+		auto vyk=((vyp*)vy);
+		for(int k=0;k<s;k+=sizeof(float))
+		{
+			if(vyk->mc.ak(vyk->d,vyk->u)==0)
+			{
+				if(vyk->v)fprintf(stderr,"<\n");
+				*((float*)(d+k))=0;
+			}
+			else
+			{
+				*((float*)(d+k))=vyk->mc.k[vyk->d];
+				vyk->d=vyk->mc.v(vyk->d);
+			}
+		}
+	};
+};
+struct svn
+{
+	int ns=0;
+};
+struct sdvn:svn
+{
+	void bvp(GS::VTM::VocalTractModel5<double,1> &mt,SDL_AudioSpec &sn,SDL_AudioDeviceID &ys,double ng)
+	{
+		mt.tgp(ng);
+		SDL_PauseAudioDevice(ys,1);
+		SDL_CloseAudioDevice(ys);
+		sn.freq=ng;
+		ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
+		SDL_PauseAudioDevice(ys,0);
+	};
+	SDL_AudioDeviceID ys;
+	sdvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy)
+	{
+		ns=dns;
+		SDL_AudioSpec sn;
+		sn.freq=dns;
+		sn.format=AUDIO_F32;
+		sn.samples=256;
+		sn.callback=pc;
+		sn.userdata=vy;
+		sn.channels=1;
+		ys=SDL_OpenAudioDevice(NULL,0,&sn,NULL,0);
+		SDL_PauseAudioDevice(ys,0);
+	}
+	~sdvn()
+	{
+		SDL_PauseAudioDevice(ys,1);
+		SDL_CloseAudioDevice(ys);
+	}
+};
+struct jvn:svn
+{
+
+};
+struct ntv
+{
+
+};
+void k(int p,bool lp=0,bool sl=0)
+{
+	SDL_Init(SDL_INIT_EVERYTHING);
+	vks v;
+	v.lp=lp;
+	v.sl=sl;
+#ifdef EMSCRIPTEN
+	typedef jvn dnp;
+#else
+	typedef sdvn dnp;
+#endif
+	dnp dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
+	std::thread vkk([&v](){v.vk();});
+#ifdef KG
+	if(p>=0)
+	{
+		Display *d=XOpenDisplay(0);
+		for(int i=XK_KP_0;i<=XK_KP_9;i++)
+		{
+			XGrabKey(d,XKeysymToKeycode(d,i),16,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
+			XGrabKey(d,XKeysymToKeycode(d,i),16|LockMask,DefaultRootWindow(d),0,GrabModeAsync,GrabModeAsync);
+		}
+		XEvent g;
+		while(v.ck)
+		{
+			while(XCheckMaskEvent(d,-1,&g))
+			{
+				if(g.type==KeyPress)
+				{
+					auto t=tns(XLookupKeysym(&(g.xkey),1));
+					v.nt(t);
+				}
+			}
+			v.ck=v.ck&ssk(p);
+			const int kn=16;
+			std::this_thread::sleep_for(std::chrono::milliseconds(kn));
+		}
+		XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
+	}
+#endif
 	vkk.join();
-	XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
 	SDL_Quit();
 }
 int main(int argc,char** argv)
@@ -1074,9 +1105,9 @@ int main(int argc,char** argv)
 	if(argc<2)
 		printf("0|1?\n");
 	else if(argv[1][0]=='3')
-		k(0,1);
+		k(-1,1);
 	else if(argv[1][0]=='6')
-		k(0,1,1);
+		k(-1,1,1);
 	else if(argv[1][0]=='2')
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
@@ -1131,7 +1162,7 @@ int main(int argc,char** argv)
 		vs.close();
 	}
 	else if(argv[1][0]=='7')
-		k(0);
+		k(-1);
 #ifdef KG
 	else 
 	{
