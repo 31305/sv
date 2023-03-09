@@ -482,7 +482,7 @@ void k(int p,bool lp=0,bool sl=0)
 			size_t kp=0;
 			double vss=0;
 			std::basic_string<v> gv;
-			while(ck)	
+			while(ck)
 			{
 				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=5&&ck&&pv.size()==0)
 				{
