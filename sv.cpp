@@ -1,12 +1,12 @@
 #include"VocalTractModel5.h"
 #include<climits>
-#include<SDL.h>
 #include<sys/types.h>
 #include<sys/stat.h>
 #include<sys/file.h>
 #include<unistd.h>
 #include<array>
 #include<thread>
+#include<SDL.h>
 #ifdef KG
 #include<X11/Xlib.h>
 #include<X11/XKBlib.h>
@@ -424,6 +424,20 @@ void es(void(*k)(int),bool n)
 		if(write(ss,&s,1)==-1){};
 	}
 }
+#endif
+struct vks
+{
+	const bool lp=0,sl=0;
+	bool ck=1;
+	int yk=0;
+	size_t vs=0;
+	void vk()
+	{
+	}
+	void nt()
+	{
+	}
+};
 void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_AUDIO);
@@ -1116,7 +1130,13 @@ int main(int argc,char** argv)
 		}
 		vs.close();
 	}
-	else es([](int p){k(p);},argv[1][0]!='0');
+	else if(argv[1][0]=='7')
+		k(0);
+#ifdef KG
+	else 
+	{
+		es([](int p){k(p);},argv[1][0]!='0');
+	}
+#endif
 	return 0;
 }
-#endif
