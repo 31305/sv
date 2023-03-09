@@ -6,11 +6,14 @@ if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
     e.Append(CCFLAGS=['-sUSE_SDL=2','-MJcompile_commands.json'])
-#    e.Append(CLAGS=['-sUSE_SDL=2'])
 else:
     e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
     e.Append(CCFLAGS=['-DKG'])
     e.Tool('compilation_db')
     e.CompilationDatabase()
 print(e)
-e.Program('sv',['sv.cpp','Log.cpp'])
+sv=e.Program('sv',['sv.cpp','Log.cpp'])
+def f(target,source,env):
+    l=open('compile_commands.json','r').read()
+    open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
+AddPostAction(sv,f)

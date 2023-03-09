@@ -393,6 +393,7 @@ int ssk(int p)
 	}
 	return 1;
 }
+#ifdef KG
 void es(void(*k)(int),bool n)
 {
 	const char* sn="/tmp/svs629";
@@ -1118,3 +1119,4 @@ int main(int argc,char** argv)
 	else es([](int p){k(p);},argv[1][0]!='0');
 	return 0;
 }
+#endif

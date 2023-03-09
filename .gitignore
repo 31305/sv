@@ -5,6 +5,8 @@
 compile_commands.json
 .cache
 sv
+sv.js
+sv.wasm
 *.swp
 a.out
 .vscode
