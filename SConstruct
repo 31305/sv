@@ -16,4 +16,4 @@ sv=e.Program('sv',['sv.cpp','Log.cpp'])
 def f(target,source,env):
     l=open('compile_commands.json','r').read()
     open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
-AddPostAction(sv,f)
+AddPostAction('sv.o',f)
