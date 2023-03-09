@@ -14,7 +14,7 @@ else:
 print(e)
 sv=e.Program('sv',['sv.cpp','Log.cpp'])
 def f(target,source,env):
-    system
-    pass
+    l=open('compile_commands.json','r').read()
+    open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
 if js:
     AddPostAction('sv.o',f)

@@ -13,6 +13,11 @@
 #define XK_MISCELLANY
 #include<X11/keysymdef.h>
 #endif
+#ifdef EMSCRIPTEN
+#include<emscripten.h>
+#include<emscripten/webaudio.h>
+#endif
+bool jt=0;
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -1051,7 +1056,7 @@ struct sdvn:svn
 };
 struct jvn:svn
 {
-
+	jvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy){}
 };
 struct ntv
 {
@@ -1070,9 +1075,9 @@ void k(int p,bool lp=0,bool sl=0)
 #endif
 	dnp dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
 	std::thread vkk([&v](){v.vk();});
-#ifdef KG
 	if(p>=0)
 	{
+#ifdef KG
 		Display *d=XOpenDisplay(0);
 		for(int i=XK_KP_0;i<=XK_KP_9;i++)
 		{
@@ -1095,11 +1100,16 @@ void k(int p,bool lp=0,bool sl=0)
 			std::this_thread::sleep_for(std::chrono::milliseconds(kn));
 		}
 		XUngrabKey(d,AnyKey,AnyModifier,DefaultRootWindow(d));
-	}
 #endif
+	}
+	else
+	{
+
+	}
 	vkk.join();
 	SDL_Quit();
 }
+#ifndef EMSCRIPTEN
 int main(int argc,char** argv)
 {
 	if(argc<2)
@@ -1171,3 +1181,4 @@ int main(int argc,char** argv)
 #endif
 	return 0;
 }
+#endif
