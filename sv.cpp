@@ -1053,28 +1053,51 @@ struct sdvn
 struct jvn
 {
 	uint8_t vs[4096];
-	static void ppk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void*)
+	struct
 	{
-        if(!ss)return;
-        WebAudioWorkletProcessorCreateOptions vk={.name="sv",};
-        emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,0);
+		void(*pc)(void*,unsigned char*,int);
+		void* vy;
+	}ng;
+	static void ppk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
+	{
+		if(!ss)return;
+		WebAudioWorkletProcessorCreateOptions vk={.name="sv",};
+		emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,sg);
 	}
-	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void*)
+	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
 		if(!ss)return;
 		int ns[1]={1};
-        EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
-		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,tpk,0);
+		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
+		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,tpk,sg);
+		EM_ASM({let pv=emscriptenGetAudioObject($0);document.body.onclick=()=>{
+			if(pv.state!='running')
+			{
+				pv.resume();
+				let vkk=emscriptenGetAudioObject($1);
+				vkk.connect(pv.destination);
+			}
+			else if(0)
+			{
+				pv.suspend();
+			}};},pv,vkk);
 	}
-	static EM_BOOL tpk(int,const AudioSampleFrame*,int,AudioSampleFrame*,int,const AudioParamFrame*,void*)
+	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{
+		auto pg=(typeof(ng)*)sg;
+		float d[128];
+		pg->pc(pg->vy,(uint8_t*)d,sizeof(d));
+		for(int k=0;k<nds;k++)
+			for(int ppk=0;ppk<nd[k].numberOfChannels;ppk++)
+				memcpy(&nd[k].data[ppk*128],d,sizeof(d));
 		return EM_TRUE;
 	}
-	jvn(int dns,void(*pc)(void*,unsigned char*,int),void* vy)
+	jvn(int dns,void(*dpc)(void*,unsigned char*,int),void* dvy)
+	:ng({dpc,dvy})
 	{
 		EmscriptenWebAudioCreateAttributes vv={.latencyHint="interactive",.sampleRate=(uint32_t)dns};
-        EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
-		emscripten_start_wasm_audio_worklet_thread_async(pv,vs,sizeof(vs),ppk,0);
+		EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
+		emscripten_start_wasm_audio_worklet_thread_async(pv,vs,sizeof(vs),ppk,&ng);
 	}
 };
 #endif
