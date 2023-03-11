@@ -7,6 +7,7 @@ if js:
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
     e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json'])
 else:
+    e.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
     e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
     e.Append(CCFLAGS=['-DKG'])
     e.Tool('compilation_db')

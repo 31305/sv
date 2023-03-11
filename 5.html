@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>9</title>
+<script src="sks.js"></script>
+</head>
+<body style='image-rendering: crisp-edges;margin:0;background-color:black;overflow:hidden'>
+<canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+<script type='text/javascript'>
+var Module={canvas:(function(){return document.getElementById('canvas');})()};
+function v1()
+{
+	return window.visualViewport.width*window.devicePixelRatio;
+}
+function v2()
+{
+	return window.visualViewport.height*window.devicePixelRatio;
+}
+function r()
+{
+	canvas.style.width='';
+	Module.ccall('pp',null,['number','number'],[v1(),v2()]);
+	canvas.style.width='100%';
+}
+</script>
+<script src="sv.js"></script>
+</body>
+</html>

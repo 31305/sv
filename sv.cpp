@@ -432,7 +432,7 @@ void es(void(*k)(int),bool n)
 #endif
 uint64_t ks()
 {
-	return SDL_GetTicks64();
+	return SDL_GetTicks();
 };
 struct vks
 {
@@ -1147,15 +1147,19 @@ void k(int p,bool lp=0,bool sl=0)
 	}
 	else
 	{
+#ifndef EMSCRIPTEN
 		while(v.ck)
 		{
 			int t=0;
 			std::cin>>t;
 			v.nt(t);
 		}
+#endif
 	}
+#ifndef EMSCRIPTEN
 	vkk.join();
 	SDL_Quit();
+#endif
 }
 #ifndef EMSCRIPTEN
 int main(int argc,char** argv)
@@ -1227,6 +1231,27 @@ int main(int argc,char** argv)
 		es([](int p){k(p);},argv[1][0]!='0');
 	}
 #endif
+	return 0;
+}
+#else
+struct
+{
+	vks v;
+	jvn *dp;
+	std::thread vkk;
+}sl;
+EMSCRIPTEN_KEEPALIVE int rk()
+{
+	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
+	sl.vkk=std::thread([](){sl.v.vk();});
+	return 0;
+}
+EMSCRIPTEN_KEEPALIVE void nt(int n)
+{
+	sl.v.nt(n);
+}
+int main()
+{
 	return 0;
 }
 #endif
