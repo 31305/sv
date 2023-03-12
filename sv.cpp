@@ -1102,8 +1102,6 @@ struct jvn
 		auto pg=(typeof(ng)*)sg;
 		float d[128];
 		pg->pc(pg->vy,(uint8_t*)d,sizeof(d));
-		if(1)for(int k=0;k<128;k++)
-			d[k]+=0.01*(float)rand()/(float)RAND_MAX;
 		for(int k=0;k<nds;k++)
 			for(int ppk=0;ppk<nd[k].numberOfChannels;ppk++)
 				memcpy(&nd[k].data[ppk*128],d,sizeof(d));

@@ -6,6 +6,9 @@ compile_commands.json
 .cache
 sv
 sv.js
+sv.ww.js
+sv.aw.js
+sv.worker.js
 sv.wasm
 s.o.json
 *.swp
