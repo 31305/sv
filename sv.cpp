@@ -1,4 +1,5 @@
 #include"VocalTractModel5.h"
+#include<stdlib.h>
 #include<climits>
 #include<sys/types.h>
 #include<sys/stat.h>
@@ -342,16 +343,18 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-const std::basic_string<v> vs(const std::basic_string<unsigned char> &d)
+const std::vector<v> vs(const std::basic_string<unsigned char> &d)
 {
-	std::basic_string<v> v;
-	for(auto k=d.begin();k!=d.end();k++)
-		v.push_back(vc[*k]);
-	return v;
+	std::vector<v> vk;
+	for(size_t k=0;k<d.size();k++)
+	{
+		vk.push_back(vc[d[k]]);
+	}
+	return vk;
 };
 struct vv
 {
-	std::basic_string<v> vm;
+	std::vector<v> vm;
 	size_t nv=0;
 	size_t vpv=0;
 	bool nsv=0;
@@ -464,7 +467,7 @@ struct vks
 			std::vector<size_t> pv;
 			size_t kp=0;
 			double vss=0;
-			std::basic_string<v> gv;
+			std::vector<v> gv;
 			while(ck)
 			{
 				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=5&&ck&&pv.size()==0)
@@ -531,6 +534,11 @@ struct vks
 				}
 				else if(pv.size()>0)
 				{
+					if(!sl)
+					{
+						printf("ls %ld\n",pv[pv.size()-1]);
+						printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
+					}
 					gv=ls[pv[pv.size()-1]].vm;
 					kp=pv[pv.size()-1];
 					pv.pop_back();
@@ -554,6 +562,7 @@ struct vks
 					continue;
 				}
 				else continue;
+				if(!sl)printf("gvs %ld\n",gv.size());
 				if(1)for(size_t k=1;k+2<gv.size();k++)
 				{
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
@@ -1060,16 +1069,22 @@ struct jvn
 	}ng;
 	static void ppk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
-		if(!ss)return;
+		if(!ss)
+		{
+			printf("0 ppk\n");
+			return;
+		}
+		else printf("1 ppk\n");
 		WebAudioWorkletProcessorCreateOptions vk={.name="sv",};
 		emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,sg);
 	}
 	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
 		if(!ss)return;
+		else printf("1 dpk\n");
 		int ns[1]={1};
 		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
-		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,tpk,sg);
+		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,&tpk,sg);
 		EM_ASM({let pv=emscriptenGetAudioObject($0);document.body.onclick=()=>{
 			if(pv.state!='running')
 			{
@@ -1087,6 +1102,8 @@ struct jvn
 		auto pg=(typeof(ng)*)sg;
 		float d[128];
 		pg->pc(pg->vy,(uint8_t*)d,sizeof(d));
+		if(1)for(int k=0;k<128;k++)
+			d[k]+=0.01*(float)rand()/(float)RAND_MAX;
 		for(int k=0;k<nds;k++)
 			for(int ppk=0;ppk<nd[k].numberOfChannels;ppk++)
 				memcpy(&nd[k].data[ppk*128],d,sizeof(d));
@@ -1098,6 +1115,7 @@ struct jvn
 		EmscriptenWebAudioCreateAttributes vv={.latencyHint="interactive",.sampleRate=(uint32_t)dns};
 		EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
 		emscripten_start_wasm_audio_worklet_thread_async(pv,vs,sizeof(vs),ppk,&ng);
+		printf("jvn\n");
 	}
 };
 #endif
@@ -1240,18 +1258,25 @@ struct
 	jvn *dp;
 	std::thread vkk;
 }sl;
-EMSCRIPTEN_KEEPALIVE int rk()
+extern "C"
+{
+EMSCRIPTEN_KEEPALIVE
+int rk()
 {
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
+	printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
 	return 0;
 }
-EMSCRIPTEN_KEEPALIVE void nt(int n)
+EMSCRIPTEN_KEEPALIVE 
+void nt(int n)
 {
 	sl.v.nt(n);
 }
 int main()
 {
+	rk();
 	return 0;
+}
 }
 #endif
