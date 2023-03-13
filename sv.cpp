@@ -1271,6 +1271,15 @@ void nt(int n)
 {
 	sl.v.nt(n);
 }
+EMSCRIPTEN_KEEPALIVE 
+void sn(int n)
+{
+	if(sl.v.yk==0)
+	{
+		sl.v.vs=n;
+		sl.v.yk=12;	
+	}
+}
 int main()
 {
 	rk();
