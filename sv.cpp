@@ -475,6 +475,10 @@ struct vks
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
+					if(tk>0)
+						tk-=ks*1000.0;
+					if(tk<=0&&yk==6)
+						yk=16;
 				}
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
@@ -537,7 +541,7 @@ struct vks
 					if(!sl)
 					{
 						printf("ls %ld\n",pv[pv.size()-1]);
-						printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
+						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
 					}
 					gv=ls[pv[pv.size()-1]].vm;
 					kp=pv[pv.size()-1];
@@ -562,7 +566,7 @@ struct vks
 					continue;
 				}
 				else continue;
-				if(!sl)printf("gvs %ld\n",gv.size());
+				if(0&&!sl)printf("gvs %ld\n",gv.size());
 				if(1)for(size_t k=1;k+2<gv.size();k++)
 				{
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
@@ -1004,17 +1008,6 @@ struct vks
 				yk=12;
 			}
 		}
-		auto ss=ks();
-		if(tk>0)
-		{
-			if(!sl)printf("tk %d\nss %llu\nns %llu\n",tk,ss,ns);
-			tk-=(ss-ns);
-		}
-		ns=ss;
-		if(yk==6)
-			printf("tk %d\n",tk);
-		if(tk<=0&&yk==6)
-			yk=16;
 	}
 	static void pc(void *vy,Uint8 *d,int s)
 	{
@@ -1080,18 +1073,20 @@ struct jvn
 			printf("0 ppk\n");
 			return;
 		}
-		else printf("1 ppk\n");
 		WebAudioWorkletProcessorCreateOptions vk={.name="sv",};
 		emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,sg);
 	}
 	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
-		if(!ss)return;
-		else printf("1 dpk\n");
+		if(!ss)
+		{
+			printf("0 dpk\n");
+			return;
+		}
 		int ns[1]={1};
 		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
 		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,&tpk,sg);
-		EM_ASM({let pv=emscriptenGetAudioObject($0);document.body.onclick=()=>{
+		EM_ASM({let pv=emscriptenGetAudioObject($0);window.onclick=()=>{
 			if(pv.state!='running')
 			{
 				pv.resume();
@@ -1119,7 +1114,7 @@ struct jvn
 		EmscriptenWebAudioCreateAttributes vv={.latencyHint="interactive",.sampleRate=(uint32_t)dns};
 		EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
 		emscripten_start_wasm_audio_worklet_thread_async(pv,vs,sizeof(vs),ppk,&ng);
-		printf("jvn\n");
+		if(0)printf("jvn\n");
 	}
 };
 #endif
@@ -1269,7 +1264,7 @@ int rk()
 {
 	SDL_Init(SDL_INIT_TIMER);
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
-	printf("rk\n");
+	if(0)printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
 	return 0;
 }
@@ -1281,7 +1276,7 @@ void nt(int n)
 EMSCRIPTEN_KEEPALIVE 
 void sn(int n)
 {
-	printf("yk %d\n",sl.v.yk);
+	if(0)printf("yk %d\n",sl.v.yk);
 	if(sl.v.yk==0)
 	{
 		sl.v.vs=n;
