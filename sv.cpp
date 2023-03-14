@@ -1262,7 +1262,7 @@ extern "C"
 EMSCRIPTEN_KEEPALIVE
 int rk()
 {
-	SDL_Init(SDL_INIT_TIMER);
+	SDL_Init(SDL_INIT_TIMER|SDL_INIT_VIDEO|SDL_INIT_EVENTS);
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
