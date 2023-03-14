@@ -1005,8 +1005,14 @@ struct vks
 			}
 		}
 		auto ss=ks();
-		if(tk>0)tk-=(ss-ns);
+		if(tk>0)
+		{
+			if(!sl)printf("tk %d\nss %llu\nns %llu\n",tk,ss,ns);
+			tk-=(ss-ns);
+		}
 		ns=ss;
+		if(yk==6)
+			printf("tk %d\n",tk);
 		if(tk<=0&&yk==6)
 			yk=16;
 	}
@@ -1261,6 +1267,7 @@ extern "C"
 EMSCRIPTEN_KEEPALIVE
 int rk()
 {
+	SDL_Init(SDL_INIT_TIMER);
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
@@ -1274,6 +1281,7 @@ void nt(int n)
 EMSCRIPTEN_KEEPALIVE 
 void sn(int n)
 {
+	printf("yk %d\n",sl.v.yk);
 	if(sl.v.yk==0)
 	{
 		sl.v.vs=n;
