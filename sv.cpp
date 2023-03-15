@@ -17,8 +17,8 @@
 #ifdef EMSCRIPTEN
 #include<emscripten.h>
 #include<emscripten/webaudio.h>
+#include"st.h"
 #endif
-bool jt=0;
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -540,7 +540,7 @@ struct vks
 				{
 					if(!sl)
 					{
-						printf("ls %ld\n",pv[pv.size()-1]);
+						if(0)printf("ls %ld\n",pv[pv.size()-1]);
 						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
 					}
 					gv=ls[pv[pv.size()-1]].vm;
@@ -1262,10 +1262,10 @@ extern "C"
 EMSCRIPTEN_KEEPALIVE
 int rk()
 {
-	SDL_Init(SDL_INIT_TIMER|SDL_INIT_VIDEO|SDL_INIT_EVENTS);
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
+	pmk();
 	return 0;
 }
 EMSCRIPTEN_KEEPALIVE 
@@ -1283,8 +1283,15 @@ void sn(int n)
 		sl.v.yk=12;	
 	}
 }
+void npks(int n)
+{
+	if(0)printf("npks\n");
+	if(n>4)
+		nt(n-5);
+}
 int main()
 {
+	npk=npks;
 	rk();
 	return 0;
 }

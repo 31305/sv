@@ -2,7 +2,7 @@
 #include<SDL.h>
 #include"nc.xbm"
 const int cls=nc_width;
-struct st
+struct stp
 {
 	SDL_Window* cp;
 	SDL_Renderer* ck;
@@ -26,32 +26,15 @@ struct st
 		int p=0;
 	}tr;
 };
+extern stp st;
+extern bool jt;
 struct nl
 {
-	st& st;
 	int n=0;
 	float p1=0,p2=0;
 	bool v=0;
 	unsigned char rm=255,hm=255,nm=255;
-	void operator()()
-	{
-		int s1=round(p1*st.sp1);
-		int s2=round(p2*st.sp2);
-		for(int x2=0;x2<st.sp2;x2++)
-		{
-			unsigned char c=nc_bits[(n/(cls/st.sp1))*(cls/st.sp1)*st.sp2+x2*(cls/st.sp1)+(n%(cls/st.sp1))];
-			if(nc_bits[0]==255)c=255-c;
-			if(v)c=255-c;
-			for(int x1=0;x1<st.sp1;x1++)
-			{
-				if(c&(1<<x1))
-				{
-					int s=(s2+x2)*st.cns+(s1+x1)*3;
-					st.cn[s]=st.ks?255-rm:rm;
-					st.cn[s+1]=st.ks?255-hm:hm;
-					st.cn[s+2]=st.ks?255-nm:nm;
-				}
-			}
-		}
-	}
+	void operator()();
 };
+int pmk();
+extern void (*npk)(int);
