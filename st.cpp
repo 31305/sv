@@ -47,8 +47,9 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
-		for(int i=0;i<10;i++)ns(i,1+(i%5)*3,st.s2-4+(int)(i/5)*2);
-		for(int i=11;i<16;i++)ns(i,1+(i-11)*3,st.s2-6);
+		int ps=(st.s1-15)/2;
+		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2);
+		for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6);
 		for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 	}
@@ -86,6 +87,7 @@ void mk()
 		st.s2=floor((float)x2/d2);
 		SDL_ShowCursor(SDL_ENABLE);
 	}
+	st.tp=1;
 	st.pd.w=x1;
 	st.pd.h=st.s2*((float)x1/(float)(st.s1)*(float)st.sp2/(float)st.sp1);
 	st.pd.y=0;
@@ -119,10 +121,11 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
+			int ps=(st.s1-15)/2;
 			int k1=(double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1;
 			int k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-st.s2+6;
 			if(0)printf("%d %d \n",k1,k2);
-			return k2<0?-1:(k2/2)*5+k1/3;
+			return (k2<0||k1<ps||k1>ps+15)?-1:(k2/2)*5+(k1-ps)/3;
 		};
 		auto ts=[&g]()
 		{
