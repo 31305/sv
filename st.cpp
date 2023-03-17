@@ -47,9 +47,9 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
-		int ps=(st.s1-15)/2;
-		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2);
-		for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6);
+		float ps=(st.s1-15.0)/2.0;
+		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2,(st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i);
+		for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 	}
@@ -121,11 +121,11 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
-			int ps=(st.s1-15)/2;
-			int k1=(double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1;
+			float ps=(st.s1-15.0)/2.0;
+			int k1=(double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps;
 			int k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-st.s2+6;
 			if(0)printf("%d %d \n",k1,k2);
-			return (k2<0||k1<ps||k1>ps+15)?-1:(k2/2)*5+(k1-ps)/3;
+			return (k2<0||k1<0||k1>15)?-1:(k2/2)*5+(k1)/3;
 		};
 		auto ts=[&g]()
 		{
@@ -188,6 +188,7 @@ void nk()
 		{
 			tpm();
 			st.tr.p=0;
+			st.plg=1;
 		}
 		else if(g.type==SDL_KEYUP)
 		{
@@ -195,6 +196,7 @@ void nk()
 			{
 				if(0)printf("kpg\n");
 				st.tr.p=0;
+				st.plg=1;
 			}
 			tps[ts()]=0;
 		}
@@ -204,6 +206,7 @@ void nk()
 			{
 				st.cs=0;
 				st.tr.p=0;
+				st.plg=1;
 			}
 			int n=ts();
 			if(tps[n]==0)
@@ -220,7 +223,11 @@ void nk()
 			}
 		}
 		if(g.type==SDL_MOUSEBUTTONUP)
-			if(st.tr.p==2)st.tr.p=0;
+			if(st.tr.p==2)
+			{
+				st.tr.p=0;
+				st.plg=1;
+			}
 		if(g.type==SDL_MOUSEBUTTONDOWN)
 			if(st.tr.p==0)
 			{
@@ -235,7 +242,10 @@ void nk()
 			}
 		if(g.type==SDL_MOUSEMOTION)
 			if(st.tr.p==2&&ss(g.button.x,g.button.y)!=st.tr.n)
+			{
 				st.tr.p=0;
+				st.plg=1;
+			}
 	}
 	double sk=(double)SDL_GetTicks()/1000.0;
 	st.tr.k+=sk-k;
