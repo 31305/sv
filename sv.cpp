@@ -1285,7 +1285,7 @@ void sn(int n)
 }
 void npks(int n)
 {
-	if(0)printf("npks\n");
+	if(0)printf("n %d\n",n);
 	if(n>4)
 		nt(n-5);
 }
