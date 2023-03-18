@@ -975,6 +975,8 @@ struct vks
 				tk=pgtv;
 				vs=0;
 			}
+			else if(t==8)
+				st.ks=!st.ks;
 		}
 		else if(yk==6)
 		{
