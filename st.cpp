@@ -111,8 +111,10 @@ void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 }
 #endif
 void (*npk)(int)=0;
+bool sr=0;
 void nk()
 {
+	if(!sr)return;
 	static double k;
 	SDL_Event g;
 	const int tpss=25;

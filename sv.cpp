@@ -1100,6 +1100,7 @@ struct jvn
 			{
 				pv.suspend();
 			}};},pv,vkk);
+		sr=1;
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{

@@ -29,6 +29,7 @@ struct stp
 };
 extern stp st;
 extern bool jt;
+extern bool sr;
 struct nl
 {
 	int n=0;
