@@ -301,12 +301,15 @@ int pmk()
 	}
 #else
 	EM_ASM({window.addEventListener('resize',r,true);canvas.style.width='100%';});
-	emscripten_set_main_loop(nk,0,1);
+	emscripten_set_main_loop(nk,0,0);
 #endif
-	SDL_DestroyRenderer(st.ck);
-	SDL_DestroyWindow(st.cp);
-	SDL_DestroyTexture(st.mc1);
-	SDL_DestroyTexture(st.mc2);
-	SDL_Quit();
+	if(!jt)
+	{
+		SDL_DestroyRenderer(st.ck);
+		SDL_DestroyWindow(st.cp);
+		SDL_DestroyTexture(st.mc1);
+		SDL_DestroyTexture(st.mc2);
+		SDL_Quit();
+	}
 	return 0;
 }

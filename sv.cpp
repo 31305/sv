@@ -1101,6 +1101,7 @@ struct jvn
 				pv.suspend();
 			}};},pv,vkk);
 		sr=1;
+		pmk();
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{
@@ -1269,7 +1270,7 @@ int rk()
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
-	pmk();
+	if(0)pmk();
 	return 0;
 }
 EMSCRIPTEN_KEEPALIVE 
