@@ -43,15 +43,16 @@ void lk()
 {
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,st.ks?255:0,st.s2*st.cns*8);
-	for(int k=1;k<st.s1-1;k++)ns(10,k,2);
+	if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,2);
 	int l2=st.s2-4;
 	if(st.tp)
 	{
 		float ps=(st.s1-15.0)/2.0;
 		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2,(st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i);
-		for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
-		for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
+		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
+		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
+		if(!st.dn)l2+=2;
 	}
 	st.l2=l2;
 	SDL_UnlockTexture(st.mc1);
@@ -130,7 +131,7 @@ void nk()
 			{
 				int pd=(k2/2)*5+(k1)/3;
 				if(0)printf("%d %d %d\n",k1,k2,pd);
-				return pd;
+				return st.dn?pd:pd>4?pd:-1;
 			}
 		};
 		auto ts=[&g]()

@@ -16,6 +16,7 @@ struct stp
 	int cns;
 	SDL_RendererInfo j;
 	bool tp=0;
+	bool dn=0;
 	bool plg=1;
 	bool ks=([](){char *d=getenv("KS");return !(!d||d[0]=='0');})();
 	struct
