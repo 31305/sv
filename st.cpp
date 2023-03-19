@@ -48,7 +48,7 @@ void lk()
 	if(st.tp)
 	{
 		float ps=(st.s1-15.0)/2.0;
-		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2,(st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i);
+		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
 		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;

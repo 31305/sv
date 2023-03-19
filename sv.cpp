@@ -957,7 +957,7 @@ struct vks
 		}
 		if(yk==0)
 		{
-			if(t==9)ck=0;
+			if(t==9){if(!jt)ck=0;}
 			else if(t==1)
 			{
 				if(0)yk=1;
