@@ -4,7 +4,7 @@
 const int cls=nc_width;
 struct stp
 {
-	SDL_Window* cp;
+	SDL_Window* cp=0;
 	SDL_Renderer* ck;
 	SDL_Texture *mc1=NULL,*mc2=NULL;
 	bool cs=1;
@@ -29,7 +29,7 @@ struct stp
 };
 extern stp st;
 extern bool jt;
-extern bool sr;
+extern int sr;
 struct nl
 {
 	int n=0;
@@ -39,4 +39,5 @@ struct nl
 	void operator()();
 };
 int pmk();
+void nk();
 extern void (*npk)(int);

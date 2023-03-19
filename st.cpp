@@ -111,10 +111,15 @@ void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 }
 #endif
 void (*npk)(int)=0;
-bool sr=0;
+int sr=0;
 void nk()
 {
-	if(!sr)return;
+	if(sr<2)return;
+	else if(sr==2)
+	{
+		pmk();
+		sr=3;
+	}
 	static double k;
 	SDL_Event g;
 	const int tpss=25;
@@ -301,7 +306,7 @@ int pmk()
 	}
 #else
 	EM_ASM({window.addEventListener('resize',r,true);canvas.style.width='100%';});
-	emscripten_set_main_loop(nk,0,0);
+	if(0)emscripten_set_main_loop(nk,0,0);
 #endif
 	if(!jt)
 	{

@@ -454,6 +454,7 @@ struct vks
 	vyp vy=vyp(48000);
 	void vk()
 	{
+		sr++;
 		bool ssv=1;
 		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
 		double ms[2][mt.TOTAL_PARAMETERS];
@@ -1100,8 +1101,7 @@ struct jvn
 			{
 				pv.suspend();
 			}};},pv,vkk);
-		sr=1;
-		pmk();
+		sr++;
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{
@@ -1271,6 +1271,7 @@ int rk()
 	if(0)printf("rk\n");
 	sl.vkk=std::thread([](){sl.v.vk();});
 	if(0)pmk();
+	emscripten_set_main_loop(nk,0,0);
 	return 0;
 }
 EMSCRIPTEN_KEEPALIVE 
