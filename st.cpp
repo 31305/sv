@@ -59,7 +59,7 @@ void lk()
 	SDL_SetRenderTarget(st.ck,st.mc2);
 	SDL_RenderCopy(st.ck,st.mc1,NULL,NULL);
 	SDL_SetRenderTarget(st.ck,NULL);
-    SDL_SetRenderDrawColor(st.ck,0,0,0,255);
+    SDL_SetRenderDrawColor(st.ck,st.ks?255:0,st.ks?255:0,st.ks?255:0,255);
 	SDL_RenderClear(st.ck);
     SDL_RenderCopy(st.ck,st.mc2,NULL,&st.pd);
 	SDL_RenderPresent(st.ck);
