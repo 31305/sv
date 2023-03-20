@@ -47,9 +47,9 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
-		float ps=(st.s1-15.0)/2.0;
-		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*3,st.s2-4+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
-		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*3,st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
+		float ps=(st.s1-st.p1)/2.0;
+		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*(st.sg?2:3),st.s2-4+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
+		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 		if(!st.dn)l2+=2;
@@ -59,7 +59,8 @@ void lk()
 	SDL_SetRenderTarget(st.ck,st.mc2);
 	SDL_RenderCopy(st.ck,st.mc1,NULL,NULL);
 	SDL_SetRenderTarget(st.ck,NULL);
-    SDL_SetRenderDrawColor(st.ck,st.ks?255:0,st.ks?255:0,st.ks?255:0,255);
+	Uint8 vn=st.ks?255:0;
+    SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
     SDL_RenderCopy(st.ck,st.mc2,NULL,&st.pd);
 	SDL_RenderPresent(st.ck);
@@ -91,7 +92,7 @@ void mk()
 	st.tp=1;
 	st.pd.w=x1;
 	st.pd.h=st.s2*((float)x1/(float)(st.s1)*(float)st.sp2/(float)st.sp1);
-	st.pd.y=0;
+	st.pd.y=x2-st.pd.h;
 	st.pd.x=0;
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
@@ -129,17 +130,18 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
-			float ps=(st.s1-15.0)/2.0;
-			int k1=floor((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
-			int k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-st.s2+6;
-			if(0)printf("%d %d \n",k1,k2);
-			if(k2<0||k1<0||k1>14)return -1;
-			else
-			{
-				int pd=(k2/2)*5+(k1)/3;
-				if(0)printf("%d %d %d\n",k1,k2,pd);
-				return st.dn?pd:pd>4?pd:-1;
-			}
+			float ps=(st.s1-st.p1)/2.0;
+			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
+			if(st.sg)k1=round(k1-1);
+			else k1=floor(k1);
+			float k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-st.s2+6;
+			if(0)printf("%f %f \n",k1,k2);
+			if(k2<0)return -1;
+			if(k1<0||k1>=(st.p1-(int)st.sg))return -1;
+			int nk1=k1,nk2=k2;
+			int pd=(nk2/2)*5+(nk1)/(st.sg?2:3);
+			if(0)printf("%f %f %d\n",k1,k2,pd);
+			return st.dn?pd:pd>4?pd:-1;
 		};
 		auto ts=[&g]()
 		{
