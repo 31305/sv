@@ -48,7 +48,7 @@ void lk()
 	if(st.tp)
 	{
 		float ps=(st.s1-st.p1)/2.0;
-		float psd=st.pms?(st.s2-6.0)/2.0:st.s2-6;
+		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
 		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*(st.sg?2:3),psd+2.0+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
 		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
@@ -132,7 +132,7 @@ void nk()
 		auto ss=[](int s1,int s2)->int
 		{
 			float ps=(st.s1-st.p1)/2.0;
-			float psd=st.pms?(st.s2-6.0)/2.0:st.s2-6;
+			float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
 			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
 			if(st.sg)k1=round(k1-1);
 			else k1=floor(k1);
