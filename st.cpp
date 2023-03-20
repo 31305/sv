@@ -48,8 +48,9 @@ void lk()
 	if(st.tp)
 	{
 		float ps=(st.s1-st.p1)/2.0;
-		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*(st.sg?2:3),st.s2-4+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
-		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),st.s2-6,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
+		float psd=st.pms?(st.s2-6.0)/2.0:st.s2-6;
+		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*(st.sg?2:3),psd+2.0+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
+		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 		if(!st.dn)l2+=2;
@@ -131,12 +132,13 @@ void nk()
 		auto ss=[](int s1,int s2)->int
 		{
 			float ps=(st.s1-st.p1)/2.0;
+			float psd=st.pms?(st.s2-6.0)/2.0:st.s2-6;
 			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
 			if(st.sg)k1=round(k1-1);
 			else k1=floor(k1);
-			float k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-st.s2+6;
+			float k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-psd;
 			if(0)printf("%f %f \n",k1,k2);
-			if(k2<0)return -1;
+			if(k2<0||k2>=6)return -1;
 			if(k1<0||k1>=(st.p1-(int)st.sg))return -1;
 			int nk1=k1,nk2=k2;
 			int pd=(nk2/2)*5+(nk1)/(st.sg?2:3);
