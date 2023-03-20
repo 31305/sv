@@ -1089,12 +1089,12 @@ struct jvn
 		int ns[1]={1};
 		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
 		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,&tpk,sg);
-		EM_ASM({let pv=emscriptenGetAudioObject($0);
+		EM_ASM({window.pv=emscriptenGetAudioObject($0);
 			window.drk=()=>{
 			if(pv.state!='running')
 			{
 				pv.resume();
-				let vkk=emscriptenGetAudioObject($1);
+				window.vkk=emscriptenGetAudioObject($1);
 				vkk.connect(pv.destination);
 			}
 			else if(0)
@@ -1278,7 +1278,7 @@ EMSCRIPTEN_KEEPALIVE
 void nt(int n)
 {
 	static bool dsr=0;
-	if(!dsr)
+	if(1||!dsr)
 	{
 		dsr=1;
 		EM_ASM({drk()});
