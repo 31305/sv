@@ -320,7 +320,7 @@ int pmk()
 		SDL_Delay(16);
 	}
 #else
-	EM_ASM({window.addEventListener('resize',r,true);canvas.style.width='100%';});
+	if(0)EM_ASM({window.addEventListener('resize',r,true);canvas.style.width='100%';});
 	if(0)emscripten_set_main_loop(nk,0,0);
 #endif
 	if(!jt)
