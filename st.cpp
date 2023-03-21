@@ -108,8 +108,8 @@ extern "C"
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
 	SDL_SetWindowSize(st.cp,x1,x2);
-	EM_ASM({canvas.style.width=window.visualViewport.width;
-			canvas.style.height=window.visualViewport.height;});
+	EM_ASM({canvas.style.width='100vw';
+			canvas.style.height='100vh';});
 	mk();
 }
 }
@@ -299,7 +299,7 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,
 			0,
 			0,
-			SDL_WINDOW_RESIZABLE|SDL_WINDOW_MAXIMIZED);
+			SDL_WINDOW_RESIZABLE);
 #else
 	SDL_ShowCursor(SDL_DISABLE);
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
