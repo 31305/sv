@@ -108,6 +108,8 @@ extern "C"
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
 	SDL_SetWindowSize(st.cp,x1,x2);
+	EM_ASM({canvas.style.width=window.visualViewport.width;
+			canvas.style.height=window.visualViewport.height;});
 	mk();
 }
 }
@@ -121,6 +123,15 @@ void nk()
 	{
 		pmk();
 		sr=3;
+	}
+	if(1)
+	{
+		int x1,x2;
+		SDL_GetWindowSize(st.cp,&x1,&x2);
+		int nm1=EM_ASM_INT({return v1();});
+		int nm2=EM_ASM_INT({return v2();});
+		if(nm1!=x1||nm2!=x2)
+			pp(nm1,nm2);
 	}
 	static double k;
 	SDL_Event g;
@@ -286,9 +297,9 @@ int pmk()
 #ifdef EMSCRIPTEN
 	jt=1;
 	st.cp=SDL_CreateWindow(0,0,0,
-			EM_ASM_INT({return v1();}),
-			EM_ASM_INT({return v2();}),
-			SDL_WINDOW_RESIZABLE);
+			0,
+			0,
+			SDL_WINDOW_RESIZABLE|SDL_WINDOW_MAXIMIZED);
 #else
 	SDL_ShowCursor(SDL_DISABLE);
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
