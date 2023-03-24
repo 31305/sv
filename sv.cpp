@@ -443,6 +443,8 @@ struct vks
 	bool ck=1;
 	int yk=0;
 	size_t vs=0;
+	bool jt=0;
+	void (*dk)()=0;
 	GS::VTM::VocalTractModel5<double,1> mt;
 	struct vyp
 	{
@@ -454,7 +456,7 @@ struct vks
 	vyp vy=vyp(48000);
 	void vk()
 	{
-		sr++;
+		if(dk)dk();
 		bool ssv=1;
 		{char* p=getenv("SSV");if(p)if(p[0]=='0')ssv=0;}
 		double ms[2][mt.TOTAL_PARAMETERS];
@@ -948,6 +950,7 @@ struct vks
 	const size_t pgtv=300;
 	std::vector<unsigned char> nv;
 	uint64_t ns=0; 
+	void(*cvp)()=0;
 	void nt(unsigned char t)
 	{
 		sk[sks]=0;
@@ -977,7 +980,9 @@ struct vks
 				vs=0;
 			}
 			else if(t==8)
-				st.ks=!st.ks;
+			{
+				if(cvp)cvp();
+			}
 		}
 		else if(yk==6)
 		{
@@ -1269,6 +1274,9 @@ int rk()
 {
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
+	sl.v.jt=1;
+	sl.v.dk=[](){sr++;};
+	sl.v.cvp=[](){st.ks=!st.ks;};
 	sl.vkk=std::thread([](){sl.v.vk();});
 	if(0)pmk();
 	emscripten_set_main_loop(nk,0,0);
