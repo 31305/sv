@@ -1095,8 +1095,8 @@ struct jvn
 		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
 		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,&tpk,sg);
 		EM_ASM({window.pv=emscriptenGetAudioObject($0);
-			window.drk=()=>{
-			if(pv.state!='running')
+			window.drk=(sk=0)=>{
+			if(pv.state!='running'||sk)
 			{
 				pv.resume();
 				window.vkk=emscriptenGetAudioObject($1);
@@ -1105,7 +1105,9 @@ struct jvn
 			else if(0)
 			{
 				pv.suspend();
-			}};},pv,vkk);
+			}};
+			window.drk(1)
+			},pv,vkk);
 		sr++;
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
