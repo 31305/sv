@@ -1147,7 +1147,7 @@ void k(int p,bool lp=0,bool sl=0)
 #endif
 	dnp dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
 	std::thread vkk([&v](){v.vk();});
-	if(p>=0)
+	if(p>=0||(lp&&!sl))
 	{
 #ifdef KG
 		Display *d=XOpenDisplay(0);
@@ -1177,7 +1177,7 @@ void k(int p,bool lp=0,bool sl=0)
 	else
 	{
 #ifndef EMSCRIPTEN
-		while(v.ck)
+		while(v.ck&&!sl)
 		{
 			int t=0;
 			std::cin>>t;
