@@ -49,7 +49,7 @@ void lk()
 		{
 			for(int dk=0;dk<st.lc->w;dk++)
 				for(int tk=0;tk<3;tk++)
-					*(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2+dk)+tk)
+					*(st.cn+st.cns*((st.s2*st.sp2-4*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2+dk)+tk)
 						=*((unsigned char*)st.lc->pixels+st.lc->pitch*pk+dk*st.lc->format->BytesPerPixel+tk);
 			if(0)memcpy(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2),
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
