@@ -7,6 +7,7 @@ struct stp
 	SDL_Window* cp=0;
 	SDL_Renderer* ck;
 	SDL_Texture *mc1=NULL,*mc2=NULL;
+	SDL_Surface *lc=NULL;
 	bool cs=1;
 	const int sp1=8,sp2=(nc_height>128)?16:8;
 	int s1,s2,l2=1,ps=1;
@@ -17,7 +18,7 @@ struct stp
 	bool tp=0;
 	const bool dn=0;
 	const bool sg=1;
-	bool pms=1;
+	bool pms=0;
 	const int p1=sg?11:15,p2=sp2==8?32:24;
 	bool plg=1;
 	bool ks=([](){char *d=getenv("KS");return !(!d||d[0]=='0');})();

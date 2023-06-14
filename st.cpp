@@ -43,6 +43,18 @@ void lk()
 {
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,st.ks?255:0,st.s2*st.cns*8);
+	if(!st.pms)
+	{
+		for(int pk=0;pk<st.lc->h;pk++)
+		{
+			for(int dk=0;dk<st.lc->w;dk++)
+				for(int tk=0;tk<3;tk++)
+					*(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2+dk)+tk)
+						=*((unsigned char*)st.lc->pixels+st.lc->pitch*pk+dk*st.lc->format->BytesPerPixel+tk);
+			if(0)memcpy(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2),
+					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
+		}
+	}
 	if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,2);
 	int l2=st.s2-4;
 	if(st.tp)
@@ -118,6 +130,7 @@ void (*npk)(int)=0;
 int sr=0;
 void nk()
 {
+#ifdef EMSCRIPTEN
 	if(sr<2)return;
 	else if(sr==2)
 	{
@@ -133,6 +146,7 @@ void nk()
 		if(nm1!=x1||nm2!=x2)
 			pp(nm1,nm2);
 	}
+#endif
 	static double k;
 	SDL_Event g;
 	const int tpss=25;
@@ -305,6 +319,11 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	st.lc=SDL_LoadBMP("sc.bmp");
+#ifdef EMSCRIPTEN
+	if(0)EM_ASM({console.log('ss '+$0)},(int)st.lc->format->BytesPerPixel);
+	if(st.lc==0)EM_ASM({console.log('nlc')});
+#endif
 	if(0)
 	{
 		SDL_GetRenderDriverInfo(0,&st.j);
@@ -329,6 +348,7 @@ int pmk()
 		SDL_DestroyWindow(st.cp);
 		SDL_DestroyTexture(st.mc1);
 		SDL_DestroyTexture(st.mc2);
+		SDL_FreeSurface(st.lc);
 		SDL_Quit();
 	}
 	return 0;
