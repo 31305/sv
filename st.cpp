@@ -322,9 +322,12 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
-	st.lc=SDL_LoadBMP("sc.bmp");
+	auto tkc=SDL_LoadBMP("sc.bmp");
+	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
+	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
 #ifdef EMSCRIPTEN
 	if(0)EM_ASM({console.log('ss '+$0)},(int)st.lc->format->BytesPerPixel);
+	if(0)EM_ASM({console.log('vnvkn '+$0)},(int)st.lc->format->Bmask);
 	if(st.lc==0)EM_ASM({console.log('nlc')});
 #endif
 	if(0)
