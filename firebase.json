@@ -1,14 +1,7 @@
 {
   "hosting": {
-
-    "public": "./", 
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-	  ".git/**",
-	  ".*"
-    ],
+	"site": "sonico",
+    "public": "./rs", 
     "headers": [
 	   {
       "source": "*",
