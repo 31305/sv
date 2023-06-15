@@ -248,6 +248,11 @@ void nk()
 		}
 		else if(g.type==SDL_KEYDOWN)
 		{
+#ifdef EMSCRIPTEN
+			auto tk=SDL_GetModState();
+			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
+					EM_ASM({window.location.reload()});
+#endif
 			if(g.key.keysym.sym==SDLK_ESCAPE)
 			{
 				st.cs=0;
