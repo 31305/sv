@@ -1,6 +1,6 @@
 {
   "hosting": {
-	"site": "sonico",
+	"site": "voxator",
     "public": "./rs", 
     "headers": [
 	   {
