@@ -23,5 +23,4 @@ if js:
     AddPostAction('sv.o',f)
     e.Depends(sv,'sc.bmp')
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
-e.Command('sc.png','nl',"sh ck.sh")
-e.Depends('sc.png','ck.sh')
+e.Command('sc.png','ck.sh',"sh $SOURCE")
