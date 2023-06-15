@@ -1,6 +1,7 @@
 import os
 import subprocess
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall'],LIBS='pthread')
+nk=Builder(action='sh ck.sh < $SOURCE > $TARGET')
+e=Environment(BUILDERS={'nl':nk},COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall'],LIBS='pthread')
 js=type(ARGUMENTS.get('js'))==str
 ss=['sv.cpp','Log.cpp']
 if js:
@@ -20,3 +21,7 @@ def f(target,source,env):
     open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
 if js:
     AddPostAction('sv.o',f)
+    e.Depends(sv,'sc.bmp')
+e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
+e.Command('sc.png','nl',"sh ck.sh")
+e.Depends('sc.png','ck.sh')

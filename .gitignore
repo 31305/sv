@@ -4,12 +4,14 @@
 .sconsign.dblite
 compile_commands.json
 .cache
+__pycache__
 sv
 sv.js
 sv.ww.js
 sv.aw.js
 sv.worker.js
 sv.wasm
+sv.data
 s.o.json
 *.swp
 a.out
