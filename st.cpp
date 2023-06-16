@@ -53,7 +53,7 @@ void lk()
 				{
 					unsigned char l=*((unsigned char*)st.lc->pixels+st.lc->pitch*pk+(dk<0?0:dk)*st.lc->format->BytesPerPixel+tk);
 					if(st.ks)l=255-l;
-					*(st.cn+st.cns*((st.s2*st.sp2-4*st.sp2-st.lc->h)/2+pk)+3*(ms+(st.s1*st.sp1-st.lc->w)/2+dk)+tk)=l;
+					*(st.cn+st.cns*((st.s2*st.sp2-(st.dn?6:4)*st.sp2-st.lc->h)/2+pk)+3*(ms+(st.s1*st.sp1-st.lc->w)/2+dk)+tk)=l;
 				}
 			if(0)memcpy(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2),
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
@@ -63,7 +63,7 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
-		float ps=(st.s1-st.p1)/2.0;
+		float ps=(st.s1-(st.sg?11:15))/2.0;
 		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
 		bool bv=0;
 		for(int k1=0;k1<2&&0;k1++)
@@ -85,7 +85,7 @@ void lk()
 					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),
 					.rm=m,.hm=m,.nm=m})();
 		}
-		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
+		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,i==11?0:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11));
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 		if(!st.dn)l2+=2;
@@ -179,7 +179,7 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
-			float ps=(st.s1-st.p1)/2.0;
+			float ps=(st.s1-(st.sg?11:15))/2.0;
 			float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
 			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
 			if(st.sg)k1=round(k1-1);
