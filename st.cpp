@@ -106,7 +106,10 @@ void lk()
 			if(0)nl({.n=i,.p1=ps+1+(i%5)*(st.sg?2:3),.p2=(float)(psd+2.0+(int)(i/5)*2),
 					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),
 					.rm=m,.hm=m,.nm=m})();
-			nl({.n=i-5,.p1=floor(mss<0>(i)),.p2=floor(mss<1>(i)),.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),.rm=m,.hm=m,.nm=m})();
+			if(0)if(st.tr.p==1||st.tr.p==2)
+				printf("n %d %d\n",st.tr.n,i);
+			nl({.n=i-5,.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
+					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i),.rm=m,.hm=m,.nm=m})();
 		}
 		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,i==11?0:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11));
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
@@ -204,7 +207,7 @@ void nk()
 		{
 			float ss1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1);
 			float ss2=((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2);
-			for(int k=st.dn?5:1;k<15;k++)
+			for(int k=st.dn?1:5;k<15;k++)
 				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1,ss2))return k;
 			return -1;
 			float ps=(st.s1-(st.sg?11:15))/2.0;
@@ -331,6 +334,7 @@ void nk()
 			if(st.tr.p==0)
 			{
 				int n=ss(g.button.x,g.button.y);
+				printf("n %d\n",n);
 				if(st.tp&&n>0&&n<15)
 				{
 					st.tr.p=2;
@@ -378,7 +382,7 @@ int pmk()
 	auto tkc=SDL_LoadBMP("sc.bmp");
 	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
 	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
-#ifdef EMSCRIPTEN
+#ifdef NKP
 	if(0)EM_ASM({console.log('ss '+$0)},(int)st.lc->format->BytesPerPixel);
 	if(0)EM_ASM({console.log('vnvkn '+$0)},(int)st.lc->format->Bmask);
 	if(st.lc==0)EM_ASM({console.log('nlc')});
