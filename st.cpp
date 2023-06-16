@@ -65,7 +65,26 @@ void lk()
 	{
 		float ps=(st.s1-st.p1)/2.0;
 		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
-		for(int i=0;i<10;i++)ns(i,ps+1+(i%5)*(st.sg?2:3),psd+2.0+(int)(i/5)*2,!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i));
+		bool bv=0;
+		for(int k1=0;k1<2&&0;k1++)
+			for(int k2=1;k2<=psd;k2++)
+			{
+				const unsigned char m=255;
+				nl({.n=11,.p1=(float)(ps+1+k1*8),.p2=(float)k2,.rm=m,.hm=m,.nm=m})();
+			}
+		for(int k2=0;k2<5&&bv;k2++)
+			for(int k1=0;k1<st.s1;k1++)
+			{
+				const unsigned char m=200;
+				nl({.n=11,.p1=(float)k1,.p2=psd+k2+1,.rm=m,.hm=m,.nm=m})();
+			}
+		for(int i=0;i<10;i++)
+		{
+			const unsigned char m=bv?0:255;
+			nl({.n=i,.p1=ps+1+(i%5)*(st.sg?2:3),.p2=(float)(psd+2.0+(int)(i/5)*2),
+					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),
+					.rm=m,.hm=m,.nm=m})();
+		}
 		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,(st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11);
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
