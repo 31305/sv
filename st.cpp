@@ -30,15 +30,16 @@ void nl::operator()()
 template<int d>
 float mss(int k)
 {
+	bool ds=st.s1<20;
 	if(d==0)
 	{
-		float ps=(st.s1-(st.sg?11:15))/2.0;
-		return ps+1+(k%5)*(st.sg?2:3)+0.5;
+		float ps=(ds||k<5)?(st.s1-(st.sg?11:15))/2.0:(st.s1-19)/2.0;
+		return (ds||k<5)?ps+1+(k%5)*(st.sg?2:3)+0.5:ps+(k-5)*2+0.5;
 	}
 	else
 	{
-		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
-		return (float)(psd+2.0+(int)((k-5)/5)*2)+0.5;
+		float psd=st.pms?(st.s2-7.0)/2.0:ds?st.s2-6:st.s2-4;
+		return (ds||k<5)?(float)(psd+(int)((k)/5)*2)+0.5:st.s2-1.5;
 	}
 }
 struct nsk
@@ -85,33 +86,12 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
-		float ps=(st.s1-(st.sg?11:15))/2.0;
-		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
-		bool bv=0;
-		for(int k1=0;k1<2&&0;k1++)
-			for(int k2=1;k2<=psd;k2++)
-			{
-				const unsigned char m=255;
-				nl({.n=11,.p1=(float)(ps+1+k1*8),.p2=(float)k2,.rm=m,.hm=m,.nm=m})();
-			}
-		for(int k2=0;k2<5&&bv;k2++)
-			for(int k1=0;k1<st.s1;k1++)
-			{
-				const unsigned char m=200;
-				nl({.n=11,.p1=(float)k1,.p2=psd+k2+1,.rm=m,.hm=m,.nm=m})();
-			}
-		for(int i=5;i<15;i++)
+		for(int i=st.dn?0:5;i<15;i++)
 		{
-			const unsigned char m=bv?0:255;
-			if(0)nl({.n=i,.p1=ps+1+(i%5)*(st.sg?2:3),.p2=(float)(psd+2.0+(int)(i/5)*2),
-					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),
-					.rm=m,.hm=m,.nm=m})();
-			if(0)if(st.tr.p==1||st.tr.p==2)
-				printf("n %d %d\n",st.tr.n,i);
-			nl({.n=i-5,.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
-					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i),.rm=m,.hm=m,.nm=m})();
+			const unsigned char m=255;
+			nl({.n=(i<5?i+11:i-5),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
+					.v=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i)),.rm=m,.hm=m,.nm=m})();
 		}
-		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,i==11?0:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11));
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
 		if(!st.dn)l2+=2;
@@ -210,19 +190,6 @@ void nk()
 			for(int k=st.dn?1:5;k<15;k++)
 				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1,ss2))return k;
 			return -1;
-			float ps=(st.s1-(st.sg?11:15))/2.0;
-			float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
-			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
-			if(st.sg)k1=round(k1-1);
-			else k1=floor(k1);
-			float k2=round((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2)-psd;
-			if(0)printf("%f %f \n",k1,k2);
-			if(k2<0||k2>=6)return -1;
-			if(k1<0||k1>=(st.p1-(int)st.sg))return -1;
-			int nk1=k1,nk2=k2;
-			int pd=(nk2/2)*5+(nk1)/(st.sg?2:3);
-			if(0)printf("%f %f %d\n",k1,k2,pd);
-			return st.dn?pd:pd>4?pd:-1;
 		};
 		auto ts=[&g]()
 		{
