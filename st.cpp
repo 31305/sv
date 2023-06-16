@@ -27,6 +27,28 @@ void nl::operator()()
 		}
 	}
 }
+template<int d>
+float mss(int k)
+{
+	if(d==0)
+	{
+		float ps=(st.s1-(st.sg?11:15))/2.0;
+		return ps+1+(k%5)*(st.sg?2:3)+0.5;
+	}
+	else
+	{
+		float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
+		return (float)(psd+2.0+(int)((k-5)/5)*2)+0.5;
+	}
+}
+struct nsk
+{
+	float ms1,ms2,d1=1,d2=1;
+	bool operator()(float s1,float s2)
+	{
+		return abs(ms1-s1)<=d1*0.5&&abs(ms2-s2)<=d2*0.5;
+	}
+};
 void ns(int n,float p1,float p2,bool v=0)
 {
 	nl({.n=n,.p1=p1,.p2=p2,.v=v})();
@@ -78,12 +100,13 @@ void lk()
 				const unsigned char m=200;
 				nl({.n=11,.p1=(float)k1,.p2=psd+k2+1,.rm=m,.hm=m,.nm=m})();
 			}
-		for(int i=0;i<10;i++)
+		for(int i=5;i<15;i++)
 		{
 			const unsigned char m=bv?0:255;
-			nl({.n=i,.p1=ps+1+(i%5)*(st.sg?2:3),.p2=(float)(psd+2.0+(int)(i/5)*2),
+			if(0)nl({.n=i,.p1=ps+1+(i%5)*(st.sg?2:3),.p2=(float)(psd+2.0+(int)(i/5)*2),
 					.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),
 					.rm=m,.hm=m,.nm=m})();
+			nl({.n=i-5,.p1=floor(mss<0>(i)),.p2=floor(mss<1>(i)),.v=!((st.tr.p==1||st.tr.p==2)&&st.tr.n==5+i),.rm=m,.hm=m,.nm=m})();
 		}
 		if(st.dn)for(int i=11;i<16;i++)ns(i,ps+1+(i-11)*(st.sg?2:3),psd,i==11?0:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i-11));
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
@@ -179,6 +202,11 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
+			float ss1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1);
+			float ss2=((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2);
+			for(int k=st.dn?5:1;k<15;k++)
+				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1,ss2))return k;
+			return -1;
 			float ps=(st.s1-(st.sg?11:15))/2.0;
 			float psd=st.pms?(st.s2-7.0)/2.0:st.s2-6;
 			float k1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1-ps);
