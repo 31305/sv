@@ -76,7 +76,8 @@ void lk()
 				{
 					unsigned char l=*((unsigned char*)st.lc->pixels+st.lc->pitch*pk+(dk<0?0:dk)*st.lc->format->BytesPerPixel+tk);
 					if(st.ks)l=255-l;
-					*(st.cn+st.cns*((st.s2*st.sp2-(st.dn?6:4)*st.sp2-st.lc->h)/2+pk)+3*(ms+(st.s1*st.sp1-st.lc->w)/2+dk)+tk)=l;
+					*(st.cn+st.cns*(((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2-st.lc->h)/2+pk)
+							+3*(ms+(st.s1*st.sp1-st.lc->w)/2+dk)+tk)=l;
 				}
 			if(0)memcpy(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2),
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
