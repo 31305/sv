@@ -302,7 +302,7 @@ void nk()
 			if(st.tr.p==0)
 			{
 				int n=ss(g.button.x,g.button.y);
-				printf("n %d\n",n);
+				if(0)printf("n %d\n",n);
 				if(st.tp&&n>0&&n<15)
 				{
 					st.tr.p=2;
