@@ -24,5 +24,5 @@ if js:
     e.Depends(sv,'sc.bmp')
     e.Depends(sv,'vcm.ico')
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
-e.Command('sc.png','ck.sh',"sh $SOURCE")
+e.Command('sc.png','ck.py',"python3 $SOURCE")
 e.Command('vcm.ico','cm.ico','convert $SOURCE -resize 48x48 $TARGET')
