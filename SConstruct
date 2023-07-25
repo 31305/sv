@@ -20,9 +20,9 @@ sv=e.Program('sv',ss)
 def f(target,source,env):
     l=open('s.o.json','r').read()
     open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
+e.Depends(sv,'sc.bmp')
 if js:
     AddPostAction('sv.o',f)
-    e.Depends(sv,'sc.bmp')
     e.Depends(sv,'vcm.ico')
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
 e.Command('sc.png','ck.py',"python3 $SOURCE")
