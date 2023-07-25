@@ -15,6 +15,7 @@ else:
     e.Append(CCFLAGS=['-DKG'])
     e.Tool('compilation_db')
     e.CompilationDatabase()
+    ss+=['st.cpp']
 sv=e.Program('sv',ss)
 def f(target,source,env):
     l=open('s.o.json','r').read()

@@ -17,8 +17,8 @@
 #ifdef EMSCRIPTEN
 #include<emscripten.h>
 #include<emscripten/webaudio.h>
-#include"st.h"
 #endif
+#include"st.h"
 struct v
 {
 	enum csp{k=1,t,m,d,o,kt,od,ko};
@@ -1134,6 +1134,21 @@ struct ntv
 {
 
 };
+void dk()
+{
+	SDL_Init(SDL_INIT_EVERYTHING);
+	static vks v;
+	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
+	v.cvp=[](){st.ks=!st.ks;};
+	std::thread vkk([](){v.vk();});
+	npk=[](int n)
+	{
+		if(n>4)
+			v.nt(n);
+	};
+	pmk();
+	vkk.join();
+}
 void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -1254,6 +1269,10 @@ int main(int argc,char** argv)
 	}
 	else if(argv[1][0]=='7')
 		k(-1);
+	else if(argv[1][0]=='8')
+	{
+		dk();
+	}
 #ifdef KG
 	else 
 	{

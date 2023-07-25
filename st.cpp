@@ -277,6 +277,7 @@ void nk()
 				st.cs=0;
 				st.tr.p=0;
 				st.plg=1;
+				npk(9);
 			}
 			int n=ts();
 			if(tps[n]==0)
@@ -335,8 +336,8 @@ void nk()
 }
 int pmk()
 {
-	SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS);
 #ifdef EMSCRIPTEN
+	SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS);
 	jt=1;
 	st.cp=SDL_CreateWindow(0,0,0,
 			0,
