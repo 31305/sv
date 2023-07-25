@@ -19,6 +19,8 @@ struct stp
 	const bool dn=0;
 	const bool sg=1;
 	bool pms=0;
+	bool nkk=1;
+	bool nkd=0;
 	const int p1=sg?11:15,p2=sp2==8?32:24;
 	bool plg=1;
 	bool ks=([](){char *d=getenv("KS");return !(!d||d[0]=='0');})();

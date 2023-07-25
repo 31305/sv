@@ -99,13 +99,16 @@ void lk()
 	}
 	st.l2=l2;
 	SDL_UnlockTexture(st.mc1);
-	SDL_SetRenderTarget(st.ck,st.mc2);
-	SDL_RenderCopy(st.ck,st.mc1,NULL,NULL);
-	SDL_SetRenderTarget(st.ck,NULL);
+	if(!st.nkk)
+	{
+		SDL_SetRenderTarget(st.ck,st.mc2);
+		SDL_RenderCopy(st.ck,st.mc1,NULL,NULL);
+		SDL_SetRenderTarget(st.ck,NULL);
+	}
 	Uint8 vn=st.ks?255:0;
     SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
-	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.mc2,NULL,&st.pd);
+	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
 	if(sr==3)
 	{
 		sr++;
@@ -121,32 +124,57 @@ void mk()
 	int x1,x2;
 	SDL_GetWindowSize(st.cp,&x1,&x2);
 	if(0)printf("%dx%d\n",x1,x2);
+	int g=0;
 	if(x1>x2)
 	{
 		st.tp=0;
-		st.s2=st.p2;
+		if(!st.nkk)
+			st.s2=st.p2;
+		else
+		{
+			g=st.nkd?ceil((float)x2/(float)(st.sp2*st.p2)):floor(x2/(st.sp2*st.p2));
+			if(g<1)g=1;
+			st.s2=x2/(g*st.sp2);
+		}
 		float d1=((float)x2/(float)(st.s2)*(float)st.sp1/(float)st.sp2);
-		st.s1=ceil((float)x1/d1);
+		st.s1=st.nkk?floor(x1/(g*st.sp1)):ceil((float)x1/d1);
 		if(!jt)SDL_ShowCursor(SDL_DISABLE);
 	}
 	else
 	{
 		st.tp=1;
-		st.s1=st.p1;
+		if(!st.nkk)
+			st.s1=st.p1;
+		else
+		{
+			g=st.nkd?ceil((float)x1/(float)(st.sp1*st.p1)):floor(x1/(st.sp1*st.p1));
+			if(g<1)g=1;
+			st.s1=x1/(g*st.sp1);
+		}
 		float d2=((float)x1/(float)(st.s1)*(float)st.sp2/(float)st.sp1);
-		st.s2=floor((float)x2/d2);
+		st.s2=st.nkk?floor(x2/(g*st.sp2)):floor((float)x2/d2);
 		SDL_ShowCursor(SDL_ENABLE);
 	}
 	st.tp=1;
-	st.pd.w=x1;
-	st.pd.h=st.s2*((float)x1/(float)(st.s1)*(float)st.sp2/(float)st.sp1);
-	st.pd.y=x2-st.pd.h;
-	st.pd.x=0;
+	if(!st.nkk)
+	{
+		st.pd.w=x1;
+		st.pd.h=st.s2*((float)x1/(float)(st.s1)*(float)st.sp2/(float)st.sp1);
+		st.pd.y=x2-st.pd.h;
+		st.pd.x=0;
+	}
+	else
+	{
+		st.pd.w=st.s1*st.sp1*g;
+		st.pd.h=st.s2*st.sp2*g;
+		st.pd.x=(x1-st.pd.w)/2;
+		st.pd.y=(x2-st.pd.h)/2;
+	}
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
-	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
+	if(!getenv("NCTV")&&!st.nkk)SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
