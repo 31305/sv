@@ -1144,7 +1144,7 @@ void dk()
 	npk=[](int n)
 	{
 		if(n>4)
-			v.nt(n);
+			v.nt(n-5);
 	};
 	pmk();
 	vkk.join();
