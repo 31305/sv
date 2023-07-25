@@ -9,7 +9,7 @@ for k in range(math.floor(760/8),math.floor(1080/8)):
         if km<ntk:
             ntk=km
             ntks=pk
-    print(k,ntks,ntk)
+    print(k,ntks,ntk,math.floor(k/ntks))
     if ntk>dtnt:
         dtnt=ntk
 print("\n"+str(dtnt))
