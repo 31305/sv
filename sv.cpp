@@ -1139,13 +1139,16 @@ void dk()
 	SDL_Init(SDL_INIT_EVERYTHING);
 	static vks v;
 	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
+	sr++;
 	v.cvp=[](){st.ks=!st.ks;};
+	v.dk=[](){sr++;};
 	std::thread vkk([](){v.vk();});
 	npk=[](int n)
 	{
 		if(n>4)
 			v.nt(n-5);
 	};
+	sr++;
 	pmk();
 	vkk.join();
 }

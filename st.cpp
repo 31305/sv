@@ -105,7 +105,12 @@ void lk()
 	Uint8 vn=st.ks?255:0;
     SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
-    SDL_RenderCopy(st.ck,st.mc2,NULL,&st.pd);
+	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.mc2,NULL,&st.pd);
+	if(sr==3)
+	{
+		sr++;
+		st.plg=1;
+	}
 	SDL_RenderPresent(st.ck);
 }
 void mk()
@@ -165,7 +170,7 @@ void nk()
 	else if(sr==2)
 	{
 		pmk();
-		sr=3;
+		sr++;
 	}
 	if(1)
 	{
