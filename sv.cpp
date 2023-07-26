@@ -960,7 +960,7 @@ struct vks
 		}
 		if(yk==0)
 		{
-			if(t==9){if(!jt)ck=0;}
+			if(t==9){if(!jt){ck=0;st.cs=0;}}
 			else if(t==1)
 			{
 				if(0)yk=1;
@@ -1151,6 +1151,7 @@ void dk()
 	sr++;
 	pmk();
 	vkk.join();
+	SDL_Quit();
 }
 void k(int p,bool lp=0,bool sl=0)
 {

@@ -305,7 +305,7 @@ void nk()
 			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
 					EM_ASM({window.location.reload()});
 #endif
-			if(g.key.keysym.sym==SDLK_ESCAPE)
+			if(g.key.keysym.sym==SDLK_ESCAPE&&!jt)
 			{
 				st.cs=0;
 				st.tr.p=0;
@@ -414,7 +414,6 @@ int pmk()
 		SDL_DestroyTexture(st.mc1);
 		SDL_DestroyTexture(st.mc2);
 		SDL_FreeSurface(st.lc);
-		SDL_Quit();
 	}
 	return 0;
 }
