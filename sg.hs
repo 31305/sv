@@ -1,7 +1,6 @@
 module Sg where
 s1=1000000000000
 s2=33
-s3=21214541235
 f1(l)=if l<s1 then f5(l+s1*100) else 0 
 f2(l)=l `mod` 10
 f3(l)=(l-f2(l)) `div` 10
@@ -29,5 +28,5 @@ f19(l)=if f2(l)<3 && f22(l+3)==1 then l+1 else l
 f20(l)=if f2(l)<2 && f22(l+2)==1 then l+2 else l
 f21(l)=if f2(l)<3 && l<30 && f22(l+11)==1 then l+11 else l
 f22(l)=f23(l)
-f23(l)=if f24(l)==1 && f24(33-l)==1 then 1 else 0
+f23(l)=if f24(l)==1 && f24(s2-l)==1 then 1 else 0
 f24(l)=if f2(l)==0 then 1 else if f2(l)>=f3(l) then 1 else 0
