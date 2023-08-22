@@ -40,7 +40,7 @@ public:
 	void dataFill(TFloat data);
 	void flushBuffer();
 private:
-	enum {
+	const static int 
 		BUFFER_SIZE = 1024, /*  ring buffer size  */
 		L_BITS  = 8,
 		L_RANGE = 1 << L_BITS,
@@ -55,7 +55,7 @@ private:
 		L_MASK        = 0x0000FF00,
 		FRACTION_MASK = 0x0000FFFF,
 		N_MASK        = 0xFFFF0000
-	};
+	;
 
 	SampleRateConverter(const SampleRateConverter&) = delete;
 	SampleRateConverter& operator=(const SampleRateConverter&) = delete;

@@ -1343,3 +1343,11 @@ int main()
 }
 }
 #endif
+void vg()
+{
+	std::vector<std::pair<std::u8string,std::u8string>> nds;
+	for(size_t k=0;k<nds.size();k++)
+	{
+
+	}
+}

@@ -1,7 +1,7 @@
 import os
 import subprocess
 nk=Builder(action='sh ck.sh < $SOURCE > $TARGET')
-e=Environment(BUILDERS={'nl':nk},COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall'],LIBS='pthread')
+e=Environment(BUILDERS={'nl':nk},COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
 js=type(ARGUMENTS.get('js'))==str
 ss=['sv.cpp','Log.cpp']
 if js:
