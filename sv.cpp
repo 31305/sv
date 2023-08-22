@@ -1210,6 +1210,54 @@ void k(int p,bool lp=0,bool sl=0)
 	SDL_Quit();
 #endif
 }
+std::u8string vkk(const std::u8string pv,const std::u8string &k)
+{
+	std::u8string sk=pv+k;
+	size_t ks=0;
+	size_t ss=0;
+	while(ks<sk.size())
+	{
+		char8_t n=sk[ks];
+		if(n==1)sk[ss]++;
+		else if(n==2)sk[ss]--;
+		else if(n==3)ss++;
+		else if(n==4)ss--;
+		else if(n==5&&sk[0]==0)
+		{
+			ks=ss;
+			continue;
+		}
+		ks++;
+		if(ss>=sk.size())
+		{
+			size_t p=sk.size();
+			sk.resize(ss+1);
+			memset(&sk[p],0,sk.size()-p);
+		}
+	}
+	return sk;
+}
+bool vg(const std::u8string &pv,const std::vector<std::pair<std::u8string,std::u8string>> &nds)
+{
+	bool ss=1;
+	for(size_t k=0;k<nds.size();k++)
+	{
+		auto sk=vkk(pv,nds[k].first),d=nds[k].second;
+		auto p=sk.substr(pv.size(),sk.size()-pv.size());
+		if(1)
+		{
+			printf("\nv");
+			for(size_t k=0;k<pv.size();k++)printf(" %d",(int)sk[k]);
+			printf("\np");
+			for(size_t k=0;k<p.size();k++)printf(" %d",(int)p[k]);
+			printf("\nd");
+			for(size_t k=0;k<d.size();k++)printf(" %d",(int)d[k]);
+			printf("\n");
+		}
+		if(p!=d){ss=0;break;}
+	}
+	return ss;
+}
 #ifndef EMSCRIPTEN
 int main(int argc,char** argv)
 {
@@ -1278,6 +1326,11 @@ int main(int argc,char** argv)
 	{
 		dk();
 	}
+	else if(argv[1][0]=='9')
+	{
+		auto p=[](const std::u8string &p,const std::u8string &d){return std::make_pair(p,d);};
+		printf("%d\n",vg({0},{p({1},{1})}));
+	}
 #ifdef KG
 	else 
 	{
@@ -1343,11 +1396,3 @@ int main()
 }
 }
 #endif
-void vg()
-{
-	std::vector<std::pair<std::u8string,std::u8string>> nds;
-	for(size_t k=0;k<nds.size();k++)
-	{
-
-	}
-}
