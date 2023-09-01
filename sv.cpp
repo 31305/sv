@@ -393,6 +393,10 @@ std::vector<std::basic_string<unsigned char>> ss=
 	{44,4,48,61,44,1,71,1,66,8,44,46,8,58,3,43,1,66,4,75},
 	{},
 };
+std::vector<v> sk()
+{
+	return {};
+}
 int ssk(int p)
 {
 	char s;
@@ -1070,11 +1074,12 @@ struct sdvn
 struct jvn
 {
 	uint8_t vs[4096];
-	struct
+	struct ngp
 	{
 		void(*pc)(void*,unsigned char*,int);
 		void* vy;
-	}ng;
+	};
+	ngp ng;
 	static void ppk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
 		if(!ss)
@@ -1113,7 +1118,7 @@ struct jvn
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{
-		auto pg=(typeof(ng)*)sg;
+		auto pg=(ngp*)sg;
 		float d[128];
 		pg->pc(pg->vy,(uint8_t*)d,sizeof(d));
 		for(int k=0;k<nds;k++)
