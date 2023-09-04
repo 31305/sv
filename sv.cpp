@@ -1215,6 +1215,14 @@ void k(int p,bool lp=0,bool sl=0)
 	SDL_Quit();
 #endif
 }
+void sln()
+{
+	std::ofstream s;
+	s.open("sl",std::ios_base::app|std::ios_base::binary);
+	char l='0';
+	s.write(&l,1);
+	s.close();
+}
 std::u8string vkk(const std::u8string pv,const std::u8string &k)
 {
 	std::u8string sk=pv+k;
@@ -1335,6 +1343,10 @@ int main(int argc,char** argv)
 	{
 		auto p=[](const std::u8string &p,const std::u8string &d){return std::make_pair(p,d);};
 		printf("%d\n",vg({0},{p({1},{1})}));
+	}
+	else if(argv[1][0]=='1'&&argv[1][1]=='0')
+	{
+		sln();
 	}
 #ifdef KG
 	else 
