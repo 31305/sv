@@ -183,8 +183,6 @@ extern "C"
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
 	SDL_SetWindowSize(st.cp,x1,x2);
-	EM_ASM({canvas.style.width='100vw';
-			canvas.style.height='100vh';});
 	mk();
 }
 }
@@ -197,6 +195,7 @@ void nk()
 	if(sr<2)return;
 	else if(sr==2)
 	{
+		if(EM_ASM_INT({return lv;})==0)return;
 		pmk();
 		sr++;
 	}
@@ -204,10 +203,13 @@ void nk()
 	{
 		int x1,x2;
 		SDL_GetWindowSize(st.cp,&x1,&x2);
-		int nm1=EM_ASM_INT({return v1();});
-		int nm2=EM_ASM_INT({return v2();});
+		int nm1=EM_ASM_INT({return lv;});
+		int nm2=EM_ASM_INT({return lt;});
 		if(nm1!=x1||nm2!=x2)
+		{
+			if(0)printf("kp\n");
 			pp(nm1,nm2);
+		}
 	}
 #endif
 	static double k;
@@ -404,7 +406,7 @@ int pmk()
 		SDL_Delay(16);
 	}
 #else
-	if(0)EM_ASM({window.addEventListener('resize',r,true);canvas.style.width='100%';});
+	if(0)EM_ASM({window.addEventListener('resize',r,true);ccp.style.width='100%';});
 	if(0)emscripten_set_main_loop(nk,0,0);
 #endif
 	if(!jt)
