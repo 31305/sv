@@ -195,20 +195,18 @@ void nk()
 	if(sr<2)return;
 	else if(sr==2)
 	{
-		if(EM_ASM_INT({return lv;})==0)return;
+		if(EM_ASM_INT({return vp;})==0)return;
 		pmk();
 		sr++;
 	}
 	if(1)
 	{
-		int x1,x2;
-		SDL_GetWindowSize(st.cp,&x1,&x2);
-		int nm1=EM_ASM_INT({return lv;});
-		int nm2=EM_ASM_INT({return lt;});
-		if(nm1!=x1||nm2!=x2)
+		if(EM_ASM_INT({return vp;})!=0)
 		{
+			int nm1=EM_ASM_INT({return cp.width;});
+			int nm2=EM_ASM_INT({return cp.height;});
 			if(0)printf("kp\n");
-			pp(nm1,nm2);
+			if(1)pp(nm1,nm2);
 		}
 	}
 #endif
