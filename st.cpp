@@ -203,6 +203,7 @@ void nk()
 	{
 		if(EM_ASM_INT({return vp;})!=0)
 		{
+			EM_ASM({vp=0;});
 			int nm1=EM_ASM_INT({return cp.width;});
 			int nm2=EM_ASM_INT({return cp.height;});
 			if(0)printf("kp\n");
