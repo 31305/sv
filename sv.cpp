@@ -407,6 +407,18 @@ int ssk(int p)
 	}
 	return 1;
 }
+struct vp
+{
+	size_t v=0,s=0,n=0;
+};
+std::vector<vp> ns=
+{{},
+	{},
+	{},
+	{0,1,2},
+	{},
+	{2,1,4},
+};//nsss
 #ifdef KG
 void es(void(*k)(int),bool n)
 {
@@ -506,7 +518,7 @@ struct vks
 							kpn=ls[kpn].nv;
 						}
 						return 0;
-					};	
+					};
 					while(!(ls[vk].nv==0||((ls[vk].nv==ls[kp].nv||ls[vk].nv==kp||(pnv(ls[vk].nv)&&ls[vk].nsv))&&ss-vss<10)))
 					{
 						if(ls[vk].vpv)
