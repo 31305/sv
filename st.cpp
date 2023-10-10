@@ -311,7 +311,7 @@ void nk()
 				st.cs=0;
 				st.tr.p=0;
 				st.plg=1;
-				npk(5+9);
+				npk(5+10);
 			}
 			int n=ts();
 			if(tps[n]==0)

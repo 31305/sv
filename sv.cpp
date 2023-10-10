@@ -459,6 +459,16 @@ uint64_t ks()
 {
 	return SDL_GetTicks();
 };
+size_t snsp(char* n)
+{
+	size_t s=0;
+	while(*n)
+	{
+		s=(s<<3)+((*n)-'0');
+		n++;
+	}
+	return s;
+}
 struct vks
 {
 	bool lp=0,sl=0;
@@ -976,7 +986,7 @@ struct vks
 	}
 	int tk=0;
 	int pt=0;
-	static const int sks=2;
+	static const int sks=8;
 	char sk[sks+1];
 	int skk=0;
 	const size_t pgtv=300,dpgt=2000;
@@ -989,6 +999,11 @@ struct vks
 		if(t==5)
 		{
 			yk=5;
+		}
+		if(t==10)
+		{
+			yk=0;
+			ck=0;
 		}
 		if(yk==0)
 		{
@@ -1041,13 +1056,13 @@ struct vks
 		}
 		else if(yk==2)
 		{
-			if(t==9)
+			if(t==8)
 			{
 				sk[skk]=0;
-				vs=atoi(sk);
+				vs=snsp(sk);
 				yk=12;
 			}
-			else if(t==8)
+			else if(t==9)
 				yk=0;
 			else if(skk<sks)
 			{
