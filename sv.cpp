@@ -1310,12 +1310,17 @@ bool vg(const std::u8string &pv,const std::vector<std::pair<std::u8string,std::u
 int main(int argc,char** argv)
 {
 	if(argc<2)
+	{
 		printf("0|1?\n");
-	else if(argv[1][0]=='3')
+		return 0;
+	}
+	int dn=atoi(argv[1]);
+	if(!dn)return 0;
+	else if(dn==3)
 		k(-1,1);
-	else if(argv[1][0]=='6')
+	else if(dn==6)
 		k(-1,1,1);
-	else if(argv[1][0]=='2')
+	else if(dn==2)
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
 		while(mt.outputBuffer().size()==0)
@@ -1327,7 +1332,7 @@ int main(int argc,char** argv)
 			printf("%d,",k.k[i]);
 		printf("\n");
 	}
-	else if(argv[1][0]=='5')
+	else if(dn==5)
 	{
 		std::vector<bool> p(ls.size());
 		for(size_t k=0;k<p.size();k++)
@@ -1338,7 +1343,7 @@ int main(int argc,char** argv)
 			if(!ls[k].nsv&&!p[k])
 				printf("%ld\n",k);
 	}
-	else if(argv[1][0]=='4')
+	else if(dn==4)
 	{
 		std::array<size_t,27> pv={1,4,7,10,13,19,25,31,37,43,44,45,46,47,48,49,53,55,58,60,63,65,68,70,73,75,76};
 		size_t vk=atoi(argv[2]);
@@ -1368,25 +1373,25 @@ int main(int argc,char** argv)
 		}
 		vs.close();
 	}
-	else if(argv[1][0]=='7')
+	else if(dn==7)
 		k(-1);
-	else if(argv[1][0]=='8')
+	else if(dn==8)
 	{
 		dk();
 	}
-	else if(argv[1][0]=='9')
+	else if(dn==9)
 	{
 		auto p=[](const std::u8string &p,const std::u8string &d){return std::make_pair(p,d);};
 		printf("%d\n",vg({0},{p({1},{1})}));
 	}
-	else if(argv[1][0]=='1'&&argv[1][1]=='0')
+	else if(dn==10)
 	{
 		sln();
 	}
 #ifdef KG
-	else 
+	else if(dn==1||dn==0)
 	{
-		es([](int p){k(p);},argv[1][0]!='0');
+		es([](int p){k(p);},dn==0);
 	}
 #endif
 	return 0;
