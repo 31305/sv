@@ -419,6 +419,10 @@ std::vector<vp> ns=
 	{},
 	{2,1,4},
 };//nsss
+bool pn(const std::vector<vp> &ns)
+{
+	return 0;
+}
 #ifdef KG
 void es(void(*k)(int),bool n)
 {
@@ -491,7 +495,7 @@ struct vks
 			std::vector<v> gv;
 			while(ck)
 			{
-				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=5&&ck&&pv.size()==0)
+				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=5&&ck&&pv.size()==0)
 				{
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
@@ -499,7 +503,12 @@ struct vks
 					if(tk>0)
 						tk-=ks*1000.0;
 					if(tk<=0&&yk==6)
+					{
+						printf("vs %lu\n",vs);
 						yk=16;
+					}
+					if((tk<0||skk==sks)&&yk==2)
+						yk=22;
 				}
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
@@ -580,6 +589,11 @@ struct vks
 					yk=0;
 					vsk(vs);
 					continue;
+				}
+				else if(yk==22)
+				{
+					kp=0;
+					gv=::vs({45,13,71,66,2,75,1,55,51,3,70,1,75});
 				}
 				else if(yk!=0)
 				{
@@ -965,7 +979,7 @@ struct vks
 	static const int sks=2;
 	char sk[sks+1];
 	int skk=0;
-	const size_t pgtv=300;
+	const size_t pgtv=300,dpgt=2000;
 	std::vector<unsigned char> nv;
 	uint64_t ns=0; 
 	void(*cvp)()=0;
@@ -986,6 +1000,7 @@ struct vks
 			}
 			else if(t==2)
 			{
+				tk=dpgt;
 				yk=2;
 				skk=0;
 			}
@@ -1026,12 +1041,19 @@ struct vks
 		}
 		else if(yk==2)
 		{
-			sk[skk]='0'+t;
-			skk++;
-			if(skk==sks)
+			if(t==9)
 			{
+				sk[skk]=0;
 				vs=atoi(sk);
 				yk=12;
+			}
+			else if(t==8)
+				yk=0;
+			else if(skk<sks)
+			{
+				sk[skk]='0'+t;
+				skk++;
+				tk=dpgt;
 			}
 		}
 	}
