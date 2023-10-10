@@ -31,6 +31,7 @@ struct v
 	char vv;
 	bool mp,sg;
 	bool sm;
+	bool operator==(const v&)const=default;
 };
 constexpr v vc[]=
 {
@@ -612,6 +613,14 @@ struct vks
 				}
 				else continue;
 				if(0&&!sl)printf("gvs %ld\n",gv.size());
+				auto vvl=getenv("VVL");
+				auto vsks=[](v p)->size_t
+				{
+					for(size_t k=0;k<100;k++)
+						if(vc[k]==p)
+							return k;
+					return 0;
+				};
 				if(1)for(size_t k=1;k+2<gv.size();k++)
 				{
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
@@ -622,6 +631,10 @@ struct vks
 						gv[k]=dv;
 					}
 				}
+				if(vvl)
+					for(size_t k=0;k<gv.size();k++)
+						printf("%lu ",vsks(gv[k]));
+				if(vvl)printf("\n");
 				const double ctdm=12000;
 				double ct=ctdm;
 				auto vp=[this,&ct,&ctdm,&mk]()
@@ -1000,6 +1013,7 @@ struct vks
 		{
 			yk=5;
 		}
+		if(0)printf("yk %d\n",yk);
 		if(t==10)
 		{
 			yk=0;
@@ -1406,7 +1420,7 @@ int main(int argc,char** argv)
 #ifdef KG
 	else if(dn==1||dn==0)
 	{
-		es([](int p){k(p);},dn==0);
+		es([](int p){k(p);},dn==1);
 	}
 #endif
 	return 0;
