@@ -114,6 +114,13 @@ constexpr v vc[]=
 	{(v::csp)0,1,0,1},
 	{v::csp::k,0,1},
 };
+size_t vsks(v p)
+{
+	for(size_t k=0;k<100;k++)
+		if(vc[k]==p)
+			return k;
+	return 0;
+};
 template<typename n>
 struct ck
 {
@@ -614,13 +621,6 @@ struct vks
 				else continue;
 				if(0&&!sl)printf("gvs %ld\n",gv.size());
 				auto vvl=getenv("VVL");
-				auto vsks=[](v p)->size_t
-				{
-					for(size_t k=0;k<100;k++)
-						if(vc[k]==p)
-							return k;
-					return 0;
-				};
 				if(1)for(size_t k=1;k+2<gv.size();k++)
 				{
 					if(gv[k].vs&&gv[k+1].sm&&!gv[k+2].sm)gv[k]=gv[k+1];
