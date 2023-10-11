@@ -522,12 +522,13 @@ struct vks
 						tk-=ks*1000.0;
 					if(tk<=0&&yk==6)
 					{
-						printf("vs %lu\n",vs);
+						if(0)printf("vs %lu\n",vs);
 						yk=16;
 					}
-					if((tk<0||skk==sks)&&yk==2)
+					if((tk<=0||skk==sks)&&yk==2)
 						yk=22;
 				}
+				printf("yk %d\n",yk);
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
 				{
@@ -610,6 +611,7 @@ struct vks
 				}
 				else if(yk==22)
 				{
+					yk=0;
 					kp=0;
 					gv=1?::vs({73,4,69,7,66,2,75,2,55,51,3,70,1,75}): ::vs({45,13,71,66,2,75,2,55,51,3,70,1,75});
 				}
