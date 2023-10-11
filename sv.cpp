@@ -528,7 +528,7 @@ struct vks
 					if((tk<=0||skk==sks)&&yk==2)
 						yk=22;
 				}
-				printf("yk %d\n",yk);
+				if(0)printf("yk %d\n",yk);
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
 				{
