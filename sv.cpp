@@ -632,13 +632,14 @@ struct vks
 				}
 				else if(yk==3||ls[kp].sv)
 				{
-					yk=0;
+					if(yk==3)yk=0;
 					if(ls[kp].pv)
 						vsk(ls[kp].pv);
 					continue;
 				}
 				else if(yk==12)
 				{
+					if(0)printf("yk=12 vs %lu\n",vs);
 					yk=0;
 					vsk(vs);
 					continue;
@@ -651,6 +652,7 @@ struct vks
 				}
 				else if(yk!=0)
 				{
+					printf("yk %d\n",yk);
 					yk=0;
 					continue;
 				}
@@ -1045,7 +1047,7 @@ struct vks
 	void nt(unsigned char t)
 	{
 		sk[sks]=0;
-		if(0)printf("yk %d\n",yk);
+		if(0)printf("yk %d t %d\n",yk,t);
 		if(t==10)
 		{
 			yk=0;
@@ -1129,6 +1131,8 @@ struct vks
 			{
 				sk[skk]=0;
 				vs=bkp(sk);
+				if(0&&!vs)printf("bkpb\n");
+				if(0)printf("bkb %lu\n",vs);
 				yk=12;
 			}
 			else if(t==9)
