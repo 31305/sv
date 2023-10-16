@@ -528,20 +528,20 @@ struct vks
 			std::vector<v> gv;
 			while(ck)
 			{
-				while(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=5&&ck&&pv.size()==0)
+				while(1)
 				{
-					double ks=0.016;
-					std::this_thread::sleep_for(std::chrono::milliseconds
-							((int)(ks*1000.0)));
-					if(tk>0)
-						tk-=ks*1000.0;
-					if(tk<=0&&yk==6)
+					const size_t kk=::ks();
+					if(kk-tk>pgtv&&yk==6)
 					{
 						if(0)printf("vs %lu\n",vs);
 						yk=16;
 					}
-					if((tk<=0||skk==sks)&&yk==2)
+					if((kk-tk>dpgt||skk==sks)&&yk==2)
 						yk=22;
+					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=5&&ck&&pv.size()==0))break;
+					double ks=0.016;
+					std::this_thread::sleep_for(std::chrono::milliseconds
+							((int)(ks*1000.0)));
 				}
 				if(0)printf("yk %d\n",yk);
 				if(!ck)break;
@@ -597,8 +597,12 @@ struct vks
 				{
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
-					vsk(kp);
-					continue;
+					if(pv.size()>0);
+					else
+					{
+						vsk(kp);
+						continue;
+					}
 				}
 				else if(pv.size()>0)
 				{
@@ -1014,7 +1018,7 @@ struct vks
 		}
 		vy.v=0;
 	}
-	int tk=0;
+	size_t tk=0;
 	int pt=0;
 	static const int sks=8;
 	char sk[sks+1];
@@ -1046,7 +1050,7 @@ struct vks
 			}
 			else if(t==2)
 			{
-				tk=dpgt;
+				tk=ks();
 				yk=2;
 				skk=0;
 			}
@@ -1055,7 +1059,7 @@ struct vks
 			else if(t==6)
 			{
 				yk=6;
-				tk=pgtv;
+				tk=ks();
 				vs=0;
 			}
 			else if(t==8)
@@ -1066,9 +1070,9 @@ struct vks
 		else if(yk==6)
 		{
 			vs++;
-			tk=pgtv;
+			tk=ks();
 		}
-		else if(yk==1)
+		else if(0&&yk==1)
 		{
 			if(tk>0)
 			{
@@ -1099,7 +1103,7 @@ struct vks
 			{
 				sk[skk]='0'+t;
 				skk++;
-				tk=dpgt;
+				tk=ks();
 			}
 		}
 	}
