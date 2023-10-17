@@ -1429,20 +1429,45 @@ int main(int argc,char** argv)
 		printf("\n");
 	}
 	else if(dn==5)
-	{
-		std::vector<bool> p(ls.size());
+	{;
+		struct pp{bool p;size_t d;};
+		std::vector<pp> p(ls.size());
 		for(size_t k=0;k<p.size();k++)
-			p[k]=0;
+			p[k].p=0;
+		auto pl=[&p](size_t k,auto&& pl)->void
+		{
+			p[k].p=1;
+			p[k].d=0;
+			for(size_t pk=0;pk<ls[k].pbs.size();pk++)
+				pl(ls[k].pbs[pk],pl);
+		};
+		pl(vms,pl);
 		for(size_t k=0;k<ls.size();k++)
 		{
-			p[ls[k].pv]=1;
-			for(size_t pk=0;pk<ls[k].pbs.size();pk++)
-				p[ls[k].pbs[pk]]=1;
+			size_t pk=k;
+			while(ls[pk].pv)
+			{
+				size_t nk=ls[pk].pv;
+				if(!p[nk].p)
+				{
+					p[nk].p=1;
+					p[nk].d=p[pk].d+1;
+				}
+				else if(p[nk].d>p[pk].d+1)
+					p[nk].d=p[pk].d+1;
+				else break;
+				pk=nk;
+			}
 		}
-		p[vms]=1;
 		for(size_t k=0;k<ls.size();k++)
-			if(!ls[k].nsv&&!p[k])
-				printf("%ld\n",k);
+		{
+			if(!ls[k].nsv)
+			{
+				printf("%lu: ",k);
+				if(p[k].p)printf("%lu",p[k].d);
+				printf("\n");
+			}
+		}
 	}
 	else if(dn==4)
 	{
