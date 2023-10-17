@@ -543,6 +543,7 @@ struct vks
 			std::vector<v> gv;
 			while(ck)
 			{
+				size_t pvss=0;
 				while(1)
 				{
 					const size_t kk=::ks();
@@ -553,11 +554,13 @@ struct vks
 					}
 					if((kk-tk>dpgt||skk==sks)&&(yk==2||yk==4))
 						yk+=20;
+					pvss=vs;
 					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&ck&&pv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
 				}
+				if(pvss!=vs){yk=0;continue;}
 				if(0)printf("yk %d\n",yk);
 				if(!ck)break;
 				auto vsk=[&pv,&kp,&vss](size_t vs)
@@ -639,7 +642,7 @@ struct vks
 				}
 				else if(yk==12)
 				{
-					if(0)printf("yk=12 vs %lu\n",vs);
+					if(0)printf("vs %lu\n",vs);
 					yk=0;
 					vsk(vs);
 					continue;
