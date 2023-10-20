@@ -1402,6 +1402,26 @@ bool vg(const std::u8string &pv,const std::vector<std::pair<std::u8string,std::u
 	}
 	return ss;
 }
+uint8_t vts(const std::vector<uint8_t> &c,size_t v1,size_t v2,const std::vector<std::vector<std::vector<std::tuple<size_t,size_t>>>> &ks)
+{
+	uint8_t s=0;
+	size_t cs=c.size()/(v1*v2*3);
+	s=*std::max_element(std::begin(c),std::begin(c)+v1*v2*3);
+	if(cs>0)s=fmax(s,*std::max_element(std::end(c)-v1*v2*3,std::end(c)));
+	for(size_t k=1;k<fmax(cs-1,ks.size());k++)
+	{
+		for(size_t pk=0;pk<ks[k].size();pk++)
+		{
+			for(size_t ppk=0;ppk<ks[k][pk].size();ppk++)
+			{
+				size_t dk=ppk+1;
+				if(dk==ks[k][pk].size())dk=0;
+
+			}
+		}
+	}
+	return s;
+}
 #ifndef EMSCRIPTEN
 int main(int argc,char** argv)
 {
