@@ -20,14 +20,13 @@
 <canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
 <script type='text/javascript'>
 cp=document.getElementById('canvas');
-vp=0;
+vpv1=0;vpv2=0;
 const l=new ResizeObserver((gs)=>
 {
   const g=gs.find((g)=>g.target===cp);
-  cp.width=g.devicePixelContentBoxSize[0].inlineSize;
-  cp.height=g.devicePixelContentBoxSize[0].blockSize;
-  vp=1;
-  if(0)console.log(cp.width,cp.height)
+  vpv1=g.devicePixelContentBoxSize[0].inlineSize;
+  vpv2=g.devicePixelContentBoxSize[0].blockSize;
+  if(0)console.log(vpv1,vpv2)
 });
 l.observe(cp,{box:"device-pixel-content-box"});
 var Module={canvas:(function(){return cp;})()};

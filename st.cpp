@@ -123,7 +123,7 @@ void mk()
 	if(st.mc2)SDL_DestroyTexture(st.mc2);
 	int x1,x2;
 	SDL_GetWindowSize(st.cp,&x1,&x2);
-	if(0)printf("%dx%d\n",x1,x2);
+	if(0)printf("mk %dx%d\n",x1,x2);
 	int g=0;
 	if(x1>x2)
 	{
@@ -195,18 +195,20 @@ void nk()
 	if(sr<2)return;
 	else if(sr==2)
 	{
-		if(EM_ASM_INT({return vp;})==0)return;
+		if(EM_ASM_INT({return vpv1;})==0)return;
 		pmk();
 		sr++;
 	}
 	if(1)
 	{
-		if(EM_ASM_INT({return vp;})!=0)
+		int x1,x2;
+		SDL_GetWindowSize(st.cp,&x1,&x2);
+		int nm1=EM_ASM_INT({return vpv1;});
+		int nm2=EM_ASM_INT({return vpv2;});
+		if(x1!=nm1||x2!=nm2)
 		{
-			EM_ASM({vp=0;});
-			int nm1=EM_ASM_INT({return cp.width;});
-			int nm2=EM_ASM_INT({return cp.height;});
-			if(0)printf("kp\n");
+			EM_ASM({cp.width=vpv1;cp.height=vpv2;});
+			if(0)printf("kp %d %d\n",nm1,nm2);
 			if(1)pp(nm1,nm2);
 		}
 	}
