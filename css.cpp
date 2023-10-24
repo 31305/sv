@@ -5,7 +5,7 @@
 void css()
 {
 
-	for(int k=359;k<=(1?370:3618);k++)
+	for(int k=359;k<=(0?370:3618);k++)
 	{
 		char sn[100];
 		sprintf(sn,"cs/1/%4d.png",k);
@@ -30,7 +30,7 @@ void css()
 			{
 				double d=(pd-v)*(pd-v)+(dd-v)*(dd-v);
 				if(d>=v*v)continue;
-				double svs=(double)v*0.8;
+				double svs=(double)v*0.9;
 				bool sv=d>svs*svs;
 				double gm=1.0/((double)(v*v)-svs*svs);
 				for(int vk=0;vk<3;vk++)
@@ -64,5 +64,10 @@ int main(int ls,char** lss)
 	}
 	else if(d==2)
 		css();
+	else if(d==3)
+	{
+		system("mkdir -p js");
+		system("ffmpeg -start_number 359 -framerate 30 -i cs/2/%4d.png -crf:v 20 js/pc.mp4");
+	}
 	return 0;
 }
