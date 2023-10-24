@@ -29,7 +29,7 @@ void css()
 			for(int dd=0;dd<v*2;dd++)
 			{
 				double d=(pd-v)*(pd-v)+(dd-v)*(dd-v);
-				if(d>v*v)continue;
+				if(d>=v*v)continue;
 				double svs=(double)v*0.8;
 				bool sv=d>svs*svs;
 				double gm=1.0/((double)(v*v)-svs*svs);
@@ -38,8 +38,8 @@ void css()
 					unsigned char m=ls[0][(pd+189)*gs[0]+(dd+603)*4+vk];
 					if(sv)m=(unsigned char)fmin(fmax((double)m*((double)(v*v)-d)*gm,0.0),255.0);
 					ls[1][pd*gs[1]+dd*4+vk]=m;
-					ls[1][pd*gs[1]+dd*4+vk+3]=255;
-				}	
+					if(0)ls[1][pd*gs[1]+dd*4+3]=255;
+				}
 			}
 		}
 		sprintf(sn,"cs/2/%4d.png",k);
