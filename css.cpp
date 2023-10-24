@@ -93,8 +93,10 @@ int main(int ls,char** lss)
 	else if(d==4)
 	{
 		char d[1024];
-		sprintf(d,"ffmpeg -start_number %d -framerate 30 -i cs/2/%%4d.png -crf:v 20 pc.mp4",dk-kcs);
+		sprintf(d,"ffmpeg -start_number %d -framerate 30 -i cs/2/%%4d.png -crf:v 20 -pix_fmt yuv420p pc.mp4",dk-kcs);
 		system(d);
+		system("ffmpeg -i pc.mp4 -c:v copy kc.mp4");
+		system("mv kc.mp4 pc.mp4");
 	}
 	return 0;
 }
