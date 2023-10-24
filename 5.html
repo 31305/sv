@@ -18,8 +18,10 @@
 </head>
 <body style='image-rendering: crisp-edges;margin:0;background-color:black;overflow:hidden'>
 <canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
+<video oncontextmenu="return false;" id="ccpd" src="pc.mp4" preload="metadata" style="position:fixed" playsinline muted hidden></video>
 <script type='text/javascript'>
 cp=document.getElementById('canvas');
+ccpd=document.getElementById('ccpd');
 vpv1=0;vpv2=0;
 const l=new ResizeObserver((gs)=>
 {
@@ -37,6 +39,17 @@ function sn(s)
 function nt(s)
 {
 	Module.ccall('nt',null,['number'],[s])
+}
+cc=0
+ccpd.addEventListener('ended',()=>{cc=0;ccpd.hidden=true;},false)
+function cl(d1,d2,v1,v2)
+{
+	ccpd.style.left=(d1*100/vpv1).toString()+'%'
+	ccpd.style.top=(d2*100/vpv2).toString()+'%'
+	ccpd.style.width=(v1*100/vpv1).toString()+'%'
+	ccpd.style.height=(v2*100/vpv2).toString()+'%'
+	ccpd.play()
+	ccpd.hidden=false
 }
 </script>
 <script src="sv.js"></script>

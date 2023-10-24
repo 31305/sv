@@ -21,6 +21,7 @@ struct stp
 	bool pms=0;
 	bool nkk=1;
 	bool nkd=0;
+	int g=0;
 	const int p1=sg?11:15,p2=sp2==8?32:24;
 	bool plg=1;
 	bool ks=([](){char *d=getenv("KS");return !(!d||d[0]=='0');})();
@@ -31,7 +32,6 @@ struct stp
 		int n=0;
 		int p=0;
 	}tr;
-	bool cc=0;
 };
 extern stp st;
 extern bool jt;

@@ -92,9 +92,8 @@ int main(int ls,char** lss)
 	}
 	else if(d==4)
 	{
-		system("mkdir -p rs");
 		char d[1024];
-		sprintf(d,"ffmpeg -start_number %d -framerate 30 -i cs/2/%%4d.png -crf:v 20 rs/pc.mp4",dk-kcs);
+		sprintf(d,"ffmpeg -start_number %d -framerate 30 -i cs/2/%%4d.png -crf:v 20 pc.mp4",dk-kcs);
 		system(d);
 	}
 	return 0;

@@ -1095,8 +1095,7 @@ struct vks
 			{
 				if(jt&&ccs.size()>0)
 				{
-					yk=7;
-					st.cc=1;
+					EM_ASM({if(!cc){ccpd.currentTime=0;cc=1}});
 				}
 			}
 			else if(t==8)
@@ -1570,7 +1569,7 @@ int rk()
 	if(0)printf("rk\n");
 	sl.v.jt=1;
 	sl.v.dk=[](){sr++;};
-	sl.v.cvp=[](){st.ks=!st.ks;};
+	if(0)sl.v.cvp=[](){st.ks=!st.ks;};
 	sl.vkk=std::thread([](){sl.v.vk();});
 	if(0)pmk();
 	emscripten_set_main_loop(nk,0,0);
