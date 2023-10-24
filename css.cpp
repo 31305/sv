@@ -2,10 +2,12 @@
 #include<cstdlib>
 #include<cstdio>
 #include<cmath>
+constexpr int v=389;
+constexpr int dk=359,nk=3618;
+constexpr int kcs=15;
 void css()
 {
-
-	for(int k=359;k<=(0?370:3618);k++)
+	for(int k=dk;k<=nk;k++)
 	{
 		char sn[100];
 		sprintf(sn,"cs/1/%4d.png",k);
@@ -16,7 +18,6 @@ void css()
 		fflush(stdout);
 		cairo_surface_t* c[2];
 		c[0]=cairo_image_surface_create_from_png(sn);
-		constexpr int v=389;
 		c[1]=cairo_image_surface_create(cairo_image_surface_get_format(c[0]),v*2,v*2);
 		int gs[2];
 		gs[0]=cairo_image_surface_get_stride(c[0]);
@@ -66,8 +67,35 @@ int main(int ls,char** lss)
 		css();
 	else if(d==3)
 	{
-		system("mkdir -p js");
-		system("ffmpeg -start_number 359 -framerate 30 -i cs/2/%4d.png -crf:v 20 js/pc.mp4");
+		auto c=cairo_image_surface_create(CAIRO_FORMAT_RGB24,v*2,v*2);
+		char sn[100];
+		sprintf(sn,"kc.png");
+		cairo_surface_write_to_png(c,sn);
+		for(int k=1;k<=kcs;k++)
+		{
+			char d[1024];
+			char sn[100];
+			sprintf(sn,"cs/2/%4d.png",dk-k);
+			for(int k=0;sn[k]!=0;k++)
+				if(sn[k]==' ')
+					sn[k]='0';
+			sprintf(d,"cp kc.png %s",sn);
+			system(d);
+			sprintf(sn,"cs/2/%4d.png",nk+k);
+			for(int k=0;sn[k]!=0;k++)
+				if(sn[k]==' ')
+					sn[k]='0';
+			sprintf(d,"cp kc.png %s",sn);
+			system(d);
+		}
+
+	}
+	else if(d==4)
+	{
+		system("mkdir -p rs");
+		char d[1024];
+		sprintf(d,"ffmpeg -start_number %d -framerate 30 -i cs/2/%%4d.png -crf:v 20 rs/pc.mp4",dk-kcs);
+		system(d);
 	}
 	return 0;
 }
