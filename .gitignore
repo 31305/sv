@@ -26,4 +26,5 @@ vcm.ico
 .swo
 .gradle
 sl
-
+*.mp4
+cs

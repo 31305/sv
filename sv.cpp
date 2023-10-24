@@ -368,9 +368,9 @@ struct vv
 	bool nsv=0;
 	size_t pv=0;
 	bool sv=0;
+	std::string cc;
 	std::vector<size_t> vv;
 	std::vector<size_t> pbs;
-	bool scc=0;
 };
 std::vector<vv> ls=
 {{.nsv=1},
@@ -408,6 +408,7 @@ std::vector<vv> ls=
 	{.vm=vs({}),.nv=31,.nsv=1},
 	{.vm=vs({45,31,52,1,49,1,55,53,44,1,50,32,68,46,41,46,9,74,4,53,41}),.nv=18,.pv=34,.pbs={3,20}},
 	{.vm=vs({43,4,70,66,44,1,71,44,4,48,61,19,51,2,76,51,6,45,71,1,70,7,51,2,76,56,3}),.nv=33},
+	{.vm=vs({49,1,68,5,49,75,9,66,1,77,49,1,50,2,49,44,3,71,1,68,1,68,19,47,43,1,66,1}),.cc="pc.mp4"},
 	{.vm=vs({}),.nsv=1},
 };
 std::vector<std::basic_string<unsigned char>> ss=
@@ -514,6 +515,7 @@ struct vks
 	bool lp=0,sl=0;
 	bool ck=1;
 	int yk=0;
+	std::string ccs;
 	size_t vs=0;
 	bool jt=0;
 	void (*dk)()=0;
@@ -634,6 +636,7 @@ struct vks
 					}
 					gv=ls[pv[pv.size()-1]].vm;
 					kp=pv[pv.size()-1];
+					ccs=ls[kp].cc;
 					bn=0;
 					pv.pop_back();
 				}
@@ -1087,6 +1090,14 @@ struct vks
 				yk=4;
 				tk=ks();
 				skk=0;
+			}
+			else if(t==7)
+			{
+				if(jt&&ccs.size()>0)
+				{
+					yk=7;
+					st.cc=1;
+				}
 			}
 			else if(t==8)
 			{
