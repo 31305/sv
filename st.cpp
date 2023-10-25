@@ -67,9 +67,8 @@ void lk()
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,st.ks?255:0,st.s2*st.cns*8);
 	SDL_Rect cdp;
-	bool cc=EM_ASM_INT({return cc;});
-	if(0)printf("cc %d\n",cc);
-	if(cc)
+	if(0)printf("cc %d\n",st.cc);
+	if(st.cc)
 	{
 		cdp.x=st.pd.x+(mss<0>(5)-0.5)*st.sp1*st.g;
 		cdp.y=st.pd.y+st.sp2*st.g;
@@ -77,7 +76,7 @@ void lk()
 		cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 		EM_ASM({cl($0,$1,$2,$3);},cdp.x,cdp.y,cdp.w,cdp.h);
 	}
-	if(!st.pms)
+	if(!st.pms&&!st.cc)
 	{
 		for(int pk=0;pk<st.lc->h;pk++)
 		{
@@ -100,7 +99,7 @@ void lk()
 	{
 		for(int i=st.dn?0:5;i<15;i++)
 		{
-			const unsigned char m=cc?255:255;
+			const unsigned char m=st.cc?255:255;
 			nl({.n=(i<5?i+11:i-5),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
 					.v=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i)),.rm=m,.hm=m,.nm=m})();
 		}
@@ -120,7 +119,7 @@ void lk()
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
 	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-	if(cc&&0)
+	if(st.cc&&0)
 	{
 		SDL_SetRenderDrawColor(st.ck,255,0,0,255);
 		SDL_RenderDrawRect(st.ck,&cdp);
@@ -385,6 +384,8 @@ void nk()
 			if(npk)npk(st.tr.n);
 		}
 	}
+	bool cc=EM_ASM_INT({return cc;});
+	if(st.cc!=cc){st.cc=cc;st.plg=1;}
 	if(st.plg){st.plg=0;lk();}
 }
 int pmk()
