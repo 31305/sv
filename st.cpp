@@ -74,7 +74,9 @@ void lk()
 		cdp.y=st.pd.y+st.sp2*st.g;
 		cdp.w=(mss<0>(14)-mss<0>(5)+1)*st.sp1*st.g;
 		cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
+#ifdef EMSCRIPTEN
 		EM_ASM({cl($0,$1,$2,$3);},cdp.x,cdp.y,cdp.w,cdp.h);
+#endif
 	}
 	if(!st.pms&&!st.cc)
 	{
@@ -384,8 +386,10 @@ void nk()
 			if(npk)npk(st.tr.n);
 		}
 	}
+#ifdef EMSCRIPTEN
 	bool cc=EM_ASM_INT({return cc;});
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}
+#endif
 	if(st.plg){st.plg=0;lk();}
 }
 int pmk()

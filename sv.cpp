@@ -1095,7 +1095,18 @@ struct vks
 			{
 				if(jt&&ccs.size()>0)
 				{
-					EM_ASM({if(!cc){ccpd.currentTime=0;cc=1}});
+#ifdef EMSCRIPTEN
+					EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()});
+#endif
+				}
+			}
+			else if(t==5)
+			{
+				if(jt&&ccs.size()>0)
+				{
+#ifdef EMSCRIPTEN
+					EM_ASM({ccpd.currentTime=ccpd.currentTime-10;});
+#endif
 				}
 			}
 			else if(t==8)
