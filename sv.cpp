@@ -485,7 +485,7 @@ void es(void(*k)(int),bool n)
 	}
 }
 #endif
-uint64_t ks()
+unsigned long ks()
 {
 	return SDL_GetTicks();
 };
