@@ -389,6 +389,10 @@ void nk()
 #ifdef EMSCRIPTEN
 	bool cc=EM_ASM_INT({return cc;});
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}
+	if(st.cc)
+	{
+		EM_ASM({scpv.drawImage(ccpd,0,0)});
+	}
 #endif
 	if(st.plg){st.plg=0;lk();}
 }
