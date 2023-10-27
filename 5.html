@@ -79,8 +79,16 @@ function dcl(d1,d2,v1,v2)
 	scpd.style.width=(v1*100/vpv1).toString()+'%'
 	scpd.style.height=(v2*100/vpv2).toString()+'%'
 	if(1)scpd.hidden=false
+	if(0)pdr()	
 }
-function cl(d1,d2,v1,v2){dcl(d1,d2,v1,v2)}
+function pdr()
+{
+	scpv.drawImage(ccpd,0,0)
+	if(cc)ccpd.requestVideoFrameCallback(pdr)
+}
+pvcp=1
+function cl(d1,d2,v1,v2){if(pvcp)pcl(d1,d2,v1,v2);else dcl(d1,d2,v1,v2)}
+function cpdk(){if(!pvcp)scpv.drawImage(ccpd,0,0)}
 </script>
 <script src="sv.js"></script>
 </body>

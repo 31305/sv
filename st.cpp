@@ -391,7 +391,7 @@ void nk()
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}
 	if(st.cc)
 	{
-		EM_ASM({scpv.drawImage(ccpd,0,0)});
+		EM_ASM(cpdk());
 	}
 #endif
 	if(st.plg){st.plg=0;lk();}
