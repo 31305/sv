@@ -395,15 +395,12 @@ void nk()
 	{
 		EM_ASM(cpdk());
 	}
-	static int ckg;
-	if(!ckg&&EM_ASM_INT({return tvcp;}))
+	if(EM_ASM_INT({return tvcp;}))
 	{
 		SDL_GL_BindTexture(st.mc1,0,0);
 		EM_ASM({ccvs()});
 		SDL_GL_UnbindTexture(st.mc1);
 	}
-	ckg++;
-	if(ckg==2)ckg=0;
 #endif
 	if(st.plg){st.plg=0;lk();}
 }
