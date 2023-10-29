@@ -1088,7 +1088,7 @@ struct vks
 			}
 			else if(t==7)
 			{
-				if(jt&&ccs.size()>0&&!st.ks)
+				if(jt&&ccs.size()>0)
 				{
 #ifdef EMSCRIPTEN
 					EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()});
@@ -1106,7 +1106,7 @@ struct vks
 			}
 			else if(t==8)
 			{
-				if(!st.cc&&cvp)cvp();
+				if(cvp)cvp();
 			}
 		}
 		else if(yk==6)

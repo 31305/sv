@@ -389,6 +389,8 @@ void nk()
 #ifdef EMSCRIPTEN
 	bool cc=EM_ASM_INT({return cc;});
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}
+	if(st.cc&&st.ks){st.ksps=1;st.ks=0;}
+	if(st.ksps&&!st.cc){st.ksps=0;st.ks=1;}
 	if(st.cc)
 	{
 		EM_ASM(cpdk());
