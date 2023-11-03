@@ -2,6 +2,7 @@ import os
 import subprocess
 nk=Builder(action='sh ck.sh < $SOURCE > $TARGET')
 e=Environment(BUILDERS={'nl':nk},COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
+e.AppendENVPath('PATH',os.environ.get('PATH'))
 js=type(ARGUMENTS.get('js'))==str
 ss=['sv.cpp','Log.cpp']
 if js:
@@ -11,7 +12,6 @@ if js:
     e.Append(LINKFLAGS=['--preload-file=sc.bmp','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
     ss+=['st.cpp']
 else:
-    e.AppendENVPath('PATH',os.environ.get('PATH'))
     e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
     e.Append(CCFLAGS=['-DKG'])
     e.Tool('compilation_db')
