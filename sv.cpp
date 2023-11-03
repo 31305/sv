@@ -403,7 +403,7 @@ std::vector<vv> ls=
 	{.vm=vs({47,4,45,5,43,6,75}),.nsv=1},
 	{.vm=vs({49,5,75,6,70,66,1,46,7,51,11,47,4,45,5}),.nv=22,.pv=30},
 	{.vm=vs({75,4,70,66,1,46,7,51,43,6,76,47,4,45,5,43,6,75}),.nv=19,.nsv=1},
-	{.vm=vs({66,2,49,43,6,75}),.nv=23,.nsv=1,.pv=24},
+	{.vm=vs({66,2,49,43,6,75}),.nv=23,.pv=24,.sv=1},
 	{.vm=vs({46,4,51,43,6,70,4,76,68,13,48,71,44,4,71,2,66,4,76,51,2,45,3,43,7,66,13,76,46,7,69,8,77,51,3,45,71,43,31,66,1}),.nv=18},
 	{.vm=vs({}),.nv=31,.nsv=1},
 	{.vm=vs({45,31,52,1,49,1,55,53,44,1,50,32,68,46,41,46,9,74,4,53,41}),.nv=18,.pv=34,.pbs={3,20}},
@@ -420,7 +420,7 @@ std::vector<vv> ls=
 	{.vm=vs({1,70,66,7,75,5,58,5,66,9,77,47,16,70,43,38,70,5,75,3}),.nv=41},
 	{.vm=vs({70,4,43,8,74,3,46,1,66,7,47,46,5,70})},
 	{.vm=vs({47,1,73,68,1,43,1,70,66,44,2,76,51,1,67,2,76,51,44,9,43,1,66,4,75,8,66,9,71,44,1,47,70,2,75})},
-	{.vm=vs({2,71,9,50,46,1,43,2,75,31,46,2,66,2,50,43,3,46,7,69,8,44,45,9,52,43,1,66,4,75}),.nv=46},
+	{.vm=vs({2,71,9,49,46,1,43,2,75,31,46,2,66,2,49,43,3,46,7,69,8,44,45,9,52,43,1,66,4,75}),.nv=46},
 	{.vm=vs({2,66,3,46,4,70,43,35,44,58,2,70,36,75,51,4,44,2,43,3,66,4,75}),.nv=47,.nsv=1},
 	{.vm=vs({13,74,1,43,2,67,6,51,44,7,43,1,75,4,65,31,51,2,47,56,9,68,46,7,69,8,44,9,48,43,1,66,31,43,32,70,3,51,25,66,2,50,43,3,43,1,70,66,44,2,50,43,3,50,4,55,52,43,4,66,75,1,51,2,76,53,15,65,1,46,1,66,66,4,70,7,44,69,4,43,1,65,2,76,51,44,7,43,32,66,3}),.nv=48},
 	{.vm=vs({50,2,43,6,70,66,44,7,51,38,46,6,74,1,44,32,70,75,6,70,1,46,10,43,38,46,6}),.nsv=1},
@@ -1449,6 +1449,64 @@ uint8_t vts(const std::vector<uint8_t> &c,size_t v1,size_t v2,const std::vector<
 	}
 	return s;
 }
+void vksk(bool l)
+{
+	struct pp{bool p;size_t d;};
+	std::vector<pp> p(ls.size());
+	std::vector<bool> kcp(ls.size());
+	for(size_t k=0;k<p.size();k++)
+	{
+		p[k].p=0;
+		kcp[k]=0;
+	}
+	auto pl=[&p](size_t k,auto&& pl)->void
+	{
+		p[k].p=1;
+		p[k].d=0;
+		for(size_t pk=0;pk<ls[k].pbs.size();pk++)
+			pl(ls[k].pbs[pk],pl);
+	};
+	pl(vms,pl);
+	for(size_t k=0;k<ls.size();k++)
+	{
+		size_t pk=k;
+		while(ls[pk].pv)
+		{
+			size_t nk=ls[pk].pv;
+			kcp[nk]=1;
+			if(!p[nk].p)
+			{
+				p[nk].p=1;
+				p[nk].d=p[pk].d+1;
+			}
+			else if(p[nk].d>p[pk].d+1)
+				p[nk].d=p[pk].d+1;
+			else break;
+			pk=nk;
+		}
+	}
+	for(size_t k=0;k<ls.size();k++)
+	{
+		if(!ls[k].nsv)
+		{
+			if(l)
+			{
+				printf("%lu: ",k);
+				if(p[k].p)printf("%lu",p[k].d);
+				else if(kcp[k])printf("kcp");
+				printf("\n");
+			}
+		}
+	}
+	if(l)for(size_t k=0;k<ls.size();k++)
+	{
+		if(ls[k].pv&&ls[k].nsv)
+			printf("nsvpvk %lu\n",k);
+		if(ls[k].pv&&ls[ls[k].pv].nsv)
+			printf("pvnsvk %lu %lu\n",k,ls[k].pv);
+	}
+}
+
 #ifndef EMSCRIPTEN
 int main(int argc,char** argv)
 {
@@ -1476,45 +1534,8 @@ int main(int argc,char** argv)
 		printf("\n");
 	}
 	else if(dn==5)
-	{;
-		struct pp{bool p;size_t d;};
-		std::vector<pp> p(ls.size());
-		for(size_t k=0;k<p.size();k++)
-			p[k].p=0;
-		auto pl=[&p](size_t k,auto&& pl)->void
-		{
-			p[k].p=1;
-			p[k].d=0;
-			for(size_t pk=0;pk<ls[k].pbs.size();pk++)
-				pl(ls[k].pbs[pk],pl);
-		};
-		pl(vms,pl);
-		for(size_t k=0;k<ls.size();k++)
-		{
-			size_t pk=k;
-			while(ls[pk].pv)
-			{
-				size_t nk=ls[pk].pv;
-				if(!p[nk].p)
-				{
-					p[nk].p=1;
-					p[nk].d=p[pk].d+1;
-				}
-				else if(p[nk].d>p[pk].d+1)
-					p[nk].d=p[pk].d+1;
-				else break;
-				pk=nk;
-			}
-		}
-		for(size_t k=0;k<ls.size();k++)
-		{
-			if(!ls[k].nsv)
-			{
-				printf("%lu: ",k);
-				if(p[k].p)printf("%lu",p[k].d);
-				printf("\n");
-			}
-		}
+	{
+		vksk(1);	
 	}
 	else if(dn==4)
 	{
