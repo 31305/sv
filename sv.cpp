@@ -426,6 +426,7 @@ std::vector<vv> ls=
 	{.vm=vs({49,2,43,6,70,66,44,7,51,38,46,6,74,1,44,32,70,75,6,70,1,46,10,43,38,46,6}),.nv=49},
 	{.vm=vs({}),.nsv=1},
 };
+std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
 {
 	return {};
@@ -1317,9 +1318,11 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
+void vksk(bool l=0);
 void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	vksk();
 	vks v;
 	v.lp=lp;
 	v.sl=sl;
@@ -1485,19 +1488,23 @@ void vksk(bool l)
 			pk=nk;
 		}
 	}
+	size_t nvks=0;
 	for(size_t k=0;k<ls.size();k++)
 	{
 		if(!ls[k].nsv)
 		{
-			if(l)
-			{
-				printf("%lu: ",k);
-				if(p[k].p)printf("%lu",p[k].d);
-				else if(kcp[k])printf("kcp");
-				printf("\n");
-			}
+				if(l)printf("%lu: ",k);
+				if(p[k].p){if(l)printf("%lu",p[k].d);}
+				else if(kcp[k]){if(l)printf("kcp");}
+				else
+				{
+					nvk[nvks]=k;
+					nvks++;
+				}
+				if(l)printf("\n");
 		}
 	}
+	nvk.resize(nvks);
 	if(l)for(size_t k=0;k<ls.size();k++)
 	{
 		if(ls[k].pv&&ls[k].nsv)
@@ -1602,6 +1609,7 @@ extern "C"
 EMSCRIPTEN_KEEPALIVE
 int rk()
 {
+	vksk();
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
 	sl.v.jt=1;
