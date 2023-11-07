@@ -429,6 +429,23 @@ std::vector<vv> ls=
 	{.vm=vs({43,1,70,66,44,32,65,1,70,6,43,3,70,66,44,7,66,37,74,1,46,31,70,70,16,70,2,75}),.nv=52},
 	{.vm=vs({}),.nsv=1},
 };
+std::vector<v> sdk(const std::vector<std::vector<v>> vn)
+{
+	return {};
+}
+std::vector<v> dn(int32_t k)
+{
+	if(k==150)
+		return vs({});
+	return {};
+};
+std::vector<vv> kl=
+{{.nsv=1},
+	{.vm=vs({58,1,45,2,76,71,9,73,1,66,7}),.nv=4,.pv=2},
+	{.vm=vs({66,2,66,1,77,47,8,44,3,77,51,1,65,63,16,43,1,66,7}),.nv=1},
+	{.vm=dn(150),.nsv=1},
+	{.vm=vs({75,1,69,43,4,50,70,34,66,66,1,44,32,51,4,45,32}),.nv=3,.nsv=1},
+};
 std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
 {
