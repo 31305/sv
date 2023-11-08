@@ -371,7 +371,21 @@ struct vv
 	std::string cc;
 	std::vector<size_t> vv;
 	std::vector<size_t> pbs;
+	bool rv=0;
 };
+std::vector<v> sdk(const std::vector<std::vector<v>> vn)
+{
+	return {};
+}
+std::vector<v> dn(int32_t k)
+{
+	if(k==150)
+		return vs({71,1,60,56,4,47,1,68,1,69,7,51,34,51,1,47,1,66,2,66,3,75,31,53,36,44,37,66,66,1,44,32,50,3,70,7});
+	if(k==151)
+		return vs({31,51,1,71,1,60,56,4,47,1,68,1,69,7,51,34,51,1,47,1,66,2,66,3,75,31,53,36,44,37,66,66,1,44,32,50,3,70,7});
+	return {};
+};
+size_t ksvs=53;
 std::vector<vv> ls=
 {{.nsv=1},
 	{.vm=vs({47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31}),.nv=18},
@@ -427,24 +441,13 @@ std::vector<vv> ls=
 	{.vm=vs({68,46,10,71,2,77,49,43,5,68,46,43,4,54,44,1,49,31,46,7,66,2,77}),.pv=52},
 	{.vm=vs({51,7,76,43,6,46,43,4,45,1,49,31,46,7,66,2,77}),.nv=51,.pv=53},
 	{.vm=vs({43,1,70,66,44,32,65,1,70,6,43,3,70,66,44,7,66,37,74,1,46,31,70,70,16,70,2,75}),.nv=52},
+	{.vm=vs({58,1,45,2,76,71,9,73,1,66,7}),.nv=ksvs+4,.pv=ksvs+2,.rv=1},
+	{.vm=vs({66,2,66,1,77,47,8,44,3,77,51,1,65,63,16,43,1,66,7}),.nv=ksvs+1,.rv=1},
+	{.vm=dn(150),.nsv=1,.rv=1},
+	{.vm=vs({1,71,1,44,4,50,65,32}),.nv=ksvs+3,.nsv=1,.rv=1},
+	{.vm=dn(151),.nsv=1,.rv=1},
+	{.vm=vs({71,17,44,46,4,50,65,32}),.nv=ksvs+5,.nsv=1,.rv=1},
 	{.vm=vs({}),.nsv=1},
-};
-std::vector<v> sdk(const std::vector<std::vector<v>> vn)
-{
-	return {};
-}
-std::vector<v> dn(int32_t k)
-{
-	if(k==150)
-		return vs({});
-	return {};
-};
-std::vector<vv> kl=
-{{.nsv=1},
-	{.vm=vs({58,1,45,2,76,71,9,73,1,66,7}),.nv=4,.pv=2},
-	{.vm=vs({66,2,66,1,77,47,8,44,3,77,51,1,65,63,16,43,1,66,7}),.nv=1},
-	{.vm=dn(150),.nsv=1},
-	{.vm=vs({75,1,69,43,4,50,70,34,66,66,1,44,32,51,4,45,32}),.nv=3,.nsv=1},
 };
 std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
@@ -538,6 +541,7 @@ size_t bkp(char* n)
 }
 struct vks
 {
+	bool knp=0;
 	bool lp=0,sl=0;
 	bool ck=1;
 	int yk=0;
@@ -594,10 +598,11 @@ struct vks
 				if(pvss!=vs){yk=0;continue;}
 				if(0)printf("yk %d\n",yk);
 				if(!ck)break;
-				auto vsk=[&pv,&kp,&vss,&bn](size_t vs)
+				auto vsk=[&knp=knp,&pv,&kp,&vss,&bn](size_t vs)
 				{
 					if(vs>=ls.size())return;
 					if(ls[vs].nsv)return;
+					if(!knp&&ls[vs].rv)return;
 					double ss=0.001*(double)ks();
 					size_t vk=vs;
 					pv.push_back(vs);
@@ -1168,7 +1173,8 @@ struct vks
 			{
 				sk[skk]=0;
 				vs=snsp(sk);
-				yk=12;
+				if(vs){knp=1;}
+				else yk=12;
 			}
 			else if(t==9)
 				yk=0;
