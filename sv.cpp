@@ -1083,11 +1083,12 @@ struct vks
 	void nt(int t)
 	{
 		sk[sks]=0;
-		if(0)printf("yk %d t %d\n",yk,t);
+		if(0)printf("ykp %d t %d\n",ykp,t);
 		if(t==10)
 		{
-			yk=0;
+			ykp=0;
 			ck=0;
+			skk=0;
 		}
 		auto tn=[&sk=sk,&skk=skk](size_t k,unsigned char s)->bool
 		{
@@ -1153,7 +1154,7 @@ struct vks
 				vs=snsp(sk);
 				skk=0;
 				if(vs==151*151){knp=1;}
-				else yk=12;
+				else ykp=12;
 			}
 			else if(t==9)
 				skk=0;
@@ -1166,7 +1167,7 @@ struct vks
 				vs=bkp(sk);
 				if(0&&!vs)printf("bkpb\n");
 				if(0)printf("bkb %lu\n",vs);
-				yk=12;
+				ykp=12;
 				skk=0;
 			}
 			else if(t==9)
