@@ -545,7 +545,7 @@ struct vks
 	bool knp=0;
 	bool lp=0,sl=0;
 	bool ck=1;
-	int yk=0;
+	int ykp=0;
 	std::string ccs;
 	size_t vs=0;
 	bool jt=0;
@@ -580,9 +580,11 @@ struct vks
 			while(ck)
 			{
 				size_t pvss=0;
+				int yk=0;
 				while(1)
 				{
 					pvss=vs;
+					yk=ykp;
 					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&ck&&pv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
@@ -1102,22 +1104,22 @@ struct vks
 				sk[skk]=0;
 				tk=ks();
 			}
-			else yk=22;
+			else ykp=22;
 		}
 		const size_t kk=::ks();
 		if(kk-tk>pgtv&&tn(0,6))
 		{
 			vs=skk;
-			yk=16;
+			ykp=16;
 			skk=0;
 		}
 		if((kk-tk>dpgt)&&(tn(0,2)||tn(0,4)))
 		{
 			skk=0;
-			yk=22;
+			ykp=22;
 		}
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
-		else if(tn(0,3)){yk=3;skk=0;}
+		else if(tn(0,3)){ykp=3;skk=0;}
 		else if(tn(0,7))
 		{
 			skk=0;
