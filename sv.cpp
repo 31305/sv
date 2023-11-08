@@ -446,6 +446,8 @@ std::vector<vv> ls=
 	{.vm=vs({1,71,1,44,4,50,65,32}),.nv=56,.nsv=1,.rv=1},
 	{.vm=dn(151),.nsv=1,.rv=1},
 	{.vm=vs({71,17,44,46,4,50,65,32}),.nv=58,.nsv=1,.rv=1},
+	{.vm=vs({14,71,3,50,1,49,1,66,7}),.nv=59,.rv=1},
+	{.vm=vs({1,71,1,44,4,50,65,32}),.nv=58,.nsv=1,.rv=1},
 	{.vm=vs({}),.nsv=1},
 };
 std::vector<size_t> nvk(ls.size());
@@ -1084,7 +1086,7 @@ struct vks
 	std::vector<unsigned char> nv;
 	uint64_t ns=0; 
 	void(*cvp)()=0;
-	void nt(unsigned char t)
+	void nt(int t)
 	{
 		sk[sks]=0;
 		if(0)printf("yk %d t %d\n",yk,t);
@@ -1093,98 +1095,63 @@ struct vks
 			yk=0;
 			ck=0;
 		}
-		if(yk==0)
+		auto tn=[&sk=sk,&skk=skk](size_t k,unsigned char s)->bool
 		{
-			if(t==9){if(!jt){ck=0;st.cs=0;}}
-			else if(t==1)
-			{
-				if(0)yk=1;
-				nv.resize(0);
-			}
-			else if(t==2)
-			{
-				tk=ks();
-				yk=2;
-				skk=0;
-			}
-			else if(t==3)
-				yk=3;
-			else if(t==6)
-			{
-				yk=6;
-				tk=ks();
-				vs=0;
-			}
-			else if(t==4)
-			{
-				yk=4;
-				tk=ks();
-				skk=0;
-			}
-			else if(t==7)
-			{
-				if(jt&&ccs.size()>0)
-				{
-#ifdef EMSCRIPTEN
-					EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()});
-#endif
-				}
-			}
-			else if(t==5)
-			{
-				if(jt&&ccs.size()>0)
-				{
-#ifdef EMSCRIPTEN
-					EM_ASM({ccpd.currentTime=ccpd.currentTime-10;});
-#endif
-				}
-			}
-			else if(t==8)
-			{
-				if(cvp)cvp();
-			}
-		}
-		else if(yk==6)
+			if(k<skk)return s==sk[k]-'0';
+			else return 0;
+		};
+		if(t!=-1)
 		{
-			vs++;
 			tk=ks();
+			if(skk<sks)
+			{
+				sk[skk]='0'+t;
+				skk++;
+				sk[skk]=0;
+				tk=ks();
+			}
 		}
-		else if(0&&yk==1)
+		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
+		else if(tn(0,3)){yk=3;skk=0;}
+		else if(tn(0,7))
 		{
-			if(tk>0)
+			skk=0;
+			if(jt&&ccs.size()>0)
 			{
-				tk=0;
-				if(t==0&&pt==0)
-				{
-					yk=0;
-				}
-				else nv.push_back(pt*10+t);
-			}
-			else
-			{
-				tk=1000;
-				pt=t;
+#ifdef EMSCRIPTEN
+				EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()});
+#endif
 			}
 		}
-		else if(yk==2)
+		else if(tn(0,8))
+		{
+			skk=0;
+			if(cvp)cvp();
+		}
+		else if(tn(0,5))
+		{
+			skk=0;
+			if(jt&&ccs.size()>0)
+			{
+#ifdef EMSCRIPTEN
+				EM_ASM({ccpd.currentTime=ccpd.currentTime-10;});
+#endif
+			}
+		}
+		else if(tn(0,2))
 		{
 			if(t==8)
 			{
 				sk[skk]=0;
 				vs=snsp(sk);
+				skk=0;
 				if(vs==151*151){knp=1;}
 				else yk=12;
 			}
 			else if(t==9)
-				yk=0;
-			else if(skk<sks)
-			{
-				sk[skk]='0'+t;
-				skk++;
-				tk=ks();
-			}
+				skk=0;
 		}
-		else if(yk==4)
+		else if(tn(0,4))
 		{
 			if(t==0)
 			{
@@ -1193,17 +1160,10 @@ struct vks
 				if(0&&!vs)printf("bkpb\n");
 				if(0)printf("bkb %lu\n",vs);
 				yk=12;
+				skk=0;
 			}
 			else if(t==9)
-				yk=0;
-			else if(skk<sks)
-			{
-				if(0)printf("%lu > %lu ?\n",tk,ks());
-				sk[skk]='0'+t;
-				skk++;
-				tk=ks();
-			}
-
+				skk=0;
 		}
 	}
 	static void pc(void *vy,Uint8 *d,int s)
@@ -1337,6 +1297,8 @@ void dk()
 	{
 		if(n>4)
 			v.nt(n-5);
+		else if(n==-1)
+			v.nt(-1);
 	};
 	sr++;
 	pmk();
@@ -1682,6 +1644,7 @@ void npks(int n)
 	if(0)printf("n %d\n",n);
 	if(n>4)
 		nt(n-5);
+	else if(n==-1)nt(-1);
 }
 int main()
 {

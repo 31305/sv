@@ -383,8 +383,9 @@ void nk()
 		if(st.tr.s==0||(st.tr.k-dk)/0.05>st.tr.s-1)
 		{
 			st.tr.s++;
-			if(npk)npk(st.tr.n);
+			npk(st.tr.n);
 		}
+		else npk(-1);
 	}
 #ifdef EMSCRIPTEN
 	bool cc=EM_ASM_INT({return cc;});
