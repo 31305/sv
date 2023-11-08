@@ -1165,8 +1165,6 @@ struct vks
 			{
 				sk[skk]=0;
 				vs=bkp(sk);
-				if(0&&!vs)printf("bkpb\n");
-				if(0)printf("bkb %lu\n",vs);
 				ykp=12;
 				skk=0;
 			}
