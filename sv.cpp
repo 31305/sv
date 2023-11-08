@@ -1173,7 +1173,7 @@ struct vks
 			{
 				sk[skk]=0;
 				vs=snsp(sk);
-				if(vs){knp=1;}
+				if(vs==151*151){knp=1;}
 				else yk=12;
 			}
 			else if(t==9)
@@ -1614,6 +1614,17 @@ int main(int argc,char** argv)
 	else if(dn==10)
 	{
 		sln();
+	}
+	else if(dn==11)
+	{
+		if(argc<3)return 0;
+		auto s=atoi(argv[2]);
+		while(s>0)
+		{
+			printf("%d",s%8);
+			s/=8;
+		}
+		printf("\n");
 	}
 #ifdef KG
 	else if(dn==1||dn==0)
