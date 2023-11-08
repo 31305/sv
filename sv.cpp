@@ -582,14 +582,6 @@ struct vks
 				size_t pvss=0;
 				while(1)
 				{
-					const size_t kk=::ks();
-					if(kk-tk>pgtv&&yk==6)
-					{
-						if(0)printf("vs %lu\n",vs);
-						yk=16;
-					}
-					if((kk-tk>dpgt||skk==sks)&&(yk==2||yk==4))
-						yk+=20;
 					pvss=vs;
 					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&ck&&pv.size()==0))break;
 					double ks=0.016;
@@ -686,7 +678,7 @@ struct vks
 					vsk(pvss);
 					continue;
 				}
-				else if(yk==22||yk==24)
+				else if(yk==22)
 				{
 					yk=0;
 					bn=1;
@@ -1110,6 +1102,19 @@ struct vks
 				sk[skk]=0;
 				tk=ks();
 			}
+			else yk=22;
+		}
+		const size_t kk=::ks();
+		if(kk-tk>pgtv&&tn(0,6))
+		{
+			vs=skk;
+			yk=16;
+			skk=0;
+		}
+		if((kk-tk>dpgt)&&(tn(0,2)||tn(0,4)))
+		{
+			skk=0;
+			yk=22;
 		}
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
 		else if(tn(0,3)){yk=3;skk=0;}
