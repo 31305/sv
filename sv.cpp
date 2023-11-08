@@ -1090,7 +1090,7 @@ struct vks
 			ck=0;
 			skk=0;
 		}
-		auto tn=[&sk=sk,&skk=skk](size_t k,unsigned char s)->bool
+		auto tn=[&sk=sk,&skk=skk](int k,unsigned char s)->bool
 		{
 			if(k<skk)return s==sk[k]-'0';
 			else return 0;
