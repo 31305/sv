@@ -543,14 +543,14 @@ size_t bkp(char* n)
 struct vks
 {
 	bool knp=0;
-	bool lp=0,sl=0;
+	const bool lp=0,sl=0;
 	bool ck=1;
 	int ykp=0;
 	std::string ccs;
 	size_t vs=0;
-	bool jt=0;
+	const bool jt=0;
 	void (*dk)()=0;
-	GS::VTM::VocalTractModel5<double,1> mt;
+	GS::VTM::VocalTractModel5<double,1> mt=GS::VTM::VocalTractModel5<double,1>();
 	struct vyp
 	{
 		vyp(size_t kd):mc(kd){mc.k[0]=0;}
@@ -1077,8 +1077,6 @@ struct vks
 	char sk[sks+1];
 	int skk=0;
 	const size_t pgtv=300,dpgt=2000;
-	std::vector<unsigned char> nv;
-	uint64_t ns=0; 
 	void(*cvp)()=0;
 	void nt(int t)
 	{
@@ -1316,9 +1314,7 @@ void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	vksk();
-	vks v;
-	v.lp=lp;
-	v.sl=sl;
+	vks v={.lp=lp,.sl=sl};
 #ifdef EMSCRIPTEN
 	typedef jvn dnp;
 #else
@@ -1604,7 +1600,7 @@ int main(int argc,char** argv)
 #else
 struct
 {
-	vks v;
+	vks v={.jt=1};
 	jvn *dp;
 	std::thread vkk;
 }sl;
@@ -1616,7 +1612,6 @@ int rk()
 	vksk();
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
-	sl.v.jt=1;
 	sl.v.dk=[](){sr++;};
 	sl.v.cvp=[](){st.ks=!st.ks;};
 	sl.vkk=std::thread([](){sl.v.vk();});
