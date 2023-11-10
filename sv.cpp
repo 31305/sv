@@ -546,6 +546,7 @@ struct vks
 	const bool lp=0,sl=0;
 	bool ck=1;
 	int ykp=0;
+	int yk=0;
 	std::string ccs;
 	size_t vs=0;
 	const bool jt=0;
@@ -580,12 +581,11 @@ struct vks
 			while(ck)
 			{
 				size_t pvss=0;
-				int yk=0;
 				while(1)
 				{
-					pvss=vs;
 					yk=ykp;
-					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&ck&&pv.size()==0))break;
+					pvss=vs;
+					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&yk!=8&&ck&&pv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
@@ -672,6 +672,19 @@ struct vks
 					if(ls[kp].pv)
 						vsk(ls[kp].pv);
 					continue;
+				}
+				else if(yk==8)
+				{
+					yk=0;
+					size_t l=kp;
+					while(l<ls.size())
+					{
+						while(ls[l].pv)l=ls[l].pv;
+						if(!ls[l].nsv)break;
+						else l++;
+					}
+					if(l==ls.size())l=0;
+					vsk(l);
 				}
 				else if(yk==12)
 				{
@@ -1103,22 +1116,26 @@ struct vks
 				sk[skk]=0;
 				tk=ks();
 			}
-			else ykp=22;
+			else if(yk==0)ykp=22;
 		}
 		const size_t kk=::ks();
 		if(kk-tk>pgtv&&tn(0,6))
 		{
-			vs=skk;
-			ykp=16;
+			if(yk==0)
+			{
+				vs=skk;
+				ykp=16;
+			}
 			skk=0;
 		}
 		if((kk-tk>dpgt)&&(tn(0,2)||tn(0,4)))
 		{
 			skk=0;
-			ykp=22;
+			if(yk==0)ykp=22;
 		}
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
-		else if(tn(0,3)){ykp=3;skk=0;}
+		else if(tn(0,3)){if(yk==0)ykp=3;skk=0;}
+		else if(tn(0,8)){if(yk==0)ykp=8;skk=0;}
 		else if(tn(0,7))
 		{
 			skk=0;
@@ -1129,7 +1146,7 @@ struct vks
 #endif
 			}
 		}
-		else if(tn(0,8))
+		else if(tn(0,1))
 		{
 			skk=0;
 			if(cvp)cvp();
@@ -1149,10 +1166,14 @@ struct vks
 			if(t==8)
 			{
 				sk[skk]=0;
-				vs=snsp(sk);
+				int nvs=snsp(sk);
 				skk=0;
-				if(vs==151*151){knp=1;}
-				else ykp=12;
+				if(nvs==151*151){knp=1;}
+				else if(yk==0)
+				{
+					vs=nvs;
+					ykp=12;
+				}
 			}
 			else if(t==9)
 				skk=0;
@@ -1162,8 +1183,11 @@ struct vks
 			if(t==0)
 			{
 				sk[skk]=0;
-				vs=bkp(sk);
-				ykp=12;
+				if(yk==0)
+				{
+					vs=bkp(sk);
+					ykp=12;
+				}
 				skk=0;
 			}
 			else if(t==9)
