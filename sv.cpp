@@ -548,7 +548,7 @@ struct vks
 	int ykp=0;
 	int yk=0;
 	std::string ccs;
-	size_t vs=0;
+	size_t vs=0,nvkk=0;
 	const bool jt=0;
 	void (*dk)()=0;
 	GS::VTM::VocalTractModel5<double,1> mt=GS::VTM::VocalTractModel5<double,1>();
@@ -676,15 +676,9 @@ struct vks
 				else if(yk==8)
 				{
 					yk=0;
-					size_t l=kp;
-					while(l<ls.size())
-					{
-						while(ls[l].pv)l=ls[l].pv;
-						if(!ls[l].nsv)break;
-						else l++;
-					}
-					if(l==ls.size())l=0;
-					vsk(l);
+					vsk(nvkk?nvk[nvkk-1]:vms);
+					if(nvkk<nvk.size())nvkk++;
+					else nvkk=0;
 				}
 				else if(yk==12)
 				{
