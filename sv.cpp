@@ -677,7 +677,7 @@ struct vks
 				{
 					yk=0;
 					vsk(nvkk?nvk[nvkk-1]:vms);
-					printf("nvkk %lu %lu\n",nvkk,nvk[nvkk-1]);
+					if(0)printf("nvkk %lu %lu\n",nvkk,nvk[nvkk-1]);
 					if(nvkk<nvk.size())nvkk++;
 					else nvkk=0;
 					continue;
@@ -1090,7 +1090,7 @@ struct vks
 	void nt(int t)
 	{
 		sk[sks]=0;
-		if(1)printf("ykp %d t %d\n",ykp,t);
+		if(0)printf("ykp %d t %d\n",ykp,t);
 		if(t==10)
 		{
 			ykp=0;
@@ -1129,6 +1129,7 @@ struct vks
 			skk=0;
 			if(yk==0)ykp=22;
 		}
+		if(t==-1)return;
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
 		else if(tn(0,3)){if(yk==0)ykp=3;skk=0;}
 		else if(tn(0,8)){if(yk==0)ykp=8;skk=0;}

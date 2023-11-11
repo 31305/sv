@@ -385,7 +385,6 @@ void nk()
 			st.tr.s++;
 			npk(st.tr.n);
 		}
-		else npk(-1);
 	}
 #ifdef EMSCRIPTEN
 	bool cc=EM_ASM_INT({return cc;});
@@ -404,6 +403,7 @@ void nk()
 	}
 #endif
 	if(st.plg){st.plg=0;lk();}
+	npk(-1);
 }
 int pmk()
 {
