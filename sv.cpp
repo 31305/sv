@@ -1130,7 +1130,8 @@ struct vks
 			if(yk==0)ykp=22;
 		}
 		if(t==-1)return;
-		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}}
+		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}skk=0;}
+		else if(tn(0,0))skk=0;
 		else if(tn(0,3)){if(yk==0)ykp=3;skk=0;}
 		else if(tn(0,8)){if(yk==0)ykp=8;skk=0;}
 		else if(tn(0,7))
