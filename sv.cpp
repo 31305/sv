@@ -546,7 +546,7 @@ struct vks
 	const bool lp=0,sl=0;
 	bool ck=1;
 	int ykp=0;
-	int yk=0;
+	int &yk=ykp;
 	std::string ccs;
 	size_t vs=0,nvkk=0;
 	const bool jt=0;
@@ -677,8 +677,10 @@ struct vks
 				{
 					yk=0;
 					vsk(nvkk?nvk[nvkk-1]:vms);
+					printf("nvkk %lu %lu\n",nvkk,nvk[nvkk-1]);
 					if(nvkk<nvk.size())nvkk++;
 					else nvkk=0;
+					continue;
 				}
 				else if(yk==12)
 				{
@@ -1088,7 +1090,7 @@ struct vks
 	void nt(int t)
 	{
 		sk[sks]=0;
-		if(0)printf("ykp %d t %d\n",ykp,t);
+		if(1)printf("ykp %d t %d\n",ykp,t);
 		if(t==10)
 		{
 			ykp=0;
@@ -1159,8 +1161,8 @@ struct vks
 		{
 			if(t==8)
 			{
-				sk[skk]=0;
-				int nvs=snsp(sk);
+				sk[skk-1]=0;
+				int nvs=snsp(sk+1);
 				skk=0;
 				if(nvs==151*151){knp=1;}
 				else if(yk==0)
@@ -1176,10 +1178,10 @@ struct vks
 		{
 			if(t==0)
 			{
-				sk[skk]=0;
+				sk[skk-1]=0;
 				if(yk==0)
 				{
-					vs=bkp(sk);
+					vs=bkp(sk+1);
 					ykp=12;
 				}
 				skk=0;
