@@ -545,8 +545,7 @@ struct vks
 	bool knp=0;
 	const bool lp=0,sl=0;
 	bool ck=1;
-	int ykp=0;
-	int &yk=ykp;
+	int yk=0;
 	std::string ccs;
 	size_t vs=0,nvkk=0;
 	const bool jt=0;
@@ -583,7 +582,6 @@ struct vks
 				size_t pvss=0;
 				while(1)
 				{
-					yk=ykp;
 					pvss=vs;
 					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&yk!=8&&ck&&pv.size()==0))break;
 					double ks=0.016;
@@ -1090,10 +1088,10 @@ struct vks
 	void nt(int t)
 	{
 		sk[sks]=0;
-		if(0)printf("ykp %d t %d\n",ykp,t);
+		if(0)printf("yk %d t %d\n",yk,t);
 		if(t==10)
 		{
-			ykp=0;
+			yk=0;
 			ck=0;
 			skk=0;
 		}
@@ -1112,7 +1110,7 @@ struct vks
 				sk[skk]=0;
 				tk=ks();
 			}
-			else if(yk==0)ykp=22;
+			else if(yk==0)yk=22;
 		}
 		const size_t kk=::ks();
 		if(kk-tk>pgtv&&tn(0,6))
@@ -1120,20 +1118,20 @@ struct vks
 			if(yk==0)
 			{
 				vs=skk;
-				ykp=16;
+				yk=16;
 			}
 			skk=0;
 		}
 		if((kk-tk>dpgt)&&(tn(0,2)||tn(0,4)))
 		{
 			skk=0;
-			if(yk==0)ykp=22;
+			if(yk==0)yk=22;
 		}
 		if(t==-1)return;
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}skk=0;}
 		else if(tn(0,0))skk=0;
-		else if(tn(0,3)){if(yk==0)ykp=3;skk=0;}
-		else if(tn(0,8)){if(yk==0)ykp=8;skk=0;}
+		else if(tn(0,3)){if(yk==0)yk=3;skk=0;}
+		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}
 		else if(tn(0,7))
 		{
 			skk=0;
@@ -1170,7 +1168,7 @@ struct vks
 				else if(yk==0)
 				{
 					vs=nvs;
-					ykp=12;
+					yk=12;
 				}
 			}
 			else if(t==9)
@@ -1184,7 +1182,7 @@ struct vks
 				if(yk==0)
 				{
 					vs=bkp(sk+1);
-					ykp=12;
+					yk=12;
 				}
 				skk=0;
 			}
