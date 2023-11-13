@@ -670,8 +670,12 @@ struct vks
 				else if(yk==3||ls[kp].sv)
 				{
 					if(yk==3)yk=0;
-					if(ls[kp].pv)
-						vsk(ls[kp].pv);
+					size_t s=1<<(pvss-1);
+					size_t gs=kp;
+					for(size_t k=0;k<s;k++)
+						if(ls[gs].pv)gs=ls[gs].pv;
+						else break;
+					vsk(gs);
 					continue;
 				}
 				else if(yk==8)
