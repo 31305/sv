@@ -647,7 +647,9 @@ struct vks
 					if(pv.size()>0);
 					else
 					{
-						vsk(kp);
+						if(pvss==1)vsk(kp);
+						else if(pvss-1<=kps.size())
+							vsk(kps[kps.size()-pvss+1]);
 						continue;
 					}
 				}
@@ -659,6 +661,7 @@ struct vks
 						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
 					}
 					gv=ls[pv[pv.size()-1]].vm;
+					kps.push_back(kp);
 					kp=pv[pv.size()-1];
 					ccs=ls[kp].cc;
 					bn=0;
@@ -1113,12 +1116,12 @@ struct vks
 			else if(yk==0)yk=22;
 		}
 		const size_t kk=::ks();
-		if(kk-tk>pgtv&&tn(0,6))
+		if(kk-tk>pgtv&&(tn(0,6)||tn(0,3)))
 		{
 			if(yk==0)
 			{
 				vs=skk;
-				yk=16;
+				yk=tn(0,6)?16:3;
 			}
 			skk=0;
 		}
@@ -1130,7 +1133,6 @@ struct vks
 		if(t==-1)return;
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}skk=0;}
 		else if(tn(0,0))skk=0;
-		else if(tn(0,3)){if(yk==0)yk=3;skk=0;}
 		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}
 		else if(tn(0,7))
 		{
@@ -1167,8 +1169,11 @@ struct vks
 				if(nvs==151*151){knp=1;}
 				else if(yk==0)
 				{
-					vs=nvs;
-					yk=12;
+					if(nvs+1<nvk.size()&&nvs!=0)
+					{
+						vs=nvk[nvs-1];
+						yk=12;
+					}
 				}
 			}
 			else if(t==9)
