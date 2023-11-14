@@ -1174,7 +1174,7 @@ struct vks
 			if(t==8)
 			{
 				sk[skk-1]=0;
-				int nvs=snsp(sk+1);
+				size_t nvs=snsp(sk+1);
 				skk=0;
 				if(nvs==151*151){knp=1;}
 				else if(yk==0)
@@ -1379,6 +1379,7 @@ void k(int p,bool lp=0,bool sl=0)
 					v.nt(t);
 				}
 			}
+			v.nt(-1);
 			v.ck=v.ck&ssk(p);
 			const int kn=16;
 			std::this_thread::sleep_for(std::chrono::milliseconds(kn));
