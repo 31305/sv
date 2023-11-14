@@ -681,7 +681,7 @@ struct vks
 					for(size_t k=0;k<s;k++)
 						if(ls[gs].pv)gs=ls[gs].pv;
 						else break;
-					vsk(gs);
+					if(gs!=kp)vsk(gs);
 					continue;
 				}
 				else if(yk==8)
@@ -1121,11 +1121,11 @@ struct vks
 				sk[skk]='0'+t;
 				skk++;
 				sk[skk]=0;
-				tk=ks();
 			}
-			else if(yk==0)yk=22;
+			else if(yk==0){yk=22;skk=0;}
 		}
 		const size_t kk=::ks();
+		if(0)printf("kk-tk %lu\n",kk-tk);
 		if(kk-tk>pgtv&&(tn(0,6)||tn(0,3)))
 		{
 			if(yk==0)
@@ -1182,6 +1182,7 @@ struct vks
 					if(nvs+1<nvk.size()&&nvs!=0)
 					{
 						vs=nvk[nvs-1];
+						printf("2...8 %lu\n",vs);
 						yk=12;
 					}
 				}
@@ -1323,8 +1324,10 @@ struct ntv
 {
 
 };
+void vksk(bool l=0);
 void dk()
 {
+	vksk();
 	SDL_Init(SDL_INIT_EVERYTHING);
 	static vks v;
 	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
@@ -1344,7 +1347,6 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
-void vksk(bool l=0);
 void k(int p,bool lp=0,bool sl=0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
