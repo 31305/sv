@@ -589,7 +589,7 @@ struct vks
 				while(1)
 				{
 					pvss=vs;
-					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=16&&yk!=22&&yk!=24&&yk!=5&&yk!=8&&ck&&pv.size()==0))break;
+					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
@@ -640,13 +640,13 @@ struct vks
 							gv.push_back(vc[v]);
 						yk=0;
 					}
-					else if(yk==16)
+					else if(yk==6)
 					{
 						yk=0;
 					}
 					else {yk=0;continue;}
 				}
-				else if(yk==16)
+				else if(yk==6)
 				{
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
@@ -1131,7 +1131,7 @@ struct vks
 			if(yk==0)
 			{
 				vs=skk;
-				yk=tn(0,6)?16:3;
+				yk=tn(0,6)?6:3;
 			}
 			skk=0;
 		}
@@ -1179,8 +1179,9 @@ struct vks
 				if(nvs==151*151){knp=1;}
 				else if(yk==0)
 				{
-					if(nvs+1<nvk.size()&&nvs!=0)
+					if(nvs-1<nvk.size()&&nvs!=0)
 					{
+						nvkk=nvs;
 						vs=nvk[nvs-1];
 						printf("2...8 %lu\n",vs);
 						yk=12;
