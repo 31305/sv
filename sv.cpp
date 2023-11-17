@@ -692,6 +692,7 @@ struct vks
 					gv=ls[pv[pv.size()-1]].vm;
 					kps.push_back(kp);
 					kp=pv[pv.size()-1];
+					if(0)printf("k %lu\n",kp);
 					ccs=ls[kp].cc;
 					bn=0;
 					pv.pop_back();
@@ -1170,10 +1171,11 @@ struct vks
 		else if(tn(0,7))
 		{
 			skk=0;
+			if(0)printf("ccs %s\n",ccs.c_str());
 			if(jt&&ccs.size()>0)
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()});
+				EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 #endif
 			}
 		}
@@ -1206,7 +1208,7 @@ struct vks
 					{
 						nvkk=nvs;
 						vs=nvk[nvs-1];
-						printf("2...8 %lu\n",vs);
+						if(0)printf("2...8 %lu\n",vs);
 						yk=12;
 					}
 				}

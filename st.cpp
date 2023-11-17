@@ -66,16 +66,11 @@ void lk()
 {
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,st.ks?255:0,st.s2*st.cns*8);
-	SDL_Rect cdp;
 	if(0)printf("cc %d\n",st.cc);
 	if(st.cc)
 	{
-		cdp.x=st.pd.x+(mss<0>(5)-0.5)*st.sp1*st.g;
-		cdp.y=st.pd.y+st.sp2*st.g;
-		cdp.w=(mss<0>(14)-mss<0>(5)+1)*st.sp1*st.g;
-		cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 #ifdef EMSCRIPTEN
-		EM_ASM({cl($0,$1,$2,$3);},cdp.x,cdp.y,cdp.w,cdp.h);
+		EM_ASM({cl($0,$1,$2,$3);},st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
 #endif
 	}
 	if(!st.pms&&!st.cc)
@@ -124,7 +119,7 @@ void lk()
 	if(st.cc&&0)
 	{
 		SDL_SetRenderDrawColor(st.ck,255,0,0,255);
-		SDL_RenderDrawRect(st.ck,&cdp);
+		SDL_RenderDrawRect(st.ck,&st.cdp);
 	}
 	if(sr==3)
 	{
@@ -138,6 +133,7 @@ void mk()
 	st.tr.p=0;
 	if(st.mc1)SDL_DestroyTexture(st.mc1);
 	if(st.mc2)SDL_DestroyTexture(st.mc2);
+	if(st.ccp)SDL_DestroyTexture(st.ccp);
 	int x1,x2;
 	SDL_GetWindowSize(st.cp,&x1,&x2);
 	if(0)printf("mk %dx%d\n",x1,x2);
@@ -188,8 +184,13 @@ void mk()
 		st.pd.x=(x1-st.pd.w)/2;
 		st.pd.y=(x2-st.pd.h)/2;
 	}
+	st.cdp.x=st.pd.x+(mss<0>(5)-0.5)*st.sp1*st.g;
+	st.cdp.y=st.pd.y+st.sp2*st.g;
+	st.cdp.w=(mss<0>(14)-mss<0>(5)+1)*st.sp1*st.g;
+	st.cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
+	st.ccp=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.cdp.w,st.cdp.h);
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
 	if(!getenv("NCTV")&&!st.nkk)SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
@@ -397,9 +398,9 @@ void nk()
 	}
 	if(EM_ASM_INT({return tvcp;}))
 	{
-		SDL_GL_BindTexture(st.mc1,0,0);
+		SDL_GL_BindTexture(st.ccp,0,0);
 		EM_ASM({ccvs()});
-		SDL_GL_UnbindTexture(st.mc1);
+		SDL_GL_UnbindTexture(st.ccp);
 	}
 #endif
 	if(st.plg){st.plg=0;lk();}
