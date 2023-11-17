@@ -62,6 +62,13 @@ void cnk(int k,int m1,int m2,float p1,float p2)
 			ns(k+x2*(cls/st.sp1)+x1,p1+x1,p2+x2);
 		}
 }
+void ncpk()
+{
+	Uint8 vn=st.ks?255:0;
+	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
+	SDL_RenderClear(st.ck);
+	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+}
 void lk()
 {
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
@@ -112,10 +119,7 @@ void lk()
 		SDL_RenderCopy(st.ck,st.mc1,NULL,NULL);
 		SDL_SetRenderTarget(st.ck,NULL);
 	}
-	Uint8 vn=st.ks?255:0;
-	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
-	SDL_RenderClear(st.ck);
-	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+	ncpk();
 	if(st.cc&&0)
 	{
 		SDL_SetRenderDrawColor(st.ck,255,0,0,255);
@@ -126,7 +130,6 @@ void lk()
 		sr++;
 		st.plg=1;
 	}
-	SDL_RenderPresent(st.ck);
 }
 void mk()
 {
@@ -193,6 +196,12 @@ void mk()
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"best");
 	st.ccp=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.cdp.w,st.cdp.h);
+	if(!st.ccp)printf("%lu ccpss %s\n",(size_t)st.ccp,SDL_GetError());
+	if(0)
+	{
+		auto tk=SDL_SetTextureBlendMode(st.ccp,0?SDL_BLENDMODE_MOD:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+		if(tk!=0)printf("%lu ccpss %s tk %d\n",(size_t)st.ccp,SDL_GetError(),tk);
+	}
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
 	if(!getenv("NCTV")&&!st.nkk)SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
@@ -398,15 +407,20 @@ void nk()
 	{
 		EM_ASM(cpdk());
 	}
-	if(EM_ASM_INT({return tvcp;})&&st.cc)
+	bool ccp=EM_ASM_INT({return tvcp;})&&st.cc;
+	bool pplg=st.plg;
+	if(st.plg)
 	{
+		st.plg=0;lk();
+		if(!ccp)
+			SDL_RenderPresent(st.ck);
+	}
+	if(ccp)
+	{
+		if(!pplg)ncpk();
 		SDL_GL_BindTexture(st.ccp,0,0);
 		EM_ASM({ccvs()});
 		SDL_GL_UnbindTexture(st.ccp);
-		Uint8 vn=st.ks?255:0;
-		SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
-		SDL_RenderClear(st.ck);
-		if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
 		SDL_Rect ccvs;
 		ccvs.w=EM_ASM_INT({return ccpd.videoWidth;});
 		ccvs.h=EM_ASM_INT({return ccpd.videoHeight;});
@@ -422,11 +436,15 @@ void nk()
 		}
 		ccvs.x=st.cdp.x+(st.cdp.w-ccvs.w)*0.5;
 		ccvs.y=st.cdp.y+(st.cdp.h-ccvs.h)*0.5;
+		if(0)
+		{
+			SDL_SetRenderDrawColor(st.ck,255,255,255,255);
+			SDL_RenderFillRect(st.ck,&ccvs);
+		}
 		SDL_RenderCopy(st.ck,st.ccp,NULL,&ccvs);
 		SDL_RenderPresent(st.ck);
 	}
 #endif
-	if(st.plg){st.plg=0;lk();}
 	npk(-1);
 }
 int pmk()
