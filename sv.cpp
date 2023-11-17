@@ -620,7 +620,7 @@ struct vks
 				if(pvss!=vs){yk=0;continue;}
 				if(0)printf("yk %d\n",yk);
 				if(!ck)break;
-				auto vsk=[&knp=knp,&pv,&kp,&vss,&bn](size_t vs)
+				auto vsk=[&knp=knp,&pv,&kp,&vss,&bn,&ccs=ccs](size_t vs)
 				{
 					if(vs>=ls.size())return;
 					if(ls[vs].nsv)return;
@@ -628,6 +628,7 @@ struct vks
 					double ss=0.001*(double)ks();
 					size_t vk=vs;
 					pv.push_back(vs);
+					ccs=ls[vs].cc;
 					auto pnv=[&kp](size_t k)
 					{
 						auto kpn=kp; 
@@ -693,7 +694,6 @@ struct vks
 					kps.push_back(kp);
 					kp=pv[pv.size()-1];
 					if(0)printf("k %lu\n",kp);
-					ccs=ls[kp].cc;
 					bn=0;
 					pv.pop_back();
 				}

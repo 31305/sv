@@ -189,7 +189,9 @@ void mk()
 	st.cdp.w=(mss<0>(14)-mss<0>(5)+1)*st.sp1*st.g;
 	st.cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"0");
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"best");
 	st.ccp=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.cdp.w,st.cdp.h);
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
@@ -396,11 +398,32 @@ void nk()
 	{
 		EM_ASM(cpdk());
 	}
-	if(EM_ASM_INT({return tvcp;}))
+	if(EM_ASM_INT({return tvcp;})&&st.cc)
 	{
 		SDL_GL_BindTexture(st.ccp,0,0);
 		EM_ASM({ccvs()});
 		SDL_GL_UnbindTexture(st.ccp);
+		Uint8 vn=st.ks?255:0;
+		SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
+		SDL_RenderClear(st.ck);
+		if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+		SDL_Rect ccvs;
+		ccvs.w=EM_ASM_INT({return ccpd.videoWidth;});
+		ccvs.h=EM_ASM_INT({return ccpd.videoHeight;});
+		if(ccvs.w*st.cdp.h>ccvs.h*st.cdp.w)
+		{
+			ccvs.h=st.cdp.w*ccvs.h/ccvs.w;
+			ccvs.w=st.cdp.w;
+		}
+		else
+		{
+			ccvs.w=st.cdp.h*ccvs.w/ccvs.h;
+			ccvs.h=st.cdp.h;
+		}
+		ccvs.x=st.cdp.x+(st.cdp.w-ccvs.w)*0.5;
+		ccvs.y=st.cdp.y+(st.cdp.h-ccvs.h)*0.5;
+		SDL_RenderCopy(st.ck,st.ccp,NULL,&ccvs);
+		SDL_RenderPresent(st.ck);
 	}
 #endif
 	if(st.plg){st.plg=0;lk();}

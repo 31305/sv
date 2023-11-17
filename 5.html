@@ -86,9 +86,9 @@ function pdr()
 	scpv.drawImage(ccpd,0,0)
 	if(cc)ccpd.requestVideoFrameCallback(pdr)
 }
-pvcp=1;
+pvcp=0;
 dvcp=0;
-tvcp=0;
+tvcp=1;
 function cl(d1,d2,v1,v2){if(pvcp)pcl(d1,d2,v1,v2);else if(dvcp)dcl(d1,d2,v1,v2)}
 function cpdk(){if(dvcp)scpv.drawImage(ccpd,0,0)}
 ckg=1;
