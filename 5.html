@@ -18,7 +18,7 @@
 </head>
 <body style='image-rendering: crisp-edges;margin:0;background-color:black;overflow:hidden'>
 <canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
-<video oncontextmenu="return false;" disablePictureInPicture crossorigin id="ccpd" disableRemotePlayback preload="metadata" style="position:fixed" playsinline muted hidden>
+<video oncontextmenu="return false;" disablePictureInPicture crossorigin id="ccpd" disableRemotePlayback preload="metadata" style="position:fixed" playsinline hidden>
 	<source src="kc.mp4"/>
 	<source src="https://ik.imagekit.io/mentic/pc.mp4?updatedAt=1698197381808" />
 	<source src="pc.mp4" />
@@ -93,7 +93,54 @@ function cl(d1,d2,v1,v2){if(pvcp)pcl(d1,d2,v1,v2);else if(dvcp)dcl(d1,d2,v1,v2)}
 function cpdk(){if(dvcp)scpv.drawImage(ccpd,0,0)}
 ckg=1;
 sk=cp.getContext('webgl');
-function ccvs(){ckg++;if(ckg==2)ckg=0;if(ckg)return;sk.texImage2D(sk.TEXTURE_2D,0,sk.RGBA,sk.RGBA,sk.UNSIGNED_BYTE,ccpd)}
+var vpvv,kss,sgss,kcss,sgcss;
+function vvk()
+{
+	const bv=sk.createShader(sk.VERTEX_SHADER);
+	sk.shaderSource(bv,"attribute vec4 s;attribute vec2 cs;varying vec2 pcs;void main(){gl_Position=s;pcs=cs;}")
+	sk.compileShader(bv)
+	console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
+	const vv=sk.createShader(sk.FRAGMENT_SHADER);
+	sk.shaderSource(vv,"precision mediump float;uniform sampler2D c;varying vec2 pcs;void main(){gl_FragColor=texture2D(c,pcs);}")
+	sk.compileShader(vv)
+	console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
+	vpvv=sk.createProgram()
+	sk.attachShader(vpvv,bv)
+	sk.attachShader(vpvv,vv)
+	sk.linkProgram(vpvv)
+	console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
+	kss=sk.getAttribLocation(vpvv,"s")
+	kcss=sk.getAttribLocation(vpvv,"cs")
+	sgss=sk.createBuffer()
+	sgcss=sk.createBuffer()
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
+	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1]),sk.STATIC_DRAW)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
+	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([0,0,1,0,1,1,0,0,0,1,1,1]),sk.STATIC_DRAW)
+}
+vvk()
+var tkv=0;
+function ccvs(s1,s2,v1,v2)
+{
+	if(0)console.log(s1,s2,v1,v2)
+	ckg++;
+	if(ckg==2)ckg=0;
+	if(1||!ckg)sk.texImage2D(sk.TEXTURE_2D,0,sk.RGBA,sk.RGBA,sk.UNSIGNED_BYTE,ccpd);
+	if(1)sk.viewport(s1,cp.height-s2-v2,v1,v2);
+	if(0)sk.viewport(0,0,cp.width,cp.height)
+	if(tkv==0)tkv=sk.getParameter(sk.CURRENT_PROGRAM)
+	sk.useProgram(vpvv)
+	sk.enableVertexAttribArray(kss)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
+	sk.vertexAttribPointer(kss,2,sk.FLOAT,false,0,0)
+	sk.enableVertexAttribArray(kcss)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
+	sk.vertexAttribPointer(kcss,2,sk.FLOAT,false,0,0)
+	if(1)sk.drawArrays(sk.TRIANGLES,0,6)
+	if(1)sk.viewport(0,0,cp.width,cp.height)
+	sk.useProgram(tkv)
+	return 1;
+}
 </script>
 <script src="sv.js"></script>
 </body>

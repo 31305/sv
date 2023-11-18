@@ -71,6 +71,7 @@ void ncpk()
 }
 void lk()
 {
+	if(1)printf("lk st.tr.p %d st.tr.n %d\n",st.tr.p,st.tr.n);
 	SDL_LockTexture(st.mc1,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,st.ks?255:0,st.s2*st.cns*8);
 	if(0)printf("cc %d\n",st.cc);
@@ -417,10 +418,8 @@ void nk()
 	}
 	if(ccp)
 	{
-		if(!pplg)ncpk();
-		SDL_GL_BindTexture(st.ccp,0,0);
-		EM_ASM({ccvs()});
-		SDL_GL_UnbindTexture(st.ccp);
+		if(1)if(!pplg)ncpk();
+		SDL_RenderPresent(st.ck);
 		SDL_Rect ccvs;
 		ccvs.w=EM_ASM_INT({return ccpd.videoWidth;});
 		ccvs.h=EM_ASM_INT({return ccpd.videoHeight;});
@@ -436,14 +435,13 @@ void nk()
 		}
 		ccvs.x=st.cdp.x+(st.cdp.w-ccvs.w)*0.5;
 		ccvs.y=st.cdp.y+(st.cdp.h-ccvs.h)*0.5;
-		if(0)
-		{
-			SDL_SetRenderDrawColor(st.ck,255,255,255,255);
-			SDL_RenderFillRect(st.ck,&ccvs);
-		}
-		SDL_RenderCopy(st.ck,st.ccp,NULL,&ccvs);
-		SDL_RenderPresent(st.ck);
+		SDL_GL_BindTexture(st.ccp,0,0);
+		int p=EM_ASM_INT({ccvs($0,$1,$2,$3)},ccvs.x,ccvs.y,ccvs.w,ccvs.h);
+		SDL_GL_UnbindTexture(st.ccp);
+		SDL_GL_SwapWindow(st.cp);
 	}
+#else
+	if(st.plg){st.plg=0;lk();}
 #endif
 	npk(-1);
 }
