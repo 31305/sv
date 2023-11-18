@@ -6,7 +6,7 @@ struct stp
 {
 	SDL_Window* cp=0;
 	SDL_Renderer* ck;
-	SDL_Texture *mc1=NULL,*mc2=NULL,*ccp=NULL;
+	SDL_Texture *mc1=NULL,*mc2=NULL;
 	SDL_Surface *lc=NULL;
 	bool cs=1;
 	const int sp1=8,sp2=(nc_height>128)?16:8;

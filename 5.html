@@ -91,24 +91,23 @@ dvcp=0;
 tvcp=1;
 function cl(d1,d2,v1,v2){if(pvcp)pcl(d1,d2,v1,v2);else if(dvcp)dcl(d1,d2,v1,v2)}
 function cpdk(){if(dvcp)scpv.drawImage(ccpd,0,0)}
-ckg=1;
 sk=cp.getContext('webgl');
-var vpvv,kss,sgss,kcss,sgcss;
+var vpvv,kss,sgss,kcss,sgcss,ccp;
 function vvk()
 {
 	const bv=sk.createShader(sk.VERTEX_SHADER);
 	sk.shaderSource(bv,"attribute vec4 s;attribute vec2 cs;varying vec2 pcs;void main(){gl_Position=s;pcs=cs;}")
 	sk.compileShader(bv)
-	console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
+	if(0)console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
 	const vv=sk.createShader(sk.FRAGMENT_SHADER);
 	sk.shaderSource(vv,"precision mediump float;uniform sampler2D c;varying vec2 pcs;void main(){gl_FragColor=texture2D(c,pcs);}")
 	sk.compileShader(vv)
-	console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
+	if(0)console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
 	vpvv=sk.createProgram()
 	sk.attachShader(vpvv,bv)
 	sk.attachShader(vpvv,vv)
 	sk.linkProgram(vpvv)
-	console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
+	if(0)console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
 	kss=sk.getAttribLocation(vpvv,"s")
 	kcss=sk.getAttribLocation(vpvv,"cs")
 	sgss=sk.createBuffer()
@@ -117,17 +116,22 @@ function vvk()
 	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1]),sk.STATIC_DRAW)
 	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
 	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([0,0,1,0,1,1,0,0,0,1,1,1]),sk.STATIC_DRAW)
+	ccp=sk.createTexture();
+	sk.bindTexture(sk.TEXTURE_2D,ccp)
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_WRAP_S,sk.CLAMP_TO_EDGE);
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_WRAP_T,sk.CLAMP_TO_EDGE);
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MIN_FILTER,sk.NEAREST);
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MAG_FILTER,sk.NEAREST);
 }
 vvk()
-var tkv=0;
+var tkv=0,tkccp=0;
 function ccvs(s1,s2,v1,v2)
 {
 	if(0)console.log(s1,s2,v1,v2)
-	ckg++;
-	if(ckg==2)ckg=0;
-	if(1||!ckg)sk.texImage2D(sk.TEXTURE_2D,0,sk.RGBA,sk.RGBA,sk.UNSIGNED_BYTE,ccpd);
+	if(0)if(tkccp==0)tkccp=sk.getParameter(sk.TEXTURE_BINDING_2D)
+	sk.bindTexture(sk.TEXTURE_2D,ccp)
+	sk.texImage2D(sk.TEXTURE_2D,0,sk.RGBA,sk.RGBA,sk.UNSIGNED_BYTE,ccpd);
 	if(1)sk.viewport(s1,cp.height-s2-v2,v1,v2);
-	if(0)sk.viewport(0,0,cp.width,cp.height)
 	if(tkv==0)tkv=sk.getParameter(sk.CURRENT_PROGRAM)
 	sk.useProgram(vpvv)
 	sk.enableVertexAttribArray(kss)
@@ -139,6 +143,7 @@ function ccvs(s1,s2,v1,v2)
 	if(1)sk.drawArrays(sk.TRIANGLES,0,6)
 	if(1)sk.viewport(0,0,cp.width,cp.height)
 	sk.useProgram(tkv)
+	if(1)sk.bindTexture(sk.TEXTURE_2D,tkccp)
 	return 1;
 }
 </script>
