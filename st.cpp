@@ -121,7 +121,9 @@ void lk()
 		SDL_SetRenderTarget(st.ck,NULL);
 	}
 	ncpk();
+#ifdef EMSCRIPTEN
 	EM_ASM({tkccp=sk.getParameter(sk.TEXTURE_BINDING_2D)});
+#endif
 	if(st.cc&&0)
 	{
 		SDL_SetRenderDrawColor(st.ck,255,0,0,255);
