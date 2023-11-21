@@ -1216,7 +1216,8 @@ struct vks
 				{
 					if(nvs-1<nvk.size()&&nvs!=0)
 					{
-						nvkk=nvs;
+						nvkk=nvs+1;
+						if(nvkk>nvk.size())nvkk=0;
 						vs=nvk[nvs-1];
 						if(0)printf("2...8 %lu\n",vs);
 						yk=12;
