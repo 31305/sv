@@ -1185,7 +1185,7 @@ struct vks
 			}
 			skk=0;
 		}
-		if((kk-tk>dpgt)&&(tn(0,2)||tn(0,4)))
+		if((kk-tk>dpgt)&&(skk>0||tn(0,2)||tn(0,4)))
 		{
 			skk=0;
 			if(yk==0)yk=22;
