@@ -24,7 +24,6 @@ def f(target,source,env):
 e.Depends(sv,'sc.bmp')
 if js:
     AddPostAction('sv.o',f)
-    e.Depends(sv,'vcm.ico')
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
 e.Command('sc.png','ck.py',"python3 $SOURCE")
 e.Command('vcm.ico','cm.ico','convert $SOURCE -scale 300% $TARGET')
