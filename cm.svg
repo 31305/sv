@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs><style>.pv{fill:#ffc000;}.dv{fill:#892200}.tv{fill:#ed8500}</style></defs>
+<rect class="pv" x="0" y="0" width="16" height="16"/>
+<polygon points="2,2 2,8 3,8 3,3, 9,3 9,9 2,9 2,14 6,14 6,11 4,11 4,12 5,12 5,13 3,13, 3,10 10,10 10,2" class="dv" />
+<rect class="dv" x="4" y="4" width="4" height="4"/>
+<rect class="tv" x="5" y="5" width="2" height="2"/>
+<rect class="dv" x="7" y="11" width="3" height="3"/>
+<rect class="pv" x="8" y="12" width="1" height="1"/>
+<polygon points="13,2 14,2 14,4
+ 12,4 12,5 14,5 14,8 12,8 12,9 14,9 14,12 12,12 12,13 14,13 14,14
+ 11,14 11,11 13,11 13,10 11,10 11,7 13,7 13,6 11,6 11,3
+ 13,3" class="dv" />
+</svg>
