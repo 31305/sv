@@ -1770,7 +1770,7 @@ EMSCRIPTEN_KEEPALIVE
 void nt(int n)
 {
 	static bool dsr=0;
-	if(1||!dsr)
+	if(n!=-1||!dsr)
 	{
 		dsr=1;
 		EM_ASM({drk()});
