@@ -32,7 +32,7 @@ e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
 e.Command('sc.png','ck.py',"python3 $SOURCE")
 if False:e.Command('vcm.ico','cm.ico','convert $SOURCE -scale 300% $TARGET')
 def pd(block_num, block_size, total_size):
-    print(round(block_num * block_size / total_size *100,2), end="\r")
+    print(round(block_num*block_size/total_size,2),end="\r")
 def hk(target,source,env):
     cks='1.18.0'
     urllib.request.urlretrieve("https://www.cairographics.org/releases/cairo-"+cks+".tar.xz","cairo.tar.xz",pd)
