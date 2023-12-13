@@ -490,6 +490,7 @@ int pmk()
 		SDL_DestroyTexture(st.mc2);
 		SDL_FreeSurface(st.lc);
 	}
+	lp();
 	return 0;
 }
 void lp()

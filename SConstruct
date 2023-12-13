@@ -14,7 +14,7 @@ if js:
     e.Append(LINKFLAGS=['--preload-file=sc.bmp','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
     st=e.Object('st.cpp')
     e.Depends(st,'cairo')
-    ss+=[st]
+    ss+=[st,'cairo/tp/src/libcairo.a','cairo/tp/subprojects/pixman/pixman/libpixman-1.a']
 else:
     e.ParseConfig('pkg-config --cflags --libs x11 sdl2 cairo')
     e.Append(CCFLAGS=['-DKG'])
@@ -39,11 +39,8 @@ def hk(target,source,env):
 def cksk(target,source,env):
     os.system('tar xvf cairo.tar.xz')
     os.system('mv cairo-* cairo')
-    if False:mesonbuild.mesonmain.run(['meson','cairo','cairo/tp'],{'cross-file':'jt','buildtype':'release','dwrite':'disabled','fontconfig':'disabled','freetype':'disabled','glib':'disabled','png':'disabled','quartz':'disabled','spectre':'disabled','symbol-lookup':'disabled','tee':'disabled','tests':'disabled','xcb':'disabled','xlib':'disabled','xlib-xcb':'disabled','zlib':'disabled','default_library':'static'})
     mesonbuild.mesonmain.run(['setup','cairo','cairo/tp','--cross-file','jt']+'-Dbuildtype=release -Ddwrite=disabled -Dfontconfig=disabled -Dfreetype=disabled -Dglib=disabled -Dpng=disabled -Dquartz=disabled -Dspectre=disabled -Dsymbol-lookup=disabled -Dtee=disabled -Dtests=disabled -Dxcb=disabled -Dxlib=disabled -Dxlib-xcb=disabled -Dzlib=disabled -Ddefault_library=static'.split(),'meson')
     mesonbuild.mesonmain.run(["compile","-C",'cairo/tp'],"meson")
 if js:
     e.Command('cairo','cairo.tar.xz',cksk)
     e.Command('cairo.tar.xz',None,hk)
-    if False:e.Command('cairo/tp/src/libcairo.a','',\
-        'meson setup tp ./ --cross-file jt -Dbuildtype=release -Ddwrite=disabled -Dfontconfig=disabled -Dfreetype=disabled -Dglib=disabled -Dpng=disabled -Dquartz=disabled -Dspectre=disabled -Dsymbol-lookup=disabled -Dtee=disabled -Dtests=disabled -Dxcb=disabled -Dxlib=disabled -Dxlib-xcb=disabled -Dzlib=disabled -Ddefault_library=static')
