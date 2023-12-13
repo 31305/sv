@@ -10,7 +10,7 @@ ss=['sv.cpp','Log.cpp']
 if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
-    e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json'])
+    e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json','-Icairo/src','-Icairo/tp/src'])
     e.Append(LINKFLAGS=['--preload-file=sc.bmp','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
     st=e.Object('st.cpp')
     e.Depends(st,'cairo')
@@ -33,12 +33,15 @@ e.Command('sc.png','ck.py',"python3 $SOURCE")
 if False:e.Command('vcm.ico','cm.ico','convert $SOURCE -scale 300% $TARGET')
 def pd(block_num, block_size, total_size):
     print(round(block_num * block_size / total_size *100,2), end="\r")
-cks='1.18.0'
 def hk(target,source,env):
+    cks='1.18.0'
     urllib.request.urlretrieve("https://www.cairographics.org/releases/cairo-"+cks+".tar.xz","cairo.tar.xz",pd)
-    os.system('tar xvf cairo.tar.xz')
 def cksk(target,source,env):
-    pass
+    os.system('tar xvf cairo.tar.xz')
+    os.system('mv cairo-* cairo')
+    if False:mesonbuild.mesonmain.run(['meson','cairo','cairo/tp'],{'cross-file':'jt','buildtype':'release','dwrite':'disabled','fontconfig':'disabled','freetype':'disabled','glib':'disabled','png':'disabled','quartz':'disabled','spectre':'disabled','symbol-lookup':'disabled','tee':'disabled','tests':'disabled','xcb':'disabled','xlib':'disabled','xlib-xcb':'disabled','zlib':'disabled','default_library':'static'})
+    mesonbuild.mesonmain.run(['setup','cairo','cairo/tp','--cross-file','jt']+'-Dbuildtype=release -Ddwrite=disabled -Dfontconfig=disabled -Dfreetype=disabled -Dglib=disabled -Dpng=disabled -Dquartz=disabled -Dspectre=disabled -Dsymbol-lookup=disabled -Dtee=disabled -Dtests=disabled -Dxcb=disabled -Dxlib=disabled -Dxlib-xcb=disabled -Dzlib=disabled -Ddefault_library=static'.split(),'meson')
+    mesonbuild.mesonmain.run(["compile","-C",'cairo/tp'],"meson")
 if js:
     e.Command('cairo','cairo.tar.xz',cksk)
     e.Command('cairo.tar.xz',None,hk)
