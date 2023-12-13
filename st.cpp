@@ -1,4 +1,5 @@
 #include"st.h"
+#include<cairo.h>
 #ifndef EMSCRIPTEN
 bool jt=0;
 #else
@@ -490,4 +491,16 @@ int pmk()
 		SDL_FreeSurface(st.lc);
 	}
 	return 0;
+}
+void lp()
+{
+	auto s=cairo_image_surface_create(CAIRO_FORMAT_ARGB32,256,256);
+	auto p=cairo_create(s);
+	cairo_set_source_rgb(p,1.0,0,0);
+	cairo_paint(p);
+	cairo_set_source_rgb(p,0,1,0);
+	cairo_move_to(p,0,0);
+	cairo_line_to(p,50,0);
+	cairo_curve_to(p,60,0,60,50,50,50);
+	cairo_fill(p);
 }

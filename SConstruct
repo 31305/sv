@@ -1,7 +1,9 @@
 import os
 import subprocess
-nk=Builder(action='sh ck.sh < $SOURCE > $TARGET')
-e=Environment(BUILDERS={'nl':nk},COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
+import mesonbuild.mesonmain
+import urllib.request
+import shutil
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
 e.AppendENVPath('PATH',os.environ.get('PATH'))
 js=type(ARGUMENTS.get('js'))==str
 ss=['sv.cpp','Log.cpp']
@@ -10,9 +12,11 @@ if js:
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
     e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json'])
     e.Append(LINKFLAGS=['--preload-file=sc.bmp','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
-    ss+=['st.cpp']
+    st=e.Object('st.cpp')
+    e.Depends(st,'cairo')
+    ss+=[st]
 else:
-    e.ParseConfig('pkg-config --cflags --libs x11 sdl2')
+    e.ParseConfig('pkg-config --cflags --libs x11 sdl2 cairo')
     e.Append(CCFLAGS=['-DKG'])
     e.Tool('compilation_db')
     e.CompilationDatabase()
@@ -26,4 +30,17 @@ if js:
     AddPostAction('sv.o',f)
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
 e.Command('sc.png','ck.py',"python3 $SOURCE")
-e.Command('vcm.ico','cm.ico','convert $SOURCE -scale 300% $TARGET')
+if False:e.Command('vcm.ico','cm.ico','convert $SOURCE -scale 300% $TARGET')
+def pd(block_num, block_size, total_size):
+    print(round(block_num * block_size / total_size *100,2), end="\r")
+cks='1.18.0'
+def hk(target,source,env):
+    urllib.request.urlretrieve("https://www.cairographics.org/releases/cairo-"+cks+".tar.xz","cairo.tar.xz",pd)
+    os.system('tar xvf cairo.tar.xz')
+def cksk(target,source,env):
+    pass
+if js:
+    e.Command('cairo','cairo.tar.xz',cksk)
+    e.Command('cairo.tar.xz',None,hk)
+    if False:e.Command('cairo/tp/src/libcairo.a','',\
+        'meson setup tp ./ --cross-file jt -Dbuildtype=release -Ddwrite=disabled -Dfontconfig=disabled -Dfreetype=disabled -Dglib=disabled -Dpng=disabled -Dquartz=disabled -Dspectre=disabled -Dsymbol-lookup=disabled -Dtee=disabled -Dtests=disabled -Dxcb=disabled -Dxlib=disabled -Dxlib-xcb=disabled -Dzlib=disabled -Ddefault_library=static')
