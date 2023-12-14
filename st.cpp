@@ -1,7 +1,4 @@
 #include"st.h"
-#ifdef NTPB
-#include<SDL2_gfxPrimitives.h>
-#endif
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -74,13 +71,6 @@ void ncpk()
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
 	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-#ifdef NTPB
-	if(0)
-	{
-		filledCircleRGBA(st.ck,100,100,50,255,0,0,255);
-		aacircleRGBA(st.ck,100,100,51,255,0,0,255);
-	}
-#endif
 }
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
 {
@@ -90,22 +80,22 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 		((uint8_t*)c)[s2*d+s1*3+1]=fmin((uint8_t)(ns*(float)h),255);
 		((uint8_t*)c)[s2*d+s1*3+2]=fmin((uint8_t)(ns*(float)n),255);
 	};
-	size_t g=vd;
+	size_t g=vd+1;
 	for(size_t k=0;k<vd;k++)
 	{
-		size_t n=0;
-		while(g>0&&(n=(g-1)*(g-1)+k*k)>vd*vd)
+		while(g>0&&((g-1)*(g-1)+k*k)>=vd*vd)
 		{
 			g--;
 		}
-		if(g==0)break;
-		n=vd*vd-n;
-		float b=0;
-		if(k==0)b=1;
-		else
+		printf("k %ld g-1 %ld\n",k,g-1);
+		if(g==0||g-1<k)break;
+		auto b=[&vd](size_t g,size_t k)->float
 		{
+			float b;
+			if(k==0)return 1;
+			size_t n=vd*vd-(g-1)*(g-1)-k*k;
 			float v1=(float)n/(float)(2*k);
-			float t=(float)(2*(g-1))/v1;
+			float t=(float)((g-1))/v1;
 			float v2=v1/t;
 			b=v1*v2*0.5;
 			if(v1>1)
@@ -116,17 +106,22 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 			{
 				b-=0.5*(v2-1)*(v2-1)*t;
 			}
+			if(v1-t>1)b=1;
 			b=fmax(b,0);
-		}
+			printf("v1 %f v2 %f  b %f\n",v1,v2,b);
+			return b;
+		};
 		if(s2>k)
 		{
 			size_t ls2=s2-1-k;
-			for(size_t pg=1;pg<=g;pg++)
+			for(size_t pg=fmax(1,k);pg<=g;pg++)
 			{
 				if(pg<=s1)
 				{
 					size_t ls1=s1-pg;
-					bk(ls1,ls2,b);
+					float bm=pg<g?1.0:b(pg,k);
+					bk(ls1,ls2,bm);
+					bk(s1-1-k,s2-pg,bm);
 				}
 			}
 		}
@@ -176,7 +171,7 @@ void lk()
 		if(!st.dn)l2+=2;
 	}
 	st.l2=l2;
-	if(0)vlk(st.cn,st.s1*st.sp1,st.s2*st.sp2,st.cns,100,100,50,255,0,0);
+	if(1)vlk(st.cn,st.s1*st.sp1,st.s2*st.sp2,st.cns,100,100,50,255,255,255);
 	SDL_UnlockTexture(st.mc1);
 	if(!st.nkk)
 	{
