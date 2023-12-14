@@ -1,5 +1,7 @@
 #include"st.h"
+#ifdef NTPB
 #include<SDL2_gfxPrimitives.h>
+#endif
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -72,10 +74,41 @@ void ncpk()
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
 	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+#ifdef NTPB
 	if(0)
 	{
 		filledCircleRGBA(st.ck,100,100,50,255,0,0,255);
 		aacircleRGBA(st.ck,100,100,51,255,0,0,255);
+	}
+#endif
+}
+void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
+{
+	auto bk=[&](size_t s1,size_t s2,bool ns=0)
+	{
+		((uint8_t*)c)[s2*d+s1*3]=ns?r/2:r;
+		((uint8_t*)c)[s2*d+s1*3+1]=ns?h/2:h;
+		((uint8_t*)c)[s2*d+s1*3+2]=ns?n/2:n;
+	};
+	size_t g=vd;
+	for(size_t k=0;k<vd;k++)
+	{
+		while(g>0&&(g-1)*(g-1)+k*k>vd*vd)g--;
+		if(g==0)break;
+		if(s2>k)
+		{
+			size_t ls2=s2-1-k;
+			for(size_t pg=1;pg<=g;pg++)
+			{
+				if(pg<=s1)
+				{
+					size_t ls1=s1-pg;
+					bk(ls1,ls2);
+				}
+			}
+		}
+		if(k>0)
+			bk(s1-g-1,s2-1-k,1);
 	}
 }
 void lk()
@@ -122,6 +155,7 @@ void lk()
 		if(!st.dn)l2+=2;
 	}
 	st.l2=l2;
+	if(0)vlk(st.cn,st.s1*st.sp1,st.s2*st.sp2,st.cns,100,100,50,255,0,0);
 	SDL_UnlockTexture(st.mc1);
 	if(!st.nkk)
 	{
@@ -446,7 +480,7 @@ void nk()
 		SDL_GL_SwapWindow(st.cp);
 	}
 #else
-	if(st.plg){st.plg=0;lk();}
+	if(st.plg){st.plg=0;lk();SDL_RenderPresent(st.ck);}
 #endif
 	npk(-1);
 }
