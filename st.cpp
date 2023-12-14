@@ -75,20 +75,20 @@ void ncpk()
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
 		SDL_Rect vcs;
-		vcs.x=(st.s1-vdv*2)/2*st.sp1*st.g;
-		vcs.y=(((int)(mss<1>(st.dn?0:5)-0.5)-vdv*2)/2)*st.sp2*st.g;
+		vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
+		vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
 		vcs.w=vdv*st.sp1*st.g;
 		vcs.h=vdv*st.sp2*st.g;
 		SDL_RenderCopy(st.ck,st.vc,NULL,&vcs);
 		if(0)printf("%d %d %d %d\n",vcs.x,vcs.y,vcs.w,vcs.h);
-		vcs.x=(st.s1)/2*st.sp1*st.g;
-		vcs.y=(((int)(mss<1>(st.dn?0:5)-0.5)-vdv*2)/2)*st.sp2*st.g;
+		vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
+		vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
 		SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
-		vcs.x=(st.s1)/2*st.sp1*st.g;
-		vcs.y=(((int)(mss<1>(st.dn?0:5)-0.5))/2)*st.sp2*st.g;
+		vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
+		vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
 		SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,(SDL_RendererFlip)(SDL_FLIP_HORIZONTAL|SDL_FLIP_VERTICAL));
-		vcs.x=(st.s1-vdv*2)/2*st.sp1*st.g;
-		vcs.y=(((int)(mss<1>(st.dn?0:5)-0.5))/2)*st.sp2*st.g;
+		vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
+		vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
 		SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
 	}
 }
@@ -96,9 +96,10 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 {
 	auto bk=[&](size_t s1,size_t s2,float ns)
 	{
-		((uint8_t*)c)[s2*d+s1*3]=fmin((uint8_t)(ns*(float)r),255);
-		((uint8_t*)c)[s2*d+s1*3+1]=fmin((uint8_t)(ns*(float)h),255);
-		((uint8_t*)c)[s2*d+s1*3+2]=fmin((uint8_t)(ns*(float)n),255);
+		size_t rs=s2*d+s1*3,hs=rs+1,ls=hs+1;
+		((uint8_t*)c)[rs]=fmin((uint8_t)(ns*(float)r+(1.0-ns)*(float)(((uint8_t*)c)[rs])),255);
+		((uint8_t*)c)[hs]=fmin((uint8_t)(ns*(float)h+(1.0-ns)*(float)(((uint8_t*)c)[hs])),255);
+		((uint8_t*)c)[ls]=fmin((uint8_t)(ns*(float)n+(1.0-ns)*(float)(((uint8_t*)c)[ls])),255);
 	};
 	size_t g=vd+1;
 	for(size_t k=0;k<vd;k++)
@@ -274,7 +275,8 @@ void mk()
 	if(!getenv("NCTV")&&!st.nkk)SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
 	st.vc=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,vdv*st.sp1*st.g,vdv*st.sp2*st.g);
 	SDL_LockTexture(st.vc,NULL,(void**)&st.cn,&st.cns);
-	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp2*st.g,vdv*st.sp1*st.g,255,255,255);
+	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
+	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp2*st.g,vdv*st.sp1*st.g/2,0,0,0);
 	SDL_UnlockTexture(st.vc);
 	st.plg=1;
 }
