@@ -1760,7 +1760,11 @@ int rk()
 	sl.dp=new jvn(sl.v.mt.outputSampleRate(),sl.v.pc,(void*)&sl.v.vy);
 	if(0)printf("rk\n");
 	sl.v.dk=[](){sr++;};
-	sl.v.cvp=[](){st.ks=!st.ks;};
+	sl.v.cvp=[]()
+	{
+		st.ks=!st.ks;
+		SDL_SetTextureBlendMode(st.vc,!st.ks?SDL_BLENDMODE_MOD:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+	};
 	sl.vkk=std::thread([](){sl.v.vk();});
 	if(0)pmk();
 	emscripten_set_main_loop(nk,0,0);
