@@ -95,7 +95,7 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 			if(k==0)return 1;
 			size_t n=vd*vd-(g-1)*(g-1)-k*k;
 			float v1=(float)n/(float)(2*k);
-			float t=(float)((g-1))/v1;
+			float t=(float)((g-1))/k;
 			float v2=v1/t;
 			b=v1*v2*0.5;
 			if(v1>1)
@@ -139,7 +139,7 @@ void lk()
 		EM_ASM({cl($0,$1,$2,$3);},st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
 #endif
 	}
-	if(!st.pms&&!st.cc)
+	if(0&&!st.pms&&!st.cc)
 	{
 		for(int pk=0;pk<st.lc->h;pk++)
 		{
