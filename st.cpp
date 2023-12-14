@@ -84,17 +84,40 @@ void ncpk()
 }
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
 {
-	auto bk=[&](size_t s1,size_t s2,bool ns=0)
+	auto bk=[&](size_t s1,size_t s2,float ns)
 	{
-		((uint8_t*)c)[s2*d+s1*3]=ns?r/2:r;
-		((uint8_t*)c)[s2*d+s1*3+1]=ns?h/2:h;
-		((uint8_t*)c)[s2*d+s1*3+2]=ns?n/2:n;
+		((uint8_t*)c)[s2*d+s1*3]=fmin((uint8_t)(ns*(float)r),255);
+		((uint8_t*)c)[s2*d+s1*3+1]=fmin((uint8_t)(ns*(float)h),255);
+		((uint8_t*)c)[s2*d+s1*3+2]=fmin((uint8_t)(ns*(float)n),255);
 	};
 	size_t g=vd;
 	for(size_t k=0;k<vd;k++)
 	{
-		while(g>0&&(g-1)*(g-1)+k*k>vd*vd)g--;
+		size_t n=0;
+		while(g>0&&(n=(g-1)*(g-1)+k*k)>vd*vd)
+		{
+			g--;
+		}
 		if(g==0)break;
+		n=vd*vd-n;
+		float b=0;
+		if(k==0)b=1;
+		else
+		{
+			float v1=(float)n/(float)(2*k);
+			float t=(float)(2*(g-1))/v1;
+			float v2=v1/t;
+			b=v1*v2*0.5;
+			if(v1>1)
+			{
+				b-=0.5*(v1-1)*(v1-1)/t;
+			}
+			if(v2>1)
+			{
+				b-=0.5*(v2-1)*(v2-1)*t;
+			}
+			b=fmax(b,0);
+		}
 		if(s2>k)
 		{
 			size_t ls2=s2-1-k;
@@ -103,12 +126,10 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 				if(pg<=s1)
 				{
 					size_t ls1=s1-pg;
-					bk(ls1,ls2);
+					bk(ls1,ls2,b);
 				}
 			}
 		}
-		if(k>0)
-			bk(s1-g-1,s2-1-k,1);
 	}
 }
 void lk()
