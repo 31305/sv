@@ -1,4 +1,5 @@
 #include"st.h"
+#include<SDL2_gfxPrimitives.h>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -71,6 +72,11 @@ void ncpk()
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
 	if(st.cs&&sr>3)SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+	if(0)
+	{
+		filledCircleRGBA(st.ck,100,100,50,255,0,0,255);
+		aacircleRGBA(st.ck,100,100,51,255,0,0,255);
+	}
 }
 void lk()
 {
