@@ -1,23 +1,26 @@
 import os
 import subprocess
-import mesonbuild.mesonmain
 import urllib.request
 import shutil
 e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
 e.AppendENVPath('PATH',os.environ.get('PATH'))
 js=type(ARGUMENTS.get('js'))==str
+cp=type(ARGUMENTS.get('cp'))==str
+if cp:
+    import mesonbuild.mesonmain
 ss=['sv.cpp','Log.cpp']
 if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
-    e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json','-Icairo/src','-Icairo/tp/src'])
+    e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json']+(['-Icairo/src','-Icairo/tp/src','-DCP'] if cp else []))
     e.Append(LINKFLAGS=['--preload-file=sc.bmp','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-pthread'])
     st=e.Object('st.cpp')
-    e.Depends(st,'cairo')
-    ss+=[st,'cairo/tp/src/libcairo.a','cairo/tp/subprojects/pixman/pixman/libpixman-1.a']
+    if cp:e.Depends(st,'cairo')
+    ss+=[st]
+    if cp:ss+=['cairo/tp/src/libcairo.a','cairo/tp/subprojects/pixman/pixman/libpixman-1.a']
 else:
-    e.ParseConfig('pkg-config --cflags --libs x11 sdl2 cairo')
-    e.Append(CCFLAGS=['-DKG'])
+    e.ParseConfig('pkg-config --cflags --libs x11 sdl2'+(' cairo' if cp else ''))
+    e.Append(CCFLAGS=['-DKG']+(['-DCP'] if cp else []))
     e.Tool('compilation_db')
     e.CompilationDatabase()
     ss+=['st.cpp']
@@ -41,6 +44,6 @@ def cksk(target,source,env):
     os.system('mv cairo-* cairo')
     mesonbuild.mesonmain.run(['setup','cairo','cairo/tp','--cross-file','jt']+'-Dbuildtype=release -Ddwrite=disabled -Dfontconfig=disabled -Dfreetype=disabled -Dglib=disabled -Dpng=disabled -Dquartz=disabled -Dspectre=disabled -Dsymbol-lookup=disabled -Dtee=disabled -Dtests=disabled -Dxcb=disabled -Dxlib=disabled -Dxlib-xcb=disabled -Dzlib=disabled -Ddefault_library=static'.split(),'meson')
     mesonbuild.mesonmain.run(["compile","-C",'cairo/tp'],"meson")
-if js:
+if js and cp:
     e.Command('cairo','cairo.tar.xz',cksk)
     e.Command('cairo.tar.xz',None,hk)

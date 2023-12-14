@@ -50,4 +50,3 @@ int pmk();
 void nk();
 int pmk();
 extern void (*npk)(int);
-void lp();

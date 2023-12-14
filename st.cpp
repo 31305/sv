@@ -1,5 +1,7 @@
 #include"st.h"
+#ifdef CP
 #include<cairo.h>
+#endif
 #ifndef EMSCRIPTEN
 bool jt=0;
 #else
@@ -490,9 +492,9 @@ int pmk()
 		SDL_DestroyTexture(st.mc2);
 		SDL_FreeSurface(st.lc);
 	}
-	lp();
 	return 0;
 }
+#ifdef CP
 void lp()
 {
 	auto s=cairo_image_surface_create(CAIRO_FORMAT_RGB24,256,256);
@@ -505,3 +507,4 @@ void lp()
 	cairo_curve_to(p,60,0,60,50,50,50);
 	cairo_fill(p);
 }
+#endif
