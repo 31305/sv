@@ -128,6 +128,12 @@ struct pg
 	{
 		return (float)ts[0]/(float)(ts[0]-ts[1]);
 	}
+	void dk()
+	{
+		ts[0]=tsm(nv,v1[0],v2[0]);
+		ts[1]=tsm(nv,v1[1],v2[1]);
+		vk=sk();
+	}
 	float b;
 	int bs1,bs2;
 	void nk()
@@ -179,9 +185,7 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 	tk.v2[0]=0;
 	tk.v1[1]=vd;
 	tk.v2[1]=0;
-	tk.ts[0]=tsm(tk.v1[0],tk.v2[0]);
-	tk.ts[1]=tsm(tk.v1[1],tk.v2[1]);
-	tk.vk=1;
+	tk.dk();
 	do
 	{
 		tk.nk();
