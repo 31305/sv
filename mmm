@@ -1,0 +1,1 @@
+convert cm.ico -scale 1800% -bordercolor black -border 112 cm.png
