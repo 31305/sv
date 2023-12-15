@@ -86,17 +86,17 @@ void ncpk()
 				SDL_SetTextureBlendMode(st.vc,!st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 				st.clvp=0;
 			}
-			SDL_RenderCopy(st.ck,st.vc,NULL,&vcs);
+			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,(SDL_RendererFlip)(SDL_FLIP_HORIZONTAL|SDL_FLIP_VERTICAL));
 			if(0)printf("%d %d %d %d\n",vcs.x,vcs.y,vcs.w,vcs.h);
 			vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
 			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
+			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
 			vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
 			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,(SDL_RendererFlip)(SDL_FLIP_HORIZONTAL|SDL_FLIP_VERTICAL));
+			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_NONE);
 			vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
 			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
+			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
 			if(0)
 			{
 				SDL_SetRenderDrawColor(st.ck,255,0,0,100);
@@ -105,6 +105,63 @@ void ncpk()
 		}
 	}
 }
+struct pg
+{
+	int64_t(*tsm)(void*,int,int);
+	void* nv;
+	int v1[4],v2[4];
+	int ts[4];
+	float vk;
+	void ss(int k)
+	{
+		v1[k]=v1[k-1]+v2[k-2]-v2[k-1];
+		v2[k]=v2[k-1]+v1[k-1]-v1[k-2];
+		ts[k]=tsm(nv,v1[k],v2[k]);
+	};
+	void bs(int l,int k)
+	{
+		v1[l]=v1[k];
+		v2[l]=v2[k];
+		ts[l]=ts[k];
+	}
+	float sk()
+	{
+		return (float)ts[0]/(float)(ts[0]-ts[1]);
+	}
+	float b;
+	int bs1,bs2;
+	void nk()
+	{
+		float nvk;
+		ss(2);
+		bs1=fmin(v1[0],fmin(v1[1],v1[2]));
+		bs2=fmin(v2[0],fmin(v2[1],v2[2]));
+		if(ts[2]<0)
+		{
+			bs(0,2);
+			nvk=sk();
+			b=1.0-0.5*(1.0-vk)*(1.0-nvk);
+		}
+		else
+		{
+			ss(3);
+			if(ts[3]<0)
+			{
+				bs(0,3);
+				bs(1,2);
+				nvk=sk();
+				b=0.5*(vk+nvk);
+			}
+			else
+			{
+				bs(1,3);
+				nvk=sk();
+				b=0.5*vk*nvk;
+			}
+		}
+		vk=nvk;
+	}
+};
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
 {
 	auto bk=[&](size_t s1,size_t s2,float ns)
@@ -114,44 +171,28 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 		((uint8_t*)c)[hs]=fmin((uint8_t)(ns*(float)h+(1.0-ns)*(float)(((uint8_t*)c)[hs])),255);
 		((uint8_t*)c)[ls]=fmin((uint8_t)(ns*(float)n+(1.0-ns)*(float)(((uint8_t*)c)[ls])),255);
 	};
-	size_t g=vd+1;
-	for(size_t k=0;k<vd;k++)
+	auto tsm=[&vd](int v1,int v2)->int64_t{return v1*v1+v2*v2-vd*vd;};
+	pg tk;
+	tk.nv=&tsm;
+	tk.tsm=[](void* nv,int v1,int v2)->int64_t{return (*static_cast<decltype(tsm)*>(nv))(v1,v2);};
+	tk.v1[0]=vd-1;
+	tk.v2[0]=0;
+	tk.v1[1]=vd;
+	tk.v2[1]=0;
+	tk.ts[0]=tsm(tk.v1[0],tk.v2[0]);
+	tk.ts[1]=tsm(tk.v1[1],tk.v2[1]);
+	tk.vk=1;
+	do
 	{
-		while(g>0&&((g-1)*(g-1)+k*k)>=vd*vd)
+		tk.nk();
+		for(int k=tk.bs2;k<=tk.bs1;k++)
 		{
-			g--;
-		}
-		if(0)printf("k %ld g-1 %ld\n",k,g-1);
-		if(g==0||g-1<k)break;
-		auto b=[&vd](size_t g,size_t k)->float
-		{
-			float b;
-			if(k==0)return 1;
-			size_t n=vd*vd-(g-1)*(g-1)-k*k;
-			float v1=(float)n/(float)(2*k);
-			float t=(float)((g-1))/k;
-			float v2=v1/t;
-			b=v1*v2*0.5;
-			if(v1>1)
-			{
-				b-=0.5*(v1-1)*(v1-1)/t;
-			}
-			if(v2>1)
-			{
-				b-=0.5*(v2-1)*(v2-1)*t;
-			}
-			if(v1-t>1)b=1;
-			b=fmax(b,0);
-			if(0)printf("v1 %f v2 %f  b %f\n",v1,v2,b);
-			return b;
-		};
-		for(size_t pg=fmax(1,k);pg<=g;pg++)
-		{
-			float bm=pg<g?1.0:b(pg,k);
-			bk(s1-pg,s2-1-k,bm);
-			bk(s1-1-k,s2-pg,bm);
+			bk(s1+k,s2+tk.bs2,k==tk.bs1?tk.b:1);
+			bk(s1+tk.bs2,s2+k,k==tk.bs1?tk.b:1);
 		}
 	}
+	while(tk.bs1>tk.bs2);
+	return;
 }
 void lk()
 {
@@ -290,7 +331,7 @@ void mk()
 	st.clvp=1;
 	SDL_LockTexture(st.vc,NULL,(void**)&st.cn,&st.cns);
 	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
-	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp2*st.g,vdv*st.sp1*st.g/2,0,0,0);
+	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
 	SDL_UnlockTexture(st.vc);
 	st.plg=1;
 }
