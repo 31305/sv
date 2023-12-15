@@ -27,6 +27,7 @@ struct stp
 	bool cc=0;
 	bool ks=([](){char *d=getenv("KS");return !(!d||d[0]=='0');})();
 	bool ksps=0;
+	bool clvp=0;
 	struct
 	{
 		double k=0;
