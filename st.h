@@ -51,3 +51,66 @@ int pmk();
 void nk();
 int pmk();
 extern void (*npk)(int);
+struct pg
+{
+	int64_t(*tsm)(void*,int,int);
+	void* nv;
+	int v1[4],v2[4];
+	int ts[4];
+	float vk;
+	void ss(int k)
+	{
+		v1[k]=v1[k-1]+v2[k-2]-v2[k-1];
+		v2[k]=v2[k-1]+v1[k-1]-v1[k-2];
+		ts[k]=tsm(nv,v1[k],v2[k]);
+	};
+	void bs(int l,int k)
+	{
+		v1[l]=v1[k];
+		v2[l]=v2[k];
+		ts[l]=ts[k];
+	}
+	float sk()
+	{
+		return (float)ts[0]/(float)(ts[0]-ts[1]);
+	}
+	void dk()
+	{
+		ts[0]=tsm(nv,v1[0],v2[0]);
+		ts[1]=tsm(nv,v1[1],v2[1]);
+		vk=sk();
+	}
+	float b;
+	int bs1,bs2;
+	void nk()
+	{
+		float nvk;
+		ss(2);
+		bs1=fmin(v1[0],fmin(v1[1],v1[2]));
+		bs2=fmin(v2[0],fmin(v2[1],v2[2]));
+		if(ts[2]<0)
+		{
+			bs(0,2);
+			nvk=sk();
+			b=1.0-0.5*(1.0-vk)*(1.0-nvk);
+		}
+		else
+		{
+			ss(3);
+			if(ts[3]<0)
+			{
+				bs(0,3);
+				bs(1,2);
+				nvk=sk();
+				b=0.5*(vk+nvk);
+			}
+			else
+			{
+				bs(1,3);
+				nvk=sk();
+				b=0.5*vk*nvk;
+			}
+		}
+		vk=nvk;
+	}
+};

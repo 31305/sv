@@ -1736,6 +1736,25 @@ int main(int argc,char** argv)
 		}
 		printf("\n");
 	}
+	else if(dn==12)
+	{
+		int vd=5;
+		auto tsm=[&vd](int v1,int v2)->int64_t{return v1*v1+v2*v2-vd*vd;};
+		pg tk;
+		tk.nv=&tsm;
+		tk.tsm=[](void* nv,int v1,int v2)->int64_t{return (*static_cast<decltype(tsm)*>(nv))(v1,v2);};
+		tk.v1[0]=vd-1;
+		tk.v2[0]=0;
+		tk.v1[1]=vd;
+		tk.v2[1]=0;
+		tk.dk();
+		do
+		{
+			tk.nk();
+			printf("%d %d %f\n",tk.bs1,tk.bs2,tk.b);
+		}
+		while(!(tk.bs1==vd-1&&tk.bs2==-1));
+	}
 #ifdef KG
 	else if(dn==1||dn==0)
 	{
