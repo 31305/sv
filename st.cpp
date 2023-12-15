@@ -90,6 +90,11 @@ void ncpk()
 		vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
 		vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
 		SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
+		if(0)
+		{
+			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
+			SDL_RenderDrawRect(st.ck,&st.pd);
+		}
 	}
 }
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
