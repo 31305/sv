@@ -6,6 +6,7 @@ import sys
 class m(SimpleHTTPRequestHandler):
     extensions_map={
         '':'application/octet-stream',
+        '.svg':'image/svg+xml',
         '.css':'text/css',
         '.html':'text/html',
         '.jpg':'image/jpg',
