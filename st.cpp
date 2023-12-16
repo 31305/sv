@@ -103,6 +103,11 @@ void ncpk()
 				SDL_RenderDrawRect(st.ck,&st.pd);
 			}
 		}
+		if(st.rrs>=0)
+		{
+			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
+			SDL_RenderDrawLine(st.ck,st.rrs,0,st.rrs,st.pd.h);
+		}
 	}
 }
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
@@ -135,6 +140,24 @@ void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint
 	while(tk.bs1>tk.bs2);
 	return;
 }
+struct cbl
+{
+	int d1=0,d2=0,v1=0,v2=0;
+	unsigned char rm=255,hm=255,nm=255;
+	void operator()()
+	{
+		for(int k2=0;k2<v2;k2++)
+		{
+			for(int k1=0;k1<v1;k1++)
+			{
+				int s=(d2+k2)*st.cns+(d1+k1)*3;
+				st.cn[s]=st.ks?255-rm:rm;
+				st.cn[s+1]=st.ks?255-hm:hm;
+				st.cn[s+2]=st.ks?255-nm:nm;
+			}
+		}
+	}
+};
 void lk()
 {
 	if(0)printf("lk st.tr.p %d st.tr.n %d\n",st.tr.p,st.tr.n);
@@ -171,8 +194,16 @@ void lk()
 		for(int i=st.dn?0:5;i<15;i++)
 		{
 			const unsigned char m=st.cc?255:255;
+			int ms1=(int)(mss<0>(i)*st.sp1);
+			int ms2=(int)(mss<1>(i)*st.sp2);
+			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
+			unsigned char cbv=d?255:0;
+			cbl({.d1=ms1-7,.d2=ms2-7,.v1=14,.v2=3,.rm=cbv,.hm=cbv,.nm=cbv})();
+			cbl({.d1=ms1-7,.d2=ms2+4,.v1=14,.v2=3,.rm=cbv,.hm=cbv,.nm=cbv})();
+			cbl({.d1=ms1-7,.d2=ms2-7,.v1=3,.v2=14,.rm=cbv,.hm=cbv,.nm=cbv})();
+			cbl({.d1=ms1+4,.d2=ms2-7,.v1=3,.v2=14,.rm=cbv,.hm=cbv,.nm=cbv})();
 			nl({.n=(i<5?i+11:i-5),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
-					.v=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i)),.rm=m,.hm=m,.nm=m})();
+					.v=d,.rm=m,.hm=m,.nm=m})();
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
@@ -323,6 +354,12 @@ void nk()
 		{
 			float ss1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1);
 			float ss2=((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2);
+			if(0)
+			{
+				printf("%d\n",(s1-st.pd.x)/st.g);
+				st.rrs=s1;
+				printf("%f %f\n",ss1,ss2);
+			}
 			for(int k=st.dn?1:5;k<15;k++)
 				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1,ss2))return k;
 			return -1;
