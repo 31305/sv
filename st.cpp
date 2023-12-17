@@ -196,6 +196,9 @@ void lk()
 		cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
 			.v1=(int)((mss<0>(14)-mss<0>(5)+3)*st.sp1)-vk*2,.v2=(int)((mss<1>(14)-mss<1>(5)+3)*st.sp2)-vk*2,
 			.rm=prm,.hm=phm,.nm=pnm})();
+		if(0&&mss<1>(14)>mss<1>(5))
+			for(int k=0;k<4;k++)
+				nl({.n=50,.p1=mss<0>(5)+(float)(0.5+2.0*k),.p2=mss<1>(5)+(float)0.5,.v=1})();
 		for(int i=st.dn?0:5;i<15;i++)
 		{
 			const unsigned char m=st.cc?255:255;
