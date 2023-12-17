@@ -99,14 +99,14 @@ void ncpk()
 			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
 			if(0)
 			{
-				SDL_SetRenderDrawColor(st.ck,255,0,0,100);
+				SDL_SetRenderDrawColor(st.ck,0,0,255,100);
 				SDL_RenderDrawRect(st.ck,&st.pd);
 			}
-		}
-		if(st.rrs>=0)
-		{
-			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
-			SDL_RenderDrawLine(st.ck,st.rrs,0,st.rrs,st.pd.h);
+			if(st.rrs>=0)
+			{
+				SDL_SetRenderDrawColor(st.ck,255,0,0,100);
+				SDL_RenderDrawLine(st.ck,st.rrs,0,st.rrs,st.pd.h);
+			}
 		}
 	}
 }
@@ -191,6 +191,11 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp)
 	{
+		unsigned char prm=100,phm=50,pnm=50;
+		int vk=1*st.sp1;
+		cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
+			.v1=(int)((mss<0>(14)-mss<0>(5)+3)*st.sp1)-vk*2,.v2=(int)((mss<1>(14)-mss<1>(5)+3)*st.sp2)-vk*2,
+			.rm=prm,.hm=phm,.nm=pnm})();
 		for(int i=st.dn?0:5;i<15;i++)
 		{
 			const unsigned char m=st.cc?255:255;
@@ -198,11 +203,10 @@ void lk()
 			int ms2=(int)(mss<1>(i)*st.sp2);
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			unsigned char cbv=d?255:0;
-			cbl({.d1=ms1-7,.d2=ms2-7,.v1=14,.v2=3,.rm=cbv,.hm=cbv,.nm=cbv})();
-			cbl({.d1=ms1-7,.d2=ms2+4,.v1=14,.v2=3,.rm=cbv,.hm=cbv,.nm=cbv})();
-			cbl({.d1=ms1-7,.d2=ms2-7,.v1=3,.v2=14,.rm=cbv,.hm=cbv,.nm=cbv})();
-			cbl({.d1=ms1+4,.d2=ms2-7,.v1=3,.v2=14,.rm=cbv,.hm=cbv,.nm=cbv})();
-			nl({.n=(i<5?i+11:i-5),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
+			const int vk=0;
+			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
+			cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=prm,.hm=phm,.nm=pnm})();
+			nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
@@ -222,7 +226,7 @@ void lk()
 #ifdef EMSCRIPTEN
 	EM_ASM({tkccp=sk.getParameter(sk.TEXTURE_BINDING_2D)});
 #endif
-	if(st.cc&&0)
+	if(0)
 	{
 		SDL_SetRenderDrawColor(st.ck,255,0,0,255);
 		SDL_RenderDrawRect(st.ck,&st.cdp);
