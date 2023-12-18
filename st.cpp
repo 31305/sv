@@ -195,11 +195,14 @@ void lk()
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
 	}
-	const int pns=10;
-	size_t pn=SDL_GetTicks();
-	for(int k=0;(k<pns&&pn>0)||k==0;k++,pn/=10)
+	if(0)
 	{
-		nl({.n=(int)(pn%10)+50,.p1=((float(st.s1)*(float)0.5)-(float)k*(float)0.5),.p2=1.0})();
+		const int pns=10;
+		size_t pn=SDL_GetTicks();
+		for(int k=0;(k<pns&&pn>0)||k==0;k++,pn/=10)
+		{
+			nl({.n=(int)(pn%10)+50,.p1=((float(st.s1)*(float)0.5)-(float)k*(float)0.5),.p2=1.0})();
+		}
 	}
 	if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,2);
 	int l2=st.s2-4;
