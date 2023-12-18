@@ -50,7 +50,11 @@ struct nsk
 	float ms1,ms2,d1=1,d2=1;
 	bool operator()(float s1,float s2)
 	{
-		return abs(ms1-s1)<=d1*0.5&&abs(ms2-s2)<=d2*0.5;
+		if(0&&ms1>7)
+		{
+			printf("ms1 %f s1 %f d1*0.5 %f\n",ms1,s1,d1*0.5);
+		}
+		return s1>=ms1-d1*0.5&&s1<ms1+d1*0.5&&s2>=ms2-d2*0.5&&s2<ms2+d2*0.5;
 	}
 };
 void ns(int n,float p1,float p2,bool v=0)
@@ -196,9 +200,17 @@ void lk()
 		cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
 			.v1=(int)((mss<0>(14)-mss<0>(5)+3)*st.sp1)-vk*2,.v2=(int)((mss<1>(14)-mss<1>(5)+3)*st.sp2)-vk*2,
 			.rm=prm,.hm=phm,.nm=pnm})();
-		if(0&&mss<1>(14)>mss<1>(5))
-			for(int k=0;k<4;k++)
+		if(mss<1>(14)>mss<1>(5))
+		{
+			if(0)for(int k=0;k<4;k++)
 				nl({.n=50,.p1=mss<0>(5)+(float)(0.5+2.0*k),.p2=mss<1>(5)+(float)0.5,.v=1})();
+		}
+		else
+		{
+			int ng=4;
+			cbl({.d1=4,.d2=(int)(mss<1>(5)-0.5)*st.sp2+3,.v1=(int)((mss<0>(5)-1.5)*st.sp1)+ng-4,.v2=2,.rm=255,.hm=255,.nm=255})();
+			cbl({.d1=(int)((mss<0>(14)+1.5)*st.sp1)-ng,.d2=(int)(mss<1>(5)-0.5)*st.sp2+3,.v1=(int)((mss<0>(5)-1.5)*st.sp1)+ng-4,.v2=2,.rm=255,.hm=255,.nm=255})();
+		}
 		for(int i=st.dn?0:5;i<15;i++)
 		{
 			const unsigned char m=st.cc?255:255;
@@ -359,16 +371,17 @@ void nk()
 	{
 		auto ss=[](int s1,int s2)->int
 		{
-			float ss1=((double)(s1-st.pd.x)/(double)st.pd.w*(double)st.s1);
-			float ss2=((double)(s2-st.pd.y)/(double)st.pd.h*(double)st.s2);
+			float ss1=(double)(s1-st.pd.x)/((double)st.pd.w/(double)(st.s1*st.sp1));
+			float ss2=(double)(s2-st.pd.y)/((double)st.pd.h/(double)(st.s2*st.sp2));
 			if(0)
 			{
 				printf("%d\n",(s1-st.pd.x)/st.g);
 				st.rrs=s1;
+				st.plg=1;
 				printf("%f %f\n",ss1,ss2);
 			}
 			for(int k=st.dn?1:5;k<15;k++)
-				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1,ss2))return k;
+				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1/st.sp1,ss2/st.sp2))return k;
 			return -1;
 		};
 		auto ts=[&g]()
