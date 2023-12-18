@@ -109,12 +109,12 @@ void ncpk()
 				SDL_SetRenderDrawColor(st.ck,0,0,255,100);
 				SDL_RenderDrawRect(st.ck,&st.pd);
 			}
-			if(st.rrs1>=0)
-			{
-				SDL_SetRenderDrawColor(st.ck,255,0,0,100);
-				SDL_RenderDrawLine(st.ck,st.rrs1,0,st.rrs1,st.pd.h);
-				SDL_RenderDrawLine(st.ck,0,st.rrs2,st.pd.w,st.rrs2);
-			}
+		}
+		if(st.rrs1>=0)
+		{
+			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
+			SDL_RenderDrawLine(st.ck,st.rrs1,0,st.rrs1,st.pd.h);
+			SDL_RenderDrawLine(st.ck,0,st.rrs2,st.pd.w,st.rrs2);
 		}
 	}
 }
@@ -197,12 +197,12 @@ void lk()
 	}
 	if(1)
 	{
-		const int pns=8;
+		const int pns=9;
 		size_t pn=st.ksn;
 		for(int k=0;(k<pns)||k==0;k++,pn/=10)
 		{
 			float p1=float(st.s1)*(float)0.5+(float)pns*(float)0.5-(float)k-(float)1.0;
-			float p2=1.0;
+			float p2=mss<1>(5)-2.5;
 			cbl({.d1=(int)(p1*st.sp1),.d2=(int)(p2*st.sp2),.v1=8,.v2=8,.rm=50,.hm=100,.nm=100})();
 			cbl({.d1=(int)(p1*st.sp1)+1,.d2=(int)(p2*st.sp2)+7,.v1=6,.v2=1,.rm=0,.hm=150,.nm=100})();
 			nl({.n=(int)(pn%10)+50,.p1=p1,.p2=p2})();
@@ -540,10 +540,10 @@ void nk()
 	if(st.tr.p==1||st.tr.p==2)
 	{
 		const double dk=.25;
-		if(st.tr.s==0||(st.tr.k-dk)/0.05>st.tr.s-1)
+		if(st.tr.s==0||(st.tr.n<5&&((st.tr.k-dk)/0.05>st.tr.s-1)))
 		{
 			st.plg=1;
-			st.tr.s++;
+			if(st.tr.s==0||st.tr.n<5)st.tr.s++;
 			npk(st.tr.n);
 		}
 	}

@@ -1423,6 +1423,14 @@ struct ntv
 
 };
 void vksk(bool l=0);
+int nps(int n)
+{
+	if(n>4)
+		return n-5;
+	else if(n==-1)
+		return -1;
+	else return -1;
+}
 void dk()
 {
 	vksk();
@@ -1435,10 +1443,7 @@ void dk()
 	std::thread vkk([](){v.vk();});
 	npk=[](int n)
 	{
-		if(n>4)
-			v.nt(n-5);
-		else if(n==-1)
-			v.nt(-1);
+		v.nt(nps(n));
 	};
 	sr++;
 	pmk();
@@ -1817,9 +1822,7 @@ void sn(int n)
 void npks(int n)
 {
 	if(0)printf("n %d\n",n);
-	if(n>4)
-		nt(n-5);
-	else if(n==-1)nt(-1);
+	nt(nps(n));
 }
 int main()
 {
