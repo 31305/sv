@@ -80,27 +80,30 @@ void ncpk()
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
 		if(!st.cc)
 		{
-			SDL_Rect vcs;
-			vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
-			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
-			vcs.w=vdv*st.sp1*st.g;
-			vcs.h=vdv*st.sp2*st.g;
-			if(st.clvp)
+			if(0)
 			{
-				SDL_SetTextureBlendMode(st.vc,!st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
-				st.clvp=0;
+				SDL_Rect vcs;
+				vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
+				vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
+				vcs.w=vdv*st.sp1*st.g;
+				vcs.h=vdv*st.sp2*st.g;
+				if(st.clvp)
+				{
+					SDL_SetTextureBlendMode(st.vc,!st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+					st.clvp=0;
+				}
+				SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,(SDL_RendererFlip)(SDL_FLIP_HORIZONTAL|SDL_FLIP_VERTICAL));
+				if(0)printf("%d %d %d %d\n",vcs.x,vcs.y,vcs.w,vcs.h);
+				vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
+				vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
+				SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
+				vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
+				vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
+				SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_NONE);
+				vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
+				vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
+				SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
 			}
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,(SDL_RendererFlip)(SDL_FLIP_HORIZONTAL|SDL_FLIP_VERTICAL));
-			if(0)printf("%d %d %d %d\n",vcs.x,vcs.y,vcs.w,vcs.h);
-			vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
-			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2-vdv*st.sp2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_VERTICAL);
-			vcs.x=st.pd.x+st.s1*st.sp1/2*st.g;
-			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_NONE);
-			vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
-			vcs.y=st.pd.y+((int)(mss<1>(st.dn?0:5)-0.5)*st.sp2/2)*st.g;
-			SDL_RenderCopyEx(st.ck,st.vc,NULL,&vcs,0,0,SDL_FLIP_HORIZONTAL);
 			if(0)
 			{
 				SDL_SetRenderDrawColor(st.ck,0,0,255,100);
@@ -191,6 +194,12 @@ void lk()
 			if(0)memcpy(st.cn+st.cns*((st.s2*st.sp2-st.lc->h)/2+pk)+3*((st.s1*st.sp1-st.lc->w)/2),
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
+	}
+	const int pns=10;
+	size_t pn=SDL_GetTicks();
+	for(int k=0;(k<pns&&pn>0)||k==0;k++,pn/=10)
+	{
+		nl({.n=(int)(pn%10)+50,.p1=((float(st.s1)*(float)0.5)-(float)k*(float)0.5),.p2=1.0})();
 	}
 	if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,2);
 	int l2=st.s2-4;
