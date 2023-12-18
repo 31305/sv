@@ -197,13 +197,14 @@ void lk()
 	}
 	if(1)
 	{
-		const int pns=11;
-		size_t pn=SDL_GetTicks();
+		const int pns=8;
+		size_t pn=SDL_GetTicks()/1000;
 		for(int k=0;(k<pns)||k==0;k++,pn/=10)
 		{
-			float p1=float(st.s1)*(float)0.5+(float)pns*(float)0.5-(float)k-(float)1.0+0.125;
-			float p2=1.0+0.125;
-			cbl({.d1=(int)(p1*st.sp1)+1,.d2=(int)(p2*st.sp2)+1,.v1=7,.v2=7,.rm=50,.hm=100,.nm=100})();
+			float p1=float(st.s1)*(float)0.5+(float)pns*(float)0.5-(float)k-(float)1.0;
+			float p2=1.0;
+			cbl({.d1=(int)(p1*st.sp1),.d2=(int)(p2*st.sp2),.v1=8,.v2=8,.rm=50,.hm=100,.nm=100})();
+			cbl({.d1=(int)(p1*st.sp1)+1,.d2=(int)(p2*st.sp2)+7,.v1=6,.v2=1,.rm=0,.hm=150,.nm=100})();
 			nl({.n=(int)(pn%10)+50,.p1=p1,.p2=p2})();
 		}
 	}
