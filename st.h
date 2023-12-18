@@ -35,7 +35,7 @@ struct stp
 		int n=0;
 		int p=0;
 	}tr;
-	int rrs=-1;
+	int rrs1=-1,rrs2=-1;
 };
 extern stp st;
 extern bool jt;
