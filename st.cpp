@@ -166,6 +166,14 @@ struct cbl
 		}
 	}
 };
+int nspk(int n)
+{
+	if(n==5)
+		return 14;
+	else if(n>=6&&n<=14)
+		return n-1;
+	else return n;
+}
 void lk()
 {
 	if(0)printf("lk st.tr.p %d st.tr.n %d\n",st.tr.p,st.tr.n);
@@ -231,14 +239,14 @@ void lk()
 		for(int i=st.dn?0:5;i<15;i++)
 		{
 			const unsigned char m=st.cc?255:255;
-			int ms1=(int)(mss<0>(i)*st.sp1);
-			int ms2=(int)(mss<1>(i)*st.sp2);
+			int ms1=(int)(mss<0>(nspk(i))*st.sp1);
+			int ms2=(int)(mss<1>(nspk(i))*st.sp2);
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			unsigned char cbv=d?255:0;
 			const int vk=0;
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
 			cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=prm,.hm=phm,.nm=pnm})();
-			nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(i)-(float)0.5,.p2=mss<1>(i)-(float)0.5,
+			nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
@@ -399,7 +407,7 @@ void nk()
 				printf("%f %f\n",ss1,ss2);
 			}
 			for(int k=st.dn?1:5;k<15;k++)
-				if(nsk({.ms1=mss<0>(k),.ms2=mss<1>(k),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1/st.sp1,ss2/st.sp2))return k;
+				if(nsk({.ms1=mss<0>(nspk(k)),.ms2=mss<1>(nspk(k)),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1/st.sp1,ss2/st.sp2))return k;
 			return -1;
 		};
 		auto ts=[&g]()
