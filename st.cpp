@@ -203,7 +203,7 @@ void lk()
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
 	}
-	if(1)
+	if(!st.cc)
 	{
 		const int pns=9;
 		size_t pn=st.ksn;
@@ -242,6 +242,7 @@ void lk()
 			int ms1=(int)(mss<0>(nspk(i))*st.sp1);
 			int ms2=(int)(mss<1>(nspk(i))*st.sp2);
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
+			if(0&&!d)printf("!d %d\n",i);
 			unsigned char cbv=d?255:0;
 			const int vk=0;
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
@@ -392,6 +393,13 @@ void nk()
 	const int tpss=25;
 	static char tps[tpss];
 	auto tpm=[](){memset(tps,0,tpss);};
+	bool nkn=0;
+	if(st.tr.ptps&&st.tr.p==2)
+	{
+		st.tr.p=0;
+		st.plg=1;
+		st.tr.ptps=0;
+	}
 	while(SDL_PollEvent(&g))
 	{
 		auto ss=[](int s1,int s2)->int
@@ -512,14 +520,25 @@ void nk()
 			}
 		}
 		if(g.type==SDL_MOUSEBUTTONUP)
+		{
+			if(0&&nkn)printf("plgp\n");
 			if(st.tr.p==2)
 			{
-				st.tr.p=0;
-				st.plg=1;
+				if(!nkn)
+				{
+					st.tr.p=0;
+					st.plg=1;
+				}
+				else
+				{
+					st.tr.ptps=1;
+				}
 			}
+		}
 		if(g.type==SDL_MOUSEBUTTONDOWN)
 			if(st.tr.p==0)
 			{
+				nkn=1;
 				int n=ss(g.button.x,g.button.y);
 				if(0)printf("n %d\n",n);
 				if(st.tp&&n>0&&n<15)
@@ -537,6 +556,7 @@ void nk()
 				st.plg=1;
 			}
 	}
+	if(0)if(nkn&&st.tr.p!=2)printf("nknns\n");
 	double sk=(double)SDL_GetTicks()/1000.0;
 	if((unsigned int)sk!=st.ksn)
 	{

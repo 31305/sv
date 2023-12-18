@@ -34,6 +34,7 @@ struct stp
 		int s=0;
 		int n=0;
 		int p=0;
+		bool ptps=0;
 	}tr;
 	int rrs1=-1,rrs2=-1;
 	unsigned int ksn=0;
