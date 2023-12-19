@@ -1,4 +1,5 @@
 #include"st.h"
+#include<SDL_image.h>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -637,7 +638,7 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
-	auto tkc=SDL_LoadBMP("sc.bmp");
+	auto tkc=IMG_Load("pmc.jpg");
 	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
 	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
 #ifdef NKP
