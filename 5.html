@@ -18,6 +18,7 @@
 </head>
 <body style='image-rendering: crisp-edges;margin:0;background-color:black;overflow:hidden'>
 <canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
+<input id="tp" style="position:absolute;display:block;opacity:0;width:0;height:0" oncontextmenu="event.preventDefault()"></input>
 <video oncontextmenu="return false;" disablePictureInPicture crossorigin id="ccpd" disableRemotePlayback preload="metadata" style="position:fixed" playsinline hidden>
 	<source src="kc.mp4"/>
 	<source src="https://ik.imagekit.io/mentic/pc.mp4?updatedAt=1698197381808" />
@@ -25,6 +26,7 @@
 </video>
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script type='text/javascript'>
+tp=document.getElementById('tp');
 cp=document.getElementById('canvas');
 ccpd=document.getElementById('ccpd');
 scpd=document.getElementById('scpd');

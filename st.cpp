@@ -507,6 +507,7 @@ void nk()
 				npk(5+10);
 			}
 			int n=ts();
+			if(0&&n==0)printf("ktnj\n");
 			if(tps[n]==0)
 			{
 				tps[n]=1;

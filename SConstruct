@@ -12,8 +12,8 @@ ss=['sv.cpp','Log.cpp']
 if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
-    e.Append(CCFLAGS=['-sUSE_SDL=2','-MJs.o.json']+(['-Icairo/src','-Icairo/tp/src','-DCP'] if cp else []))
-    e.Append(LINKFLAGS=['--preload-file=pmc.jpg','-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-s','-pthread','--use-preload-plugins'])
+    e.Append(CCFLAGS=['-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-MJs.o.json']+(['-Icairo/src','-Icairo/tp/src','-DCP'] if cp else []))
+    e.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-s','-pthread','--use-preload-plugins'])
     st=e.Object('st.cpp')
     if cp:e.Depends(st,'cairo')
     ss+=[st]
@@ -28,7 +28,7 @@ sv=e.Program('sv',ss)
 def f(target,source,env):
     l=open('s.o.json','r').read()
     open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
-e.Depends(sv,'pmc.jpg')
+if 0:e.Depends(sv,'pmc.jpg')
 if js:
     AddPostAction('sv.o',f)
 e.Command('sc.bmp','sc.png',"convert $SOURCE $TARGET")
