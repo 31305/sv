@@ -1,5 +1,6 @@
 #include"st.h"
 #include<SDL_image.h>
+#include<SDL_ttf.h>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -639,6 +640,8 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	auto vbl=TTF_RenderText_Solid(TTF_OpenFont("kv.ttf",28),"",SDL_Color({0,0,0}));
+	TTF_SetFontHinting;
 	auto tkc=IMG_Load("pmc.jpg");
 	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
 	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
