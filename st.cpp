@@ -640,8 +640,9 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
-	auto vbl=TTF_RenderText_Solid(TTF_OpenFont("kv.ttf",28),"",SDL_Color({0,0,0}));
-	TTF_SetFontHinting;
+	auto lns=TTF_OpenFont("kv.ttf",8);
+	TTF_SetFontHinting(lns,0);
+	[[maybe_unused]]auto vbl=TTF_RenderText_Solid(lns,"",SDL_Color({0,0,0}));
 	auto tkc=IMG_Load("pmc.jpg");
 	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
 	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
