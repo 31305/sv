@@ -38,6 +38,8 @@ struct stp
 	}tr;
 	int rrs1=-1,rrs2=-1;
 	unsigned int ksn=0;
+	SDL_Texture *lns;
+	const int ns=128;
 };
 extern stp st;
 extern bool jt;

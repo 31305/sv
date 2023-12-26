@@ -80,6 +80,11 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+		SDL_Rect ls;
+		SDL_QueryTexture(st.lns,0,0,&ls.w,&ls.h);
+		ls.x=0;ls.y=st.pd.y+st.pd.h-8*st.g;
+		SDL_RenderCopy(st.ck,st.lns,NULL,&ls);
+		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
 		{
 			if(0)
@@ -280,6 +285,47 @@ void lk()
 		st.plg=1;
 	}
 }
+void lnss()
+{
+	TTF_Init();
+	auto lns=TTF_OpenFont("kv.ttf",7);
+	TTF_SetFontHinting(lns,4);
+	int n=-1,c=-1;
+	int d1,d2;
+	while(n+1!=c)
+	{
+		int s=8*st.g;
+		if(n!=-1&&c!=-1)s=(n+c)/2;
+		else if(n!=-1)s=n*2;
+		else if(c!=-1)s=c/2;
+		TTF_SetFontSize(lns,s);
+		TTF_SizeText(lns,"0",&d1,&d2);
+		if(0)printf("tl %s\n",SDL_GetError());
+		if(d1<=4*st.g&&d2<=8*st.g)
+			n=s;
+		else c=s;
+	}
+	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,4*st.g,d2,8*st.g);
+	TTF_SetFontSize(lns,n);
+	TTF_SetFontHinting(lns,0);
+	auto sl=SDL_CreateRGBSurfaceWithFormat(0,st.ns*4*st.g,8*st.g,24,SDL_PIXELFORMAT_RGB24);
+	for(int k=1;k<st.ns;k++)
+	{
+		char l[2];
+		l[1]=0;
+		*(unsigned char*)(l)=k;
+		auto vbl=TTF_RenderText_Blended(lns,l,SDL_Color({255,255,255}));
+		SDL_Rect ss;
+		ss.x=k*4*st.g+(4*st.g-vbl->w)/2;
+		ss.y=(8*st.g-vbl->h)/2;
+		ss.w=vbl->w;
+		ss.h=vbl->h;
+		SDL_BlitSurface(vbl,0,sl,&ss);
+		SDL_FreeSurface(vbl);
+	}
+	st.lns=SDL_CreateTextureFromSurface(st.ck,sl);
+	SDL_FreeSurface(sl);
+}
 void mk()
 {
 	st.tr.p=0;
@@ -352,6 +398,7 @@ void mk()
 	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
 	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
 	SDL_UnlockTexture(st.vc);
+	lnss();
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
@@ -640,12 +687,13 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
-	auto lns=TTF_OpenFont("kv.ttf",8);
-	TTF_SetFontHinting(lns,0);
-	[[maybe_unused]]auto vbl=TTF_RenderText_Solid(lns,"",SDL_Color({0,0,0}));
-	auto tkc=IMG_Load("pmc.jpg");
-	st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
-	SDL_BlitSurface(tkc,NULL,st.lc,NULL);
+	if(0)
+	{
+		auto tkc=IMG_Load("pmc.jpg");
+		st.lc=SDL_CreateRGBSurfaceWithFormat(0,tkc->w,tkc->h,24,SDL_PIXELFORMAT_RGB24);
+		SDL_BlitSurface(tkc,NULL,st.lc,NULL);
+		SDL_FreeSurface(tkc);
+	}
 #ifdef NKP
 	if(0)EM_ASM({console.log('ss '+$0)},(int)st.lc->format->BytesPerPixel);
 	if(0)EM_ASM({console.log('vnvkn '+$0)},(int)st.lc->format->Bmask);

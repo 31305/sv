@@ -13,13 +13,13 @@ if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
     e.Append(CCFLAGS=['-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-sUSE_SDL_TTF=2','-MJs.o.json']+(['-Icairo/src','-Icairo/tp/src','-DCP'] if cp else []))
-    e.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-sUSE_SDL_TTF=2','-s','-pthread','--use-preload-plugins'])
+    e.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall','-sWASM=1','-O3','-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-sUSE_SDL_TTF=2','-s','-pthread','--use-preload-plugins','--preload-file=kv.ttf'])
     st=e.Object('st.cpp')
     if cp:e.Depends(st,'cairo')
     ss+=[st]
     if cp:ss+=['cairo/tp/src/libcairo.a','cairo/tp/subprojects/pixman/pixman/libpixman-1.a']
 else:
-    e.ParseConfig('pkg-config --cflags --libs x11 sdl2'+(' cairo' if cp else ''))
+    e.ParseConfig('pkg-config --cflags --libs x11 sdl2 SDL2_image SDL2_ttf'+(' cairo' if cp else ''))
     e.Append(CCFLAGS=['-DKG']+(['-DCP'] if cp else []))
     e.Tool('compilation_db')
     e.CompilationDatabase()
