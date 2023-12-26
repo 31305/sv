@@ -295,6 +295,7 @@ void lnss()
 	TTF_Init();
 	auto lns=TTF_OpenFont("kv.ttf",7);
 	TTF_SetFontHinting(lns,4);
+	if(st.lns)SDL_DestroyTexture(st.lns);
 	int n=-1,c=-1;
 	int d1,d2;
 	while(n+1!=c)
@@ -322,10 +323,10 @@ void lnss()
 		*(unsigned char*)(l)=k;
 		auto vbl=TTF_RenderText_Blended(lns,l,SDL_Color({255,255,255}));
 		SDL_Rect ss;
-		ss.x=k*4*st.g+(4*st.g-vbl->w)/2;
-		ss.y=(8*st.g-vbl->h)/2;
-		ss.w=vbl->w;
-		ss.h=vbl->h;
+		ss.x=fmax(0,k*4*st.g+(4*st.g-vbl->w)/2);
+		ss.y=fmax(0,(8*st.g-vbl->h)/2);
+		ss.w=fmin(vbl->w,4*st.g);
+		ss.h=fmin(vbl->h,8*st.g);
 		if(ss.w!=d1||ss.h!=d2)
 		{
 			d1=ss.w;
@@ -337,6 +338,7 @@ void lnss()
 	}
 	st.lns=SDL_CreateTextureFromSurface(st.ck,sl);
 	SDL_FreeSurface(sl);
+	TTF_CloseFont(lns);
 }
 void mk()
 {
