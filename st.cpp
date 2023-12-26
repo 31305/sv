@@ -80,10 +80,15 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		SDL_Rect ls;
-		SDL_QueryTexture(st.lns,0,0,&ls.w,&ls.h);
-		ls.x=0;ls.y=st.pd.y+st.pd.h-8*st.g;
-		SDL_RenderCopy(st.ck,st.lns,NULL,&ls);
+		for(int k=0;k<(mss<0>(14)-mss<0>(5)+1)*2;k++)
+		{
+			SDL_Rect ls,ss;
+			ls.x=st.pd.x+(mss<0>(5)*8-4+k*4)*st.g;ls.y=st.pd.y+st.pd.h-8*st.g;
+			ls.w=4*st.g;ls.h=8*st.g;
+			const char *l="> 123\n45_67890";
+			ss.x=(l[k])*st.g*4;ss.y=0;ss.h=8*st.g;ss.w=4*st.g;
+			SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+		}
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
 		{
@@ -307,8 +312,9 @@ void lnss()
 	}
 	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,4*st.g,d2,8*st.g);
 	TTF_SetFontSize(lns,n);
-	TTF_SetFontHinting(lns,0);
+	TTF_SetFontHinting(lns,4);
 	auto sl=SDL_CreateRGBSurfaceWithFormat(0,st.ns*4*st.g,8*st.g,24,SDL_PIXELFORMAT_RGB24);
+	d1=0;d2=0;
 	for(int k=1;k<st.ns;k++)
 	{
 		char l[2];
@@ -320,6 +326,12 @@ void lnss()
 		ss.y=(8*st.g-vbl->h)/2;
 		ss.w=vbl->w;
 		ss.h=vbl->h;
+		if(ss.w!=d1||ss.h!=d2)
+		{
+			d1=ss.w;
+			d2=ss.h;
+			if(0)printf("d1 %d d2 %d | %d,%d\n",d1,d2,4*st.g,8*st.g);
+		}
 		SDL_BlitSurface(vbl,0,sl,&ss);
 		SDL_FreeSurface(vbl);
 	}
@@ -605,6 +617,10 @@ void nk()
 				st.tr.p=0;
 				st.plg=1;
 			}
+		if(g.type==SDL_TEXTINPUT)
+		{
+			printf("ll %s\n",g.edit.text);
+		}
 	}
 	if(0)if(nkn&&st.tr.p!=2)printf("nknns\n");
 	double sk=(double)SDL_GetTicks()/1000.0;
