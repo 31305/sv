@@ -2,6 +2,7 @@
 #include<SDL.h>
 #include"nc.xbm"
 const int cls=nc_width;
+#include<string>
 struct stp
 {
 	SDL_Window* cp=0;
@@ -41,6 +42,8 @@ struct stp
 	unsigned int ksn=0;
 	SDL_Texture *lns;
 	const int ns=128;
+	std::string tl;
+	int pt1=-1,pt2=-1;
 };
 extern stp st;
 extern bool jt;

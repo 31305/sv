@@ -431,6 +431,47 @@ void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 #endif
 void (*npk)(int)=0;
 int sr=0;
+void kplt(int n)
+{
+	auto tk=[](int n)
+	{
+		if(n==0)
+			st.vtp=0;
+		printf("tk %d\n",n);
+	};
+	if(n>4)
+	{
+		if(0)printf("kplt %d\n",n);
+		if(st.pt1==-1)
+		{
+			st.pt1=n-5;
+			st.pt2=-1;
+		}
+		else if(st.pt1==9)
+		{
+			if(st.pt2==-1)
+			{
+				if(n-5==9)
+					st.pt2=n-5;
+				else
+				{
+					tk(st.pt1*10+n-5);
+					st.pt1=-1;
+				}
+			}
+			else
+			{
+				tk(st.pt1*100+st.pt2*10+n-5);
+				st.pt1=-1;
+			}
+		}
+		else	
+		{
+			tk(st.pt1*10+n-5);
+			st.pt1=-1;
+		}
+	}	
+}
 void nk()
 {
 #ifdef EMSCRIPTEN
@@ -572,13 +613,21 @@ void nk()
 				st.plg=1;
 				npk(5+10);
 			}
+			if(g.key.keysym.sym==SDLK_ESCAPE&&st.vtp)
+			{
+				st.tr.p=0;
+				st.tr.n=0;
+				st.tr.k=0;
+				st.tr.s=0;
+				st.vtp=0;
+			}
 			int n=ts();
 			if(0&&n==0)printf("ktnj\n");
 			if(tps[n]==0)
 			{
 				tps[n]=1;
 				if(n>14)n-=10;
-				if(n>0&&n<15)
+				if(n>0&&n<15&&!st.vtp)
 				{
 					st.tr.p=1;
 					st.tr.n=n;
@@ -625,7 +674,11 @@ void nk()
 			}
 		if(g.type==SDL_TEXTINPUT)
 		{
-			printf("ll %s\n",g.edit.text);
+			if(st.vtp)
+			{
+				st.tl+=std::string(g.edit.text);
+				printf("ll %s\n",st.tl.c_str());
+			}
 		}
 	}
 	if(0)if(nkn&&st.tr.p!=2)printf("nknns\n");
@@ -644,7 +697,8 @@ void nk()
 		{
 			st.plg=1;
 			if(st.tr.s==0||st.tr.n<5)st.tr.s++;
-			npk(st.tr.n);
+			if(!st.vtp)npk(st.tr.n);
+			else kplt(st.tr.n);
 		}
 	}
 #ifdef EMSCRIPTEN
