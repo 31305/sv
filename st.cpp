@@ -436,15 +436,15 @@ void kplt(int n)
 	auto tk=[](int n)->char
 	{
 		printf("tk %d\n",n);
-		if(n==0)
+		if(n%10==9)return 0;
+		else if(n/10==98)
+		{
+			return 32+81+7+n%10;
+		}
+		else if(n==97)
 		{
 			st.vtp=0;
 			return 0;
-		}
-		if(n%10==0)return 0;
-		else if(n/10==99)
-		{
-
 		}
 		else
 		{
@@ -465,7 +465,7 @@ void kplt(int n)
 		{
 			if(st.pt2==-1)
 			{
-				if(n-5==9)
+				if(n-5==8)
 					st.pt2=n-5;
 				else
 				{
