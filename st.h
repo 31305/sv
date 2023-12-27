@@ -16,6 +16,7 @@ struct stp
 	int cns;
 	SDL_RendererInfo j;
 	bool tp=0;
+	bool vtp=0;
 	const bool dn=0;
 	const bool sg=1;
 	bool pms=0;

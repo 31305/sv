@@ -59,6 +59,10 @@ struct nsk
 		return s1>=ms1-d1*0.5&&s1<ms1+d1*0.5&&s2>=ms2-d2*0.5&&s2<ms2+d2*0.5;
 	}
 };
+SDL_Rect smp(float d1,float d2,float v1,float v2)
+{
+	return SDL_Rect({.x=(int)(st.pd.x+d1*st.sp1*st.g),.y=(int)(st.pd.y+d2*st.sp2*st.g),.w=(int)(v1*st.sp1*st.g),.h=(int)(v2*st.sp2*st.g)});
+}
 void ns(int n,float p1,float p2,bool v=0)
 {
 	nl({.n=n,.p1=p1,.p2=p2,.v=v})();
@@ -215,7 +219,7 @@ void lk()
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
 	}
-	if(!st.cc)
+	if(!st.cc&&0)
 	{
 		const int pns=9;
 		size_t pn=st.ksn;
@@ -743,6 +747,7 @@ int pmk()
 		SDL_DestroyTexture(st.mc2);
 		SDL_DestroyTexture(st.vc);
 		SDL_FreeSurface(st.lc);
+		if(st.lns)SDL_DestroyTexture(st.lns);
 	}
 	return 0;
 }
