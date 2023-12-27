@@ -433,14 +433,28 @@ void (*npk)(int)=0;
 int sr=0;
 void kplt(int n)
 {
-	auto tk=[](int n)
+	auto tk=[](int n)->char
 	{
-		if(n==0)
-			st.vtp=0;
 		printf("tk %d\n",n);
+		if(n==0)
+		{
+			st.vtp=0;
+			return 0;
+		}
+		if(n%10==0)return 0;
+		else if(n/10==99)
+		{
+
+		}
+		else
+		{
+			return 32+(n/10)*9+n%10;
+		}
+		return 0;
 	};
 	if(n>4)
 	{
+		char p=0;
 		if(0)printf("kplt %d\n",n);
 		if(st.pt1==-1)
 		{
@@ -455,21 +469,26 @@ void kplt(int n)
 					st.pt2=n-5;
 				else
 				{
-					tk(st.pt1*10+n-5);
+					p=tk(st.pt1*10+n-5);
 					st.pt1=-1;
 				}
 			}
 			else
 			{
-				tk(st.pt1*100+st.pt2*10+n-5);
+				p=tk(st.pt1*100+st.pt2*10+n-5);
 				st.pt1=-1;
 			}
 		}
 		else	
 		{
-			tk(st.pt1*10+n-5);
+			p=tk(st.pt1*10+n-5);
 			st.pt1=-1;
 		}
+		char dp[2];
+		dp[0]=p;
+		dp[1]=0;
+		st.tl+=std::string(dp);
+		printf("kplt %c %s\n",p,st.tl.c_str());
 	}	
 }
 void nk()
