@@ -84,16 +84,21 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		for(int k=0;k<st.tl.size();k++)
+		for(int k=0;k<st.tl.size()+1;k++)
 		{
 			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
 			int dv=mss<1>(5)-2.5;
-			int pk=k-fmax(0,(ceil((float)st.tl.size()/(float)v)-dv))*v;
+			int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
 			if(pk<0)continue;
 			SDL_Rect ls,ss;
 			ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
 			ss=SDL_Rect({.x=(st.tl[k])*4*st.g,.y=0,.w=4*st.g,.h=8*st.g});
-			SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+			if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+			else 
+			{
+				SDL_SetRenderDrawColor(st.ck,255,255,255,255);
+				SDL_RenderFillRect(st.ck,&ls);
+			}
 		}
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
