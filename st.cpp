@@ -61,7 +61,7 @@ struct nsk
 };
 SDL_Rect smp(float d1,float d2,float v1,float v2)
 {
-	return SDL_Rect({.x=(int)(st.pd.x+d1*st.sp1*st.g),.y=(int)(st.pd.y+d2*st.sp2*st.g),.w=(int)(v1*st.sp1*st.g),.h=(int)(v2*st.sp2*st.g)});
+	return SDL_Rect({.x=(int)(st.pd.x+d1*(float)st.sp1*(float)st.g),.y=(int)(st.pd.y+d2*(float)st.sp2*(float)st.g),.w=(int)(v1*(float)st.sp1*(float)st.g),.h=(int)(v2*(float)st.sp2*(float)st.g)});
 }
 void ns(int n,float p1,float p2,bool v=0)
 {
@@ -84,13 +84,15 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		for(int k=0;k<(mss<0>(14)-mss<0>(5)+1)*2;k++)
+		for(int k=0;k<st.tl.size();k++)
 		{
+			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
+			int dv=mss<1>(5)-2.5;
+			int pk=k-fmax(0,(ceil((float)st.tl.size()/(float)v)-dv))*v;
+			if(pk<0)continue;
 			SDL_Rect ls,ss;
-			ls.x=st.pd.x+(mss<0>(5)*8-4+k*4)*st.g;ls.y=st.pd.y+st.pd.h-8*st.g;
-			ls.w=4*st.g;ls.h=8*st.g;
-			const char *l="> 123\n45_67890";
-			ss.x=(l[k])*st.g*4;ss.y=0;ss.h=8*st.g;ss.w=4*st.g;
+			ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
+			ss=SDL_Rect({.x=(st.tl[k])*4*st.g,.y=0,.w=4*st.g,.h=8*st.g});
 			SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 		}
 		if(0)printf("tl %s\n",SDL_GetError());
@@ -697,6 +699,7 @@ void nk()
 			{
 				st.tl+=std::string(g.edit.text);
 				printf("ll %s\n",st.tl.c_str());
+				st.plg=1;
 			}
 		}
 	}
