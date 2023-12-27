@@ -437,7 +437,7 @@ void kplt(int n)
 {
 	auto tk=[](int n)->char
 	{
-		printf("tk %d\n",n);
+		if(0)printf("tk %d\n",n);
 		if(n%10==9)return 0;
 		else if(n/10==98)
 		{
@@ -490,7 +490,7 @@ void kplt(int n)
 		dp[0]=p;
 		dp[1]=0;
 		st.tl+=std::string(dp);
-		printf("kplt %c %s\n",p,st.tl.c_str());
+		if(0)printf("kplt %c %s\n",p,st.tl.c_str());
 	}	
 }
 void nk()
@@ -698,7 +698,7 @@ void nk()
 			if(st.vtp)
 			{
 				st.tl+=std::string(g.edit.text);
-				printf("ll %s\n",st.tl.c_str());
+				if(0)printf("ll %s\n",st.tl.c_str());
 				st.plg=1;
 			}
 		}
