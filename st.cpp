@@ -632,6 +632,23 @@ void nk()
 			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
 					EM_ASM({window.location.reload()});
 #endif
+			if(g.key.keysym.sym==SDLK_RETURN&&st.vtp)
+			{
+				char *p=0;
+#ifdef EMSCRIPTEN
+				if(st.tl.size()-st.tlv>0)p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0)).toString()}catch(v){p=v.toString()}return stringToNewUTF8(p)},st.tl.substr(st.tlv).c_str());
+				if(0)printf("%s\n",p);
+#endif
+				st.tl+=std::string("\n\n")+std::string(p)+std::string("\n\n");
+				st.tlv=st.tl.size();
+				if(p)free(p);
+				st.plg=1;
+			}
+			if(g.key.keysym.sym==SDLK_BACKSPACE&&st.vtp)
+			{
+				if(st.tl.size()>st.tlv)st.tl.pop_back();
+				st.plg=1;
+			}
 			if(g.key.keysym.sym==SDLK_ESCAPE&&!jt)
 			{
 				st.cs=0;

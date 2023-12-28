@@ -43,6 +43,7 @@ struct stp
 	SDL_Texture *lns;
 	const int ns=128;
 	std::string tl;
+	size_t tlv=0,tps=100;
 	int pt1=-1,pt2=-1;
 };
 extern stp st;
