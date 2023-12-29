@@ -1,0 +1,16 @@
+<html>
+<body>
+<script type=module>
+import {WASI,File,OpenFile,PreopenDirectory} from "./node_modules/@bjorn3/browser_wasi_shim/dist/index.js";
+let n=new WASI([],[],[
+new OpenFile(new File([])),
+new OpenFile(new File([])),
+new OpenFile(new File([])),
+]);
+let s=await WebAssembly.compileStreaming(fetch("p.wasm"));
+let b=await WebAssembly.instantiate(s,{"wasi_snapshot_preview1":n.wasiImport,});
+n.start(b);
+window.n=n
+</script>
+</body>
+</html>
