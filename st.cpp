@@ -696,7 +696,7 @@ void nk()
 			}
 		}
 		if(g.type==SDL_MOUSEBUTTONDOWN)
-			if(st.tr.p==0)
+			if(st.tr.p!=1)
 			{
 				nkn=1;
 				int n=ss(g.button.x,g.button.y);
