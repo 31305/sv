@@ -726,6 +726,11 @@ void nk()
 		}
 	}
 	if(0)if(nkn&&st.tr.p!=2)printf("nknns\n");
+	if(st.plg)
+	{
+		const char *p=SDL_GetError();
+		if(p)printf("%s\n",p);
+	}
 	double sk=(double)SDL_GetTicks()/1000.0;
 	if((unsigned int)sk!=st.ksn)
 	{
