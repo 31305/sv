@@ -126,7 +126,7 @@ struct ck
 {
 	size_t s;
 	ck(size_t ds):s(ds){k=new n[s];}
-	~ck(){delete k;}
+	~ck(){delete[] k;}
 	n *k;
 	const size_t v(size_t a){a++;if(a==s)a=0;return a;}
 	const size_t ak(size_t d,size_t u){if(u>=d)return u-d;else return u+s-d;}
