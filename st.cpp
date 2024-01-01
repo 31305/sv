@@ -35,7 +35,7 @@ void nl::operator()()
 template<int d>
 float mss(int k)
 {
-	bool ds=st.s1<20;
+	bool ds=st.s1<21;
 	if(d==0)
 	{
 		float ps=(ds||k<5)?(st.s1-(st.sg?11:15))/2.0:(st.s1-19)/2.0;
@@ -350,6 +350,7 @@ void lnss()
 	st.lns=SDL_CreateTextureFromSurface(st.ck,sl);
 	SDL_FreeSurface(sl);
 	TTF_CloseFont(lns);
+	TTF_Quit();
 }
 void mk()
 {
