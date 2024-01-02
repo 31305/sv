@@ -576,7 +576,6 @@ std::vector<vv> ls=
 	{.vm=vs({1,71,1,44,4,50,65,32}),.nv=138,.nsv=1,.rv=1},
 	{.vm=vs({75,4,44,53,1,43,1,66,7}),.nv=141,.rv=1},
 	{.vm=dn(206),.nsv=1,.rv=1},
-	{.vm=vs({71,16,44,46,4,50,65,32}),.nv=143,.nsv=1,.rv=1},
 	{.vm=vs({}),.nsv=1},
 };//lsn
 std::vector<size_t> nvk(ls.size());
