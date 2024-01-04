@@ -502,6 +502,7 @@ void kplt(int n)
 void nk()
 {
 #ifdef EMSCRIPTEN
+	if(0)EM_ASM({let sk=Date.now();if(sk-kg>17)console.log(sk-kg);kg=sk;});
 	if(sr<2)return;
 	else if(sr==2)
 	{
@@ -730,7 +731,7 @@ void nk()
 	if(st.plg)
 	{
 		const char *p=SDL_GetError();
-		if(p)printf("%s\n",p);
+		if(0&&p)printf("%s\n",p);
 	}
 	double sk=(double)SDL_GetTicks()/1000.0;
 	if((unsigned int)sk!=st.ksn)
