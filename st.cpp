@@ -10,6 +10,26 @@ bool jt=0;
 #include<emscripten.h>
 bool jt=1;
 #endif
+struct pp
+{
+	int v1=0,v2=0,g=1,s1=0,s2=0,p1=32,p2=32;
+	SDL_Rect pps;
+	void ss()
+	{
+		if(v1>v2)g=v1/p1;
+		else g=v2/p2;
+		s1=v1/g;
+		s2=v2/g;
+		pps.w=s1*g;
+		pps.h=s2*g;
+		pps.x=(v1-pps.w)/2;
+		pps.y=(v1-pps.h)/2;
+	}
+	SDL_Rect ps(int d1,int d2,int v1,int v2)
+	{
+		return SDL_Rect({.x=pps.x+d1*g,.y=pps.y+d2*g,.w=v1*g,.h=v2*g});
+	}
+};
 stp st;
 void nl::operator()()
 {
@@ -84,6 +104,8 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
+		int v1,v2;
+		SDL_QueryTexture(st.lns,0,0,&v1,&v2);
 		for(int k=0;k<st.tl.size()+1;k++)
 		{
 			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
@@ -92,7 +114,7 @@ void ncpk()
 			if(pk<0)continue;
 			SDL_Rect ls,ss;
 			ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
-			ss=SDL_Rect({.x=(st.tl[k])*4*st.g,.y=0,.w=4*st.g,.h=8*st.g});
+			ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=((st.tl[k])*4*st.g)/v1,.w=4*st.g,.h=8*st.g});
 			if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 			else 
 			{
@@ -100,6 +122,7 @@ void ncpk()
 				SDL_RenderFillRect(st.ck,&ls);
 			}
 		}
+		SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
 		{
@@ -301,7 +324,7 @@ void lk()
 		st.plg=1;
 	}
 }
-void lnss()
+void lnss(int v1,int v2)
 {
 	TTF_Init();
 	auto lns=TTF_OpenFont("kv.ttf",7);
@@ -311,21 +334,30 @@ void lnss()
 	int d1,d2;
 	while(n+1!=c)
 	{
-		int s=8*st.g;
+		int s=v2;
 		if(n!=-1&&c!=-1)s=(n+c)/2;
 		else if(n!=-1)s=n*2;
 		else if(c!=-1)s=c/2;
 		TTF_SetFontSize(lns,s);
 		TTF_SizeText(lns,"0",&d1,&d2);
 		if(0)printf("tl %s\n",SDL_GetError());
-		if(d1<=4*st.g&&d2<=8*st.g)
+		if(d1<=v1&&d2<=v2)
 			n=s;
 		else c=s;
 	}
-	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,4*st.g,d2,8*st.g);
+	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
 	TTF_SetFontSize(lns,n);
 	TTF_SetFontHinting(lns,4);
-	auto sl=SDL_CreateRGBSurfaceWithFormat(0,st.ns*4*st.g,8*st.g,24,SDL_PIXELFORMAT_RGB24);
+	int pv1,pv2,ptk;
+	if(1)
+	{
+		int kp=st.ns*v1*v2;
+		ptk=sqrt(kp)/v1;
+		pv1=ptk*v1;
+		int dtk=(st.ns+ptk-1)/ptk;
+		pv2=dtk*v2;
+	}
+	auto sl=SDL_CreateRGBSurfaceWithFormat(0,pv1,pv2,24,SDL_PIXELFORMAT_RGB24);
 	d1=0;d2=0;
 	for(int k=1;k<st.ns;k++)
 	{
@@ -334,15 +366,17 @@ void lnss()
 		*(unsigned char*)(l)=k;
 		auto vbl=TTF_RenderText_Blended(lns,l,SDL_Color({255,255,255}));
 		SDL_Rect ss;
-		ss.x=fmax(0,k*4*st.g+(4*st.g-vbl->w)/2);
-		ss.y=fmax(0,(8*st.g-vbl->h)/2);
-		ss.w=fmin(vbl->w,4*st.g);
-		ss.h=fmin(vbl->h,8*st.g);
+		ss.w=vbl->w;
+		if(ss.w>v1)ss.w=v1;
+		ss.h=vbl->h;
+		if(ss.h>v2)ss.h=v2;
+		ss.x=k%ptk+(v1-ss.w)/2;
+		ss.y=k/ptk+(v2-ss.h)/2;
 		if(ss.w!=d1||ss.h!=d2)
 		{
 			d1=ss.w;
 			d2=ss.h;
-			if(0)printf("d1 %d d2 %d | %d,%d\n",d1,d2,4*st.g,8*st.g);
+			if(0)printf("d1 %d d2 %d | %d,%d\n",d1,d2,v1,v2);
 		}
 		SDL_BlitSurface(vbl,0,sl,&ss);
 		SDL_FreeSurface(vbl);
@@ -424,7 +458,7 @@ void mk()
 	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
 	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
 	SDL_UnlockTexture(st.vc);
-	lnss();
+	lnss(4*st.g,8*st.g);
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
