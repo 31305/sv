@@ -114,7 +114,7 @@ void ncpk()
 			if(pk<0)continue;
 			SDL_Rect ls,ss;
 			ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
-			ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=((st.tl[k])*4*st.g)/v1,.w=4*st.g,.h=8*st.g});
+			ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=(((st.tl[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 			if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 			else 
 			{
@@ -122,7 +122,7 @@ void ncpk()
 				SDL_RenderFillRect(st.ck,&ls);
 			}
 		}
-		SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
+		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
 		{
@@ -370,8 +370,8 @@ void lnss(int v1,int v2)
 		if(ss.w>v1)ss.w=v1;
 		ss.h=vbl->h;
 		if(ss.h>v2)ss.h=v2;
-		ss.x=k%ptk+(v1-ss.w)/2;
-		ss.y=k/ptk+(v2-ss.h)/2;
+		ss.x=(k%ptk)*v1+(v1-ss.w)/2;
+		ss.y=(k/ptk)*v2+(v2-ss.h)/2;
 		if(ss.w!=d1||ss.h!=d2)
 		{
 			d1=ss.w;
