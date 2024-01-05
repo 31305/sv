@@ -19,12 +19,12 @@ void lck()
 	{
 		int ds1=dp?(st.tpp.s1-st.tpp.p1)/2:1;
 		int v=st.tpp.s1-ds1*2;
-		int dv=(st.tpp.s2-2)/2-(dp?4:0);
+		int dv=(st.tpp.s2-2)/2-(dp?8:0);
 		int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
 		if(pk<0)continue;
 		SDL_Rect ls,ss;
 		ls=st.tpp.ps(ds1+pk%v,1+(pk/v)*2,1,2);
-		printf("%d %d %d %d\n",ls.x,ls.y,ls.w,ls.h);
+		if(0)printf("%d %d %d %d\n",ls.x,ls.y,ls.w,ls.h);
 		ss=SDL_Rect({.x=((st.tl[k])*st.tpp.g)%v1,.y=(((st.tl[k])*st.tpp.g)/v1)*2*st.tpp.g,.w=st.tpp.g,.h=2*st.tpp.g});
 		if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 		else 
@@ -129,7 +129,7 @@ void ncpk()
 				}
 			}
 		}
-		lck();
+		if(st.vtp)lck();
 		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
@@ -272,7 +272,7 @@ void lk()
 	}
 	if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,2);
 	int l2=st.s2-4;
-	if(st.tp)
+	if(st.tp&&!st.vtp)
 	{
 		unsigned char prm=100,phm=50,pnm=50;
 		int vk=1*st.sp1;
@@ -575,9 +575,9 @@ void nk()
 	static char tps[tpss];
 	auto tpm=[](){memset(tps,0,tpss);};
 	bool nkn=0;
-	if(st.tr.ptps&&st.tr.p==2)
+	if(st.tr.ptps)
 	{
-		st.tr.p=0;
+		if(st.tr.p==2)st.tr.p=0;
 		st.plg=1;
 		st.tr.ptps=0;
 	}
@@ -710,6 +710,7 @@ void nk()
 				st.tr.k=0;
 				st.tr.s=0;
 				st.vtp=0;
+				st.plg=1;
 			}
 			int n=ts();
 			if(0&&n==0)printf("ktnj\n");
@@ -757,7 +758,7 @@ void nk()
 				}
 			}
 		if(g.type==SDL_MOUSEMOTION)
-			if(st.tr.p==2&&ss(g.button.x,g.button.y)!=st.tr.n)
+			if(st.tr.p==2&&ss(g.motion.x,g.motion.y)!=st.tr.n)
 			{
 				st.tr.p=0;
 				st.plg=1;
