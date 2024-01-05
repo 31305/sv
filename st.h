@@ -3,6 +3,26 @@
 #include"nc.xbm"
 const int cls=nc_width;
 #include<string>
+struct pp
+{
+	int v1=0,v2=0,g=1,s1=0,s2=0,p1=32,p2=64;
+	SDL_Rect pps;
+	void ss()
+	{
+		if(v1>v2)g=v2/p2;
+		else g=v1/p1;
+		s1=((v1/g)>>1)<<1;
+		s2=v2/g;
+		pps.w=s1*g;
+		pps.h=s2*g;
+		pps.x=(v1-pps.w)/2;
+		pps.y=(v2-pps.h)/2;
+	}
+	SDL_Rect ps(int d1,int d2,int v1,int v2)
+	{
+		return SDL_Rect({.x=pps.x+d1*g,.y=pps.y+d2*g,.w=v1*g,.h=v2*g});
+	}
+};
 struct stp
 {
 	SDL_Window* cp=0;
@@ -45,6 +65,7 @@ struct stp
 	std::string tl;
 	size_t tlv=0,tps=100;
 	int pt1=-1,pt2=-1;
+	pp tpp;
 };
 extern stp st;
 extern bool jt;

@@ -10,26 +10,30 @@ bool jt=0;
 #include<emscripten.h>
 bool jt=1;
 #endif
-struct pp
+void lck()
 {
-	int v1=0,v2=0,g=1,s1=0,s2=0,p1=32,p2=32;
-	SDL_Rect pps;
-	void ss()
+	int v1,v2;
+	SDL_QueryTexture(st.lns,0,0,&v1,&v2);
+	bool dp=!(st.tpp.v1>st.tpp.v2);
+	for(int k=0;k<st.tl.size()+1;k++)
 	{
-		if(v1>v2)g=v1/p1;
-		else g=v2/p2;
-		s1=v1/g;
-		s2=v2/g;
-		pps.w=s1*g;
-		pps.h=s2*g;
-		pps.x=(v1-pps.w)/2;
-		pps.y=(v1-pps.h)/2;
+		int ds1=dp?(st.tpp.s1-st.tpp.p1)/2:1;
+		int v=st.tpp.s1-ds1*2;
+		int dv=(st.tpp.s2-2)/2-(dp?4:0);
+		int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
+		if(pk<0)continue;
+		SDL_Rect ls,ss;
+		ls=st.tpp.ps(ds1+pk%v,1+(pk/v)*2,1,2);
+		printf("%d %d %d %d\n",ls.x,ls.y,ls.w,ls.h);
+		ss=SDL_Rect({.x=((st.tl[k])*st.tpp.g)%v1,.y=(((st.tl[k])*st.tpp.g)/v1)*2*st.tpp.g,.w=st.tpp.g,.h=2*st.tpp.g});
+		if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+		else 
+		{
+			SDL_SetRenderDrawColor(st.ck,255,255,255,255);
+			SDL_RenderFillRect(st.ck,&ls);
+		}
 	}
-	SDL_Rect ps(int d1,int d2,int v1,int v2)
-	{
-		return SDL_Rect({.x=pps.x+d1*g,.y=pps.y+d2*g,.w=v1*g,.h=v2*g});
-	}
-};
+}
 stp st;
 void nl::operator()()
 {
@@ -104,24 +108,28 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		int v1,v2;
-		SDL_QueryTexture(st.lns,0,0,&v1,&v2);
-		for(int k=0;k<st.tl.size()+1;k++)
+		if(0)
 		{
-			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
-			int dv=mss<1>(5)-2.5;
-			int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
-			if(pk<0)continue;
-			SDL_Rect ls,ss;
-			ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
-			ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=(((st.tl[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
-			if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
-			else 
+			int v1,v2;
+			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
+			for(int k=0;k<st.tl.size()+1;k++)
 			{
-				SDL_SetRenderDrawColor(st.ck,255,255,255,255);
-				SDL_RenderFillRect(st.ck,&ls);
+				int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
+				int dv=mss<1>(5)-2.5;
+				int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
+				if(pk<0)continue;
+				SDL_Rect ls,ss;
+				ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
+				ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=(((st.tl[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+				if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+				else 
+				{
+					SDL_SetRenderDrawColor(st.ck,255,255,255,255);
+					SDL_RenderFillRect(st.ck,&ls);
+				}
 			}
 		}
+		lck();
 		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(!st.cc)
@@ -458,7 +466,10 @@ void mk()
 	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
 	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
 	SDL_UnlockTexture(st.vc);
-	lnss(4*st.g,8*st.g);
+	st.tpp.v1=x1;st.tpp.v2=x2;
+	st.tpp.ss();
+	if(0)lnss(4*st.g,8*st.g);
+	lnss(st.tpp.g,st.tpp.g*2);
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
