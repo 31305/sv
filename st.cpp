@@ -347,7 +347,7 @@ void lnss(int v1,int v2)
 		else if(n!=-1)s=n*2;
 		else if(c!=-1)s=c/2;
 		TTF_SetFontSize(lns,s);
-		TTF_SizeText(lns,"0",&d1,&d2);
+		TTF_SizeText(lns,"j",&d1,&d2);
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(d1<=v1&&d2<=v2)
 			n=s;
@@ -373,20 +373,23 @@ void lnss(int v1,int v2)
 		l[1]=0;
 		*(unsigned char*)(l)=k;
 		auto vbl=TTF_RenderText_Blended(lns,l,SDL_Color({255,255,255}));
-		SDL_Rect ss;
-		ss.w=vbl->w;
-		if(ss.w>v1)ss.w=v1;
-		ss.h=vbl->h;
-		if(ss.h>v2)ss.h=v2;
-		ss.x=(k%ptk)*v1+(v1-ss.w)/2;
-		ss.y=(k/ptk)*v2+(v2-ss.h)/2;
+		SDL_Rect ms;
+		ms.w=vbl->w;
+		if(ms.w>v1)ms.w=v1;
+		ms.h=vbl->h;
+		if(ms.h>v2)ms.h=v2;
+		ms.x=(v1-ms.w)/2;
+		ms.y=(v2-ms.h)/2;
+		SDL_Rect ss=ms;
+		ss.x+=(k%ptk)*v1;
+		ss.y+=(k/ptk)*v2;
 		if(ss.w!=d1||ss.h!=d2)
 		{
 			d1=ss.w;
 			d2=ss.h;
 			if(0)printf("d1 %d d2 %d | %d,%d\n",d1,d2,v1,v2);
 		}
-		SDL_BlitSurface(vbl,0,sl,&ss);
+		SDL_BlitSurface(vbl,&ms,sl,&ss);
 		SDL_FreeSurface(vbl);
 	}
 	st.lns=SDL_CreateTextureFromSurface(st.ck,sl);
