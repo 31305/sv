@@ -339,7 +339,7 @@ void lnss(int v1,int v2)
 	TTF_SetFontHinting(lns,4);
 	if(st.lns)SDL_DestroyTexture(st.lns);
 	int n=-1,c=-1;
-	int d1,d2;
+	int d1,d2,d3;
 	while(n+1!=c)
 	{
 		int s=v2;
@@ -348,6 +348,9 @@ void lnss(int v1,int v2)
 		else if(c!=-1)s=c/2;
 		TTF_SetFontSize(lns,s);
 		TTF_SizeText(lns,"j",&d1,&d2);
+		d3=TTF_FontLineSkip(lns);
+		printf("s %d d1 %d d2 %d ppn %d pn %d\n",s,d1,d2,TTF_FontHeight(lns),d3);
+		d2=d3;
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(d1<=v1&&d2<=v2)
 			n=s;
