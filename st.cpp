@@ -337,6 +337,7 @@ void lnss(int v1,int v2)
 	TTF_Init();
 	auto lns=TTF_OpenFont("kv.ttf",7);
 	TTF_SetFontHinting(lns,4);
+	TTF_SetFontKerning(lns,0);
 	if(st.lns)SDL_DestroyTexture(st.lns);
 	int n=-1,c=-1;
 	int d1,d2,d3;
@@ -347,7 +348,7 @@ void lnss(int v1,int v2)
 		else if(n!=-1)s=n*2;
 		else if(c!=-1)s=c/2;
 		TTF_SetFontSize(lns,s);
-		TTF_SizeText(lns,"j",&d1,&d2);
+		TTF_SizeUTF8(lns,"\xe2\x96\x88",&d1,&d2);
 		d3=TTF_FontLineSkip(lns);
 		printf("s %d d1 %d d2 %d ppn %d pn %d\n",s,d1,d2,TTF_FontHeight(lns),d3);
 		d2=d3;
@@ -359,7 +360,7 @@ void lnss(int v1,int v2)
 	if(1)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
 	TTF_SetFontSize(lns,n);
 	printf("n %d v2 %d sp %d\n",n,v2,TTF_FontHeight(lns));
-	TTF_SetFontHinting(lns,4);
+	TTF_SetFontHinting(lns,3);
 	int pv1,pv2,ptk;
 	if(1)
 	{
