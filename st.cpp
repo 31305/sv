@@ -353,8 +353,9 @@ void lnss(int v1,int v2)
 			n=s;
 		else c=s;
 	}
-	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
+	if(1)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
 	TTF_SetFontSize(lns,n);
+	printf("n %d v2 %d sp %d\n",n,v2,TTF_FontHeight(lns));
 	TTF_SetFontHinting(lns,4);
 	int pv1,pv2,ptk;
 	if(1)
