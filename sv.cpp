@@ -1273,7 +1273,7 @@ struct vks
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}skk=0;}
 		else if(tn(0,0))
 		{
-			st.vtp=1;
+			if(0)st.vtp=1;
 			skk=0;
 		}
 		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}

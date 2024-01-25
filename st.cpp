@@ -274,8 +274,8 @@ void lk()
 	int l2=st.s2-4;
 	if(st.tp&&!st.vtp)
 	{
-		unsigned char prm=100,phm=50,pnm=50;
-		int vk=1*st.sp1;
+		unsigned char prm=70,phm=70,pnm=90;
+		int vk=0.5*st.sp1;
 		cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
 			.v1=(int)((mss<0>(14)-mss<0>(5)+3)*st.sp1)-vk*2,.v2=(int)((mss<1>(14)-mss<1>(5)+3)*st.sp2)-vk*2,
 			.rm=prm,.hm=phm,.nm=pnm})();
