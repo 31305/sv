@@ -1,0 +1,12 @@
+<html>
+	<body>
+		<script type=module>
+			import 'https://unpkg.com/xterm@5.3.0/lib/xterm.js'
+			import 'https://unpkg.com/xterm-pty/index.js';
+			const p=openpty();
+			window.p=p;
+			p.slave.onReadable(()=>{console.log(p.slave.read())})
+			p.master.onWrite(([p,d])=>console.log([p,d]))
+		</script>
+	</body>
+</html>
