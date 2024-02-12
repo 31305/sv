@@ -907,6 +907,7 @@ int pmk()
 		SDL_DestroyTexture(st.vc);
 		SDL_FreeSurface(st.lc);
 		if(st.lns)SDL_DestroyTexture(st.lns);
+		SDL_Quit();
 	}
 	return 0;
 }

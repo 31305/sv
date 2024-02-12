@@ -3,6 +3,7 @@
 #include"nc.xbm"
 const int cls=nc_width;
 #include<string>
+#include<memory>
 struct pp
 {
 	int v1=0,v2=0,g=1,s1=0,s2=0,p1=32,p2=64;
@@ -22,6 +23,17 @@ struct pp
 	{
 		return SDL_Rect({.x=pps.x+d1*g,.y=pps.y+d2*g,.w=v1*g,.h=v2*g});
 	}
+};
+struct cnp
+{
+	std::unique_ptr<SDL_Texture,void(*)(SDL_Texture*)> cpp;
+	cnp():cpp(0,SDL_DestroyTexture){}
+	SDL_Texture* p(){return cpp.get();};
+	void s(SDL_Texture* p){cpp.reset(p);}
+}; 
+struct clp
+{
+	cnp p;
 };
 struct stp
 {
