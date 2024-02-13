@@ -951,7 +951,7 @@ void clpp::ss(stp* tp)
 {
 	if(v1==0||v2==0)return;
 	if(v1>v2){g=v2/p2;s1=p1;s2=p1;}
-	else {g=v1/p1;s1=p1;s2=p1;}
+	else {g=std::min(v1/p1,v2/(p1*4/3));s1=p1;s2=p1;}
 	pps.w=s1*g;
 	pps.h=s2*g;
 	pps.x=(v1-pps.w)/2;
