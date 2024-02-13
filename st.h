@@ -4,6 +4,9 @@
 const int cls=nc_width;
 #include<string>
 #include<memory>
+#ifdef EMSCRIPTEN
+#include<emscripten.h>
+#endif
 struct pp
 {
 	int v1=0,v2=0,g=1,s1=0,s2=0,p1=32,p2=64;
@@ -30,6 +33,18 @@ struct cnp
 	cnp():cpp(0,SDL_DestroyTexture){}
 	SDL_Texture* p(){return cpp.get();};
 	void s(SDL_Texture* p){cpp.reset(p);}
+}; 
+struct stp;
+struct clpp
+{
+	cnp p;
+	int v1=0,v2=0,p1=32,p2=64,tg=16,s1=0,s2=0,g=0;
+	SDL_Rect pps;
+	bool sk=0;
+	int ss1=0,ss2=0;
+	void ss(stp*);
+	void pk(stp*);
+	void nk(stp*,bool=0);
 };
 struct stp
 {
@@ -74,36 +89,8 @@ struct stp
 	size_t tlv=0,tps=100;
 	int pt1=-1,pt2=-1;
 	pp tpp;
+	clpp clp;
 }; 
-struct clp
-{
-	cnp p;
-	int v1=0,v2=0,p1=32,p2=64,tg=16;
-	SDL_Rect pps;
-	void ss(stp* tp)
-	{
-		int g;
-		int s1,s2;
-		if(v1>v2){g=v2/p2;s1=p1;s2=v2/g;}
-		else {g=v1/p1;s1=p1;s2=v2/g;}
-		pps.w=s1*g;
-		pps.h=s2*g;
-		pps.x=(v1-pps.w)/2;
-		pps.y=(v2-pps.h)/2;
-		tg=std::min(16,g);
-		p.s(SDL_CreateTexture(tp->ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,tg*s1,tg*s2));
-	}
-	void pk(stp* tp)
-	{
-		SDL_SetRenderDrawColor(tp->ck,0,0,0,255);
-		SDL_RenderClear(tp->ck);
-		SDL_RenderCopy(tp->ck,p.p(),NULL,&pps);
-	}
-	void nk(bool pl=0)
-	{
-		
-	}
-};
 extern stp st;
 extern bool jt;
 extern int sr;

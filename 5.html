@@ -26,14 +26,28 @@
 </video>
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script type='text/javascript'>
-document.body.addEventListener("pointerdown",(p)=>{console.log(p)});
+vpv1=0;vpv2=0;
+svsg={s1:0,s2:0,k:false}
+function svsgsk(p)
+{
+	if(p.pressure)
+	{
+		let s=getBoundingClientRect(cp);
+		svsg.s1=Math.round(p.clientX/s.width*vpv1);
+		svsg.s2=Math.round(p.clientY/s.height*vpv2);
+		svsg.k=true;
+	}
+}
+document.body.addEventListener("pointermove",svsgsk);
+document.body.addEventListener("pointerdown",svsgsk);
+document.body.addEventListener("pointerout",(p)=>{svsg.k=false;});
+document.body.addEventListener("pointerup",(p)=>{svsg.k=false;});
 kg=Date.now()
 tp=document.getElementById('tp');
 cp=document.getElementById('canvas');
 ccpd=document.getElementById('ccpd');
 scpd=document.getElementById('scpd');
 scpv=scpd.getContext('2d')
-vpv1=0;vpv2=0;
 const l=new ResizeObserver((gs)=>
 {
   const g=gs.find((g)=>g.target===cp);

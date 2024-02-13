@@ -35,6 +35,12 @@ void lck()
 	}
 }
 stp st;
+#ifdef EMSCRIPTEN
+bool clk()
+{
+	return EM_ASM_INT({return location.search=='?cl'});
+}
+#endif
 void nl::operator()()
 {
 	int s1=round(p1*st.sp1);
@@ -404,12 +410,20 @@ void lnss(int v1,int v2)
 }
 void mk()
 {
+	int x1,x2;
+	SDL_GetWindowSize(st.cp,&x1,&x2);
+	st.clp.v1=x1;st.clp.v2=x2;
+#ifdef EMSCRIPTEN
+	if(clk())
+	{
+		st.clp.ss(&st);
+		return;
+	}
+#endif
 	st.tr.p=0;
 	if(st.mc1)SDL_DestroyTexture(st.mc1);
 	if(st.mc2)SDL_DestroyTexture(st.mc2);
 	if(st.vc)SDL_DestroyTexture(st.vc);
-	int x1,x2;
-	SDL_GetWindowSize(st.cp,&x1,&x2);
 	if(0)printf("mk %dx%d\n",x1,x2);
 	int g=0;
 	if(x1>x2)
@@ -574,6 +588,14 @@ void nk()
 			EM_ASM({cp.width=vpv1;cp.height=vpv2;});
 			if(0)printf("kp %d %d\n",nm1,nm2);
 			if(1)pp(nm1,nm2);
+		}
+	}
+	if(clk())
+	{
+		if(1)
+		{
+			st.clp.nk(&st);
+			return;
 		}
 	}
 #endif
@@ -925,3 +947,58 @@ void lp()
 	cairo_fill(p);
 }
 #endif
+void clpp::ss(stp* tp)
+{
+	if(v1==0||v2==0)return;
+	if(v1>v2){g=v2/p2;s1=p1;s2=p1;}
+	else {g=v1/p1;s1=p1;s2=p1;}
+	pps.w=s1*g;
+	pps.h=s2*g;
+	pps.x=(v1-pps.w)/2;
+	pps.y=(v2-pps.h)/2;
+	tg=std::min(8,g);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"1");
+	p.s(SDL_CreateTexture(tp->ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,tg*s1,tg*s2));
+	SDL_SetRenderTarget(tp->ck,p.p());
+	SDL_SetRenderDrawColor(tp->ck,200,200,150,255);
+	SDL_Rect n;
+	n.x=0;n.y=0;n.w=s1*tg;n.h=s2*tg;
+	SDL_RenderFillRect(tp->ck,&n);
+	SDL_SetRenderTarget(tp->ck,NULL);
+	pk(tp);
+	if(0)printf("clpss\n");
+}
+void clpp::nk(stp* tp,bool pl)
+{
+#ifdef EMSCRIPTEN
+	int ns1=EM_ASM_INT({return svsg.s1});
+	int ns2=EM_ASM_INT({return svsg.s2});
+	bool nsk=EM_ASM_INT({return svsg.k});
+	SDL_Point n;
+	n.x=ns1;
+	n.y=ns2;
+	SDL_Point s;
+	s.x=ss1;
+	s.y=ss2;
+	if(sk&&nsk)
+	{
+		SDL_SetRenderTarget(tp->ck,p.p());
+		SDL_SetRenderDrawColor(tp->ck,0,0,0,255);
+		SDL_RenderDrawLine(tp->ck,(ss1-pps.x)*tg/g,(ss2-pps.y)*tg/g,(ns1-pps.x)*tg/g,(ns2-pps.y)*tg/g);
+		SDL_SetRenderTarget(tp->ck,NULL);
+		pk(tp);
+	}
+	ss1=ns1;ss2=ns2;
+	sk=nsk;
+#endif
+}
+void clpp::pk(stp* tp)
+{
+	if(0)printf("clppp\n");
+	SDL_SetRenderDrawColor(tp->ck,0,0,0,255);
+	SDL_RenderClear(tp->ck);
+	SDL_RenderCopy(tp->ck,p.p(),NULL,&pps);
+	SDL_SetRenderDrawColor(tp->ck,255,0,0,255);
+	if(0)SDL_RenderDrawRect(tp->ck,&pps);
+	SDL_RenderPresent(tp->ck);
+}
