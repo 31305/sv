@@ -30,13 +30,10 @@ vpv1=0;vpv2=0;
 svsg={s1:0,s2:0,k:false}
 function svsgsk(p)
 {
-	if(p.pressure)
-	{
-		let s=getBoundingClientRect(cp);
-		svsg.s1=Math.round(p.clientX/s.width*vpv1);
-		svsg.s2=Math.round(p.clientY/s.height*vpv2);
-		svsg.k=true;
-	}
+	let s=getBoundingClientRect(cp);
+	svsg.s1=Math.round(p.clientX/s.width*vpv1);
+	svsg.s2=Math.round(p.clientY/s.height*vpv2);
+	svsg.k=p.pressure?true:false;
 }
 document.body.addEventListener("pointermove",svsgsk);
 document.body.addEventListener("pointerdown",svsgsk);
