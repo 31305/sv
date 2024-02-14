@@ -33,7 +33,7 @@ function svsgsk(p)
 	let s=getBoundingClientRect(cp);
 	svsg.s1=Math.round(p.clientX/s.width*vpv1);
 	svsg.s2=Math.round(p.clientY/s.height*vpv2);
-	svsg.k=p.pressure?true:false;
+	svsg.k=(p.pressure||p.buttons)?true:false;
 }
 document.body.addEventListener("pointermove",svsgsk);
 document.body.addEventListener("pointerdown",svsgsk);
