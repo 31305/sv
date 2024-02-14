@@ -85,7 +85,7 @@ struct stp
 	unsigned int ksn=0;
 	SDL_Texture *lns;
 	const int ns=128;
-	std::string tl;
+	std::string tl=[](){std::string s;for(int k=0;k<18*50-1;k++)s.push_back('0'+rand()%10);return s;}();
 	size_t tlv=0,tps=100;
 	int pt1=-1,pt2=-1;
 	pp tpp;

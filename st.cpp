@@ -123,7 +123,7 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		if(0)
+		if(1)
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
@@ -499,8 +499,8 @@ void mk()
 	SDL_UnlockTexture(st.vc);
 	st.tpp.v1=x1;st.tpp.v2=x2;
 	st.tpp.ss();
-	if(0)lnss(4*st.g,8*st.g);
-	lnss(st.tpp.g,st.tpp.g*2);
+	if(1)lnss(4*st.g,8*st.g);
+	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
