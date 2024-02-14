@@ -365,16 +365,16 @@ void lnss(int v1,int v2)
 		TTF_SetFontSize(lns,s);
 		TTF_SizeUTF8(lns,"\xe2\x96\x88",&d1,&d2);
 		d3=TTF_FontLineSkip(lns);
-		printf("s %d d1 %d d2 %d ppn %d pn %d\n",s,d1,d2,TTF_FontHeight(lns),d3);
+		if(0)printf("s %d d1 %d d2 %d ppn %d pn %d\n",s,d1,d2,TTF_FontHeight(lns),d3);
 		d2=d3;
 		if(0)printf("tl %s\n",SDL_GetError());
 		if(d1<=v1&&d2<=v2)
 			n=s;
 		else c=s;
 	}
-	if(1)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
+	if(0)printf("d1 %d|%d d2 %d|%d\n",d1,v1,d2,v2);
 	TTF_SetFontSize(lns,n);
-	printf("n %d v2 %d sp %d\n",n,v2,TTF_FontHeight(lns));
+	if(0)printf("n %d v2 %d sp %d\n",n,v2,TTF_FontHeight(lns));
 	TTF_SetFontHinting(lns,3);
 	int pv1,pv2,ptk;
 	if(1)
@@ -1007,5 +1007,4 @@ void clpp::pk(stp* tp)
 	SDL_SetRenderDrawColor(tp->ck,255,0,0,255);
 	if(0)SDL_RenderDrawRect(tp->ck,&pps);
 	SDL_RenderPresent(tp->ck);
-	if(1)printf("clpppk\n");
 }
