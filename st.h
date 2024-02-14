@@ -38,7 +38,7 @@ struct stp;
 struct clpp
 {
 	cnp p;
-	int v1=0,v2=0,p1=32,p2=64,tg=16,s1=0,s2=0,g=0;
+	int v1=0,v2=0,p1=32,p2=64,tg=8,s1=0,s2=0,g=0;
 	SDL_Rect pps;
 	bool sk=0;
 	int ss1=0,ss2=0;

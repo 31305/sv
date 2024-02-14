@@ -956,7 +956,6 @@ void clpp::ss(stp* tp)
 	pps.h=s2*g;
 	pps.x=(v1-pps.w)/2;
 	pps.y=(v2-pps.h)/2;
-	tg=std::min(8,g);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"1");
 	p.s(SDL_CreateTexture(tp->ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,tg*s1,tg*s2));
 	SDL_SetRenderTarget(tp->ck,p.p());
