@@ -36,10 +36,19 @@ void lck()
 }
 stp st;
 #ifdef EMSCRIPTEN
-bool clk()
+struct
 {
-	return EM_ASM_INT({return location.search=='?cl'});
-}
+	int s=0;
+	int operator()()
+	{
+		return EM_ASM_INT({return location.hash=='#cl'});
+	}
+	bool p()
+	{
+		if((*this)()!=s){s=(*this)();return 1;}
+		return 0;
+	}
+}clk;
 #endif
 void nl::operator()()
 {
@@ -590,13 +599,11 @@ void nk()
 			if(1)pp(nm1,nm2);
 		}
 	}
+	if(clk.p())mk();
 	if(clk())
 	{
-		if(1)
-		{
-			st.clp.nk(&st);
-			return;
-		}
+		st.clp.nk(&st);
+		return;
 	}
 #endif
 	static double k;
@@ -1000,4 +1007,5 @@ void clpp::pk(stp* tp)
 	SDL_SetRenderDrawColor(tp->ck,255,0,0,255);
 	if(0)SDL_RenderDrawRect(tp->ck,&pps);
 	SDL_RenderPresent(tp->ck);
+	if(1)printf("clpppk\n");
 }
