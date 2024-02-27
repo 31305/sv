@@ -120,6 +120,11 @@ void ncpk()
 	Uint8 vn=st.ks?255:0;
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
+	if(st.clvp)
+	{
+		SDL_SetTextureBlendMode(st.lns,!st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+		st.clvp=0;
+	}
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
@@ -139,7 +144,7 @@ void ncpk()
 				if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 				else 
 				{
-					SDL_SetRenderDrawColor(st.ck,255,255,255,255);
+					SDL_SetRenderDrawColor(st.ck,st.ks?0:255,st.ks?0:255,st.ks?0:255,255);
 					SDL_RenderFillRect(st.ck,&ls);
 				}
 			}
