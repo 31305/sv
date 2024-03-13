@@ -38,14 +38,13 @@ stp st;
 #ifdef EMSCRIPTEN
 struct
 {
-	int s=0;
 	int operator()()
 	{
-		return EM_ASM_INT({return location.hash=='#cl'});
+		return EM_ASM_INT({return vkn();});
 	}
 	bool p()
 	{
-		if((*this)()!=s){s=(*this)();return 1;}
+		if((*this)()!=st.s){st.s=(*this)();return 1;}
 		return 0;
 	}
 }clk;
@@ -128,7 +127,7 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		if(!st.cc&&0)
+		if(!st.cc&&(st.s==2))
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
@@ -429,7 +428,7 @@ void mk()
 	st.clp.v1=x1;st.clp.v2=x2;
 	if(0)printf("mk %d %d\n",x1,x2);
 #ifdef EMSCRIPTEN
-	if(clk())
+	if(clk()==1)
 	{
 		st.clp.ss(&st);
 		return;
@@ -606,7 +605,7 @@ void nk()
 		}
 	}
 	if(clk.p())mk();
-	if(clk())
+	if(clk()==1)
 	{
 		st.clp.nk(&st);
 		return;
