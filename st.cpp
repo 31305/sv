@@ -132,7 +132,11 @@ void ncpk()
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
 			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
-			std::string l=st.tl;
+			std::string l;
+			[[maybe_unused]]auto np=[&l,v]()
+			{
+				while(l.size()%v)l=l+' ';
+			};
 			for(int k=0;k<l.size()+1;k++)
 			{
 				int dv=mss<1>(5)-4.5;
