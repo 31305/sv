@@ -127,20 +127,21 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		if(!st.cc&&(st.s==2))
+		if(!st.cc)
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
-			for(int k=0;k<st.tl.size()+1;k++)
+			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
+			std::string l=st.tl;
+			for(int k=0;k<l.size()+1;k++)
 			{
-				int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
-				int dv=mss<1>(5)-2.5;
-				int pk=k-fmax(0,(ceil((float)(st.tl.size()+1)/(float)v)-dv))*v;
+				int dv=mss<1>(5)-4.5;
+				int pk=k-fmax(0,(ceil((float)(l.size()+1)/(float)v)-dv))*v;
 				if(pk<0)continue;
 				SDL_Rect ls,ss;
 				ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
-				ss=SDL_Rect({.x=((st.tl[k])*4*st.g)%v1,.y=(((st.tl[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
-				if(k<st.tl.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+				ss=SDL_Rect({.x=((l[k])*4*st.g)%v1,.y=(((l[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+				if(k<l.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 				else 
 				{
 					SDL_SetRenderDrawColor(st.ck,st.ks?0:255,st.ks?0:255,st.ks?0:255,255);
@@ -276,7 +277,7 @@ void lk()
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
 	}
-	if(!st.cc&&0)
+	if(!st.cc&&1)
 	{
 		const int pns=9;
 		size_t pn=st.ksn;
