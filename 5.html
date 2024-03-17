@@ -50,7 +50,7 @@ const l=new ResizeObserver((gs)=>
   const g=gs.find((g)=>g.target===cp);
   vpv1=g.devicePixelContentBoxSize[0].inlineSize;
   vpv2=g.devicePixelContentBoxSize[0].blockSize;
-  if(0)console.log(vpv1,vpv2)
+  if(1)console.log(vpv1,vpv2)
 });
 l.observe(cp,{box:"device-pixel-content-box"});
 var Module={canvas:(function(){return cp;})()};

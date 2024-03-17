@@ -431,7 +431,7 @@ void mk()
 	int x1,x2;
 	SDL_GetWindowSize(st.cp,&x1,&x2);
 	st.clp.v1=x1;st.clp.v2=x2;
-	if(0)printf("mk %d %d\n",x1,x2);
+	if(1)printf("mk %d %d\n",x1,x2);
 #ifdef EMSCRIPTEN
 	if(clk()==1)
 	{
@@ -602,7 +602,7 @@ void nk()
 		SDL_GetWindowSize(st.cp,&x1,&x2);
 		int nm1=EM_ASM_INT({return vpv1;});
 		int nm2=EM_ASM_INT({return vpv2;});
-		if(st.clp.v1!=nm1||st.clp.v2!=nm2)
+		if(st.clp.v1!=nm1||st.clp.v2!=nm2||x1!=nm1||x2!=nm2)
 		{
 			EM_ASM({cp.width=vpv1;cp.height=vpv2;});
 			if(0)printf("kp %d %d\n",nm1,nm2);
