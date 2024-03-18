@@ -289,8 +289,8 @@ void lk()
 		{
 			float p1=float(st.s1)*(float)0.5+(float)pns*(float)0.5-(float)k-(float)1.0;
 			float p2=mss<1>(5)-2.5;
-			cbl({.d1=(int)(p1*st.sp1),.d2=(int)(p2*st.sp2),.v1=8,.v2=8,.rm=50,.hm=100,.nm=100})();
-			cbl({.d1=(int)(p1*st.sp1)+1,.d2=(int)(p2*st.sp2)+7,.v1=6,.v2=1,.rm=0,.hm=150,.nm=100})();
+			cbl({.d1=(int)(p1*st.sp1),.d2=(int)(p2*st.sp2),.v1=8,.v2=8,.rm=100,.hm=30,.nm=30})();
+			cbl({.d1=(int)(p1*st.sp1)+1,.d2=(int)(p2*st.sp2)+7,.v1=6,.v2=1,.rm=180,.hm=120,.nm=50})();
 			nl({.n=(int)(pn%10)+50,.p1=p1,.p2=p2})();
 		}
 	}
