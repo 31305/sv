@@ -1,6 +1,7 @@
 #include"st.h"
 #include<SDL_image.h>
 #include<SDL_ttf.h>
+#include<chrono>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -132,21 +133,32 @@ void ncpk()
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
 			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
+			int dv=mss<1>(5)-4.5;
 			std::string l;
 			[[maybe_unused]]auto np=[&l,v]()
 			{
 				while(l.size()%v)l=l+' ';
 			};
+			[[maybe_unused]]auto lj=[&l,v,dv,&np](std::string j)
+			{
+				if(j.size()+(l.size()%v)<=v&&(l.size()+j.size())<dv*v)
+					l+=j;
+				else if(l.size()<=(dv-1)*v){np();l+=j;}
+			};
+			[[maybe_unused]]auto k=std::chrono::system_clock::now();
+			for(int k=0;k<v;k++)l+="-";
+			lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
+			srand(235);
+			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(rand()%150)+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
-				int dv=mss<1>(5)-4.5;
 				int pk=k-fmax(0,(ceil((float)(l.size()+1)/(float)v)-dv))*v;
 				if(pk<0)continue;
 				SDL_Rect ls,ss;
 				ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
 				ss=SDL_Rect({.x=((l[k])*4*st.g)%v1,.y=(((l[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 				if(k<l.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
-				else 
+				else if(0) 
 				{
 					SDL_SetRenderDrawColor(st.ck,st.ks?0:255,st.ks?0:255,st.ks?0:255,255);
 					SDL_RenderFillRect(st.ck,&ls);
