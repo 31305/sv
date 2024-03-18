@@ -431,7 +431,7 @@ void mk()
 	int x1,x2;
 	SDL_GetWindowSize(st.cp,&x1,&x2);
 	st.clp.v1=x1;st.clp.v2=x2;
-	if(1)printf("mk %d %d\n",x1,x2);
+	if(0)printf("mk %d %d\n",x1,x2);
 #ifdef EMSCRIPTEN
 	if(clk()==1)
 	{
