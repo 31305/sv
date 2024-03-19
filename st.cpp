@@ -154,13 +154,14 @@ void ncpk()
 			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
-				int pk=k-fmax(0,(ceil((float)(l.size()+1)/(float)v)-dv))*v;
+				const bool lns=0;
+				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
 				if(pk<0)continue;
 				SDL_Rect ls,ss;
 				ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
 				ss=SDL_Rect({.x=((l[k])*4*st.g)%v1,.y=(((l[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 				if(k<l.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
-				else if(0) 
+				else if(lns) 
 				{
 					SDL_SetRenderDrawColor(st.ck,st.ks?0:255,st.ks?0:255,st.ks?0:255,255);
 					SDL_RenderFillRect(st.ck,&ls);
