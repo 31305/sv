@@ -2,6 +2,7 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 #include<chrono>
+#include<random>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -148,8 +149,9 @@ void ncpk()
 			[[maybe_unused]]auto k=std::chrono::system_clock::now();
 			for(int k=0;k<v;k++)l+="-";
 			lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
-			srand(235);
-			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(rand()%150)+"|");
+			std::mt19937 spm;
+			std::uniform_int_distribution<int> spd(0,150);
+			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+1)/(float)v)-dv))*v;
