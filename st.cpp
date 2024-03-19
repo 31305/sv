@@ -142,7 +142,7 @@ void ncpk()
 			};
 			[[maybe_unused]]auto lj=[&l,v,dv,&np](std::string j)
 			{
-				if(j.size()+(l.size()%v)<=v&&(l.size()+j.size())<dv*v)
+				if(j.size()+(l.size()%v)<=v&&(l.size()+j.size())<=dv*v)
 					l+=j;
 				else if(l.size()<=(dv-1)*v){np();l+=j;}
 			};
