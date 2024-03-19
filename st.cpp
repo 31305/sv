@@ -140,9 +140,10 @@ void ncpk()
 			{
 				while(l.size()%v)l=l+' ';
 			};
+			const bool lns=1;
 			[[maybe_unused]]auto lj=[&l,v,dv,&np](std::string j)
 			{
-				if(j.size()+(l.size()%v)<=v&&(l.size()+j.size())<=dv*v)
+				if(j.size()+(l.size()%v)<=v&&(l.size()+j.size()+lns)<=dv*v)
 					l+=j;
 				else if(l.size()<=(dv-1)*v){np();l+=j;}
 			};
@@ -154,7 +155,6 @@ void ncpk()
 			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
-				const bool lns=0;
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
 				if(pk<0)continue;
 				SDL_Rect ls,ss;
