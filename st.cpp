@@ -152,7 +152,7 @@ void ncpk()
 			lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
 			std::mt19937 spm;
 			std::uniform_int_distribution<int> spd(0,150);
-			for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
+			if(0)for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
