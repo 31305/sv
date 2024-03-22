@@ -6,6 +6,7 @@ int main()
 	char ps[1024];
 	std::time_t k=std::time(0);
 	std::tm* tk=std::gmtime(&k);
+	std::tm* sk=std::localtime(&k);
 	swe_set_ephe_path(0);
 	swe_utc_to_jd(1900+tk->tm_year,1+tk->tm_mon,tk->tm_mday,tk->tm_hour,tk->tm_min,tk->tm_sec,1,tp,ps);
 	double ks=tp[1];
@@ -18,5 +19,6 @@ int main()
 	double cs=tp[0];
 	printf("cs %lf \n",std::fmod(swe_difdegn(cs,ss)*30/360+15,30.0));
 	printf("ss %dm+%lfd\n",(int)(ss/30),fmod(ss,30));
+	printf("ds %lf\n",fmod((sk->tm_hour*3600+60*sk->tm_min+sk->tm_sec)/(24.0*3600.0)-0.25,1.0)*24.0);
 	return 0;
 }
