@@ -83,6 +83,7 @@ struct stp
 	}tr;
 	int rrs1=-1,rrs2=-1;
 	unsigned int ksn=0;
+	bool ksns=0;
 	SDL_Texture *lns;
 	const int ns=128;
 	std::string tl=1?"":[](){std::string s;for(int k=0;k<18*100-1;k++)s.push_back('0'+rand()%10);return s;}();

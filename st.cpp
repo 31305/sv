@@ -133,8 +133,8 @@ void ncpk()
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
-			int v=(mss<0>(14)-mss<0>(5)+1.0)*2.0;
-			int dv=mss<1>(5)-4.5;
+			int v=(mss<1>(14)>mss<1>(5)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
+			int dv=mss<1>(5)-2.5-2*st.ksns;
 			std::string l;
 			[[maybe_unused]]auto np=[&l,v]()
 			{
@@ -152,13 +152,13 @@ void ncpk()
 			lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
 			std::mt19937 spm;
 			std::uniform_int_distribution<int> spd(0,150);
-			if(0)for(int k=0;k<50;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
+			if(1)for(int k=0;k<450;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
 				if(pk<0)continue;
 				SDL_Rect ls,ss;
-				ls=smp(mss<0>(5)-0.5+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
+				ls=smp((mss<1>(14)>mss<1>(5)?(mss<0>(5)-0.5):1.0)+0.5*(pk%(int)v),1.0+floor(pk/v),0.5,1);
 				ss=SDL_Rect({.x=((l[k])*4*st.g)%v1,.y=(((l[k])*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 				if(k<l.size())SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 				else if(lns) 
@@ -296,7 +296,7 @@ void lk()
 					(unsigned char*)st.lc->pixels+st.lc->pitch*pk,st.lc->w*3);
 		}
 	}
-	if(!st.cc&&1)
+	if(!st.cc&&st.ksns)
 	{
 		const int pns=9;
 		size_t pn=st.ksn;
@@ -315,7 +315,7 @@ void lk()
 	{
 		unsigned char prm=70,phm=70,pnm=90;
 		int vk=0.5*st.sp1;
-		cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
+		if(0)cbl({.d1=(int)((mss<0>(5)-1.5)*st.sp1)+vk,.d2=(int)((mss<1>(5)-1.5)*st.sp2)+vk,
 			.v1=(int)((mss<0>(14)-mss<0>(5)+3)*st.sp1)-vk*2,.v2=(int)((mss<1>(14)-mss<1>(5)+3)*st.sp2)-vk*2,
 			.rm=prm,.hm=phm,.nm=pnm})();
 		if(mss<1>(14)>mss<1>(5))
@@ -337,9 +337,9 @@ void lk()
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			if(0&&!d)printf("!d %d\n",i);
 			unsigned char cbv=d?255:0;
-			const int vk=0;
+			const int vk=3;
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
-			cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=prm,.hm=phm,.nm=pnm})();
+			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
 			nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
 		}
