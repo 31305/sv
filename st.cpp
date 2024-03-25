@@ -208,8 +208,8 @@ void ncpk()
 		if(st.rrs1>=0)
 		{
 			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
-			SDL_RenderDrawLine(st.ck,st.rrs1,st.pd.y,st.rrs1,st.pd.h);
-			SDL_RenderDrawLine(st.ck,st.pd.x,st.rrs2,st.pd.w,st.rrs2);
+			SDL_RenderDrawLine(st.ck,st.rrs1,st.pd.y,st.rrs1,st.pd.h+st.pd.y);
+			SDL_RenderDrawLine(st.ck,st.pd.x,st.rrs2,st.pd.w+st.pd.x,st.rrs2);
 		}
 	}
 }
@@ -651,7 +651,7 @@ void nk()
 		{
 			float ss1=(double)(s1-st.pd.x)/((double)st.pd.w/(double)(st.s1*st.sp1));
 			float ss2=(double)(s2-st.pd.y)/((double)st.pd.h/(double)(st.s2*st.sp2));
-			if(0)
+			if(1)
 			{
 				if(0)printf("%d %d\n",(s1-st.pd.x)/st.g,(s2-st.pd.y)/st.g);
 				st.rrs1=s1;
