@@ -129,7 +129,7 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		if(!st.cc)
+		if(!st.cc&&0)
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
@@ -149,7 +149,7 @@ void ncpk()
 			};
 			[[maybe_unused]]auto k=std::chrono::system_clock::now();
 			for(int k=0;k<v;k++)l+="-";
-			if(0)lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
+			if(0){lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");}
 			for(auto v:st.vs)
 				lj(v);
 			std::mt19937 spm;
@@ -208,8 +208,8 @@ void ncpk()
 		if(st.rrs1>=0)
 		{
 			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
-			SDL_RenderDrawLine(st.ck,st.rrs1,0,st.rrs1,st.pd.h);
-			SDL_RenderDrawLine(st.ck,0,st.rrs2,st.pd.w,st.rrs2);
+			SDL_RenderDrawLine(st.ck,st.rrs1,st.pd.y,st.rrs1,st.pd.h);
+			SDL_RenderDrawLine(st.ck,st.pd.x,st.rrs2,st.pd.w,st.rrs2);
 		}
 	}
 }

@@ -1319,13 +1319,14 @@ struct vks
 		}
 		else if(tn(0,5))
 		{
-			skk=0;
-			if(jt&&ccs.size()>0)
+			if(jt&&ccs.size()>0&&st.cc)
 			{
 #ifdef EMSCRIPTEN
 				EM_ASM({ccpd.currentTime=ccpd.currentTime-10;});
 #endif
+				skk=0;
 			}
+			else skk=0;
 		}
 		else if(tn(0,2))
 		{
