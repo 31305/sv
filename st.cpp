@@ -149,10 +149,12 @@ void ncpk()
 			};
 			[[maybe_unused]]auto k=std::chrono::system_clock::now();
 			for(int k=0;k<v;k++)l+="-";
-			lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
+			if(0)lj("1:235|");lj("2:08|");lj("3:54|");lj("4:096|");
+			for(auto v:st.vs)
+				lj(v);
 			std::mt19937 spm;
 			std::uniform_int_distribution<int> spd(0,150);
-			if(1)for(int k=0;k<450;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
+			if(0)for(int k=0;k<450;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
 			for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;

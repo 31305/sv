@@ -87,6 +87,7 @@ struct stp
 	SDL_Texture *lns;
 	const int ns=128;
 	std::string tl=1?"":[](){std::string s;for(int k=0;k<18*100-1;k++)s.push_back('0'+rand()%10);return s;}();
+	std::vector<std::string> vs;
 	size_t tlv=0,tps=100;
 	int pt1=-1,pt2=-1;
 	pp tpp;
