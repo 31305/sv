@@ -210,6 +210,9 @@ void ncpk()
 			SDL_SetRenderDrawColor(st.ck,255,0,0,100);
 			SDL_RenderDrawLine(st.ck,st.rrs1,st.pd.y,st.rrs1,st.pd.h+st.pd.y);
 			SDL_RenderDrawLine(st.ck,st.pd.x,st.rrs2,st.pd.w+st.pd.x,st.rrs2);
+			std::array<int,3> s={2,-1,-3};
+			if(0)for(auto n:s)
+				SDL_RenderDrawLine(st.ck,st.rrs1+n,st.rrs2-st.g*3,st.rrs1+n,st.rrs2+st.g*3);
 		}
 	}
 }
@@ -651,13 +654,13 @@ void nk()
 		{
 			float ss1=(double)(s1-st.pd.x)/((double)st.pd.w/(double)(st.s1*st.sp1));
 			float ss2=(double)(s2-st.pd.y)/((double)st.pd.h/(double)(st.s2*st.sp2));
-			if(1)
+			if(0)
 			{
 				if(0)printf("%d %d\n",(s1-st.pd.x)/st.g,(s2-st.pd.y)/st.g);
 				st.rrs1=s1;
 				st.rrs2=s2;
 				st.plg=1;
-				printf("%f %f\n",ss1,ss2);
+				printf("%f %f g %d\n",ss1,ss2,st.g);
 			}
 			for(int k=st.dn?1:5;k<15;k++)
 				if(nsk({.ms1=mss<0>(nspk(k)),.ms2=mss<1>(nspk(k)),.d1=(float)(st.sg?2:3),.d2=(float)(st.sg?2:2)})(ss1/st.sp1,ss2/st.sp2))return k;
