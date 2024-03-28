@@ -1039,5 +1039,20 @@ void clpp::pk(stp* tp)
 	SDL_RenderPresent(tp->ck);
 }
 void pvvk::ksn::operator()()
-{	
+{
+	const int dc=2;
+	for(int d=0;d<4;d++)
+	{
+		[[maybe_unused]]auto ds=[]()
+		{
+		};
+		for(auto tk=0;tk<ts;tk++)
+		{
+			for(auto k=0;k<ppks;k++)
+			{
+				for(int bk=0;bk<(k==ppks-1?2:1);bk++)
+					(*pk)(std::make_pair<std::array<int,3>,std::array<int,3>>({0,0,ts*(kc+1)+dc},{0,0,ts*(kc+1)+dc+kc}),nv);
+			}
+		}
+	}
 } 

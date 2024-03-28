@@ -180,7 +180,7 @@ struct pvvk
 	{
 		void(*pk)(std::pair<std::array<int,3>,std::array<int,3>>,void*nv);
 		void*nv;
-		int ppks=3;
+		int ts=4,ppks=3;
 		int bkv=1,kv=4,dv=2,kc=4,dc=3,vv=2,vs=1;
 		void operator()();
 	};
