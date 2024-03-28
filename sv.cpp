@@ -1315,7 +1315,7 @@ struct vks
 		else if(tn(0,1))
 		{
 			skk=0;
-			if(cvp)cvp();
+			if(cvp&&!jt)cvp();
 		}
 		else if(tn(0,5))
 		{

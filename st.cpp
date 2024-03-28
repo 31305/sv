@@ -1038,3 +1038,6 @@ void clpp::pk(stp* tp)
 	if(0)SDL_RenderDrawRect(tp->ck,&pps);
 	SDL_RenderPresent(tp->ck);
 }
+void pvvk::ksn::operator()()
+{	
+} 

@@ -4,6 +4,8 @@
 const int cls=nc_width;
 #include<string>
 #include<memory>
+#include<vector>
+#include<array>
 #ifdef EMSCRIPTEN
 #include<emscripten.h>
 #endif
@@ -171,4 +173,15 @@ struct pg
 		}
 		vk=nvk;
 	}
+};
+struct pvvk
+{
+	struct ksn
+	{
+		void(*pk)(std::pair<std::array<int,3>,std::array<int,3>>,void*nv);
+		void*nv;
+		int ppks=3;
+		int bkv=1,kv=4,dv=2,kc=4,dc=3,vv=2,vs=1;
+		void operator()();
+	};
 };
