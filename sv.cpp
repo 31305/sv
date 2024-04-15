@@ -114,6 +114,25 @@ constexpr v vc[]=
 	{(v::csp)0,1,0,1},
 	{v::csp::k,0,1},
 };
+const std::vector<v> vs(const std::basic_string<unsigned char>&);
+struct sksp
+{
+	enum lp{d};
+	std::vector<sksp> pss;
+	std::vector<lp> ls;
+	std::vector<std::vector<v>> ngs();
+	sksp vv();
+	std::vector<v> ln(lp l)
+	{
+		return
+			l==d?vs({69,4,66,14,77})
+			:std::vector<v>();
+	}
+};
+void skpk()
+{
+	sksp gts={.pss={}};
+}
 size_t vsks(v p)
 {
 	for(size_t k=0;k<100;k++)
