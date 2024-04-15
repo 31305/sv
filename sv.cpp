@@ -6,6 +6,7 @@
 #include<sys/file.h>
 #include<unistd.h>
 #include<array>
+#include<algorithm>
 #include<thread>
 #include<SDL.h>
 #ifdef KG
@@ -117,15 +118,24 @@ constexpr v vc[]=
 const std::vector<v> vs(const std::basic_string<unsigned char>&);
 struct sksp
 {
-	enum lp{d};
+	enum lp{d,gg};
 	std::vector<sksp> pss;
 	std::vector<lp> ls;
-	std::vector<std::vector<v>> ngs();
+	bool ps(const lp& t)
+	{
+		return std::find(ls.begin(),ls.end(),t)!=ls.end();
+	}
+	std::vector<std::vector<v>> ngs()
+	{
+		if(ps(gg))return {vs({53,1,75,126})};
+		return std::vector<std::vector<v>>();
+	}
 	sksp vv();
 	std::vector<v> ln(lp l)
 	{
 		return
 			l==d?vs({69,4,66,14,77})
+			:l==gg?vs({53,2,75,3,70,1,75})
 			:std::vector<v>();
 	}
 };
@@ -375,7 +385,13 @@ const std::vector<v> vs(const std::basic_string<unsigned char> &d)
 	std::vector<v> vk;
 	for(size_t k=0;k<d.size();k++)
 	{
-		vk.push_back(vc[d[k]]);
+		if(k<=100)vk.push_back(vc[d[k]]);
+		else
+		{
+			auto p=vc[d[k-100]];
+			p.n=1;
+			vk.push_back(p);
+		}
 	}
 	return vk;
 };
