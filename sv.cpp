@@ -139,9 +139,20 @@ struct sksp
 			:std::vector<v>();
 	}
 };
-void skpk()
+struct svp
 {
-	sksp gts={.pss={}};
+	struct vcp
+	{
+		enum pn{vp,sp,dp,gp};
+		pn p;
+		int k=0,pk=0,ppk=0;
+	};
+	vcp vc;
+	std::vector<svp> p;
+};
+void svpk()
+{
+	svp p={};
 }
 size_t vsks(v p)
 {
