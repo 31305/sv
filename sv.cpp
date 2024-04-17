@@ -150,9 +150,10 @@ struct svp
 	vcp vc;
 	std::vector<svp> p;
 };
-void svpk()
+void pk()
 {
-	svp p={};
+	[[maybe_unused]]constexpr svp::vcp::pn vp=svp::vcp::pn::vp,sp=svp::vcp::pn::sp,dp=svp::vcp::pn::dp,gp=svp::vcp::pn::gp;
+	svp p={.vc={.p=vp}};
 }
 size_t vsks(v p)
 {
