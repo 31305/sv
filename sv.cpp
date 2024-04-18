@@ -143,17 +143,17 @@ struct svp
 {
 	struct vcp
 	{
-		enum pn{vp,sp,dp,gp};
+		enum pn{vp,sp,dp,gp,ndp};
 		pn p;
-		int k=0,pk=0,ppk=0;
+		int k=0,pk=0,ppk=0,pppk=0;
 	};
 	vcp vc;
-	std::vector<svp> p;
+	std::vector<svp> ps;
 };
 void pk()
 {
 	[[maybe_unused]]constexpr svp::vcp::pn vp=svp::vcp::pn::vp,sp=svp::vcp::pn::sp,dp=svp::vcp::pn::dp,gp=svp::vcp::pn::gp;
-	svp p={.vc={.p=vp}};
+	svp p={.vc={.p=sp,.k=1,.pk=4,.ppk=109},.ps={{.vc={.p=sp,.k=3,.pk=3,.ppk=1},.ps={{.vc={}},{.vc={}},{.vc={.p=dp,.k=1,.pk=1075}}}},{.vc={.p=sp,.k=3,.pk=2,.ppk=123}}}};
 }
 size_t vsks(v p)
 {
