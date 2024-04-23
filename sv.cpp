@@ -141,20 +141,38 @@ struct sksp
 };
 struct svp
 {
-	struct vcp
+	enum snp
 	{
-		enum pn{vp,sp,dp,gp,ndp};
-		pn p;
-		int k=0,pk=0,ppk=0,pppk=0;
+		s1,//14,65,6,68,1,43,37,73,1,50,13,45,2,75
+		s2,//46,8
+		s3,//5,55
+		s4,//54,44,4,54,44,4,65,32
+		s5,//53,1,44,58,101,47,2,73,68,33
+		s6,//46,2,44,66,3,75,4,70,1,77
+		s7,//31,51,1,46,1,56,1,70,2,75
+		s8,//51,1,44,66,5
+		s9,//46,2,44,66,3,75,4,70,31,45,102,61
+		s10,//49,2,76,50,9,66,4
 	};
-	vcp vc;
+	std::vector<snp> vc;
 	std::vector<svp> ps;
 };
-void pk()
+struct vgk:svp
 {
-	[[maybe_unused]]constexpr svp::vcp::pn vp=svp::vcp::pn::vp,sp=svp::vcp::pn::sp,dp=svp::vcp::pn::dp,gp=svp::vcp::pn::gp;
-	svp p={.vc={.p=sp,.k=1,.pk=4,.ppk=109},.ps={{.vc={.p=sp,.k=3,.pk=3,.ppk=1},.ps={{.vc={}},{.vc={}},{.vc={.p=dp,.k=1,.pk=1075}}}},{.vc={.p=sp,.k=3,.pk=2,.ppk=123}}}};
-}
+	svp p
+	{
+		{s10,s7,s8},
+		{
+			{
+				{s1},
+					{{{s2}},{{s3}},{{s4}}}
+			},
+			{
+				{s9,s5},
+			}
+		}
+	};
+};
 size_t vsks(v p)
 {
 	for(size_t k=0;k<100;k++)
