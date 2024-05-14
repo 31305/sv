@@ -48,6 +48,28 @@ struct clpp
 	void pk(stp*);
 	void nk(stp*,bool=0);
 };
+struct ddp
+{
+	struct ss
+	{
+		double pps,tds,kps;
+		double sv,kpsv;
+		double ds,gs;
+		int64_t k;
+	};
+	struct sg
+	{
+		bool dsg=0;
+		double pps[2],tds[2];
+		union
+		{
+			std::vector<ss> ps;
+			std::vector<sg> psg;
+		};
+	};
+	ss ds;
+	double vs;
+};
 struct stp
 {
 	SDL_Window* cp=0;
