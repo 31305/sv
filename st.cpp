@@ -118,6 +118,7 @@ void cnk(int k,int m1,int m2,float p1,float p2)
 const int vdv=2;
 void ncpk()
 {
+	printf("ncpk\n");
 	Uint8 vn=st.ks?255:0;
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
@@ -129,12 +130,12 @@ void ncpk()
 	if(st.cs&&sr>3)
 	{
 		SDL_RenderCopy(st.ck,st.nkk?st.mc1:st.mc2,NULL,&st.pd);
-		if(!st.cc&&0)
+		if(!st.cc&&st.dp.d)
 		{
 			int v1,v2;
 			SDL_QueryTexture(st.lns,0,0,&v1,&v2);
-			int v=(mss<1>(14)>mss<1>(5)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
-			int dv=mss<1>(5)-2.5-2*st.ksns;
+			int v=st.dp.v;
+			int dv=st.dp.dv;
 			std::string l;
 			[[maybe_unused]]auto np=[&l,v]()
 			{
@@ -155,7 +156,7 @@ void ncpk()
 			std::mt19937 spm;
 			std::uniform_int_distribution<int> spd(0,150);
 			if(0)for(int k=0;k<450;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
-			for(int k=0;k<l.size()+1;k++)
+			if(0)for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
 				if(pk<0)continue;
@@ -168,6 +169,20 @@ void ncpk()
 					SDL_SetRenderDrawColor(st.ck,st.ks?0:255,st.ks?0:255,st.ks?0:255,255);
 					SDL_RenderFillRect(st.ck,&ls);
 				}
+			}
+			if(1)
+			{
+				auto dp=tmt_screen(st.dps);
+				for(size_t k=0;k<dp->nline;k++)
+					if(dp->lines[k]->dirty||1)
+						for(size_t pk=0;pk<dp->ncol;pk++)
+						{
+							SDL_Rect ls=smp((mss<1>(14)>mss<1>(5)?(mss<0>(5)-0.5):1.0)+0.5*(pk),1.0+k,0.5,1);
+							char l=dp->lines[k]->chars[pk].c;
+							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+						}
+				tmt_clean(st.dps);
 			}
 		}
 		if(st.vtp)lck();
@@ -531,11 +546,23 @@ void mk()
 	st.tpp.ss();
 	if(1)lnss(4*st.g,8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
+	st.dp.v=(mss<1>(14)>mss<1>(5)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
+	st.dp.dv=mss<1>(5)-2.5-2*st.ksns;
+	tmt_resize(st.dps,st.dp.dv,st.dp.v);
+	if(0)printf("dp %dx%d\n",st.dp.v,st.dp.dv);
 	st.plg=1;
 }
 #ifdef EMSCRIPTEN
 extern "C"
 {
+void EMSCRIPTEN_KEEPALIVE dplk(int p)
+{
+	static int k;
+	printf("p %d\n",p);
+	char s=p;
+	if(k<30||1)tmt_write(st.dps,&s,1);
+	k++;
+}
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
 	SDL_SetWindowSize(st.cp,x1,x2);
@@ -849,7 +876,7 @@ void nk()
 	double sk=(double)SDL_GetTicks()/1000.0;
 	if((unsigned int)sk!=st.ksn)
 	{
-		st.plg=1;
+		if(0)st.plg=1;
 		st.ksn=sk;
 	}
 	st.tr.k+=sk-k;
@@ -913,6 +940,15 @@ void nk()
 #endif
 	npk(-1);
 }
+void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
+{
+	if(d==TMT_MSG_UPDATE)
+	{
+		st.plg=1;
+		tmt_clean(st.dps);
+		if(0)ncpk();
+	}
+}
 int pmk()
 {
 #ifdef EMSCRIPTEN
@@ -927,6 +963,7 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	st.dps=tmt_open(8,8,dppk,0,0);
 	if(0)
 	{
 		auto tkc=IMG_Load("pmc.jpg");
@@ -967,6 +1004,7 @@ int pmk()
 		SDL_FreeSurface(st.lc);
 		if(st.lns)SDL_DestroyTexture(st.lns);
 		SDL_Quit();
+		tmt_close(st.dps);
 	}
 	return 0;
 }

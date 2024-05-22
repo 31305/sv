@@ -2,13 +2,13 @@ import os
 import subprocess
 import urllib.request
 import shutil
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall','--std=c++20'],LIBS='pthread')
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall'],CXXFLAGS=['--std=c++20'],LIBS='pthread')
 e.AppendENVPath('PATH',os.environ.get('PATH'))
 js=type(ARGUMENTS.get('js'))==str
 cp=type(ARGUMENTS.get('cp'))==str
 if cp:
     import mesonbuild.mesonmain
-ss=['sv.cpp','Log.cpp']
+ss=['sv.cpp','Log.cpp','libtmt/tmt.c']
 if js:
     os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])

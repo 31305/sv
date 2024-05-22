@@ -1411,6 +1411,41 @@ struct vks
 		else if(tn(0,0))
 		{
 			if(0)st.vtp=1;
+			st.dp.d=1;
+#ifdef EMSCRIPTEN
+			if(!st.ptpr)
+			{
+				st.ptpr=1;
+				EM_ASM({
+					var ptcv=document.createElement('script');
+					ptcv.onload = function()
+					{
+						var ptc=window.ptc= new V86({
+							wasm_path: "v86.wasm",
+							memory_size: 32 * 1024 * 1024,
+							vga_memory_size: 2 * 1024 * 1024,
+							bios: {
+								url: "seabios.bin",
+							},
+							vga_bios: {
+								url: "vgabios.bin",
+							},
+							bzimage: {
+								url: "buildroot-bzimage.bin",
+							},
+							filesystem: {},
+							autostart: true,
+						});
+						if(1)ptc.add_listener("serial0-output-byte",function(p)
+								{
+									Module.ccall('dplk',null,['number'],[p])
+								});
+					};
+					ptcv.src='libv86.js';
+					document.head.appendChild(ptcv);
+				});
+			}
+#endif
 			skk=0;
 		}
 		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}

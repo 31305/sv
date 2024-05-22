@@ -1,5 +1,9 @@
 #pragma once
 #include<SDL.h>
+extern "C"
+{
+#include"libtmt/tmt.h"
+}
 #include"nc.xbm"
 const int cls=nc_width;
 #include<string>
@@ -117,6 +121,13 @@ struct stp
 	pp tpp;
 	clpp clp;
 	int s=0;
+	struct
+	{
+		bool d=0;
+		int v,dv;	
+	}dp;
+	TMT* dps;
+	bool ptpr=0;
 }; 
 extern stp st;
 extern bool jt;
