@@ -118,7 +118,7 @@ void cnk(int k,int m1,int m2,float p1,float p2)
 const int vdv=2;
 void ncpk()
 {
-	printf("ncpk\n");
+	if(0)printf("ncpk\n");
 	Uint8 vn=st.ks?255:0;
 	SDL_SetRenderDrawColor(st.ck,vn,vn,vn,255);
 	SDL_RenderClear(st.ck);
@@ -156,7 +156,7 @@ void ncpk()
 			std::mt19937 spm;
 			std::uniform_int_distribution<int> spd(0,150);
 			if(0)for(int k=0;k<450;k++)lj(std::to_string(k+5)+":"+std::to_string(spd(spm))+"|");
-			if(0)for(int k=0;k<l.size()+1;k++)
+			if(!st.ptc)for(int k=0;k<l.size()+1;k++)
 			{
 				int pk=k-fmax(0,(ceil((float)(l.size()+lns)/(float)v)-dv))*v;
 				if(pk<0)continue;
@@ -170,9 +170,10 @@ void ncpk()
 					SDL_RenderFillRect(st.ck,&ls);
 				}
 			}
-			if(1)
+			else
 			{
 				auto dp=tmt_screen(st.dps);
+				auto lss=tmt_cursor(st.dps);
 				for(size_t k=0;k<dp->nline;k++)
 					if(dp->lines[k]->dirty||1)
 						for(size_t pk=0;pk<dp->ncol;pk++)
@@ -181,6 +182,14 @@ void ncpk()
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+							if(k==lss->r&&pk==lss->c)
+							{
+								unsigned r=255,h=255,n=255;
+								SDL_SetRenderDrawColor(st.ck,st.ks?255-r:r,st.ks?255-h:h,st.ks?255-n:n,255);
+								SDL_SetRenderDrawBlendMode(st.ck,SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+								SDL_RenderFillRect(st.ck,&ls);
+								SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
+							}
 						}
 				tmt_clean(st.dps);
 			}
@@ -558,7 +567,7 @@ extern "C"
 void EMSCRIPTEN_KEEPALIVE dplk(int p)
 {
 	static int k;
-	printf("p %d\n",p);
+	if(0)printf("p %d\n",p);
 	char s=p;
 	if(k<30||1)tmt_write(st.dps,&s,1);
 	k++;
@@ -807,10 +816,36 @@ void nk()
 				st.plg=1;
 			}
 			int n=ts();
+			if(st.dp.d&&st.ptc&&!(n>=15&&n<25))
+			{
+#ifdef EMSCRIPTEN
+				char *s=(char*)"0";
+				auto p=g.key.keysym.sym;
+				s[0]=p&0x7f;
+				if((tk==KMOD_LCTRL||tk==KMOD_RCTRL)&&s[0]>='a'&&s[0]<='z')
+					s[0]=s[0]-'a'+1;
+				else if((tk==KMOD_LSHIFT||tk==KMOD_RSHIFT)&&s[0]>='a'&&s[0]<='z')
+					s[0]=s[0]-'a'+'A';
+				else if(p==SDLK_DELETE)
+					s=(char*)TMT_KEY_DELETE;
+				else if(p==SDLK_TAB&&(tk==KMOD_LSHIFT||tk==KMOD_RSHIFT))
+					s=(char*)TMT_KEY_BACK_TAB;
+				else if(p==SDLK_UP)
+					s=(char*)TMT_KEY_UP;
+				else if(p==SDLK_DOWN)
+					s=(char*)TMT_KEY_DOWN;
+				else if(p==SDLK_LEFT)
+					s=(char*)TMT_KEY_LEFT;
+				else if(p==SDLK_RIGHT)
+					s=(char*)TMT_KEY_RIGHT;
+				EM_ASM({ptc.serial0_send(UTF8ToString($0));},s);
+#endif
+			}
 			if(0&&n==0)printf("ktnj\n");
 			if(tps[n]==0)
 			{
 				tps[n]=1;
+				if(st.dp.d&&st.ptc&&n>=1&&n<15)n=0;
 				if(n>14)n-=10;
 				if(n>0&&n<15&&!st.vtp)
 				{
@@ -942,7 +977,7 @@ void nk()
 }
 void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
 {
-	if(d==TMT_MSG_UPDATE)
+	if(d==TMT_MSG_UPDATE||d==TMT_MSG_MOVED)
 	{
 		st.plg=1;
 		tmt_clean(st.dps);
@@ -963,6 +998,7 @@ int pmk()
 	st.cp=SDL_CreateWindow(0,0,0,0,0,SDL_WINDOW_FULLSCREEN_DESKTOP);
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
+	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 	st.dps=tmt_open(8,8,dppk,0,0);
 	if(0)
 	{

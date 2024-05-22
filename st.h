@@ -126,6 +126,7 @@ struct stp
 		bool d=0;
 		int v,dv;	
 	}dp;
+	bool ptc=1;
 	TMT* dps;
 	bool ptpr=0;
 }; 
