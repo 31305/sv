@@ -821,11 +821,31 @@ void nk()
 #ifdef EMSCRIPTEN
 				char *s=(char*)"0";
 				auto p=g.key.keysym.sym;
-				s[0]=p&0x7f;
+				s[0]=0;
+				if(!(p&SDLK_SCANCODE_MASK)&&p<127)
+					s[0]=p;
 				if((tk==KMOD_LCTRL||tk==KMOD_RCTRL)&&s[0]>='a'&&s[0]<='z')
 					s[0]=s[0]-'a'+1;
-				else if((tk==KMOD_LSHIFT||tk==KMOD_RSHIFT)&&s[0]>='a'&&s[0]<='z')
-					s[0]=s[0]-'a'+'A';
+				else if(s[0]&&(tk==KMOD_LSHIFT||tk==KMOD_RSHIFT))
+				{
+					if(s[0]>='a'&&s[0]<='z')
+						s[0]=s[0]-'a'+'A';
+					else if(s[0]>='0'&&s[0]<='9')
+					{
+						const char pv[]=")!@#$%^&*(";
+						s[0]=pv[s[0]-'0'];
+					}
+					else
+					{
+						std::string cs="`-=[]\\;',./";
+						auto ss=cs.find(s[0]);
+						if(ss!=std::string::npos)
+						{
+							const char pv[]="~_+{}|:\"<>?";
+							s[0]=pv[ss];
+						}
+					}
+				}
 				else if(p==SDLK_DELETE)
 					s=(char*)TMT_KEY_DELETE;
 				else if(p==SDLK_TAB&&(tk==KMOD_LSHIFT||tk==KMOD_RSHIFT))
