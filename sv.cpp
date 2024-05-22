@@ -1411,9 +1411,9 @@ struct vks
 		else if(tn(0,0))
 		{
 			if(0)st.vtp=1;
-			st.dp.d=1;
+			if(knp)st.dp.d=1;
 #ifdef EMSCRIPTEN
-			if(!st.ptpr)
+			if(!st.ptpr&&knp)
 			{
 				st.ptpr=1;
 				EM_ASM({
