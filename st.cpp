@@ -178,7 +178,8 @@ void ncpk()
 					if(dp->lines[k]->dirty||1)
 						for(size_t pk=0;pk<dp->ncol;pk++)
 						{
-							SDL_Rect ls=smp((mss<1>(14)>mss<1>(5)?(mss<0>(5)-0.5):1.0)+0.5*(pk),1.0+k,0.5,1);
+							const auto g=st.dp.g;
+							SDL_Rect ls=smp((mss<1>(14)>mss<1>(5)?(mss<0>(5)-0.5):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
@@ -557,6 +558,13 @@ void mk()
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	st.dp.v=(mss<1>(14)>mss<1>(5)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
 	st.dp.dv=mss<1>(5)-2.5-2*st.ksns;
+	st.dp.g=1;
+	if(mss<1>(14)>mss<1>(5))
+	{
+		st.dp.g=0.5;
+		st.dp.v*=2;
+		st.dp.dv*=2;
+	}
 	tmt_resize(st.dps,st.dp.dv,st.dp.v);
 	if(0)printf("dp %dx%d\n",st.dp.v,st.dp.dv);
 	st.plg=1;

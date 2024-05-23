@@ -124,7 +124,8 @@ struct stp
 	struct
 	{
 		bool d=0;
-		int v,dv;	
+		int v,dv;
+		float g;	
 	}dp;
 	bool ptc=1;
 	TMT* dps;
