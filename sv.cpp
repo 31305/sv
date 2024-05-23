@@ -1423,12 +1423,8 @@ struct vks
 						var ptc=window.ptc= new V86({
 							wasm_path: "v86.wasm",
 							memory_size: 32 * 1024 * 1024,
-							vga_memory_size: 2 * 1024 * 1024,
 							bios: {
 								url: "seabios.bin",
-							},
-							vga_bios: {
-								url: "vgabios.bin",
 							},
 							bzimage: {
 								url: "buildroot-bzimage.bin",
