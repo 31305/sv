@@ -1411,40 +1411,8 @@ struct vks
 		else if(tn(0,0))
 		{
 			if(0)st.vtp=1;
-			if(knp)
-			{
-				st.dp.d=1;
-				st.tp=0;
-			}
 #ifdef EMSCRIPTEN
-			if(!st.ptpr&&knp)
-			{
-				st.ptpr=1;
-				EM_ASM({
-					var ptcv=document.createElement('script');
-					ptcv.onload = function()
-					{
-						var ptc=window.ptc= new V86({
-							wasm_path: "v86.wasm",
-							memory_size: 32 * 1024 * 1024,
-							bios: {
-								url: "seabios.bin",
-							},
-							bzimage: {
-								url: "buildroot-bzimage.bin",
-							},
-							filesystem: {},
-							autostart: true,
-						});
-						if(1)ptc.add_listener("serial0-output-byte",function(p)
-								{
-									Module.ccall('dplk',null,['number'],[p])
-								});
-					};
-					ptcv.src='libv86.js';
-					document.head.appendChild(ptcv);
-				});
-			}
+			if(knp)EM_ASM({location.hash='pt';});
 #endif
 			skk=0;
 		}

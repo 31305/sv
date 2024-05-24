@@ -674,10 +674,47 @@ void nk()
 		}
 	}
 	if(clk.p())mk();
-	if(clk()==1)
+	switch(clk())
 	{
-		st.clp.nk(&st);
-		return;
+		case 1:
+			st.clp.nk(&st);
+			return;
+		case 2:
+			st.dp.d=1;
+			st.tp=0;
+			if(!st.ptpr)
+			{
+				st.ptpr=1;
+				EM_ASM({
+					var ptcv=document.createElement('script');
+					ptcv.onload = function()
+					{
+						var ptc=window.ptc= new V86({
+							wasm_path: "v86.wasm",
+							memory_size: 32 * 1024 * 1024,
+							bios: {
+								url: "seabios.bin",
+							},
+							bzimage: {
+								url: "buildroot-bzimage.bin",
+							},
+							filesystem: {},
+							autostart: true,
+						});
+						if(1)ptc.add_listener("serial0-output-byte",function(p)
+								{
+									Module.ccall('dplk',null,['number'],[p])
+								});
+					};
+					ptcv.src='libv86.js';
+					document.head.appendChild(ptcv);
+				});
+			}
+			break;
+		default:
+			st.dp.d=0;
+			st.tp=1;
+			break;
 	}
 #endif
 	static double k;
@@ -685,15 +722,31 @@ void nk()
 	const int tpss=25;
 	static char tps[tpss];
 	auto tpm=[](){memset(tps,0,tpss);};
-	bool nkn=0;
-	if(st.tr.ptps)
+#ifdef EMSCRIPTEN
+	bool dndsk=1;
+#endif
+	while(dndsk||SDL_PollEvent(&g))
 	{
-		if(st.tr.p==2)st.tr.p=0;
-		st.plg=1;
-		st.tr.ptps=0;
-	}
-	while(SDL_PollEvent(&g))
-	{
+#ifdef EMSCRIPTEN
+		if(dndsk)
+		{
+			dndsk=0;
+			int ns1=EM_ASM_INT({return svsg.s1});
+			int ns2=EM_ASM_INT({return svsg.s2});
+			bool nsk=EM_ASM_INT({return svsg.k});
+			int kp=EM_ASM_INT({return svsg.kp});
+			if(kp)
+			{
+				g.type=kp==1?SDL_MOUSEBUTTONDOWN:kp==2?SDL_MOUSEMOTION:SDL_MOUSEBUTTONUP;
+				g.button.x=ns1;
+				g.button.y=ns2;
+				g.motion.x=ns1;
+				g.motion.y=ns2;
+				EM_ASM({svsg.kp=0;});
+			}
+			else continue;
+		}
+#endif
 		auto ss=[](int s1,int s2)->int
 		{
 			float ss1=(double)(s1-st.pd.x)/((double)st.pd.w/(double)(st.s1*st.sp1));
@@ -886,24 +939,15 @@ void nk()
 		}
 		if(g.type==SDL_MOUSEBUTTONUP)
 		{
-			if(0&&nkn)printf("plgp\n");
 			if(st.tr.p==2)
 			{
-				if(!nkn)
-				{
-					st.tr.p=0;
-					st.plg=1;
-				}
-				else
-				{
-					st.tr.ptps=1;
-				}
+				st.tr.p=0;
+				st.plg=1;
 			}
 		}
 		if(g.type==SDL_MOUSEBUTTONDOWN)
 			if(st.tr.p!=1)
 			{
-				nkn=1;
 				int n=ss(g.button.x,g.button.y);
 				if(0)printf("n %d\n",n);
 				if(st.tp&&n>0&&n<15)
@@ -930,7 +974,6 @@ void nk()
 			}
 		}
 	}
-	if(0)if(nkn&&st.tr.p!=2)printf("nknns\n");
 	if(st.plg)
 	{
 		const char *p=SDL_GetError();

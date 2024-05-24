@@ -27,7 +27,7 @@
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script type='text/javascript'>
 vpv1=0;vpv2=0;
-svsg={s1:0,s2:0,k:false}
+svsg={s1:0,s2:0,k:false,kp:0}
 function svsgsk(p)
 {
 	let s=getBoundingClientRect(cp);
@@ -35,10 +35,10 @@ function svsgsk(p)
 	svsg.s2=Math.round(p.clientY*vpv2/s.height);
 	svsg.k=(p.pressure||p.buttons)?true:false;
 }
-document.body.addEventListener("pointermove",svsgsk);
-document.body.addEventListener("pointerdown",svsgsk);
-document.body.addEventListener("pointerout",(p)=>{svsg.k=false;});
-document.body.addEventListener("pointerup",(p)=>{svsg.k=false;});
+document.body.addEventListener("pointermove",(p)=>{svsgsk(p);svsg.kp=2;});
+document.body.addEventListener("pointerdown",(p)=>{svsgsk(p);svsg.kp=1;});
+document.body.addEventListener("pointerout",(p)=>{svsg.k=false;svsg.kp=3;});
+document.body.addEventListener("pointerup",(p)=>{svsg.k=false;svsg.kp=3;});
 kg=Date.now()
 tp=document.getElementById('tp');
 cp=document.getElementById('canvas');
