@@ -87,7 +87,7 @@ struct stp
 	unsigned char *cn;
 	int cns;
 	SDL_RendererInfo j;
-	bool tp=0;
+	bool tp=1;
 	bool vtp=0;
 	const bool dn=0;
 	const bool sg=1;

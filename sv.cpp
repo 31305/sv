@@ -1411,7 +1411,11 @@ struct vks
 		else if(tn(0,0))
 		{
 			if(0)st.vtp=1;
-			if(knp)st.dp.d=1;
+			if(knp)
+			{
+				st.dp.d=1;
+				st.tp=0;
+			}
 #ifdef EMSCRIPTEN
 			if(!st.ptpr&&knp)
 			{

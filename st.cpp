@@ -492,7 +492,7 @@ void mk()
 	int g=0;
 	if(x1>x2)
 	{
-		st.tp=0;
+		if(0)st.tp=0;
 		if(!st.nkk)
 			st.s2=st.p2;
 		else
@@ -507,7 +507,7 @@ void mk()
 	}
 	else
 	{
-		st.tp=1;
+		if(0)st.tp=1;
 		if(!st.nkk)
 			st.s1=st.p1;
 		else
@@ -520,7 +520,7 @@ void mk()
 		st.s2=st.nkk?floor(x2/(g*st.sp2)):floor((float)x2/d2);
 		SDL_ShowCursor(SDL_ENABLE);
 	}
-	st.tp=1;
+	if(0)st.tp=1;
 	st.g=g;
 	if(!st.nkk)
 	{
@@ -556,8 +556,8 @@ void mk()
 	st.tpp.ss();
 	if(1)lnss(4*st.g,8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
-	st.dp.v=(mss<1>(14)>mss<1>(5)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
-	st.dp.dv=mss<1>(5)-2.5-2*st.ksns;
+	st.dp.v=((mss<1>(14)>mss<1>(5)&&0)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
+	st.dp.dv=(0?mss<1>(5)-2.5:st.s2-2)-2*st.ksns;
 	st.dp.g=1;
 	if(mss<1>(14)>mss<1>(5))
 	{
@@ -939,7 +939,7 @@ void nk()
 	double sk=(double)SDL_GetTicks()/1000.0;
 	if((unsigned int)sk!=st.ksn)
 	{
-		if(0)st.plg=1;
+		if(st.ksns)st.plg=1;
 		st.ksn=sk;
 	}
 	st.tr.k+=sk-k;
@@ -1009,7 +1009,6 @@ void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
 	{
 		st.plg=1;
 		tmt_clean(st.dps);
-		if(0)ncpk();
 	}
 }
 int pmk()
