@@ -557,7 +557,7 @@ void mk()
 	if(1)lnss(4*st.g,8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	st.dp.v=((mss<1>(14)>mss<1>(5)&&0)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
-	st.dp.dv=(0?mss<1>(5)-2.5:st.s2-2)-2*st.ksns;
+	st.dp.dv=(st.tp?mss<1>(5)-2.5:st.s2-2)-2*st.ksns;
 	st.dp.g=1;
 	if(mss<1>(14)>mss<1>(5))
 	{
@@ -681,7 +681,7 @@ void nk()
 			return;
 		case 2:
 			st.dp.d=1;
-			st.tp=0;
+			st.tp=mss<1>(14)>mss<1>(5);
 			if(!st.ptpr)
 			{
 				st.ptpr=1;
