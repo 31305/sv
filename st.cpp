@@ -179,7 +179,7 @@ void ncpk()
 						for(size_t pk=0;pk<dp->ncol;pk++)
 						{
 							const auto g=st.dp.g;
-							SDL_Rect ls=smp(((mss<1>(14)>mss<1>(5)&&0)?(mss<0>(5)-0.5):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
+							SDL_Rect ls=smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-1.0):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
@@ -478,7 +478,7 @@ void mk()
 	st.clp.v1=x1;st.clp.v2=x2;
 	if(0)printf("mk %d %d\n",x1,x2);
 #ifdef EMSCRIPTEN
-	if(clk()==1)
+	if(st.s==1)
 	{
 		st.clp.ss(&st);
 		return;
@@ -556,7 +556,8 @@ void mk()
 	st.tpp.ss();
 	if(1)lnss(4*st.g,8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
-	st.dp.v=((mss<1>(14)>mss<1>(5)&&0)?(mss<0>(14)-mss<0>(5)+1.0):st.s1-2)*2.0;
+	st.tp=!st.dp.d||mss<1>(14)>mss<1>(5);
+	st.dp.v=((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(14)-mss<0>(5)+2.0):st.s1-2)*2.0;
 	st.dp.dv=(st.tp?mss<1>(5)-2.5:st.s2-2)-2*st.ksns;
 	st.dp.g=1;
 	if(mss<1>(14)>mss<1>(5))
@@ -673,15 +674,11 @@ void nk()
 			if(1)pp(nm1,nm2);
 		}
 	}
-	if(clk.p())mk();
-	switch(clk())
+	bool tkps=clk.p();
+	switch(st.s)
 	{
-		case 1:
-			st.clp.nk(&st);
-			return;
 		case 2:
 			st.dp.d=1;
-			st.tp=mss<1>(14)>mss<1>(5);
 			if(!st.ptpr)
 			{
 				st.ptpr=1;
@@ -695,8 +692,8 @@ void nk()
 							bios: {
 								url: "seabios.bin",
 							},
-							bzimage: {
-								url: "buildroot-bzimage.bin",
+							cdrom: {
+								url: "pt.iso",
 							},
 							filesystem: {},
 							autostart: true,
@@ -713,8 +710,13 @@ void nk()
 			break;
 		default:
 			st.dp.d=0;
-			st.tp=1;
 			break;
+	}
+	if(tkps)mk();
+	if(st.s==1)
+	{
+		st.clp.nk(&st);
+		return;
 	}
 #endif
 	static double k;
