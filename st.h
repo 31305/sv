@@ -130,6 +130,10 @@ struct stp
 	bool ptc=1;
 	TMT* dps;
 	bool ptpr=0;
+	struct
+	{
+		bool ns=0;
+	}pttk;
 }; 
 extern stp st;
 extern bool jt;

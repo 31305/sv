@@ -595,7 +595,6 @@ void (*npk)(int)=0;
 int sr=0;
 void pttk(int n,bool s)
 {
-	printf("pttk n %d s %d\n",n,s);
 	if(n<5)return;
 	else n-=5;
 	static int ts,p;
@@ -603,20 +602,20 @@ void pttk(int n,bool s)
 	l[1]=0;
 	if(!s)
 	{
-		if(ts==3)
+		if(ts==3||st.pttk.ns)
 		{
 			ts=0;
 			p=0;
+			st.pttk.ns=0;
 		}
 		p=p*10+n;
 		ts++;
 		if(p*10>127)
 			ts=3;
 		l[0]=p;
-		printf("pttk p %d\n",p);
 	}
 #ifdef EMSCRIPTEN
-	if(ts==3)EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+	if(ts==3&&p<128)EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
 #endif
 }
 void kplt(int n)
@@ -981,6 +980,7 @@ void nk()
 			{
 				int n=ss(g.button.x,g.button.y);
 				if(0)printf("n %d\n",n);
+				if(!(n>4&&n<15))st.pttk.ns=1;
 				if(st.tp&&n>0&&n<15)
 				{
 					st.tr.p=2;
