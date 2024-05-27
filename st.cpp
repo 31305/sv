@@ -179,7 +179,7 @@ void ncpk()
 						for(size_t pk=0;pk<dp->ncol;pk++)
 						{
 							const auto g=st.dp.g;
-							SDL_Rect ls=smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-1.0):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
+							SDL_Rect ls=smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-0.75):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
@@ -557,14 +557,17 @@ void mk()
 	if(1)lnss(4*st.g,8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	st.tp=!st.dp.d||mss<1>(14)>mss<1>(5);
-	st.dp.v=((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(14)-mss<0>(5)+2.0):st.s1-2)*2.0;
-	st.dp.dv=(st.tp?mss<1>(5)-2.5:st.s2-2)-2*st.ksns;
-	st.dp.g=1;
 	if(mss<1>(14)>mss<1>(5))
 	{
 		st.dp.g=0.5;
-		st.dp.v*=2;
-		st.dp.dv*=2;
+		st.dp.v=(mss<0>(14)-mss<0>(5)+1.0)*4.0+2;
+		st.dp.dv=(mss<1>(5)-2.5)*2.0;
+	}
+	else
+	{
+		st.dp.g=1;
+		st.dp.v=(st.s1-2)*2.0;
+		st.dp.dv=st.s2-2;
 	}
 	tmt_resize(st.dps,st.dp.dv,st.dp.v);
 	if(0)printf("dp %dx%d\n",st.dp.v,st.dp.dv);
@@ -590,6 +593,32 @@ void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 #endif
 void (*npk)(int)=0;
 int sr=0;
+void pttk(int n,bool s)
+{
+	printf("pttk n %d s %d\n",n,s);
+	if(n<5)return;
+	else n-=5;
+	static int ts,p;
+	static char l[2];
+	l[1]=0;
+	if(!s)
+	{
+		if(ts==3)
+		{
+			ts=0;
+			p=0;
+		}
+		p=p*10+n;
+		ts++;
+		if(p*10>127)
+			ts=3;
+		l[0]=p;
+		printf("pttk p %d\n",p);
+	}
+#ifdef EMSCRIPTEN
+	if(ts==3)EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+#endif
+}
 void kplt(int n)
 {
 	auto tk=[](int n)->char
@@ -879,7 +908,7 @@ void nk()
 				st.plg=1;
 			}
 			int n=ts();
-			if(st.dp.d&&st.ptc&&!(n>=15&&n<25))
+			if(st.dp.d&&st.ptc&&!(st.tp&&n>=15&&n<25))
 			{
 #ifdef EMSCRIPTEN
 				char *s=(char*)"0";
@@ -930,7 +959,7 @@ void nk()
 				tps[n]=1;
 				if(st.dp.d&&st.ptc&&n>=1&&n<15)n=0;
 				if(n>14)n-=10;
-				if(n>0&&n<15&&!st.vtp)
+				if(n>0&&n<15&&!st.vtp&&st.tp)
 				{
 					st.tr.p=1;
 					st.tr.n=n;
@@ -992,12 +1021,13 @@ void nk()
 	if(st.tr.p==1||st.tr.p==2)
 	{
 		const double dk=.25;
-		if(st.tr.s==0||(st.tr.n<5&&((st.tr.k-dk)/0.05>st.tr.s-1)))
+		if(st.tr.s==0||((st.tr.n<5||st.dp.d)&&((st.tr.k-dk)/0.05>st.tr.s-1)))
 		{
 			st.plg=1;
+			if(st.vtp)kplt(st.tr.n);
+			else if(st.dp.d&&st.tp)pttk(st.tr.n,st.tr.s);
+			else npk(st.tr.n);
 			if(st.tr.s==0||st.tr.n<5)st.tr.s++;
-			if(!st.vtp)npk(st.tr.n);
-			else kplt(st.tr.n);
 		}
 	}
 #ifdef EMSCRIPTEN
