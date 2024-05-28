@@ -570,6 +570,9 @@ void mk()
 		st.dp.dv=st.s2-2;
 	}
 	tmt_resize(st.dps,st.dp.dv,st.dp.v);
+#ifdef EMSCRIPTEN
+	EM_ASM({});
+#endif
 	if(0)printf("dp %dx%d\n",st.dp.v,st.dp.dv);
 	st.plg=1;
 }
@@ -578,6 +581,25 @@ extern "C"
 {
 void EMSCRIPTEN_KEEPALIVE dplk(int p)
 {
+	static int ss;
+	static std::string pl="dl";
+	if(ss<2)
+	{
+		if(p)pl.push_back(p);
+		printf("pl %s\n",pl.c_str());
+		if(ss<1&&pl.ends_with("~% "))
+		{
+			ss=1;
+			const char l[]="export PS1=\'\\u:\\w\\$ \' && clear\n";
+			EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+		}
+		else if(pl.ends_with("~# ")||pl.ends_with("~$ "))
+		{
+			ss=2;
+			tmt_write(st.dps,"root:~# ",0);
+		}
+		return;
+	}
 	static int k;
 	if(0)printf("p %d\n",p);
 	char s=p;
