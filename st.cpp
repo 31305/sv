@@ -471,6 +471,12 @@ void lnss(int v1,int v2)
 	TTF_CloseFont(lns);
 	TTF_Quit();
 }
+void ptdps()
+{
+#ifdef EMSCRIPTEN
+	EM_ASM({if(typeof ptc!=='undefined')ptc.create_file("dps",new TextEncoder().encode('stty cols '+$0+' && stty rows '+$1));},st.dp.v,st.dp.dv);
+#endif
+}
 void mk()
 {
 	int x1,x2;
@@ -570,6 +576,7 @@ void mk()
 		st.dp.dv=st.s2-2;
 	}
 	tmt_resize(st.dps,st.dp.dv,st.dp.v);
+	ptdps();
 #ifdef EMSCRIPTEN
 	EM_ASM({});
 #endif
@@ -586,12 +593,13 @@ void EMSCRIPTEN_KEEPALIVE dplk(int p)
 	if(ss<2)
 	{
 		if(p)pl.push_back(p);
-		printf("pl %s\n",pl.c_str());
+		if(0)printf("pl %s\n",pl.c_str());
 		if(ss<1&&pl.ends_with("~% "))
 		{
 			ss=1;
-			const char l[]="export PS1=\'\\u:\\w\\$ \' && clear\n";
-			EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+			const char l[]="source /mnt/dk && clear\n";
+			ptdps();
+			EM_ASM({ptc.create_file("dk",new TextEncoder().encode(dkl));ptc.serial0_send(UTF8ToString($0));},l);
 		}
 		else if(pl.ends_with("~# ")||pl.ends_with("~$ "))
 		{
@@ -743,9 +751,9 @@ void nk()
 								url: "seabios.bin",
 							},
 							cdrom: {
-								url: "pt.iso",
+								url: "linux4.iso",
 							},
-							filesystem: {},
+							filesystem:{},
 							autostart: true,
 						});
 						if(1)ptc.add_listener("serial0-output-byte",function(p)
