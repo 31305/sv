@@ -782,9 +782,7 @@ void nk()
 	const int tpss=25;
 	static char tps[tpss];
 	auto tpm=[](){memset(tps,0,tpss);};
-#ifdef EMSCRIPTEN
 	bool dndsk=1;
-#endif
 	while(dndsk||SDL_PollEvent(&g))
 	{
 #ifdef EMSCRIPTEN

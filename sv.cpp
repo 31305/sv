@@ -1809,6 +1809,7 @@ void vksk(bool l)
 				{
 					nvk[nvks]=k;
 					nvks++;
+					printf("nvk %lu",nvks);
 				}
 				if(l)printf("\n");
 		}
