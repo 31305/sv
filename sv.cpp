@@ -716,6 +716,7 @@ std::vector<vv> ls=
 	{.vm=vs({46,1,70,43,4,46,7,48,1,43,32,48,15}),.nsv=1,.rv=1},
 	{.vm=vs({51,5,49,8,68,69,7,44,8,66,9}),.nv=157,.pv=159},
 	{.vm=vs({75,2,70,3,49,7,51,2,45,71,3,70,1,75}),.nv=157,.pv=159},
+	{.vm=vs({13,71,1,66,1,70,66,44,2,75}),.nv=18,.cc="pts"},
 	{.vm=vs({}),.nsv=1},
 };//lsn
 std::vector<size_t> nvk(ls.size());
@@ -868,6 +869,7 @@ struct vks
 					size_t vk=vs;
 					pv.push_back(vs);
 					if(ls[vs].cc.size()>0)ccs=ls[vs].cc;
+					else ccs="";
 					auto pnv=[&kp](size_t k)
 					{
 						auto kpn=kp; 
@@ -1411,9 +1413,6 @@ struct vks
 		else if(tn(0,0))
 		{
 			if(0)st.vtp=1;
-#ifdef EMSCRIPTEN
-			if(knp)EM_ASM({location.hash='pt';});
-#endif
 			skk=0;
 		}
 		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}
@@ -1424,7 +1423,8 @@ struct vks
 			if(jt&&ccs.size()>0)
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
+				if(ccs=="pts")EM_ASM({location.hash='pt';});
+				else EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 #endif
 			}
 		}
