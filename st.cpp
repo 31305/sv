@@ -586,6 +586,10 @@ void mk()
 #ifdef EMSCRIPTEN
 extern "C"
 {
+void EMSCRIPTEN_KEEPALIVE lkp()
+{
+	printf("lkp\n");
+};
 void EMSCRIPTEN_KEEPALIVE dplk(int p)
 {
 	static int ss;
