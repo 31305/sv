@@ -25,12 +25,13 @@
 	<source src="pc.mp4" />
 </video>
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
+<script src='./node_modules/xterm-pty/index.js'></script>
 <script type='text/javascript'>
 vpv1=0;vpv2=0;
 svsg={s1:0,s2:0,k:false,kp:0}
 function svsgsk(p)
 {
-	let s=getBoundingClientRect(cp);
+	let s=cp.getBoundingClientRect();
 	svsg.s1=Math.round(p.clientX*vpv1/s.width);
 	svsg.s2=Math.round(p.clientY*vpv2/s.height);
 	svsg.k=(p.pressure||p.buttons)?true:false;
@@ -53,7 +54,11 @@ const l=new ResizeObserver((gs)=>
   if(0)console.log(vpv1,vpv2);
 });
 l.observe(cp,{box:"device-pixel-content-box"});
-var Module={canvas:(function(){return cp;})()};
+const ptsc=openpty();
+ptsc.slave.onReadable(()=>{console.log(ptsc.slave.read())})
+ptsc.master.onWrite(([p,d])=>console.log([p,d]))
+if(0)var Module={canvas:(function(){return cp;})(),preRun:[()=>{FS.init(()=>{return null;},(p)=>{console.log(p);},(p)=>{});}]};
+if(1)var Module={canvas:(function(){return cp;})(),pty:ptsc.slave};
 function sn(s)
 {
 	Module.ccall('sn',null,['number'],[s])
