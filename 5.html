@@ -55,8 +55,6 @@ const l=new ResizeObserver((gs)=>
 });
 l.observe(cp,{box:"device-pixel-content-box"});
 const ptsc=openpty();
-ptsc.slave.onReadable(()=>{console.log(ptsc.slave.read())})
-ptsc.master.onWrite(([p,d])=>console.log([p,d]))
 if(0)var Module={canvas:(function(){return cp;})(),preRun:[()=>{FS.init(()=>{return null;},(p)=>{console.log(p);},(p)=>{});}]};
 if(1)var Module={canvas:(function(){return cp;})(),pty:ptsc.slave};
 function sn(s)
@@ -168,7 +166,7 @@ function ccvs(s1,s2,v1,v2)
 }
 function vkn()
 {
-	let s={'cl':1,'pt':2,'dd':3};
+	let s={'cl':1,'pt':2,'dd':3,'nt':4};
 	let p=s[location.hash.substring(1)];
 	if(!p)return 0;
 	else return p;

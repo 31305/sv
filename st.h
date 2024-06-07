@@ -127,7 +127,7 @@ struct stp
 		int v,dv;
 		float g;	
 	}dp;
-	bool ptc=1;
+	int ptc=1;
 	TMT* dps;
 	bool ptpr=0;
 	struct

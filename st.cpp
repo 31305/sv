@@ -618,6 +618,11 @@ void EMSCRIPTEN_KEEPALIVE dplk(int p)
 	if(k<30||1)tmt_write(st.dps,&s,1);
 	k++;
 }
+void EMSCRIPTEN_KEEPALIVE dptlk(const char* p)
+{
+	EM_ASM({console.log('dptlk '+$0);},strlen(p));
+	tmt_write(st.dps,p,4);
+}
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
 	SDL_SetWindowSize(st.cp,x1,x2);
@@ -627,6 +632,14 @@ void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 #endif
 void (*npk)(int)=0;
 int sr=0;
+void ptlk(char *l)
+{
+#ifdef EMSCRIPTEN
+	if(st.ptc==1)
+		EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+	else EM_ASM({ptsc.master.ldisc.writeFromLower(UTF8ToString($0));},l);
+#endif
+}
 void pttk(int n,bool s)
 {
 	if(n<5)return;
@@ -648,9 +661,7 @@ void pttk(int n,bool s)
 			ts=3;
 		l[0]=p;
 	}
-#ifdef EMSCRIPTEN
-	if(ts==3&&p<128)EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
-#endif
+	if(ts==3&&p<128)ptlk(l);
 }
 void kplt(int n)
 {
@@ -741,6 +752,7 @@ void nk()
 	{
 		case 2:
 			st.dp.d=1;
+			st.ptc=1;
 			if(!st.ptpr)
 			{
 				st.ptpr=1;
@@ -769,6 +781,10 @@ void nk()
 					document.head.appendChild(ptcv);
 				});
 			}
+			break;
+		case 4:
+			st.dp.d=1;
+			st.ptc=2;
 			break;
 		default:
 			st.dp.d=0;
@@ -981,7 +997,7 @@ void nk()
 					s=(char*)TMT_KEY_LEFT;
 				else if(p==SDLK_RIGHT)
 					s=(char*)TMT_KEY_RIGHT;
-				EM_ASM({ptc.serial0_send(UTF8ToString($0));},s);
+				ptlk(s);
 #endif
 			}
 			if(0&&n==0)printf("ktnj\n");
@@ -1134,6 +1150,17 @@ int pmk()
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 	st.dps=tmt_open(8,8,dppk,0,0);
+#ifdef EMSCRIPTEN
+	EM_ASM({ptsc.master.onWrite(([p,d])=>{
+				let tkl=(new TextDecoder().decode(p));
+				console.log('dpl '+tkl);
+				let dtkl=stringToNewUTF8(tkl);
+				console.log(UTF8ToString(dtkl));
+				Module.ccall('dptlk',null,['string'],[dtkl]);
+				_free(dtkl);
+				d();
+			});});
+#endif
 	if(0)
 	{
 		auto tkc=IMG_Load("pmc.jpg");
