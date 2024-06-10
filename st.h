@@ -1,5 +1,6 @@
 #pragma once
 #include<SDL.h>
+#include<thread>
 extern "C"
 {
 #include"libtmt/tmt.h"
@@ -134,6 +135,7 @@ struct stp
 	{
 		bool ns=0;
 	}pttk;
+	std::thread vkk;
 }; 
 extern stp st;
 extern bool jt;

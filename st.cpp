@@ -3,6 +3,7 @@
 #include<SDL_ttf.h>
 #include<chrono>
 #include<random>
+#include<thread>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -590,6 +591,10 @@ void EMSCRIPTEN_KEEPALIVE lkp()
 {
 	printf("lkp\n");
 };
+void EMSCRIPTEN_KEEPALIVE plkp(const char* l)
+{
+	printf("plkp %s\n",l);
+};
 void EMSCRIPTEN_KEEPALIVE dplk(int p)
 {
 	static int ss;
@@ -620,8 +625,7 @@ void EMSCRIPTEN_KEEPALIVE dplk(int p)
 }
 void EMSCRIPTEN_KEEPALIVE dptlk(const char* p)
 {
-	EM_ASM({console.log('dptlk '+$0);},strlen(p));
-	tmt_write(st.dps,p,4);
+	tmt_write(st.dps,p,0);
 }
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
@@ -1150,14 +1154,18 @@ int pmk()
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 	st.dps=tmt_open(8,8,dppk,0,0);
+	st.vkk=std::thread([](){
+				while(1)
+				{
+					int s;
+					scanf("%d",&s);
+					printf("%d\n",s*s);
+				}
+			});
 #ifdef EMSCRIPTEN
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
-				console.log('dpl '+tkl);
-				let dtkl=stringToNewUTF8(tkl);
-				console.log(UTF8ToString(dtkl));
-				Module.ccall('dptlk',null,['string'],[dtkl]);
-				_free(dtkl);
+				Module.ccall('dptlk',null,['string'],[tkl]);
 				d();
 			});});
 #endif
