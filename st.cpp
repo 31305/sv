@@ -4,6 +4,9 @@
 #include<chrono>
 #include<random>
 #include<thread>
+#include<csignal>
+#include <termios.h>
+#include<unistd.h>
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -989,6 +992,8 @@ void nk()
 						}
 					}
 				}
+				else if(p==SDLK_BACKSPACE)
+					s=(char*)TMT_KEY_BACKSPACE;
 				else if(p==SDLK_DELETE)
 					s=(char*)TMT_KEY_DELETE;
 				else if(p==SDLK_TAB&&(tk==KMOD_LSHIFT||tk==KMOD_RSHIFT))
@@ -1154,15 +1159,26 @@ int pmk()
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 	st.dps=tmt_open(8,8,dppk,0,0);
+#ifdef EMSCRIPTEN
+	std::signal(SIGINT,[](int){});
+	if(1)
+	{
+		struct termios p;
+		tcgetattr(STDIN_FILENO,&p);
+		p.c_lflag|=(ICANON|ECHO);
+		tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
+	}
 	st.vkk=std::thread([](){
 				while(1)
 				{
 					int s;
-					scanf("%d",&s);
+					constexpr int ns=1024;
+					char l[ns];
+					fgets(l,ns,stdin);
+					sscanf(l,"%d",&s);
 					printf("%d\n",s*s);
 				}
 			});
-#ifdef EMSCRIPTEN
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
 				Module.ccall('dptlk',null,['string'],[tkl]);
