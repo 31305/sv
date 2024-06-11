@@ -828,7 +828,7 @@ void nk()
 			dndsk=0;
 			int ns1=EM_ASM_INT({return svsg.s1});
 			int ns2=EM_ASM_INT({return svsg.s2});
-			bool nsk=EM_ASM_INT({return svsg.k});
+			[[maybe_unused]]bool nsk=EM_ASM_INT({return svsg.k});
 			int kp=EM_ASM_INT({return svsg.kp});
 			if(kp)
 			{
@@ -1174,12 +1174,14 @@ int pmk()
 	st.vkk=std::thread([](){
 				while(1)
 				{
-					int s;
 					constexpr int ns=1024;
 					char l[ns];
+					printf("> ");
+					fflush(stdout);
 					fgets(l,ns,stdin);
-					sscanf(l,"%d",&s);
-					printf("%d\n",s*s);
+					auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0)).toString()}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
+					printf("%s\n",p);
+					if(p)free(p);
 				}
 			});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
