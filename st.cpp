@@ -5,7 +5,6 @@
 #include<random>
 #include<thread>
 #include<csignal>
-#include <termios.h>
 #include<unistd.h>
 #ifdef CP
 #include<cairo.h>
@@ -1161,13 +1160,6 @@ int pmk()
 	st.dps=tmt_open(8,8,dppk,0,0);
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
-	if(1)
-	{
-		struct termios p;
-		tcgetattr(STDIN_FILENO,&p);
-		p.c_lflag|=(ICANON|ECHO);
-		tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
-	}
 	st.vkk=std::thread([](){
 				while(1)
 				{
