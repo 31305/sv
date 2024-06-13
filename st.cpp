@@ -1320,3 +1320,6 @@ void pvvk::ksn::operator()()
 		}
 	}
 } 
+void pj::c()
+{
+}

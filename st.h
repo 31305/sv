@@ -226,3 +226,15 @@ struct pvvk
 		void operator()();
 	};
 };
+struct pj
+{
+	typedef int64_t s;
+	static constexpr s tk=16;
+	s p(s d){return d<<tk;}
+	struct gs
+	{
+		s ps,ds,ts;
+		s d;
+	};
+	void c();
+};
