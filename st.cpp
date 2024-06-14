@@ -1172,18 +1172,24 @@ int pmk()
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
 	st.vkk=std::thread([](){
-				while(1)
-				{
-					constexpr int ns=1024;
-					char l[ns];
-					printf("> ");
-					fflush(stdout);
-					fgets(l,ns,stdin);
-					auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0)).toString()}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
-					printf("%s\n",p);
-					if(p)free(p);
-				}
-			});
+			EM_ASM({ss=()=>{
+					tts=BigInt(33);\
+					ms=BigInt(1000000000000);\
+					f1=(l)=>l<ms?f5(l+ms*100):0;\
+					f2=(l)=>l%10n;\
+					};});
+			while(1)
+			{
+				constexpr int ns=1024;
+				char l[ns];
+				printf("> ");
+				fflush(stdout);
+				fgets(l,ns,stdin);
+				auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
+				printf("%s\n",p);
+				if(p)free(p);
+			}
+		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
 				Module.ccall('dptlk',null,['string'],[tkl]);
