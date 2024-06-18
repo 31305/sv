@@ -643,7 +643,7 @@ void ptlk(char *l)
 #ifdef EMSCRIPTEN
 	if(l[1]==0&&l[0]==5)EM_ASM({location.hash="";});
 	else if(st.ptc==1)
-		EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
+		EM_ASM({if(typeof ptc!=='undefined')ptc.serial0_send(UTF8ToString($0));},l);
 	else EM_ASM({ptsc.master.ldisc.writeFromLower(UTF8ToString($0));},l);
 #endif
 }
