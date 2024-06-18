@@ -641,12 +641,8 @@ int sr=0;
 void ptlk(char *l)
 {
 #ifdef EMSCRIPTEN
-	const std::string nsd="ptns";
-	static size_t dk=0;
-	if(l[1]==0&&l[0]==nsd[dk])dk++;
-	else dk=0;
-	if(dk==nsd.size()){dk=0;EM_ASM({location.hash="";});}
-	if(st.ptc==1)
+	if(l[1]==0&&l[0]==5)EM_ASM({location.hash="";});
+	else if(st.ptc==1)
 		EM_ASM({ptc.serial0_send(UTF8ToString($0));},l);
 	else EM_ASM({ptsc.master.ldisc.writeFromLower(UTF8ToString($0));},l);
 #endif
@@ -674,7 +670,7 @@ void pttk(int n,bool s)
 	}
 	if(ts==3&&p<128)ptlk(l);
 #ifdef EMSCRIPTEN
-	if(ts==3&&p==128)
+	if(0&&ts==3&&p==128)
 		EM_ASM({location.hash="";});
 #endif
 }
@@ -1182,6 +1178,7 @@ int pmk()
 			{
 				constexpr int ns=1024;
 				char l[ns];
+				while(st.s!=4)std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				printf("> ");
 				fflush(stdout);
 				fgets(l,ns,stdin);
