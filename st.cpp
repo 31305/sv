@@ -796,7 +796,7 @@ void nk()
 					document.head.appendChild(ptcv);
 				});
 			}
-			EM_ASM({if(typeof ptc!=='undefined')ptc.run();});
+			else if(tkps)EM_ASM({if(typeof ptc!=='undefined')ptc.run();});
 			break;
 		case 4:
 			st.dp.d=1;
