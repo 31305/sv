@@ -1169,11 +1169,14 @@ int pmk()
 	std::signal(SIGINT,[](int){});
 	st.vkk=std::thread([](){
 			EM_ASM({ss=()=>{
-					tts=BigInt(33);\
-					ms=BigInt(1000000000000);\
-					f1=(l)=>l<ms?f5(l+ms*100):0;\
-					f2=(l)=>l%10n;\
-					};});
+					tts=33;
+					ms=1000000000000;
+					f1=(l)=>l<ms?f5(l+ms*100):0;
+					f2=(l)=>l%10n;
+					};
+					pk=(x)=>x%1;
+					dk=(x)=>x-pk(x)+pk(x)*pk(x);
+					tk=(x)=>dk(x)-3.25});
 			while(1)
 			{
 				constexpr int ns=1024;
