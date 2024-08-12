@@ -256,7 +256,7 @@ void tlk(void* c,size_t d1,size_t d2,size_t d,size_t l,size_t td,uint8_t r,uint8
 	for(size_t k1=0;k1<l;k1++)
 	{
 		size_t dk2=std::min(k1+td,l*2-td-k1-1);
-		size_t nk2=std::max((size_t)0,k1-td);
+		size_t nk2=k1>td?k1-td:0;
 		bk(k1,dk2,0.5);
 		bk(k1,nk2,0.5);
 		for(size_t k=nk2+1;k<dk2;k++)
