@@ -201,9 +201,9 @@ void ncpk()
 		if(st.vtp)lck();
 		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
-		if(!st.cc)
+		if(!st.cc&&!st.dp.d)
 		{
-			if(0)
+			if(1)
 			{
 				SDL_Rect vcs;
 				vcs.x=st.pd.x+(st.s1*st.sp1/2-vdv*st.sp1)*st.g;
@@ -242,6 +242,25 @@ void ncpk()
 			if(0)for(auto n:s)
 				SDL_RenderDrawLine(st.ck,st.rrs1+n,st.rrs2-st.g*3,st.rrs1+n,st.rrs2+st.g*3);
 		}
+	}
+}
+void tlk(void* c,size_t d1,size_t d2,size_t d,size_t l,size_t td,uint8_t r,uint8_t h,uint8_t n)
+{
+	auto bk=[&](size_t s1,size_t s2,float ns)
+	{
+		size_t rs=s2*d+s1*3,hs=rs+1,ls=hs+1;
+		((uint8_t*)c)[rs]=fmin((uint8_t)(ns*(float)r+(1.0-ns)*(float)(((uint8_t*)c)[rs])),255);
+		((uint8_t*)c)[hs]=fmin((uint8_t)(ns*(float)h+(1.0-ns)*(float)(((uint8_t*)c)[hs])),255);
+		((uint8_t*)c)[ls]=fmin((uint8_t)(ns*(float)n+(1.0-ns)*(float)(((uint8_t*)c)[ls])),255);
+	};
+	for(size_t k1=0;k1<l;k1++)
+	{
+		size_t dk2=std::min(k1+td,l*2-td-k1-1);
+		size_t nk2=std::max((size_t)0,k1-td);
+		bk(k1,dk2,0.5);
+		bk(k1,nk2,0.5);
+		for(size_t k=nk2+1;k<dk2;k++)
+			bk(k1,k,1);
 	}
 }
 void vlk(void* c,size_t d1,size_t d2,size_t d,size_t s1,size_t s2,size_t vd,uint8_t r,uint8_t h,uint8_t n)
@@ -558,8 +577,15 @@ void mk()
 	st.vc=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,vdv*st.sp1*st.g,vdv*st.sp2*st.g);
 	st.clvp=1;
 	SDL_LockTexture(st.vc,NULL,(void**)&st.cn,&st.cns);
-	memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
-	vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
+	if(0)
+	{
+		memset(st.cn,255,vdv*st.sp1*st.g*st.cns);
+		vlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,0,0,vdv*st.sp1*st.g/2,0,0,0);
+	}
+	else
+	{
+		tlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp1*st.g/4,127,127,127);
+	}
 	SDL_UnlockTexture(st.vc);
 	st.tpp.v1=x1;st.tpp.v2=x2;
 	st.tpp.ss();
