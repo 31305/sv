@@ -718,6 +718,7 @@ std::vector<vv> ls=
 	{.vm=vs({75,2,70,3,49,7,51,2,45,71,3,70,1,75}),.nv=157,.pv=159},
 	{.vm=vs({13,71,1,66,1,70,66,44,2,75}),.nv=18,.cc="pts"},
 	{.vm=vs({43,2,70,66,44,3,65,1,75}),.nv=18,.cc="nts"},
+	{.vm=vs({45,31,52,1,71,1,61,61,1,51,2,77}),.nv=18,.cc="cls"},
 	{.vm=vs({}),.nsv=1},
 };//lsn
 std::vector<size_t> nvk(ls.size());
@@ -1426,6 +1427,7 @@ struct vks
 #ifdef EMSCRIPTEN
 				if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
+				else if(ccs=="cls")EM_ASM({location.hash='cl';});
 				else EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 #endif
 			}
