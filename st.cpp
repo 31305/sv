@@ -118,7 +118,7 @@ void cnk(int k,int m1,int m2,float p1,float p2)
 			ns(k+x2*(cls/st.sp1)+x1,p1+x1,p2+x2);
 		}
 }
-const int vdv=2;
+int vdv=2;
 void ncpk()
 {
 	if(0)printf("ncpk\n");
@@ -574,6 +574,7 @@ void mk()
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
 	if(!getenv("NCTV")&&!st.nkk)SDL_SetTextureScaleMode(st.mc2,SDL_ScaleModeLinear);
+	vdv=mss<1>(14)>mss<1>(5)?2:4;
 	st.vc=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,vdv*st.sp1*st.g,vdv*st.sp2*st.g);
 	st.clvp=1;
 	SDL_LockTexture(st.vc,NULL,(void**)&st.cn,&st.cns);
