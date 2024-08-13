@@ -760,6 +760,17 @@ void kplt(int n)
 		if(0)printf("kplt %c %s\n",p,st.tl.c_str());
 	}	
 }
+void skkk(SDL_Event &g)
+{
+
+#ifdef EMSCRIPTEN
+			auto tk=SDL_GetModState();
+			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
+					EM_ASM({if(navigator.userAgent.toLowerCase().indexOf('electron')<0)window.location.reload()});
+			if(g.key.keysym.sym==SDLK_LEFT&&tk==KMOD_LALT)EM_ASM({history.back();});
+			if(g.key.keysym.sym==SDLK_RIGHT&&tk==KMOD_LALT)EM_ASM({history.forward();});
+#endif
+}
 void nk()
 {
 #ifdef EMSCRIPTEN
@@ -955,13 +966,8 @@ void nk()
 		}
 		else if(g.type==SDL_KEYDOWN)
 		{
-#ifdef EMSCRIPTEN
+			skkk(g);
 			auto tk=SDL_GetModState();
-			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
-					EM_ASM({if(navigator.userAgent.toLowerCase().indexOf('electron')<0)window.location.reload()});
-			if(g.key.keysym.sym==SDLK_LEFT&&tk==KMOD_LALT)EM_ASM({history.back();});
-			if(g.key.keysym.sym==SDLK_RIGHT&&tk==KMOD_LALT)EM_ASM({history.forward();});
-#endif
 			if(g.key.keysym.sym==SDLK_RETURN&&st.vtp)
 			{
 				char *p=0;
@@ -1306,6 +1312,12 @@ void clpp::ss(stp* tp)
 void clpp::nk(stp* tp,bool pl)
 {
 #ifdef EMSCRIPTEN
+	SDL_Event gd;
+	while(SDL_PollEvent(&gd))
+	{
+		if(gd.type==SDL_KEYDOWN)
+			skkk(gd);
+	};
 	int ns1=EM_ASM_INT({return svsg.s1});
 	int ns2=EM_ASM_INT({return svsg.s2});
 	bool nsk=EM_ASM_INT({return svsg.k});
