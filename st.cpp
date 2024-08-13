@@ -959,6 +959,8 @@ void nk()
 			auto tk=SDL_GetModState();
 			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
 					EM_ASM({if(navigator.userAgent.toLowerCase().indexOf('electron')<0)window.location.reload()});
+			if(g.key.keysym.sym==SDLK_LEFT&&tk==KMOD_LALT)EM_ASM({history.back();});
+			if(g.key.keysym.sym==SDLK_RIGHT&&tk==KMOD_LALT)EM_ASM({history.forward();});
 #endif
 			if(g.key.keysym.sym==SDLK_RETURN&&st.vtp)
 			{
