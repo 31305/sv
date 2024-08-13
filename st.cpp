@@ -761,15 +761,27 @@ void kplt(int n)
 		if(0)printf("kplt %c %s\n",p,st.tl.c_str());
 	}	
 }
-void skkk(SDL_Event &g)
+bool skkk(SDL_Event &g)
 {
 
 #ifdef EMSCRIPTEN
 			auto tk=SDL_GetModState();
 			if((g.key.keysym.sym==SDLK_r&&(tk==KMOD_LCTRL||tk==KMOD_RCTRL))||(g.key.keysym.sym==SDLK_F5&&tk==KMOD_NONE))
+			{
 					EM_ASM({if(navigator.userAgent.toLowerCase().indexOf('electron')<0)window.location.reload()});
-			if(g.key.keysym.sym==SDLK_LEFT&&tk==KMOD_LALT)EM_ASM({history.back();});
-			if(g.key.keysym.sym==SDLK_RIGHT&&tk==KMOD_LALT)EM_ASM({history.forward();});
+					return 1;
+			}
+			if(g.key.keysym.sym==SDLK_LEFT&&tk==KMOD_LALT)
+			{
+				EM_ASM({history.back();});
+				return 1;
+			}
+			if(g.key.keysym.sym==SDLK_RIGHT&&tk==KMOD_LALT)
+			{
+				EM_ASM({history.forward();});
+				return 1;
+			}
+			return 0;
 #endif
 }
 void nk()
@@ -967,7 +979,7 @@ void nk()
 		}
 		else if(g.type==SDL_KEYDOWN)
 		{
-			skkk(g);
+			if(skkk(g))continue;
 			auto tk=SDL_GetModState();
 			if(g.key.keysym.sym==SDLK_RETURN&&st.vtp)
 			{
@@ -1317,7 +1329,7 @@ void clpp::nk(stp* tp,bool pl)
 	while(SDL_PollEvent(&gd))
 	{
 		if(gd.type==SDL_KEYDOWN)
-			skkk(gd);
+			if(skkk(gd))continue;
 	};
 	int ns1=EM_ASM_INT({return svsg.s1});
 	int ns2=EM_ASM_INT({return svsg.s2});
