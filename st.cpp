@@ -197,6 +197,18 @@ void ncpk()
 						}
 				tmt_clean(st.dps);
 			}
+			if(st.dp.d&&st.tp)
+			{
+				char lnn[]="abcABC0[? ";
+				for(size_t k=0;k<10;k++)
+				{
+					const auto g=st.dp.g;
+					SDL_Rect ls=smp(mss<0>(5)-0.125+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
+					char l=lnn[k];
+					SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+					SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+				}
+			}
 		}
 		if(st.vtp)lck();
 		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
@@ -392,7 +404,7 @@ void lk()
 			const int vk=3;
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
 			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
-			nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
+			if(!st.dp.d)nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
