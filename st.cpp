@@ -184,7 +184,8 @@ void ncpk()
 							const auto g=st.dp.g;
 							SDL_Rect ls=smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-0.75):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
 							char l=dp->lines[k]->chars[pk].c;
-							SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+							SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
+									.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 							if(k==lss->r&&pk==lss->c)
 							{
@@ -205,7 +206,8 @@ void ncpk()
 					const auto g=st.dp.g;
 					SDL_Rect ls=smp(mss<0>(5)-0.125+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
 					char l=lnn[k];
-					SDL_Rect ss=SDL_Rect({.x=(l*4*st.g)%v1,.y=((l*4*st.g)/v1)*8*st.g,.w=4*st.g,.h=8*st.g});
+					SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
+							.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
 					SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 				}
 			}
@@ -602,8 +604,6 @@ void mk()
 	SDL_UnlockTexture(st.vc);
 	st.tpp.v1=x1;st.tpp.v2=x2;
 	st.tpp.ss();
-	if(1)lnss(4*st.g,8*st.g);
-	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	st.tp=!st.dp.d||mss<1>(14)>mss<1>(5);
 	if(mss<1>(14)>mss<1>(5))
 	{
@@ -617,6 +617,8 @@ void mk()
 		st.dp.v=(st.s1-2)*2.0;
 		st.dp.dv=st.s2-2;
 	}
+	if(1)lnss(st.dp.g*4*st.g,st.dp.g*8*st.g);
+	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	tmt_resize(st.dps,st.dp.dv,st.dp.v);
 	ptdps();
 #ifdef EMSCRIPTEN
@@ -1252,6 +1254,7 @@ int pmk()
 		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
+				if(0)console.log(tkl);
 				Module.ccall('dptlk',null,['string'],[tkl]);
 				d();
 			});});
