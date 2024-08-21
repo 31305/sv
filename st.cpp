@@ -200,9 +200,17 @@ void ncpk()
 			}
 			if(st.dp.d&&st.tp&&st.pskt.s)
 			{
-				for(size_t k=0;k<(st.pskt.ps==-1?8:10);k++)
+				for(size_t k=0;k<10;k++)
 				{
 					const auto g=st.dp.g;
+					if(1)
+					{
+						if(st.pskt.ps==-1)
+						{
+							if(!(k<st.pskt.jm.pj.size()))continue;
+						}
+						else if(!(k<st.pskt.jm.pj[st.pskt.ps-1].pj.size()))continue;
+					}
 					auto lm=(st.pskt.ps==-1)?st.pskt.jm.pj[k].dn:st.pskt.jm.pj[st.pskt.ps-1].pj[k].dn;
 					SDL_SetTextureBlendMode(st.lns,st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 					for(int pk=0;pk<lm.size();pk++)
@@ -701,7 +709,7 @@ void pskt(int n,bool s)
 	{
 		if(n==9)
 			st.pskt.sn=!st.pskt.sn;
-		else if(n==0)
+		else if(n==10)
 			st.pskt.nn=!st.pskt.nn;
 		else st.pskt.ps=n;
 	}
