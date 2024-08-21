@@ -198,7 +198,7 @@ void ncpk()
 						}
 				tmt_clean(st.dps);
 			}
-			if(st.dp.d&&st.tp)
+			if(st.dp.d&&st.tp&&st.pskt.s)
 			{
 				char lnn[]="abcABC0[? ";
 				for(size_t k=0;k<10;k++)
