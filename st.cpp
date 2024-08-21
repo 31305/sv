@@ -741,7 +741,7 @@ void pskt(int n,bool s)
 			else if(l[0]=='?')l[0]=127;
 		}
 		ptlk(l);
-		if(st.pskt.ps!=4)st.pskt.ps=-1;
+		if(st.pskt.ps!=6)st.pskt.ps=-1;
 		st.pskt.nn=0;
 	}
 }
