@@ -217,6 +217,7 @@ void ncpk()
 					{
 						SDL_Rect ls=smp(mss<0>(5)-0.125*lm.size()+0.25*pk+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
 						char l=lm[pk];
+						if(st.pskt.sn&&l>='a'&&l<='z')l+='A'-'a';
 						SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
 								.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
 						SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
@@ -717,8 +718,10 @@ void pskt(int n,bool s)
 	{
 		char l[2]={};
 		l[0]=st.pskt.jm.pj[st.pskt.ps-1].pj[n-1].dn[0];
+		if(st.pskt.sn&&l[0]>='a'&&l[0]<='z')l[0]+='A'-'a';
 		ptlk(l);
 		if(st.pskt.ps!=4)st.pskt.ps=-1;
+		st.pskt.nn=0;
 	}
 }
 void pttk(int n,bool s)
