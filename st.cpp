@@ -422,7 +422,17 @@ void lk()
 			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
 			if(!(st.dp.d&&st.pskt.s))nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
-			else cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=cbv,.hm=cbv,.nm=cbv})();
+			else
+			{
+				unsigned char nm=cbv;
+				if(st.pskt.ps==-1&&(i==14||i==5)&&d)
+				{
+					cbv-=50;
+					nm=cbv;
+					if((i==14&&st.pskt.sn)||(i==5&&st.pskt.nn))nm=255;
+				}
+				cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=cbv,.hm=cbv,.nm=nm})();
+			}
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;
