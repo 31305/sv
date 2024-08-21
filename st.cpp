@@ -200,15 +200,19 @@ void ncpk()
 			}
 			if(st.dp.d&&st.tp&&st.pskt.s)
 			{
-				for(size_t k=0;k<10;k++)
+				for(size_t k=0;k<(st.pskt.ps==-1?8:10);k++)
 				{
 					const auto g=st.dp.g;
-					SDL_Rect ls=smp(mss<0>(5)-0.125+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
-					char l=(st.pskt.ps==-1)?st.pskt.jm.pj[k].dn[0]:st.pskt.jm.pj[st.pskt.ps-1].pj[k].dn[0];
-					SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
-							.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
+					auto lm=(st.pskt.ps==-1)?st.pskt.jm.pj[k].dn:st.pskt.jm.pj[st.pskt.ps-1].pj[k].dn;
 					SDL_SetTextureBlendMode(st.lns,st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
-					SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+					for(int pk=0;pk<lm.size();pk++)
+					{
+						SDL_Rect ls=smp(mss<0>(5)-0.125*lm.size()+0.25*pk+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
+						char l=lm[pk];
+						SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
+								.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
+						SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+					}
 					SDL_SetTextureBlendMode(st.lns,SDL_BLENDMODE_BLEND);
 				}
 			}
@@ -692,6 +696,7 @@ void ptlk(char *l)
 }
 void pskt(int n,bool s)
 {
+	if(n==0)n=10;
 	if(st.pskt.ps==-1&&!s)
 	{
 		if(n==9)
@@ -700,10 +705,10 @@ void pskt(int n,bool s)
 			st.pskt.nn=!st.pskt.nn;
 		else st.pskt.ps=n;
 	}
-	else if(!s) 
+	else if(!s&&n-1<st.pskt.jm.pj[st.pskt.ps-1].pj.size()) 
 	{
 		char l[2]={};
-		l[0]=st.pskt.jm.pj[st.pskt.ps-1].pj[n==0?9:n-1].dn[0];
+		l[0]=st.pskt.jm.pj[st.pskt.ps-1].pj[n-1].dn[0];
 		ptlk(l);
 		if(st.pskt.ps!=4)st.pskt.ps=-1;
 	}
@@ -1280,7 +1285,7 @@ int pmk()
 		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
-				if(1)console.log(tkl);
+				if(0)console.log(tkl);
 				Module.ccall('dptlk',null,['string'],[tkl]);
 				d();
 			});});
