@@ -208,7 +208,9 @@ void ncpk()
 					char l=lnn[k];
 					SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
 							.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
+					SDL_SetTextureBlendMode(st.lns,st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 					SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+					SDL_SetTextureBlendMode(st.lns,SDL_BLENDMODE_BLEND);
 				}
 			}
 		}
@@ -408,6 +410,7 @@ void lk()
 			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
 			if(!(st.dp.d&&st.pskt.s))nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
 					.v=d,.rm=m,.hm=m,.nm=m})();
+			else cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=cbv,.hm=cbv,.nm=cbv})();
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
 		l2-=6;

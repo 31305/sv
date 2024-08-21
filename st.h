@@ -137,7 +137,7 @@ struct stp
 	}pttk;
 	struct
 	{
-		bool s=0;
+		bool s=true;
 		struct njp
 		{
 			std::string dn;
