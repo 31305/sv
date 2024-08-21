@@ -688,6 +688,19 @@ void ptlk(char *l)
 	else EM_ASM({ptsc.master.ldisc.writeFromLower(UTF8ToString($0));},l);
 #endif
 }
+void pskt(int n,bool s)
+{
+	if(st.pskt.ps==-1&&!s)
+	{
+		st.pskt.ps=n;
+	}
+	else 
+	{
+		char l[2]={};
+		l[0]=st.pskt.jm.pj[st.pskt.ps].dn[0];
+		ptlk(l);
+	}
+}
 void pttk(int n,bool s)
 {
 	if(n<5)return;
