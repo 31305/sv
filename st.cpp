@@ -719,6 +719,17 @@ void pskt(int n,bool s)
 		char l[2]={};
 		l[0]=st.pskt.jm.pj[st.pskt.ps-1].pj[n-1].dn[0];
 		if(st.pskt.sn&&l[0]>='a'&&l[0]<='z')l[0]+='A'-'a';
+		if(st.pskt.nn)
+		{
+			if(l[0]>='a'&&l[0]<='z')
+				l[0]-=96;
+			else if(l[0]=='[')l[0]=27;
+			else if(l[0]=='\\')l[0]=28;
+			else if(l[0]==']')l[0]=29;
+			else if(l[0]=='^')l[0]=30;
+			else if(l[0]=='_')l[0]=31;
+			else if(l[0]=='?')l[0]=127;
+		}
 		ptlk(l);
 		if(st.pskt.ps!=4)st.pskt.ps=-1;
 		st.pskt.nn=0;
