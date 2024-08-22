@@ -858,7 +858,7 @@ bool skkk(SDL_Event &g)
 }
 struct
 {
-	std::string l;
+	std::vector<char> l;
 	bool k=0;
 }lvss;
 void nk()
@@ -939,12 +939,11 @@ void nk()
 #endif
 	if(lvss.k)
 	{
-		EM_ASM({
+		if(1)EM_ASM({
 				let s=document.createElement("a");
-				let l=UTF8ToString($0);
-				if(1)s.href=window.URL.createObjectURL(new Blob(new Uint8Array(l)));
+				if(1)s.href=window.URL.createObjectURL(new Blob([Module.HEAP8.slice($0,$0+$1)],{type:"text"}));
 				if(1)s.click();
-			},lvss.l.c_str());
+			},lvss.l.data(),lvss.l.size());
 		lvss.k=0;
 	}
 	static double k;
@@ -1293,7 +1292,8 @@ extern "C"
 {
 void EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l)
 {
-	EM_ASM({console.log($0);},((char*)s)[0]);
+	lvss.l.assign((char*)s,(char*)s+l);
+	lvss.k=1;
 };
 }
 #endif
@@ -1347,7 +1347,7 @@ int pmk()
 		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
-				if(0)console.log(tkl);
+				if(dplpl)console.log(tkl);
 				Module.ccall('dptlk',null,['string'],[tkl]);
 				d();
 			});});
