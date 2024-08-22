@@ -856,6 +856,11 @@ bool skkk(SDL_Event &g)
 			return 0;
 #endif
 }
+struct
+{
+	std::string l;
+	bool k=0;
+}lvss;
 void nk()
 {
 #ifdef EMSCRIPTEN
@@ -932,6 +937,16 @@ void nk()
 		return;
 	}
 #endif
+	if(lvss.k)
+	{
+		EM_ASM({
+				let s=document.createElement("a");
+				let l=UTF8ToString($0);
+				if(1)s.href=window.URL.createObjectURL(new Blob(new Uint8Array(l)));
+				if(1)s.click();
+			},lvss.l.c_str());
+		lvss.k=0;
+	}
 	static double k;
 	SDL_Event g;
 	const int tpss=25;
@@ -1273,6 +1288,15 @@ void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
 		tmt_clean(st.dps);
 	}
 }
+#ifdef EMSCRIPTEN
+extern "C"
+{
+void EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l)
+{
+	EM_ASM({console.log($0);},((char*)s)[0]);
+};
+}
+#endif
 int pmk()
 {
 #ifdef EMSCRIPTEN
@@ -1301,6 +1325,12 @@ int pmk()
 					pk=(x)=>x%1;
 					dk=(x)=>x-pk(x)+pk(x)*pk(x);
 					tk=(x)=>dk(x)-3.25;
+					lvs=(l)=>{
+						let s=Module._malloc(l.length);
+						Module.HEAPU8.set(l,s);
+						Module.ccall('lvs',null,['number','number'],[s,l.length]);
+						Module._free(s);
+					};
 				});
 			while(1)
 			{
