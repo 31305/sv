@@ -1326,6 +1326,8 @@ int pmk()
 					dk=(x)=>x-pk(x)+pk(x)*pk(x);
 					tk=(x)=>dk(x)-3.25;
 					lvs=(l)=>{
+						if(typeof(l)==='string')
+							l=(new TextEncoder()).encode(l);
 						let s=Module._malloc(l.length);
 						Module.HEAPU8.set(l,s);
 						Module.ccall('lvs',null,['number','number'],[s,l.length]);
