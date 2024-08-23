@@ -1376,7 +1376,7 @@ int pmk()
 				fflush(stdout);
 				fgets(l,ns,stdin);
 				auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
-				printf("%s\n",p);
+				if(strlen(p))printf("%s\n",p);
 				if(p)free(p);
 			}
 		});
