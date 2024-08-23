@@ -966,6 +966,11 @@ void nk()
 		});
 		lvss.d=3;
 	}
+	if(lvss.d==8)
+	{
+		EM_ASM({eval(new TextDecoder().decode(Module.HEAP8.slice($0,$0+$1)));},lvss.l.data(),lvss.l.size());
+		lvss.d=0;
+	}
 #endif
 	static double k;
 	SDL_Event g;
@@ -1365,7 +1370,14 @@ int pmk()
 						let l=Module.ccall('lvs','number',['number','number','number'],[0,0,7]);
 						if(0)console.log(s,l);
 						return Module.HEAP8.slice(s,s+l);
-					}
+					};
+					sss=(l)=>{
+						l=(new TextEncoder()).encode(l);
+						let s=Module._malloc(l.length);
+						Module.HEAPU8.set(l,s);
+						Module.ccall('lvs','number',['number','number','number'],[s,l.length,8]);
+						Module._free(s);
+					};
 				});
 			while(1)
 			{
