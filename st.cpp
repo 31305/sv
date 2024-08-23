@@ -859,7 +859,7 @@ bool skkk(SDL_Event &g)
 struct
 {
 	std::vector<char> l;
-	bool k=0;
+	int d=0;
 }lvss;
 void nk()
 {
@@ -936,16 +936,37 @@ void nk()
 		st.clp.nk(&st);
 		return;
 	}
-#endif
-	if(lvss.k)
+	if(lvss.d==1)
 	{
 		if(1)EM_ASM({
 				let s=document.createElement("a");
-				if(1)s.href=window.URL.createObjectURL(new Blob([Module.HEAP8.slice($0,$0+$1)],{type:"text"}));
+				if(1)s.href=window.URL.createObjectURL(new Blob([Module.HEAP8.slice($0,$0+$1)]));
 				if(1)s.click();
 			},lvss.l.data(),lvss.l.size());
-		lvss.k=0;
+		lvss.d=0;
 	}
+	if(lvss.d==2)
+	{
+		EM_ASM({
+			let t=document.createElement('input');
+			t.type='file';
+			t.onchange=p=>
+			{
+				let pk=new FileReader();
+				pk.onload=p=>{
+					let l=new Uint8Array(p.target.result);
+					let s=Module._malloc(l.length);
+					Module.HEAPU8.set(l,s);
+					Module.ccall('lvs','number',['number','number','number'],[s,l.length,4]);
+					Module._free(s);
+				};
+				pk.readAsArrayBuffer(p.target.files[0]);
+			};
+			t.click();
+		});
+		lvss.d=3;
+	}
+#endif
 	static double k;
 	SDL_Event g;
 	const int tpss=25;
@@ -1290,10 +1311,14 @@ void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
 #ifdef EMSCRIPTEN
 extern "C"
 {
-void EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l)
+size_t EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l,int d)
 {
-	lvss.l.assign((char*)s,(char*)s+l);
-	lvss.k=1;
+	if(d==5){std::this_thread::sleep_for(std::chrono::milliseconds(50));return lvss.d==4;}
+	if(d==6)return (size_t)lvss.l.data();
+	if(d==7){lvss.d=0;return lvss.l.size();}
+	if(s)lvss.l.assign((char*)s,(char*)s+l);
+	lvss.d=d;
+	return 0;
 };
 }
 #endif
@@ -1330,9 +1355,17 @@ int pmk()
 							l=(new TextEncoder()).encode(l);
 						let s=Module._malloc(l.length);
 						Module.HEAPU8.set(l,s);
-						Module.ccall('lvs',null,['number','number'],[s,l.length]);
+						Module.ccall('lvs','number',['number','number','number'],[s,l.length,1]);
 						Module._free(s);
 					};
+					lts=()=>{
+						Module.ccall('lvs','number',['number','number','number'],[0,0,2]);
+						while(!Module.ccall('lvs','number',['number','number','number'],[0,0,5])){}
+						let s=Module.ccall('lvs','number',['number','number','number'],[0,0,6]);
+						let l=Module.ccall('lvs','number',['number','number','number'],[0,0,7]);
+						if(0)console.log(s,l);
+						return Module.HEAP8.slice(s,s+l);
+					}
 				});
 			while(1)
 			{
