@@ -1400,7 +1400,16 @@ int pmk()
 				fflush(stdout);
 				fgets(l,ns,stdin);
 				auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
-				if(strlen(p))printf("%s\n",p);
+				if(p[0]!=0)
+				{
+					auto pp=p;
+					while(*pp)
+					{
+						fwrite(pp,1,1,stdout);
+						pp++;
+					}
+					printf("\n");
+				}
 				if(p)free(p);
 			}
 		});
