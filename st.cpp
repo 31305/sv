@@ -968,8 +968,16 @@ void nk()
 	}
 	if(lvss.d==8)
 	{
-		EM_ASM({eval(new TextDecoder().decode(Module.HEAP8.slice($0,$0+$1)));},lvss.l.data(),lvss.l.size());
-		lvss.d=0;
+		EM_ASM({
+			let p="";
+			try{p=eval(new TextDecoder().decode(Module.HEAP8.slice($0,$0+$1)));if(typeof(p)!=='undefined')p=p.toString();else p="";}
+			catch(v){p=v.toString()}
+			let l=new TextEncoder().encode(p);
+			let s=Module._malloc(l.length);
+			Module.HEAPU8.set(l,s);
+			Module.ccall('lvs','number',['number','number','number'],[s,l.length,4]);
+			Module._free(s);
+		},lvss.l.data(),lvss.l.size());
 	}
 #endif
 	static double k;
@@ -1377,6 +1385,10 @@ int pmk()
 						Module.HEAPU8.set(l,s);
 						Module.ccall('lvs','number',['number','number','number'],[s,l.length,8]);
 						Module._free(s);
+						while(!Module.ccall('lvs','number',['number','number','number'],[0,0,5])){}
+						let ns=Module.ccall('lvs','number',['number','number','number'],[0,0,6]);
+						let nl=Module.ccall('lvs','number',['number','number','number'],[0,0,7]);
+						return new TextDecoder().decode(Module.HEAP8.slice(ns,ns+nl));
 					};
 				});
 			while(1)
