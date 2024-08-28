@@ -187,7 +187,7 @@ void ncpk()
 							SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
 									.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
-							if(k==lss->r&&pk==lss->c)
+							if(k==lss->r&&pk==lss->c&&!(st.ptpr==1&&st.ptc==1))
 							{
 								unsigned r=255,h=255,n=255;
 								SDL_SetRenderDrawColor(st.ck,st.ks?255-r:r,st.ks?255-h:h,st.ks?255-n:n,255);
@@ -682,7 +682,8 @@ void EMSCRIPTEN_KEEPALIVE dplk(int p)
 		else if(pl.ends_with("~# ")||pl.ends_with("~$ "))
 		{
 			ss=2;
-			tmt_write(st.dps[0],"root:~# ",0);
+			tmt_write(st.dps[0],"\rroot:~# ",0);
+			st.ptpr=2;
 		}
 		return;
 	}
@@ -895,6 +896,7 @@ void nk()
 			if(!st.ptpr)
 			{
 				st.ptpr=1;
+				st.ptrk=SDL_GetTicks();
 				EM_ASM({
 					var ptcv=document.createElement('script');
 					ptcv.onload = function()
@@ -1252,6 +1254,19 @@ void nk()
 		if(st.ksns)st.plg=1;
 		st.ksn=sk;
 	}
+	if(st.ptc==1&&st.ptpr==1)
+	{
+		unsigned int sk=SDL_GetTicks();
+		const int vk=500;
+		if(sk-st.ptrk>vk)
+		{
+			st.plg=1;
+			if(tmt_cursor(st.dps[0])->c==3)
+				tmt_write(st.dps[0],"\b \b\b \b\b \b",0);
+			else tmt_write(st.dps[0],".",0);
+			st.ptrk+=vk;
+		}
+	}
 	st.tr.k+=sk-k;
 	k=sk;
 	if(st.tr.p==1||st.tr.p==2)
@@ -1319,7 +1334,7 @@ void dppk(tmt_msg_t d,TMT* dp,const void *pt,void* k)
 	if(d==TMT_MSG_UPDATE||d==TMT_MSG_MOVED)
 	{
 		st.plg=1;
-		tmt_clean(st.dps[*(int*)k]);
+		tmt_clean(*(TMT**)k);
 	}
 }
 #ifdef EMSCRIPTEN
@@ -1352,7 +1367,7 @@ int pmk()
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 	for(int k=0;k<2;k++)
-		st.dps[k]=tmt_open(8,8,dppk,&k,0);
+		st.dps[k]=tmt_open(8,8,dppk,&(st.dps[k]),0);
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
 	st.vkk=std::thread([](){
@@ -1417,7 +1432,7 @@ int pmk()
 		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
 				let tkl=(new TextDecoder().decode(p));
-				if(dplpl)console.log(tkl);
+				if(dplpl)console.log(tkl,p);
 				Module.ccall('dptlk',null,['string'],[tkl]);
 				d();
 			});});

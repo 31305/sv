@@ -130,7 +130,8 @@ struct stp
 	}dp;
 	int ptc=1;
 	TMT* dps[2];
-	bool ptpr=0;
+	int ptpr=0;
+	unsigned int ptrk=0;
 	struct
 	{
 		bool ns=0;
