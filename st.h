@@ -129,7 +129,7 @@ struct stp
 		float g;	
 	}dp;
 	int ptc=1;
-	TMT* dps;
+	TMT* dps[2];
 	bool ptpr=0;
 	struct
 	{

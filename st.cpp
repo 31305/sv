@@ -175,8 +175,8 @@ void ncpk()
 			}
 			else
 			{
-				auto dp=tmt_screen(st.dps);
-				auto lss=tmt_cursor(st.dps);
+				auto dp=tmt_screen(st.dps[st.ptc-1]);
+				auto lss=tmt_cursor(st.dps[st.ptc-1]);
 				for(size_t k=0;k<dp->nline;k++)
 					if(dp->lines[k]->dirty||1)
 						for(size_t pk=0;pk<dp->ncol;pk++)
@@ -196,7 +196,7 @@ void ncpk()
 								SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
 							}
 						}
-				tmt_clean(st.dps);
+				tmt_clean(st.dps[st.ptc-1]);
 			}
 			if(st.dp.d&&st.tp&&st.pskt.s)
 			{
@@ -644,7 +644,8 @@ void mk()
 	}
 	if(1)lnss(st.dp.g*4*st.g,st.dp.g*8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
-	tmt_resize(st.dps,st.dp.dv,st.dp.v);
+	for(int k=0;k<2;k++)
+		tmt_resize(st.dps[k],st.dp.dv,st.dp.v);
 	ptdps();
 #ifdef EMSCRIPTEN
 	EM_ASM({});
@@ -681,19 +682,19 @@ void EMSCRIPTEN_KEEPALIVE dplk(int p)
 		else if(pl.ends_with("~# ")||pl.ends_with("~$ "))
 		{
 			ss=2;
-			tmt_write(st.dps,"root:~# ",0);
+			tmt_write(st.dps[0],"root:~# ",0);
 		}
 		return;
 	}
 	static int k;
 	if(0)printf("p %d\n",p);
 	char s=p;
-	if(k<30||1)tmt_write(st.dps,&s,1);
+	if(k<30||1)tmt_write(st.dps[0],&s,1);
 	k++;
 }
 void EMSCRIPTEN_KEEPALIVE dptlk(const char* p)
 {
-	tmt_write(st.dps,p,0);
+	tmt_write(st.dps[1],p,0);
 }
 void EMSCRIPTEN_KEEPALIVE pp(int x1,int x2)
 {
@@ -1313,12 +1314,12 @@ void nk()
 #endif
 	npk(-1);
 }
-void dppk(tmt_msg_t d,TMT* dp,const void *pt,void*)
+void dppk(tmt_msg_t d,TMT* dp,const void *pt,void* k)
 {
 	if(d==TMT_MSG_UPDATE||d==TMT_MSG_MOVED)
 	{
 		st.plg=1;
-		tmt_clean(st.dps);
+		tmt_clean(st.dps[*(int*)k]);
 	}
 }
 #ifdef EMSCRIPTEN
@@ -1350,7 +1351,8 @@ int pmk()
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
-	st.dps=tmt_open(8,8,dppk,0,0);
+	for(int k=0;k<2;k++)
+		st.dps[k]=tmt_open(8,8,dppk,&k,0);
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
 	st.vkk=std::thread([](){
@@ -1460,7 +1462,8 @@ int pmk()
 		SDL_FreeSurface(st.lc);
 		if(st.lns)SDL_DestroyTexture(st.lns);
 		SDL_Quit();
-		tmt_close(st.dps);
+		for(int k=0;k<2;k++)
+			tmt_close(st.dps[k]);
 	}
 	return 0;
 }
