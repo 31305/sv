@@ -17,12 +17,12 @@ def ss(pp,pd,dp,dd):
     return (dp+numpy.dot(pd-dp,s)*(dd-dp)/numpy.dot(dd-dp,s)).tolist()
 cs+=[sg(cs[0],gs[0],0.5)]
 cs+=[sg(cs[0],gs[2],0.6)]
+cs+=[sg(cs[0],gs[1],0.7)]
 cs+=[ss(cs[1],gs[2],cs[2],gs[0])]
-cs+=[sg(cs[3],gs[1],0.7)]
-cs+=[ss(cs[1],gs[1],cs[4],gs[2])]
-cs+=[ss(cs[5],gs[0],cs[0],gs[1])]
-cs+=[ss(cs[4],gs[0],cs[2],gs[1])]
-cs+=[ss(cs[6],gs[2],cs[2],gs[1])]
+cs+=[ss(cs[1],gs[1],cs[3],gs[0])]
+cs+=[ss(cs[2],gs[1],cs[3],gs[2])]
+cs+=[ss(cs[5],gs[2],cs[6],gs[0])]
+cs+=[ss(cs[5],gs[2],cs[4],gs[1])]
 print(cs)
 
     
