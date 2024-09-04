@@ -480,6 +480,12 @@ struct vv
 	std::vector<size_t> pbs;
 	bool rv=0;
 	bool s=1;
+	struct
+	{
+		bool s;
+		double k;
+		bool pg;
+	}sg;
 };
 std::vector<v> sdk(const std::vector<std::vector<v>> vn)
 {
