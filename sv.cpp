@@ -483,8 +483,10 @@ struct vv
 	struct
 	{
 		bool s;
-		double k;
-		bool pg;
+		bool m;
+		double mk;
+		double pk;
+		std::function<std::tuple<double,double,bool>(size_t,double,double)> ss;
 	}sg;
 };
 std::vector<v> sdk(const std::vector<std::vector<v>> vn)
@@ -853,6 +855,7 @@ struct vks
 			size_t kp=0;
 			double vss=0;
 			std::vector<v> gv;
+			vv gvm;
 			bool bn=0;
 			while(ck)
 			{
@@ -939,7 +942,8 @@ struct vks
 						if(0)printf("ls %ld\n",pv[pv.size()-1]);
 						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
 					}
-					gv=ls[pv[pv.size()-1]].vm;
+					gvm=ls[pv[pv.size()-1]];
+					gv=gvm.vm;
 					kps.push_back(kp);
 					kp=pv[pv.size()-1];
 					if(0)printf("k %lu\n",kp);
@@ -978,6 +982,7 @@ struct vks
 					yk=0;
 					bn=1;
 					gv=1?::vs({73,4,69,7,66,2,75,2,55,51,3,70,1,75}): ::vs({45,13,71,66,2,75,2,55,51,3,70,1,75});
+					gvm={};
 				}
 				else if(yk!=0)
 				{
