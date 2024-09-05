@@ -1002,7 +1002,7 @@ struct vks
 					for(size_t k=0;k<gv.size();k++)
 						printf("%lu ",vsks(gv[k]));
 				if(vvl)printf("\n");
-				const double ctdm=12000;
+				const double ctdm=6000;
 				double ct=ctdm;
 				auto vp=[this,&ct,&ctdm,&mk]()
 				{
