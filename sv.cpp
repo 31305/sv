@@ -469,6 +469,7 @@ const std::vector<v> vs(const std::basic_string<unsigned char> &d)
 };
 struct vv
 {
+	std::vector<vv> ps;
 	std::vector<v> vm;
 	size_t nv=0;
 	size_t vpv=0;
