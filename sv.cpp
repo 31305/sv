@@ -1043,7 +1043,7 @@ struct vks
 					double dm=mk;
 					double vvd=dm*0.75;
 					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
-					if(pv.sg&&!nv&&pv1.sv&&!(!dv&&!pv0.sv))vd*=1.2;
+					if(0&&pv.sg&&!nv&&pv1.sv&&!(!dv&&!pv0.sv))vd*=1.2;
 					if(!nv&&pv.sv&&pv1.sv)
 						vd+=vvd;
 					if(!dv&&pv0.sv&&!pv.sv&&!nv&&!pv1.sv)vd=dm;
