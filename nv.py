@@ -6,12 +6,12 @@ import numpy
 from matplotlib import pyplot
 import matplotlib
 os.system('mkdir -p /tmp/nvtsl/')
-def nk():
-    p,pg=librosa.load(sys.argv[1])
-    d,dg=librosa.load(sys.argv[2])
+def nk(pn,dn):
+    p,pg=librosa.load(pn)
+    d,dg=librosa.load(dn)
     pl=librosa.feature.mfcc(y=p,sr=pg)
     dl=librosa.feature.mfcc(y=d,sr=dg)
-    n,l=librosa.sequence.dtw(X=pl,Y=dl)
+    n,l=librosa.sequence.dtw(X=pl,Y=dl,band_rad=1)
     c=pyplot.figure(figsize=(16,8))
     pyplot.subplot(2,1,1)
     librosa.display.waveshow(p,sr=pg)
@@ -32,4 +32,6 @@ def nk():
     c.lines=rs
     pyplot.tight_layout()
     pyplot.show()
-nk()
+    return l
+def __main__():
+    nk(sys.argv[1],sys.argv[2])
