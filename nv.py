@@ -2,5 +2,34 @@
 import librosa
 import sys
 import os
-s,lg=librosa.load(sys.argv[1])
+import numpy
+from matplotlib import pyplot
+import matplotlib
 os.system('mkdir -p /tmp/nvtsl/')
+def nk():
+    p,pg=librosa.load(sys.argv[1])
+    d,dg=librosa.load(sys.argv[2])
+    pl=librosa.feature.mfcc(y=p,sr=pg)
+    dl=librosa.feature.mfcc(y=d,sr=dg)
+    n,l=librosa.sequence.dtw(X=pl,Y=dl)
+    c=pyplot.figure(figsize=(16,8))
+    pyplot.subplot(2,1,1)
+    librosa.display.waveshow(p,sr=pg)
+    pyplot.title('p')
+    pt=pyplot.gca()
+    pyplot.subplot(2,1,2)
+    librosa.display.waveshow(d,sr=dg)
+    pyplot.title('d')
+    dt=pyplot.gca()
+    pyplot.tight_layout()
+    vkc=c.transFigure.inverted()
+    rs=[]
+    bs=numpy.int16(numpy.round(numpy.linspace(0,l.shape[0]-1,30)))
+    for pb,db in l[bs]*512/pg:
+        ps=vkc.transform(pt.transData.transform([pb,0]))
+        ds=vkc.transform(dt.transData.transform([db,0]))
+        rs.append(matplotlib.lines.Line2D((ps[0],ds[0]),(ps[1],ds[1]),transform=c.transFigure,color='r'))
+    c.lines=rs
+    pyplot.tight_layout()
+    pyplot.show()
+nk()
