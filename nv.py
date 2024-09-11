@@ -33,5 +33,6 @@ def nk(pn,dn):
     pyplot.tight_layout()
     pyplot.show()
     return l
-def __main__():
+if __name__=="__main__":
     nk(sys.argv[1],sys.argv[2])
+    print('p')
