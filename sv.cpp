@@ -1328,11 +1328,11 @@ struct vks
 							ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
 						double ssv=0.2;
 						if(0)ms[0][mt.PARAM_GLOT_PITCH]*=(1.0-ssv+2.0*ssv*(double)rand()/(double)RAND_MAX);
-						if(0)ms[1][mt.PARAM_GLOT_PITCH]+=0.5*sin(6.28*vkg/0.01);
 						double tvsv=0.011;
 						if(0)ms[1][mt.PARAM_GLOT_VOL]*=(1.0-tvsv+2.0*tvsv*(double)rand()/(double)RAND_MAX);
 						for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
 							ks[k]=(ms[1][k]-ms[0][k])/(double)gs;
+						if(0)ks[mt.PARAM_GLOT_PITCH]=(ms[1][mt.PARAM_GLOT_PITCH]-ms[0][mt.PARAM_GLOT_PITCH]+0.5*sin(6.28*vkg/0.2))/(double)gs;
 						for(int dk=0;dk<gs;dk++)
 						{
 							for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
