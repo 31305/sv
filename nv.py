@@ -35,4 +35,3 @@ def nk(pn,dn):
     return l
 if __name__=="__main__":
     nk(sys.argv[1],sys.argv[2])
-    print('p')
