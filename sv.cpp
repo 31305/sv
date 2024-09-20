@@ -1692,6 +1692,7 @@ void k(int p,bool lp=0,bool sl=0)
 	else
 	{
 #ifndef EMSCRIPTEN
+		if(sl)SDL_PauseAudioDevice(dn.ys,1);
 		while(v.ck&&!sl)
 		{
 			int t=0;
