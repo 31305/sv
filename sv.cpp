@@ -1017,9 +1017,12 @@ struct vks
 					{
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
-						vy.mc.k[vy.u]=ls;
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
-						vy.u=vy.mc.v(vy.u);
+						else
+						{
+							vy.u=vy.mc.v(vy.u);
+							vy.mc.k[vy.u]=ls;
+						}
 					};
 					for(size_t k=0;k<mt.outputBuffer().size();k++)
 					{
