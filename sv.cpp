@@ -956,7 +956,9 @@ struct vks
 					if(yk==3)yk=0;
 					size_t s=1<<(pvss-1);
 					size_t gs=kp;
-					for(size_t k=0;k<s;k++)
+					if(kp==0&&st.s==5)
+						gs=0;
+					else for(size_t k=0;k<s;k++)
 						if(ls[gs].pv)gs=ls[gs].pv;
 						else break;
 					if(gs!=kp)vsk(gs);
