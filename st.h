@@ -172,6 +172,11 @@ struct nl
 	unsigned char rm=255,hm=255,nm=255;
 	void operator()();
 };
+extern "C"
+{
+void sn(int);
+void nt(int);
+}
 int pmk();
 void nk();
 int pmk();

@@ -928,6 +928,9 @@ void nk()
 			st.dp.d=1;
 			st.ptc=2;
 			break;
+		case 5:
+			if(tkps){nt(4);nt(3);nt(0);}
+			break;
 		default:
 			st.dp.d=0;
 			break;
