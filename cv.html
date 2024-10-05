@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+<title>Mentic</title>
+</head>
+<body style='image-rendering: crisp-edges;margin:0;background-color:black;overflow:hidden'>
+<canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
+<script type='text/javascript'>
+vpv1=0;vpv2=0;
+var cp=document.getElementById('canvas')
+const l=new ResizeObserver((gs)=>
+{
+  const g=gs.find((g)=>g.target===cp);
+  vpv1=g.devicePixelContentBoxSize[0].inlineSize;
+  vpv2=g.devicePixelContentBoxSize[0].blockSize;
+  cp.width=vpv1;
+  cp.height=vpv2;
+  if(0)console.log(vpv1,vpv2);
+});
+l.observe(cp,{box:"device-pixel-content-box"});
+sk=cp.getContext('webgl');
+var vpvv,kss,sgss,kcss,sgcss,ccp;
+function vvk()
+{
+	const bv=sk.createShader(sk.VERTEX_SHADER);
+	sk.shaderSource(bv,"attribute vec4 s;attribute vec2 cs;varying vec2 pcs;void main(){gl_Position=s;pcs=cs;}")
+	sk.compileShader(bv)
+	if(0)console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
+	const vv=sk.createShader(sk.FRAGMENT_SHADER);
+	sk.shaderSource(vv,"precision mediump float;varying vec2 pcs;void main(){gl_FragColor=vec4(0,pcs[1],gl_FragCoord[0]/256.0,1);}")
+	sk.compileShader(vv)
+	if(0)console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
+	vpvv=sk.createProgram()
+	sk.attachShader(vpvv,bv)
+	sk.attachShader(vpvv,vv)
+	sk.linkProgram(vpvv)
+	if(0)console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
+	kss=sk.getAttribLocation(vpvv,"s")
+	kcss=sk.getAttribLocation(vpvv,"cs")
+	sgss=sk.createBuffer()
+	sgcss=sk.createBuffer()
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
+	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1]),sk.STATIC_DRAW)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
+	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([0,0,1,0,1,1,0,0,0,1,1,1]),sk.STATIC_DRAW)
+	ccp=sk.createTexture();
+}
+vvk()
+var tkv=0,tkccp=0;
+function ccvs()
+{
+	sk.viewport(0,0,cp.width,cp.height);
+	sk.useProgram(vpvv)
+	sk.enableVertexAttribArray(kss)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
+	sk.vertexAttribPointer(kss,2,sk.FLOAT,false,0,0)
+	sk.enableVertexAttribArray(kcss)
+	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
+	sk.vertexAttribPointer(kcss,2,sk.FLOAT,false,0,0)
+	if(1)sk.drawArrays(sk.TRIANGLES,0,6)
+	requestAnimationFrame(ccvs)
+	return 1;
+}
+requestAnimationFrame(ccvs)
+</script>
+</body>
+</html>
