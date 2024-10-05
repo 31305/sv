@@ -21,15 +21,15 @@ const l=new ResizeObserver((gs)=>
 });
 l.observe(cp,{box:"device-pixel-content-box"});
 sk=cp.getContext('webgl');
-var vpvv,kss,sgss,kcss,sgcss,ccp;
+var vpvv,kss,sgss,kcss,sgcss,ccp,npss;
 function vvk()
 {
 	const bv=sk.createShader(sk.VERTEX_SHADER);
-	sk.shaderSource(bv,"attribute vec4 s;attribute vec2 cs;varying vec2 pcs;void main(){gl_Position=s;pcs=cs;}")
+	sk.shaderSource(bv,"attribute vec4 s;void main(){gl_Position=s;}")
 	sk.compileShader(bv)
 	if(0)console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
 	const vv=sk.createShader(sk.FRAGMENT_SHADER);
-	sk.shaderSource(vv,"precision mediump float;varying vec2 pcs;void main(){gl_FragColor=vec4(0,pcs[1],gl_FragCoord[0]/256.0,1);}")
+	sk.shaderSource(vv,"precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv;gl_FragColor=vec4(tk.x,tk.y,0,1);}")
 	sk.compileShader(vv)
 	if(0)console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
 	vpvv=sk.createProgram()
@@ -38,14 +38,10 @@ function vvk()
 	sk.linkProgram(vpvv)
 	if(0)console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
 	kss=sk.getAttribLocation(vpvv,"s")
-	kcss=sk.getAttribLocation(vpvv,"cs")
+	npss=sk.getUniformLocation(vpvv,"pv")
 	sgss=sk.createBuffer()
-	sgcss=sk.createBuffer()
 	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
 	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1]),sk.STATIC_DRAW)
-	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
-	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([0,0,1,0,1,1,0,0,0,1,1,1]),sk.STATIC_DRAW)
-	ccp=sk.createTexture();
 }
 vvk()
 var tkv=0,tkccp=0;
@@ -56,9 +52,7 @@ function ccvs()
 	sk.enableVertexAttribArray(kss)
 	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
 	sk.vertexAttribPointer(kss,2,sk.FLOAT,false,0,0)
-	sk.enableVertexAttribArray(kcss)
-	sk.bindBuffer(sk.ARRAY_BUFFER,sgcss)
-	sk.vertexAttribPointer(kcss,2,sk.FLOAT,false,0,0)
+	sk.uniform2f(npss,cp.width,cp.height)
 	if(1)sk.drawArrays(sk.TRIANGLES,0,6)
 	requestAnimationFrame(ccvs)
 	return 1;
