@@ -29,7 +29,7 @@ function vvk()
 	sk.compileShader(bv)
 	if(0)console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
 	const vv=sk.createShader(sk.FRAGMENT_SHADER);
-	sk.shaderSource(vv,"precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}")
+	sk.shaderSource(vv,"precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=tk.x*vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}")
 	sk.compileShader(vv)
 	if(0)console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
 	vpvv=sk.createProgram()
