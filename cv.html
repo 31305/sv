@@ -29,7 +29,24 @@ function vvk()
 	sk.compileShader(bv)
 	if(0)console.log(sk.getShaderParameter(bv,sk.COMPILE_STATUS))
 	const vv=sk.createShader(sk.FRAGMENT_SHADER);
-	sk.shaderSource(vv,"precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=tk.x*vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}")
+	const pck="precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=tk.x*vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}";
+	const dck=`
+		precision mediump float;
+		uniform vec2 pv;
+   		uniform float s;
+		void main()
+		{
+				vec2 tk=gl_FragCoord.xy/pv.xx;
+   				tk=tk-vec2(0.5,0.5);
+				vec2 ck=tk*tk;
+				float nk=sqrt(ck.x+ck.y);
+  				float ld=40.0;
+   				float dv=atan(ld*cos(-s*0.001+ld*nk));
+   				float p=asin(0.75*sin(dv));
+   				p=0.02*tan(dv-p);
+				gl_FragColor=vec4(0.0,floor(mod(floor(mod((p*tk.x/nk+tk.x)*8.0,2.0))+floor(mod(1.0+(p*tk.y/nk+tk.y)*8.0,2.0)),2.0)),0.4,1);
+		}`;
+	sk.shaderSource(vv,dck)
 	sk.compileShader(vv)
 	if(0)console.log(sk.getShaderParameter(vv,sk.COMPILE_STATUS))
 	vpvv=sk.createProgram()
@@ -39,6 +56,7 @@ function vvk()
 	if(0)console.log(sk.getProgramParameter(vpvv,sk.LINK_STATUS))
 	kss=sk.getAttribLocation(vpvv,"s")
 	npss=sk.getUniformLocation(vpvv,"pv")
+	kgss=sk.getUniformLocation(vpvv,"s")
 	sgss=sk.createBuffer()
 	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
 	sk.bufferData(sk.ARRAY_BUFFER,new Float32Array([-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1]),sk.STATIC_DRAW)
@@ -53,6 +71,7 @@ function ccvs()
 	sk.bindBuffer(sk.ARRAY_BUFFER,sgss)
 	sk.vertexAttribPointer(kss,2,sk.FLOAT,false,0,0)
 	sk.uniform2f(npss,cp.width,cp.height)
+	sk.uniform1f(kgss,(new Date()).getTime()%3600000)
 	if(1)sk.drawArrays(sk.TRIANGLES,0,6)
 	requestAnimationFrame(ccvs)
 	return 1;
