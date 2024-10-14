@@ -41,10 +41,13 @@ function vvk()
 				vec2 ck=tk*tk;
 				float nk=sqrt(ck.x+ck.y);
   				float ld=40.0;
-   				float dv=atan(ld*cos(-s*0.001+ld*nk));
+   				float dtdg=0.01;
+   				float dg=dtdg*sin(-s*0.001+ld*nk);
+   				float dv=atan(dtdg*ld*cos(-s*0.001+ld*nk));
    				float p=asin(0.75*sin(dv));
-   				p=0.02*tan(dv-p);
-				gl_FragColor=vec4(0.0,floor(mod(floor(mod((p*tk.x/nk+tk.x)*8.0,2.0))+floor(mod(1.0+(p*tk.y/nk+tk.y)*8.0,2.0)),2.0)),0.4,1);
+   				p=(0.05+dg)*tan(dv-p);
+   				float bs=8.0;
+				gl_FragColor=vec4(0.0,floor(mod(floor(mod((p*tk.x/nk+tk.x)*bs,2.0))+floor(mod(1.0+(p*tk.y/nk+tk.y)*bs,2.0)),2.0)),0.4,1);
 		}`;
 	sk.shaderSource(vv,dck)
 	sk.compileShader(vv)
