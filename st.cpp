@@ -16,12 +16,13 @@ bool jt=0;
 #include<emscripten.h>
 bool jt=1;
 #endif
-struct tlk
+struct
 {
 	GLuint vpvv;
 	GLuint sgss;
 	GLint kss,npss;
-	bool rs=0;
+	GLint p=0;
+	bool rs;
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
@@ -47,15 +48,18 @@ struct tlk
 	void pk(int s1,int s2,int v1, int v2)
 	{
 		if(!rs)rk();
-		glViewport(s1,s2,v1,v2);
+		glGetIntegerv(GL_CURRENT_PROGRAM,&p);
+		glViewport(s1,st.clp.v2-s2-v2,v1,v2);
 		glUseProgram(vpvv);
 		glEnableVertexAttribArray(kss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
 		glVertexAttribPointer(kss,2,GL_FLOAT,false,0,0);
 		glUniform2f(npss,v1,v2);
 		glDrawArrays(GL_TRIANGLES,0,6);
+		glViewport(0,0,st.clp.v1,st.clp.v2);
+		glUseProgram(p);
 	}
-};
+}ckkn;
 void lck()
 {
 	int v1,v2;
@@ -1341,7 +1345,14 @@ void nk()
 	{
 		st.plg=0;lk();
 		if(!ccp)
+		{
 			SDL_RenderPresent(st.ck);
+			if(0)
+			{
+				ckkn.pk(st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
+				SDL_GL_SwapWindow(st.cp);
+			}
+		}
 	}
 	if(ccp)
 	{
