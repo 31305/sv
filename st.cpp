@@ -1,6 +1,7 @@
 #include"st.h"
 #include<SDL_image.h>
 #include<SDL_ttf.h>
+#include<SDL_opengles2.h>
 #include<chrono>
 #include<random>
 #include<thread>
@@ -15,6 +16,46 @@ bool jt=0;
 #include<emscripten.h>
 bool jt=1;
 #endif
+struct tlk
+{
+	GLuint vpvv;
+	GLuint sgss;
+	GLint kss,npss;
+	bool rs=0;
+	void rk()
+	{
+		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
+		const GLchar* bvm="attribute vec4 s;void main(){gl_Position=s;}";
+		glShaderSource(bv,1,&bvm,0);
+		glCompileShader(bv);
+		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
+		const GLchar* pck="precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=tk.x*vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}";
+		glShaderSource(vv,1,&pck,0);
+		glCompileShader(vv);
+		vpvv=glCreateProgram();
+		glAttachShader(vpvv,bv);
+		glAttachShader(vpvv,vv);
+		glLinkProgram(vpvv);
+		kss=glGetAttribLocation(vpvv,"s");
+		npss=glGetUniformLocation(vpvv,"pv");
+		glGenBuffers(1,&sgss);
+		glBindBuffer(GL_ARRAY_BUFFER,sgss);
+		GLfloat ks[]={-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1};
+		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
+		rs=1;
+	}
+	void pk(int s1,int s2,int v1, int v2)
+	{
+		if(!rs)rk();
+		glViewport(s1,s2,v1,v2);
+		glUseProgram(vpvv);
+		glEnableVertexAttribArray(kss);
+		glBindBuffer(GL_ARRAY_BUFFER,sgss);
+		glVertexAttribPointer(kss,2,GL_FLOAT,false,0,0);
+		glUniform2f(npss,v1,v2);
+		glDrawArrays(GL_TRIANGLES,0,6);
+	}
+};
 void lck()
 {
 	int v1,v2;
