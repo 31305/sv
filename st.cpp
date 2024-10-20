@@ -54,7 +54,8 @@ struct
 		glEnableVertexAttribArray(kss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
 		glVertexAttribPointer(kss,3,GL_FLOAT,false,0,0);
-		GLfloat pm[]={(float)v2/(float)v1,0,0,0,0,1,0,0,0,0,-1.5,-1,0,0,-0.5*2.5,0};
+		float sts=0.5,dts=100.0;
+		GLfloat pm[]={(float)v2/(float)v1,0,0,0,0,1,0,0,0,0,(sts+dts)/(sts-dts),-1,0,0,sts*dts/(sts-dts)*2.0f,0};
 		if(1)glUniformMatrix4fv(npss,1,false,pm);
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 		glViewport(0,0,st.clp.v1,st.clp.v2);
@@ -1364,7 +1365,7 @@ void nk()
 				}
 				ccvs.x=st.cdp.x+(st.cdp.w-ccvs.w)*0.5;
 				ccvs.y=st.cdp.y+(st.cdp.h-ccvs.h)*0.5;
-				ckkn.pk(st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
+				ckkn.pk(ccvs.x,ccvs.y,ccvs.w,ccvs.h);
 			}
 		}
 	}
