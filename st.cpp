@@ -26,7 +26,7 @@ struct
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
-		const GLchar* bvm="attribute vec4 s;void main(){gl_Position=vec4(s.x,s.y,0.0,1.0);}";
+		const GLchar* bvm="attribute vec3 s;uniform mat4 p;void main(){gl_Position=p*vec4(s,1.0);}";
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
@@ -38,10 +38,10 @@ struct
 		glAttachShader(vpvv,vv);
 		glLinkProgram(vpvv);
 		kss=glGetAttribLocation(vpvv,"s");
-		if(0)npss=glGetUniformLocation(vpvv,"pv");
+		if(1)npss=glGetUniformLocation(vpvv,"p");
 		glGenBuffers(1,&sgss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		GLfloat ks[]={-1,1,1,-1,-1,1,1,1,2,1,-1,2};
+		GLfloat ks[]={-1,1,-1,-1,-1,-1,-1,1,-2,-1,-1,-2};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
 		rs=1;
 	}
@@ -54,7 +54,8 @@ struct
 		glEnableVertexAttribArray(kss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
 		glVertexAttribPointer(kss,3,GL_FLOAT,false,0,0);
-		if(0)glUniform2f(npss,v1,v2);
+		GLfloat pm[]={(float)v2/(float)v1,0,0,0,0,1,0,0,0,0,-1.5,-1,0,0,-0.5*2.5,0};
+		if(1)glUniformMatrix4fv(npss,1,false,pm);
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 		glViewport(0,0,st.clp.v1,st.clp.v2);
 		glUseProgram(p);
