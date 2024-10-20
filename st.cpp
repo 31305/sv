@@ -19,18 +19,18 @@ bool jt=1;
 struct
 {
 	GLuint vpvv;
-	GLuint sgss;
-	GLint kss,npss;
+	GLuint sgss,tss;
+	GLint kss,npss,ts;
 	GLint p=0;
 	bool rs;
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
-		const GLchar* bvm="attribute vec3 s;uniform mat4 p;void main(){gl_Position=p*vec4(s,1.0);}";
+		const GLchar* bvm="attribute vec3 s;attribute vec2 ts;varying vec2 dts;uniform mat4 p;void main(){dts=ts;gl_Position=p*vec4(s,1.0);}";
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
-		const GLchar* pck="precision mediump float;void main(){gl_FragColor=vec4(1.0,1.0,1.0,1.0);}";
+		const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),1.0,1.0);}";
 		glShaderSource(vv,1,&pck,0);
 		glCompileShader(vv);
 		vpvv=glCreateProgram();
@@ -38,11 +38,16 @@ struct
 		glAttachShader(vpvv,vv);
 		glLinkProgram(vpvv);
 		kss=glGetAttribLocation(vpvv,"s");
+		ts=glGetAttribLocation(vpvv,"ts");
 		if(1)npss=glGetUniformLocation(vpvv,"p");
 		glGenBuffers(1,&sgss);
+		glGenBuffers(1,&tss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
 		GLfloat ks[]={-1,1,-1,-1,-1,-1,-1,1,-2,-1,-1,-2};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER,tss);
+		GLfloat tks[]={0,0, 1,0, 0,1, 1,1};
+		glBufferData(GL_ARRAY_BUFFER,sizeof(tks),tks,GL_STATIC_DRAW);
 		rs=1;
 	}
 	void pk(int s1,int s2,int v1, int v2)
@@ -52,8 +57,11 @@ struct
 		glViewport(s1,st.clp.v2-s2-v2,v1,v2);
 		glUseProgram(vpvv);
 		glEnableVertexAttribArray(kss);
+		glEnableVertexAttribArray(ts);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
 		glVertexAttribPointer(kss,3,GL_FLOAT,false,0,0);
+		glBindBuffer(GL_ARRAY_BUFFER,tss);
+		glVertexAttribPointer(ts,2,GL_FLOAT,false,0,0);
 		float sts=0.5,dts=100.0;
 		GLfloat pm[]={(float)v2/(float)v1,0,0,0,0,1,0,0,0,0,(sts+dts)/(sts-dts),-1,0,0,sts*dts/(sts-dts)*2.0f,0};
 		if(1)glUniformMatrix4fv(npss,1,false,pm);
