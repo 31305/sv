@@ -26,7 +26,7 @@ struct
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
-		const GLchar* bvm="attribute vec4 s;void main(){gl_Position=s;}";
+		const GLchar* bvm="attribute vec4 s;void main(){gl_Position=vec4(s.x,s.y,0.0,1.0);}";
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
@@ -41,7 +41,7 @@ struct
 		if(0)npss=glGetUniformLocation(vpvv,"pv");
 		glGenBuffers(1,&sgss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		GLfloat ks[]={-1,1,0, -1,-1,0, 1,1,0, 1,-1,0};
+		GLfloat ks[]={-1,1,1,-1,-1,1,1,1,2,1,-1,2};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
 		rs=1;
 	}
@@ -1350,6 +1350,19 @@ void nk()
 			SDL_RenderPresent(st.ck);
 			if(st.s==6)
 			{
+				SDL_Rect ccvs;
+				if(st.cdp.h>st.cdp.w)
+				{
+					ccvs.h=st.cdp.w;
+					ccvs.w=st.cdp.w;
+				}
+				else
+				{
+					ccvs.w=st.cdp.h;
+					ccvs.h=st.cdp.h;
+				}
+				ccvs.x=st.cdp.x+(st.cdp.w-ccvs.w)*0.5;
+				ccvs.y=st.cdp.y+(st.cdp.h-ccvs.h)*0.5;
 				ckkn.pk(st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
 			}
 		}
