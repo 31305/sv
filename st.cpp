@@ -30,7 +30,7 @@ struct
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
-		const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),1.0,1.0);}";
+		const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,0.5*floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),0.2,1.0);}";
 		glShaderSource(vv,1,&pck,0);
 		glCompileShader(vv);
 		vpvv=glCreateProgram();
@@ -43,7 +43,7 @@ struct
 		glGenBuffers(1,&sgss);
 		glGenBuffers(1,&tss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		GLfloat ks[]={-1,1,-1,-1,-1,-1,-1,1,-2,-1,-1,-2};
+		GLfloat ks[]={-1,-1,-1, -1,-1,-2, 1,-1,-1, 1,-1,-2};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER,tss);
 		GLfloat tks[]={0,0, 1,0, 0,1, 1,1};
