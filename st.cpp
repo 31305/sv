@@ -30,7 +30,7 @@ struct
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
-		const GLchar* pck="precision mediump float;uniform vec2 pv;void main(){vec2 tk=gl_FragCoord.xy/pv.xx;tk=tk*tk;gl_FragColor=tk.x*vec4(0.0,0.3+0.25*step(0.0,sin(20.0*sqrt(tk.x+tk.y))),0.4,1);}";
+		const GLchar* pck="precision mediump float;void main(){gl_FragColor=vec4(1.0,1.0,1.0,1.0);}";
 		glShaderSource(vv,1,&pck,0);
 		glCompileShader(vv);
 		vpvv=glCreateProgram();
@@ -38,10 +38,10 @@ struct
 		glAttachShader(vpvv,vv);
 		glLinkProgram(vpvv);
 		kss=glGetAttribLocation(vpvv,"s");
-		npss=glGetUniformLocation(vpvv,"pv");
+		if(0)npss=glGetUniformLocation(vpvv,"pv");
 		glGenBuffers(1,&sgss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		GLfloat ks[]={-1,1, 1,1, 1,-1, -1,1, -1,-1, 1,-1};
+		GLfloat ks[]={-1,1,0, -1,-1,0, 1,1,0, 1,-1,0};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
 		rs=1;
 	}
@@ -53,11 +53,12 @@ struct
 		glUseProgram(vpvv);
 		glEnableVertexAttribArray(kss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		glVertexAttribPointer(kss,2,GL_FLOAT,false,0,0);
-		glUniform2f(npss,v1,v2);
-		glDrawArrays(GL_TRIANGLES,0,6);
+		glVertexAttribPointer(kss,3,GL_FLOAT,false,0,0);
+		if(0)glUniform2f(npss,v1,v2);
+		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 		glViewport(0,0,st.clp.v1,st.clp.v2);
 		glUseProgram(p);
+		SDL_GL_SwapWindow(st.cp);
 	}
 }ckkn;
 void lck()
@@ -274,7 +275,7 @@ void ncpk()
 		if(st.vtp)lck();
 		if(0)SDL_RenderCopy(st.ck,st.lns,NULL,NULL);
 		if(0)printf("tl %s\n",SDL_GetError());
-		if(!st.cc&&!st.dp.d)
+		if(!st.cc&&!st.dp.d&&!(st.s==6))
 		{
 			if(1)
 			{
@@ -1347,10 +1348,9 @@ void nk()
 		if(!ccp)
 		{
 			SDL_RenderPresent(st.ck);
-			if(0)
+			if(st.s==6)
 			{
 				ckkn.pk(st.cdp.x,st.cdp.y,st.cdp.w,st.cdp.h);
-				SDL_GL_SwapWindow(st.cp);
 			}
 		}
 	}
