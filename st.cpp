@@ -7,6 +7,9 @@
 #include<thread>
 #include<csignal>
 #include<unistd.h>
+#include"glm/glm/mat4x4.hpp"
+#include"glm/glm/ext/matrix_transform.hpp"
+#include"glm/glm/ext/matrix_clip_space.hpp"
 #ifdef CP
 #include<cairo.h>
 #endif
@@ -62,9 +65,8 @@ struct
 		glVertexAttribPointer(kss,3,GL_FLOAT,false,0,0);
 		glBindBuffer(GL_ARRAY_BUFFER,tss);
 		glVertexAttribPointer(ts,2,GL_FLOAT,false,0,0);
-		float sts=0.5,dts=100.0;
-		GLfloat pm[]={(float)v2/(float)v1,0,0,0,0,1,0,0,0,0,(sts+dts)/(sts-dts),-1,0,0,sts*dts/(sts-dts)*2.0f,0};
-		if(1)glUniformMatrix4fv(npss,1,false,pm);
+		auto pmd=glm::perspective(3.14159f*0.5f,(float)v1/(float)v2,0.5f,100.0f);
+		if(1)glUniformMatrix4fv(npss,1,false,&pmd[0][0]);
 		glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 		glViewport(0,0,st.clp.v1,st.clp.v2);
 		glUseProgram(p);
