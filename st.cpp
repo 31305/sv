@@ -26,6 +26,40 @@ struct
 	GLint kss,npss,ts;
 	GLint p=0;
 	bool rs;
+	const GLchar* cck=R"(
+precision mediump float;
+varying vec2 dts;
+#define dv 3.14159
+float cm(vec3 p,vec3 d,vec3 t)
+{
+	return abs(atan(dot(cross(d,t),p)/(length(p)*length(d)*length(t)+dot(p,d)*length(t)+dot(p,t)*length(d)+dot(d,t)*length(p))))/dv;
+}
+void main()
+{
+	vec3 ms=vec3(dts.x,dts.y,0.0);
+	float dg=0.1;
+	vec3 p=vec3(0,1,0)-ms;
+	vec3 d=vec3(1,1,0)-ms;
+	vec3 t=vec3(0,1,dg)-ms;
+	float s=cm(p,d,t);
+	p=vec3(1,1,dg)-ms;
+	s+=cm(p,d,t);
+	t=vec3(1,0,dg)-ms;
+	s+=cm(p,d,t);
+	p=vec3(1,0,0)-ms;
+	s+=cm(p,d,t);
+	d=vec3(0,0,0)-ms;
+	s+=cm(p,d,t);
+	p=vec3(0,0,dg)-ms;
+	s+=cm(p,d,t);
+	t=vec3(0,1,0)-ms;
+	s+=cm(p,d,t);
+	d=vec3(0,1,dg)-ms;
+	s+=cm(p,d,t);
+	s=1.0-s;
+	gl_FragColor=vec4(s,s,s,1.0);
+}
+)";
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
@@ -33,8 +67,8 @@ struct
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
-		const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,0.5*floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),0.2,1.0);}";
-		glShaderSource(vv,1,&pck,0);
+		[[maybe_unused]]const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,0.5*floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),0.2,1.0);}";
+		glShaderSource(vv,1,&cck,0);
 		glCompileShader(vv);
 		vpvv=glCreateProgram();
 		glAttachShader(vpvv,bv);
