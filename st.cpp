@@ -26,6 +26,15 @@ struct
 	GLint kss,npss,ts;
 	GLint p=0;
 	bool rs;
+	const GLchar* kck=R"(
+precision mediump float;
+varying vec2 dts;
+varying vec3 dv;
+void main()
+{
+	gl_FragColor=vec4(dv,1);
+}
+)";
 	const GLchar* cck=R"(
 precision mediump float;
 varying vec2 dts;
@@ -63,12 +72,22 @@ void main()
 	void rk()
 	{
 		GLuint bv=glCreateShader(GL_VERTEX_SHADER);
-		const GLchar* bvm="attribute vec3 s;attribute vec2 ts;varying vec2 dts;uniform mat4 p;void main(){dts=ts;gl_Position=p*vec4(s,1.0);}";
+		const GLchar* bvm=R"(
+attribute vec3 s;
+attribute vec2 ts;
+attribute vec3 v;
+varying vec3 dv;
+varying vec2 dts;
+uniform mat4 p;
+void main()
+{
+	dv=v;dts=ts;gl_Position=p*vec4(s,1.0);
+})";
 		glShaderSource(bv,1,&bvm,0);
 		glCompileShader(bv);
 		GLuint vv=glCreateShader(GL_FRAGMENT_SHADER);
 		[[maybe_unused]]const GLchar* pck="precision mediump float;varying vec2 dts;void main(){float bs=8.0;gl_FragColor=vec4(0.0,0.5*floor(mod(floor(mod((dts.x)*bs,2.0))+floor(mod(1.0+(dts.y)*bs,2.0)),2.0)),0.2,1.0);}";
-		glShaderSource(vv,1,&cck,0);
+		glShaderSource(vv,1,&kck,0);
 		glCompileShader(vv);
 		vpvv=glCreateProgram();
 		glAttachShader(vpvv,bv);
