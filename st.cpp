@@ -80,7 +80,7 @@ void main()
 		glGenBuffers(1,&sgss);
 		glGenBuffers(1,&tss);
 		glBindBuffer(GL_ARRAY_BUFFER,sgss);
-		GLfloat ks[]={-1,-1,-1, -1,-1,-2, 1,-1,-1, 1,-1,-2};
+		GLfloat ks[]={-1,-1,-1, -1,1,-1, 1,-1,-1, 1,1,-1};
 		glBufferData(GL_ARRAY_BUFFER,sizeof(ks),ks,GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER,tss);
 		GLfloat tks[]={0,0, 1,0, 0,1, 1,1};
