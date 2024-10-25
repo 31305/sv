@@ -32,7 +32,7 @@ varying vec2 dts;
 varying vec3 dv;
 void main()
 {
-	gl_FragColor=vec4(dv,1);
+	gl_FragColor=vec4(dts.x*0.1,dts.y*0.1,0,1);
 }
 )";
 	const GLchar* cck=R"(
