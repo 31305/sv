@@ -3,7 +3,7 @@ import cairo
 import os
 import math
 def sn(sn,k):
-    return str(k)
+    return sn+str(k).zfill(4)+'.png'
 def pk():
     ls=[]
     sls=bytearray(0)
@@ -17,7 +17,7 @@ def pk():
     pk=0
     for k in range(0,len(ls)):
         ss=0
-        while pk<ls[k][0]):
+        while pk<ls[k][0]:
             nc=cairo.ImageSurface.create_from_png(sn(msn,pk))
             if ss==0:
                 ss=min(cspn*gn,ls[k][0]-pk)
