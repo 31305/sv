@@ -160,6 +160,7 @@ struct stp
 		bool sn=0,nn=0;
 	}pskt;
 	std::thread vkk;
+	int kgs=0;
 }; 
 extern stp st;
 extern bool jt;
