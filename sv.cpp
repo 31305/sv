@@ -1581,14 +1581,15 @@ struct jvn
 			return;
 		}
 		int ns[1]={1};
-		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=0,.numberOfOutputs=1,.outputChannelCounts=ns};
+		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=1,.numberOfOutputs=1,.outputChannelCounts=ns};
 		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"sv",&vk,&tpk,sg);
 		EM_ASM({window.pv=emscriptenGetAudioObject($0);
+			window.vkk=emscriptenGetAudioObject($1);
+			if(0)navigator.mediaDevices.getUserMedia({audio:true}).then(p=>{window.smss=p;window.smssk=pv.createMediaStreamSource(p);smssk.connect(vkk)});
 			window.drk=(sk=0)=>{
 			if(pv.state!='running'||sk)
 			{
 				pv.resume();
-				window.vkk=emscriptenGetAudioObject($1);
 				vkk.connect(pv.destination);
 			}
 			else if(0)
