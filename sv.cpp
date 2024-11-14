@@ -941,7 +941,7 @@ struct vks
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
 					if(pv.size()>0);
-					else if(ccs=="kgs")
+					else if(ccs=="kgs"&&st.kgs>0)
 						kgss();
 					else
 					{
