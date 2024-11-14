@@ -901,6 +901,18 @@ struct vks
 						pv.push_back(vk);
 					}
 				};
+				auto kgss=[&bn,&gv]()
+				{
+					bn=1;
+					auto ss=std::ifstream("nstp",std::ios::binary);
+					ss.seekg((st.kgs-1)*64);
+					char p[64];
+					ss.read(p,64);
+					gv={};
+					for(size_t k=0;k<64;k++)
+						if(p[k]!=0)
+							gv.push_back(vc[(unsigned char)p[k]]);
+				};
 				if(lp)
 				{
 					if(yk==3||sl)
@@ -929,6 +941,8 @@ struct vks
 					yk=0;
 					if(0)printf("16 %ld\n",vs);
 					if(pv.size()>0);
+					else if(ccs=="kgs")
+						kgss();
 					else
 					{
 						if(pvss==1)vsk(kp);
@@ -962,8 +976,16 @@ struct vks
 					else for(size_t k=0;k<s;k++)
 						if(ls[gs].pv)gs=ls[gs].pv;
 						else break;
-					if(gs!=kp)vsk(gs);
-					continue;
+					if(ccs=="kgs")
+					{
+						st.kgs++;
+						kgss();
+					}
+					else
+					{
+						if(gs!=kp)vsk(gs);
+						continue;
+					}
 				}
 				else if(yk==8)
 				{
