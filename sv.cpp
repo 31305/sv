@@ -840,6 +840,7 @@ struct vks
 		bool v=0;
 	};
 	vyp vy=vyp(48000);
+	std::ifstream sskg=std::ifstream("nstp",std::ios::binary);
 	void vk()
 	{
 		if(dk)dk();
@@ -901,13 +902,12 @@ struct vks
 						pv.push_back(vk);
 					}
 				};
-				auto kgss=[&bn,&gv]()
+				auto kgss=[&bn,&gv,this]()
 				{
 					bn=1;
-					auto ss=std::ifstream("nstp",std::ios::binary);
-					ss.seekg((st.kgs-1)*64);
+					sskg.seekg((st.kgs-1)*64);
 					char p[64];
-					ss.read(p,64);
+					sskg.read(p,64);
 					gv={};
 					for(size_t k=0;k<64;k++)
 						if(p[k]!=0)
