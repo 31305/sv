@@ -979,6 +979,7 @@ struct vks
 					if(ccs=="kgs")
 					{
 						st.kgs++;
+						if(st.kgs>10000)st.kgs-=10000;
 						kgss();
 					}
 					else
