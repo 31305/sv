@@ -1167,8 +1167,15 @@ struct vks
 							ps(mt.PARAM_GLOT_PITCH,ds,dm*m1,1);
 						if(pv.ss==v::ssp::a)
 						{
-							if(!nv&&pv1.sv&&pv1.ss==!v::ssp::a)
-								ps(mt.PARAM_GLOT_PITCH,sts,dm*m1,1);
+							bool st=0;
+							for(int nk=vk+1;nk<gv.size();nk++)
+								if(gv[nk].sv)
+								{
+									if(gv[nk].ss!=v::ssp::a)
+										st=1;
+									break;
+								}
+							if(st)ps(mt.PARAM_GLOT_PITCH,sts,dm*m1,1);
 							else ps(mt.PARAM_GLOT_PITCH,ns,dm*m1,1);
 						}
 						if(pv.ss==v::ssp::s)
