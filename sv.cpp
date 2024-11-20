@@ -1141,7 +1141,7 @@ struct vks
 							}
 							else return sdvm(dv,db);
 						};
-						const double ds=-15,ns=-19,sts=-22;
+						const double ds=-15,ns=-19,sts=-22,sds=-15;
 						const double ndv=1?0.1:vnv(vc[51],1),nnv=0.5;
 						if(vk==0&&k==0)
 						{
@@ -1182,7 +1182,7 @@ struct vks
 						if(pv.ss==v::ssp::s)
 							ps(mt.PARAM_GLOT_PITCH,ns,dm,1);
 						if(!nv&&pv1.ss==v::ssp::s)
-							ps(mt.PARAM_GLOT_PITCH,ds,vd,1,vd-dm*m2);
+							ps(mt.PARAM_GLOT_PITCH,sds,vd,1,vd-dm*m2);
 						double nvm=0;
 						if(!dv&&pv0.vv&&!pv0.n)nvm=ms[1][mt.PARAM_R1+(int)(hgs(pv0))];
 						if(!pv.vs&&!dv)
