@@ -1141,7 +1141,7 @@ struct vks
 							}
 							else return sdvm(dv,db);
 						};
-						const double ds=-15,ns=-19,sts=-22,sds=-15;
+						const double ds=-15,ns=-19,sts=-21,sds=-15;
 						const double ndv=1?0.1:vnv(vc[51],1),nnv=0.5;
 						if(vk==0&&k==0)
 						{
