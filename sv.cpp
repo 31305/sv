@@ -1244,7 +1244,7 @@ struct vks
 							{
 								double vds=vd;
 								if(!nv&&pv.sv&&pv1.sv)vds-=vvd;
-								ps(svk[k],0.5*(svm(pv,k),svm(pv,k,1)),dm,1,dm*m2);
+								if(0)ps(svk[k],0.5*(svm(pv,k),svm(pv,k,1)),dm,1,dm*m2);
 								ps(svk[k],svm(pv,k,1),vds-dm*m2,1,dm);
 							}
 						if(!dv&&pv0.mp)
