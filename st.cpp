@@ -297,7 +297,9 @@ void ncpk()
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
 									.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
+							SDL_SetTextureBlendMode(st.lns,dp->lines[k]->chars[pk].a.reverse?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
+							SDL_SetTextureBlendMode(st.lns,SDL_BLENDMODE_BLEND);
 							if(k==lss->r&&pk==lss->c&&!(st.ptpr==1&&st.ptc==1))
 							{
 								unsigned r=255,h=255,n=255;
