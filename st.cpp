@@ -1403,7 +1403,7 @@ void nk()
 	{
 		EM_ASM(cpdk());
 	}
-	bool ccp=EM_ASM_INT({return tvcp;})&&st.cc;
+	bool ccp=EM_ASM_INT({return tvcp&&ccpd.videoHeight>0;})&&st.cc;
 	static int ckg;
 	ccp=ccp&&((!ckg&&!EM_ASM_INT({return ccpd.paused}))||st.plg);
 	ckg++;
