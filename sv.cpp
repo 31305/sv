@@ -1476,13 +1476,13 @@ struct vks
 		{
 			skk=0;
 			if(0)printf("ccs %s\n",ccs.c_str());
-			if(jt&&ccs.size()>0)
+			if(jt&&(ccs.size()>0||st.cc))
 			{
 #ifdef EMSCRIPTEN
-				if(ccs=="pts")EM_ASM({location.hash='pt';});
+				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
+				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
-				else EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 #endif
 			}
 		}
