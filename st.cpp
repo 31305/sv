@@ -1441,7 +1441,8 @@ void nk()
 		SDL_Rect ccvs;
 		ccvs.w=EM_ASM_INT({return ccpd.videoWidth;});
 		ccvs.h=EM_ASM_INT({return ccpd.videoHeight;});
-		if(ccvs.w*st.cdp.h>ccvs.h*st.cdp.w)
+		if(ccvs.w==0||ccvs.h==0);
+		else if(ccvs.w*st.cdp.h>ccvs.h*st.cdp.w)
 		{
 			ccvs.h=st.cdp.w*ccvs.h/ccvs.w;
 			ccvs.w=st.cdp.w;
