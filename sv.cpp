@@ -1042,7 +1042,7 @@ struct vks
 					mt.execSynthesisStep();
 					auto p=[&](float ls)
 					{
-						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
+						while(svk&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
 						if(sl&&!svk)fwrite(&ls,sizeof(ls),1,stdout);
 						if(svk)
