@@ -825,7 +825,7 @@ size_t bkp(char* n)
 struct vks
 {
 	bool knp=0;
-	const bool lp=0,sl=0;
+	const bool lp=0,sl=0,svk=1;
 	bool ck=1;
 	int yk=0;
 	std::string ccs;
@@ -1045,7 +1045,7 @@ struct vks
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
 						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
-						else
+						if(svk)
 						{
 							vy.u=vy.mc.v(vy.u);
 							vy.mc.k[vy.u]=ls;
@@ -1688,11 +1688,11 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
-void k(int p,bool lp=0,bool sl=0)
+void k(int p,bool lp=0,bool sl=0,bool svk=1)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	vksk();
-	vks v={.lp=lp,.sl=sl};
+	vks v={.lp=lp,.sl=sl,.svk=svk};
 #ifdef EMSCRIPTEN
 	typedef jvn dnp;
 #else
@@ -1731,7 +1731,7 @@ void k(int p,bool lp=0,bool sl=0)
 	else
 	{
 #ifndef EMSCRIPTEN
-		if(sl)SDL_PauseAudioDevice(dn.ys,1);
+		if(!svk)SDL_PauseAudioDevice(dn.ys,1);
 		while(v.ck&&!sl)
 		{
 			int t=0;
@@ -1912,7 +1912,9 @@ int main(int argc,char** argv)
 	else if(dn==3)
 		k(-1,1);
 	else if(dn==6)
-		k(-1,1,1);
+		k(-1,1,1,0);
+	else if(dn==13)
+		k(-1,1,1,1);
 	else if(dn==2)
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
