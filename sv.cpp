@@ -1044,7 +1044,7 @@ struct vks
 					{
 						while(!sl&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
 							std::this_thread::sleep_for(std::chrono::milliseconds(16));
-						if(sl)fwrite(&ls,sizeof(ls),1,stdout);
+						if(sl&&!svk)fwrite(&ls,sizeof(ls),1,stdout);
 						if(svk)
 						{
 							vy.u=vy.mc.v(vy.u);
