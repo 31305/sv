@@ -321,7 +321,7 @@ double vm(const v& dv,short vk,bool db=0)
 			else
 			{
 				if(!db)
-					return vmk[1][vk];
+					return vmk[0][vk];
 				else return vmk[2][vk];
 			}
 		}
@@ -332,7 +332,7 @@ double vm(const v& dv,short vk,bool db=0)
 			else
 			{
 				if(!db)
-					return vmk[1][vk];
+					return vmk[0][vk];
 				else return vmk[4][vk];
 			}
 		}
