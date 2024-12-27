@@ -1261,7 +1261,7 @@ struct vks
 						}
 						if(pv.sm&&pv.cs==v::csp::k)
 							ps(mt.PARAM_ASP_VOL,18,vd,1,vd-dm*m1);
-						if(pv.sg)
+						if(pv.sg&&!((!nv)&&pv1.sg))
 							ps(mt.PARAM_GLOT_VOL,0,vd-dm*m1,1,vd-dm*m2);
 						if(pv.sm||(pv.vv&&!pv.sg)||pv.vs)
 							ps(mt.PARAM_GLOT_VOL,0,dm*m1,1);
@@ -1284,7 +1284,7 @@ struct vks
 							ps(mt.PARAM_VELUM,nnv,dm*m1,1);
 						else ps(mt.PARAM_VELUM,ndv,dm*m2,1);
 						if(pv.sv||pv.nt||pv.n||pv.sg)
-							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
+							ps(mt.PARAM_GLOT_VOL,pv.cs==v::csp::od?54:(pv.sg&&pv.vv==3)?50:60,(!dv&&pv0.mp)?dm*m2:dm*m1,1,(!dv&&pv0.mp)?dm*m1:0);
 						if(nv)ps(mt.PARAM_GLOT_VOL,0,vd,1,vd-dm*m1);
 						if(pv.vv&&pv.vv!=2&&!(!nv&&((pv1.vv==pv.vv)||(0&&pv1.vv==1&&pv.vv==4)))&&!nv)
 							ps(mt.PARAM_VB,pv.n?1:5,vd,1,vd-dm*m1);
