@@ -757,7 +757,7 @@ void mk()
 	}
 	if(1)lnss(st.dp.g*4*st.g,st.dp.g*8*st.g);
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
-	for(int k=0;k<2;k++)
+	for(int k=0;k<st.dps.size();k++)
 		tmt_resize(st.dps[k],st.dp.dv,st.dp.v);
 	ptdps();
 #ifdef EMSCRIPTEN
@@ -1610,7 +1610,7 @@ int pmk()
 		SDL_FreeSurface(st.lc);
 		if(st.lns)SDL_DestroyTexture(st.lns);
 		SDL_Quit();
-		for(int k=0;k<2;k++)
+		for(int k=0;k<st.dps.size();k++)
 			tmt_close(st.dps[k]);
 	}
 	return 0;

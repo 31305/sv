@@ -129,7 +129,7 @@ struct stp
 		float g;	
 	}dp;
 	int ptc=1;
-	TMT* dps[2];
+	std::vector<TMT*> dps;
 	int ptpr=0;
 	unsigned int ptrk=0;
 	struct
