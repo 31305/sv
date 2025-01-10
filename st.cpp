@@ -1550,11 +1550,18 @@ int pmk()
 				fflush(stdout);
 				std::string l;
 				std::cin>>l;
-				if(l=="ml.")
+				if(l.compare("ml.")==0&&0)
 				{
-					struct termios p;
+					struct termios p,n;
 					tcgetattr(STDIN_FILENO,&p);
-					p.c_lflag|=(ICANON|ECHO);
+					n=p;
+					n.c_lflag|=(ICANON|ECHO);
+					n.c_lflag&=~(ECHO|ICANON|ISIG);
+					n.c_iflag&=~(IXON|ICRNL);
+					n.c_oflag&=~OPOST;
+					n.c_cc[VMIN]=1;
+					n.c_cc[VTIME]=0;
+					tcsetattr(STDIN_FILENO,TCSAFLUSH,&n);
 					tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
 				}
 				else
