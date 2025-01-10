@@ -1,4 +1,5 @@
 #include"st.h"
+#include<termios.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 #include<SDL_opengles2.h>
@@ -7,6 +8,7 @@
 #include<thread>
 #include<csignal>
 #include<unistd.h>
+#include<iostream>
 #include"glm/glm/mat4x4.hpp"
 #include"glm/glm/ext/matrix_transform.hpp"
 #include"glm/glm/ext/matrix_clip_space.hpp"
@@ -1543,24 +1545,33 @@ int pmk()
 				});
 			while(1)
 			{
-				constexpr int ns=1024;
-				char l[ns];
 				while(st.s!=4)std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				printf("> ");
 				fflush(stdout);
-				fgets(l,ns,stdin);
-				auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l);
-				if(p[0]!=0)
+				std::string l;
+				std::cin>>l;
+				if(l=="ml.")
 				{
-					auto pp=p;
-					while(*pp)
-					{
-						fwrite(pp,1,1,stdout);
-						pp++;
-					}
-					printf("\n");
+					struct termios p;
+					tcgetattr(STDIN_FILENO,&p);
+					p.c_lflag|=(ICANON|ECHO);
+					tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
 				}
-				if(p)free(p);
+				else
+				{
+					auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l.c_str());
+					if(p[0]!=0)
+					{
+						auto pp=p;
+						while(*pp)
+						{
+							fwrite(pp,1,1,stdout);
+							pp++;
+						}
+						printf("\n");
+					}
+					if(p)free(p);
+				}
 			}
 		});
 	EM_ASM({ptsc.master.onWrite(([p,d])=>{
