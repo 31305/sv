@@ -1501,7 +1501,8 @@ int pmk()
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
-	for(int k=0;k<2;k++)
+	st.dps.resize(2);
+	for(int k=0;k<st.dps.size();k++)
 		st.dps[k]=tmt_open(8,8,dppk,&(st.dps[k]),0);
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
@@ -1550,7 +1551,7 @@ int pmk()
 				fflush(stdout);
 				std::string l;
 				std::cin>>l;
-				if(l.compare("ml.")==0&&0)
+				if(l.compare("ml.")==0)
 				{
 					struct termios p,n;
 					tcgetattr(STDIN_FILENO,&p);
