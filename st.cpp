@@ -1550,7 +1550,7 @@ int pmk()
 				printf("> ");
 				fflush(stdout);
 				std::string l;
-				std::cin>>l;
+				std::getline(std::cin,l);
 				if(l.compare("ml.")==0)
 				{
 					struct termios p,n;
