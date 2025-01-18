@@ -739,7 +739,7 @@ void mk()
 	}
 	else
 	{
-		tlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp1*st.g/4,127,127,127);
+		tlk(st.cn,vdv*st.sp1*st.g,vdv*st.sp2*st.g,st.cns,vdv*st.sp1*st.g,vdv*st.sp1*st.g/4,255,194,0);
 	}
 	SDL_UnlockTexture(st.vc);
 	st.tpp.v1=x1;st.tpp.v2=x2;
