@@ -161,6 +161,7 @@ struct stp
 	}pskt;
 	std::thread vkk;
 	int kgs=0;
+	std::vector<unsigned char> dpv;
 }; 
 extern stp st;
 extern bool jt;

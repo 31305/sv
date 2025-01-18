@@ -983,6 +983,13 @@ struct vks
 						if(st.kgs>10000)st.kgs-=10000;
 						kgss();
 					}
+					else if(ccs=="nts"&&st.dpv.size()>0)
+					{
+						bn=1;
+						gv={};
+						for(size_t k=0;k<st.dpv.size();k++)
+							gv.push_back(vc[(unsigned char)st.dpv[k]]);
+					}
 					else
 					{
 						if(gs!=kp)vsk(gs);
