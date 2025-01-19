@@ -115,7 +115,7 @@ constexpr v vc[]=
 	{(v::csp)0,1,0,1},
 	{v::csp::k,0,1},
 };
-const std::vector<v> vs(const std::basic_string<unsigned char>&);
+const std::vector<v> vs(const std::vector<unsigned char>&);
 struct sksp
 {
 	enum lp{d,gg};
@@ -452,7 +452,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-const std::vector<v> vs(const std::basic_string<unsigned char> &d)
+const std::vector<v> vs(const std::vector<unsigned char> &d)
 {
 	std::vector<v> vk;
 	for(size_t k=0;k<d.size();k++)
