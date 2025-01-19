@@ -20,14 +20,15 @@ bool jt=0;
 #else
 #include<emscripten.h>
 #include<sstream>
-std::vector<std::string> spl(std::stringstream& s)
+#include<fstream>
+std::vector<std::string> spl(std::ifstream s)
 {
 	std::vector<std::string> tp;
 	while(!s.eof())
 	{
 		std::string n;
 		std::getline(s,n);
-		tp.push_back(n);
+		if(n.size()>0)tp.push_back(n);
 	}
 	return tp;
 }
@@ -1558,6 +1559,7 @@ int pmk()
 				});
 			while(1)
 			{
+				auto slm=[](){printf("\033[2J\33[0;0H");};
 				while(st.s!=4)std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				printf("> ");
 				fflush(stdout);
@@ -1574,7 +1576,9 @@ int pmk()
 					n.c_oflag&=~OPOST;
 					n.c_cc[VMIN]=1;
 					n.c_cc[VTIME]=0;
-					printf("\033[2J\33[0;0H");
+					slm();
+					if(st.ml.size()==0)
+						st.ml=spl(std::ifstream("ls"));
 					tcsetattr(STDIN_FILENO,TCSAFLUSH,&n);
 					tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
 				}

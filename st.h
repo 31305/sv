@@ -162,6 +162,7 @@ struct stp
 	std::thread vkk;
 	int kgs=0;
 	std::vector<unsigned char> dpv;
+	std::vector<std::string> ml;
 }; 
 extern stp st;
 extern bool jt;
