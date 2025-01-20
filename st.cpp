@@ -662,8 +662,10 @@ void lnss(int v1,int v2)
 		SDL_ClearError();
 		if(IMG_SavePNG(sl,"sl.png")!=0)
 		{
+#ifdef EMSCRIPTEN
 			emscripten_console_log("slb");
 			emscripten_console_log(IMG_GetError());
+#endif
 		}
 	}
 	SDL_FreeSurface(sl);
@@ -1567,9 +1569,11 @@ int pmk()
 						return new TextDecoder().decode(Module.HEAP8.slice(ns,ns+nl));
 					};
 				});
+			std::vector<std::string> ml;
+			int mls=-1;
 			while(1)
 			{
-				auto slm=[](){printf("\033[2J\33[0;0H");};
+				auto slm=[](){printf("\033[2J");};
 				while(st.s!=4)std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				printf("> ");
 				fflush(stdout);
@@ -1580,16 +1584,79 @@ int pmk()
 					struct termios p,n;
 					tcgetattr(STDIN_FILENO,&p);
 					n=p;
-					n.c_lflag|=(ICANON|ECHO);
 					n.c_lflag&=~(ECHO|ICANON|ISIG);
 					n.c_iflag&=~(IXON|ICRNL);
 					n.c_oflag&=~OPOST;
 					n.c_cc[VMIN]=1;
 					n.c_cc[VTIME]=0;
 					slm();
-					if(st.ml.size()==0)
-						st.ml=spl(std::ifstream("ls"));
+					if(ml.size()==0)
+						ml=spl(std::ifstream("ls"));
+					bool bbp=1;
 					tcsetattr(STDIN_FILENO,TCSAFLUSH,&n);
+					auto sp=[](char d,int mks=8)
+					{
+						printf("%c",d);
+						fflush(stdout);
+						int tp=0;
+						int ks=mks;
+						while(1)
+						{
+							auto p=getchar();
+							if(p>='0'&&p<='9'&&ks)
+							{
+								tp=tp*10+(p-'0');
+								printf("%c",p);
+								fflush(stdout);
+								ks--;
+							}
+							else if(p=='\n'||p=='\r'||p=='.')break;
+							else if(p=='n')return -1;
+							else if(p==127)
+							{
+								ks++;
+								printf("\b \b");
+								tp/=10;
+								fflush(stdout);
+							}
+							if(ks>mks)return -1;
+						}
+						printf("\r");
+						for(int ks=0;ks<mks+1;ks++)
+							printf(" ");
+						fflush(stdout);
+						return tp;
+					};
+					while(bbp)
+					{
+						printf("\33[0;0H");
+						printf("ML-%ld\r\n",ml.size());
+						if(mls!=-1)
+						{
+							auto p=std::to_string(ml.size()).size();
+							auto n=std::to_string(mls+1);
+							std::string l=std::string("[");
+							for(int k=n.size();k<p;k++)
+							{
+								l.resize(l.size()+1);
+								l[l.size()-1]='0';
+							}
+							l+=n+std::string("]");
+							printf("%s\r\n",l.c_str());
+						}
+						else printf("?\r\n");
+						auto p=mls==-1?'@':getchar();
+						if(p=='n')bbp=0;
+						else if(p>='0'&&p<='9')mls+=p-'0';
+						else if(p=='-')mls-=sp(p);
+						else if(p=='+')mls+=sp(p);
+						else if(p=='@')mls=sp(p)-1;
+						mls=std::min(mls,(int)ml.size()-1);
+						mls=std::max(mls,0);
+						slm();
+					}
+					slm();
+					printf("\33[0;0H");
 					tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
 				}
 				else
