@@ -19,6 +19,9 @@
 bool jt=0;
 #else
 #include<emscripten.h>
+#include<emscripten/console.h>
+bool jt=1;
+#endif
 #include<sstream>
 #include<fstream>
 std::vector<std::string> spl(std::ifstream s)
@@ -32,8 +35,6 @@ std::vector<std::string> spl(std::ifstream s)
 	}
 	return tp;
 }
-bool jt=1;
-#endif
 struct
 {
 	GLuint vpvv;
@@ -656,6 +657,15 @@ void lnss(int v1,int v2)
 		SDL_FreeSurface(vbl);
 	}
 	st.lns=SDL_CreateTextureFromSurface(st.ck,sl);
+	if(0)
+	{
+		SDL_ClearError();
+		if(IMG_SavePNG(sl,"sl.png")!=0)
+		{
+			emscripten_console_log("slb");
+			emscripten_console_log(IMG_GetError());
+		}
+	}
 	SDL_FreeSurface(sl);
 	TTF_CloseFont(lns);
 	TTF_Quit();
