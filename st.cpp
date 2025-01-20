@@ -1648,9 +1648,16 @@ int pmk()
 						auto p=mls==-1?'@':getchar();
 						if(p=='n')bbp=0;
 						else if(p>='0'&&p<='9')mls+=p-'0';
-						else if(p=='-')mls-=sp(p);
-						else if(p=='+')mls+=sp(p);
-						else if(p=='@')mls=sp(p)-1;
+						else if(p=='-'||p=='+'||p=='@')
+						{
+							int tp=sp(p);
+							if(tp!=-1)
+							{
+								if(p=='-')mls-=tp;
+								else if(p=='+')mls+=tp;
+								else if(p=='@')mls=tp-1;
+							}
+						}
 						mls=std::min(mls,(int)ml.size()-1);
 						mls=std::max(mls,0);
 						slm();
