@@ -1641,10 +1641,14 @@ int pmk()
 								l.resize(l.size()+1);
 								l[l.size()-1]='0';
 							}
-							l+=n+std::string("]");
+							l+=n+std::string("] ");
 							printf("%s\r\n",l.c_str());
+							time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
+							l+=std::to_string(ks);
+							auto nj=*std::localtime(&ks);
+							std::cout<<std::put_time(&nj,"%Y-%m-%d\r\n%H:%M:%S %Z\r\n");
 						}
-						else printf("?\r\n");
+						else printf("?\r\n\n\n");
 						auto p=mls==-1?'@':getchar();
 						auto pmls=mls;
 						if(p=='n')bbp=0;
@@ -1670,9 +1674,7 @@ int pmk()
 							n.c_cc[VMIN]=0;
 							tcsetattr(STDIN_FILENO,TCSANOW,&n);
 							auto ps=ml[mls];
-							size_t ssp=ps.find(';');
-							unsigned long int ks=std::stol(ps.substr(0,ssp));
-							ssp+=1;
+							size_t ssp=ps.find(';')+1;
 							while(1)
 							{
 								auto nsp=std::string::npos;
@@ -1680,14 +1682,12 @@ int pmk()
 								if(nsp==std::string::npos)break;
 								auto vs=ps.substr(ssp,nsp);
 								std::vector<unsigned char> v;
-								emscripten_console_log("p");
 								while(vs.size())
 								{
 									size_t pnsp=vs.find(',');
 									if(pnsp==std::string::npos)
 										pnsp=vs.size();
 									v.push_back(std::stoi(vs.substr(0,pnsp)));
-									emscripten_console_log("d");
 									if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
 									else vs={};
 								}
@@ -1695,14 +1695,11 @@ int pmk()
 								if(0)while(st.dpv.size())
 								{
 									char p;
-									emscripten_console_log("pptk");
 									if(0)while(read(0,&p,1)>0);
-									emscripten_console_log(std::to_string(tcflush(STDIN_FILENO,TCIFLUSH)).c_str());
 									std::this_thread::sleep_for(std::chrono::milliseconds(50));
 								}
 								st.dpv.push(v);
 							}
-							emscripten_console_log("t");
 
 							tcsetattr(STDIN_FILENO,TCSANOW,&p);
 						}
