@@ -1661,7 +1661,7 @@ int pmk()
 						}
 						mls=std::min(mls,(int)ml.size()-1);
 						mls=std::max(mls,0);
-						if(pmls!=mls||p=='0')
+						if((pmls!=mls||p=='0')&&st.dpv.size()==0)
 						{
 							struct termios p,n;
 							tcgetattr(STDIN_FILENO,&p);
@@ -1671,24 +1671,39 @@ int pmk()
 							tcsetattr(STDIN_FILENO,TCSANOW,&n);
 							auto ps=ml[mls];
 							size_t ssp=ps.find(';');
-							unsigned long int ks=std::stol(ps.substr(0,ssp)); 
+							unsigned long int ks=std::stol(ps.substr(0,ssp));
+							ssp+=1;
 							while(1)
 							{
-								auto nsp=ps.substr(ssp,std::string::npos).find(';');
+								auto nsp=std::string::npos;
+								if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
 								if(nsp==std::string::npos)break;
-								auto vs=ps.substr(ssp,nsp-ssp);
-								size_t pnsp=ssp;
+								auto vs=ps.substr(ssp,nsp);
 								std::vector<unsigned char> v;
+								emscripten_console_log("p");
 								while(vs.size())
 								{
-									pnsp=vs.find(',');
+									size_t pnsp=vs.find(',');
 									if(pnsp==std::string::npos)
 										pnsp=vs.size();
 									v.push_back(std::stoi(vs.substr(0,pnsp)));
-									vs=vs.substr(pnsp+1,std::string::npos);
+									emscripten_console_log("d");
+									if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
+									else vs={};
 								}
-								ssp=nsp;
+								ssp+=nsp+1;
+								if(0)while(st.dpv.size())
+								{
+									char p;
+									emscripten_console_log("pptk");
+									if(0)while(read(0,&p,1)>0);
+									emscripten_console_log(std::to_string(tcflush(STDIN_FILENO,TCIFLUSH)).c_str());
+									std::this_thread::sleep_for(std::chrono::milliseconds(50));
+								}
+								st.dpv.push(v);
 							}
+							emscripten_console_log("t");
+
 							tcsetattr(STDIN_FILENO,TCSANOW,&p);
 						}
 						slm();

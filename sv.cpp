@@ -971,9 +971,10 @@ struct vks
 				{
 					bn=1;
 					gv={};
-					for(size_t k=0;k<st.dpv.size();k++)
-						gv.push_back(vc[(unsigned char)st.dpv[k]]);
-					st.dpv={};
+					auto p=st.dpv.front();
+					for(size_t k=0;k<p.size();k++)
+						gv.push_back(vc[(unsigned char)p[k]]);
+					st.dpv.pop();
 				}
 				else if(yk==3||ls[kp].sv)
 				{
