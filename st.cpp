@@ -848,6 +848,7 @@ void (*npk)(int)=0;
 int sr=0;
 void ptlk(char *l)
 {
+	npk(-2);
 #ifdef EMSCRIPTEN
 	if(l[1]==0&&l[0]==5)EM_ASM({location.hash="";});
 	else if(st.ptc==1)

@@ -1446,7 +1446,7 @@ struct vks
 			if(k<skk)return s==sk[k]-'0';
 			else return 0;
 		};
-		if(t!=-1)
+		if(t>-1)
 		{
 			tk=ks();
 			if(skk<sks)
@@ -1473,7 +1473,7 @@ struct vks
 			skk=0;
 			if(yk==0)yk=22;
 		}
-		if(t==-1)return;
+		if(t<0)return;
 		if(tn(0,9)){if(!jt){ck=0;st.cs=0;}skk=0;}
 		else if(tn(0,0))
 		{
@@ -1674,8 +1674,8 @@ int nps(int n)
 {
 	if(n>4)
 		return n-5;
-	else if(n==-1)
-		return -1;
+	else if(n==-1||n==-2)
+		return n;
 	else return -1;
 }
 void dk()
