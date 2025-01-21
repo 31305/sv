@@ -867,7 +867,7 @@ struct vks
 				while(1)
 				{
 					pvss=vs;
-					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0))break;
+					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0&&st.dpv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
@@ -967,6 +967,14 @@ struct vks
 					bn=0;
 					pv.pop_back();
 				}
+				else if(st.dpv.size()>0)
+				{
+					bn=1;
+					gv={};
+					for(size_t k=0;k<st.dpv.size();k++)
+						gv.push_back(vc[(unsigned char)st.dpv[k]]);
+					st.dpv={};
+				}
 				else if(yk==3||ls[kp].sv)
 				{
 					if(yk==3)yk=0;
@@ -982,13 +990,6 @@ struct vks
 						st.kgs++;
 						if(st.kgs>10000)st.kgs-=10000;
 						kgss();
-					}
-					else if(ccs=="nts"&&st.dpv.size()>0)
-					{
-						bn=1;
-						gv={};
-						for(size_t k=0;k<st.dpv.size();k++)
-							gv.push_back(vc[(unsigned char)st.dpv[k]]);
 					}
 					else
 					{

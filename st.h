@@ -181,7 +181,6 @@ void nt(int);
 }
 int pmk();
 void nk();
-int pmk();
 extern void (*npk)(int);
 struct pg
 {

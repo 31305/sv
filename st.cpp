@@ -1593,7 +1593,7 @@ int pmk()
 					if(ml.size()==0)
 						ml=spl(std::ifstream("ls"));
 					bool bbp=1;
-					tcsetattr(STDIN_FILENO,TCSAFLUSH,&n);
+					tcsetattr(STDIN_FILENO,TCSANOW,&n);
 					auto sp=[](char d,int mks=8)
 					{
 						printf("%c",d);
@@ -1646,6 +1646,7 @@ int pmk()
 						}
 						else printf("?\r\n");
 						auto p=mls==-1?'@':getchar();
+						auto pmls=mls;
 						if(p=='n')bbp=0;
 						else if(p>='0'&&p<='9')mls+=p-'0';
 						else if(p=='-'||p=='+'||p=='@')
@@ -1660,11 +1661,42 @@ int pmk()
 						}
 						mls=std::min(mls,(int)ml.size()-1);
 						mls=std::max(mls,0);
+						if(pmls!=mls||p=='0')
+						{
+							struct termios p,n;
+							tcgetattr(STDIN_FILENO,&p);
+							n=p;
+							n.c_cc[VTIME]=0;
+							n.c_cc[VMIN]=0;
+							tcsetattr(STDIN_FILENO,TCSANOW,&n);
+							auto ps=ml[mls];
+							size_t ssp=ps.find(';');
+							unsigned long int ks=std::stol(ps.substr(0,ssp)); 
+							while(1)
+							{
+								auto nsp=ps.substr(ssp,std::string::npos).find(';');
+								if(nsp==std::string::npos)break;
+								auto vs=ps.substr(ssp,nsp-ssp);
+								size_t pnsp=ssp;
+								std::vector<unsigned char> v;
+								while(vs.size())
+								{
+									pnsp=vs.find(',');
+									if(pnsp==std::string::npos)
+										pnsp=vs.size();
+									v.push_back(std::stoi(vs.substr(0,pnsp)));
+									vs=vs.substr(pnsp+1,std::string::npos);
+								}
+								ssp=nsp;
+							}
+							tcsetattr(STDIN_FILENO,TCSANOW,&p);
+						}
 						slm();
 					}
 					slm();
 					printf("\33[0;0H");
-					tcsetattr(STDIN_FILENO,TCSAFLUSH,&p);
+					fflush(stdout);
+					tcsetattr(STDIN_FILENO,TCSANOW,&p);
 				}
 				else
 				{
