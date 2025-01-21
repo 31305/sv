@@ -1651,6 +1651,7 @@ int pmk()
 						}
 						else printf("?\r\n\n\n");
 						auto p=mls==-1?'@':getchar();
+						if(st.dpv.size())continue;
 						auto pmls=mls;
 						if(p=='n')bbp=0;
 						else if(p>='0'&&p<='9')mls+=p-'0';
@@ -1666,7 +1667,7 @@ int pmk()
 						}
 						mls=std::min(mls,(int)ml.size()-1);
 						mls=std::max(mls,0);
-						if((pmls!=mls||p=='0')&&st.dpv.size()==0)
+						if(pmls!=mls||p=='0')
 						{
 							struct termios p,n;
 							tcgetattr(STDIN_FILENO,&p);
