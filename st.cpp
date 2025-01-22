@@ -1669,15 +1669,15 @@ int pmk()
 						mls=std::max(mls,0);
 						if(pmls!=mls||p=='0')
 						{
-							struct termios p,n;
-							tcgetattr(STDIN_FILENO,&p);
-							n=p;
-							n.c_cc[VTIME]=0;
-							n.c_cc[VMIN]=0;
-							tcsetattr(STDIN_FILENO,TCSANOW,&n);
+							struct termios pn,nn;
+							tcgetattr(STDIN_FILENO,&pn);
+							nn=pn;
+							nn.c_cc[VTIME]=0;
+							nn.c_cc[VMIN]=0;
+							tcsetattr(STDIN_FILENO,TCSANOW,&nn);
 							auto ps=ml[mls];
 							size_t ssp=ps.find(';')+1;
-							st.dpv.push({51,4,45,7,51,2,75});
+							if(p!='0')st.dpv.push({51,4,45,7,51,2,75});
 							while(1)
 							{
 								auto nsp=std::string::npos;
@@ -1704,7 +1704,7 @@ int pmk()
 								st.dpv.push(v);
 							}
 
-							tcsetattr(STDIN_FILENO,TCSANOW,&p);
+							tcsetattr(STDIN_FILENO,TCSANOW,&pn);
 						}
 						slm();
 					}
