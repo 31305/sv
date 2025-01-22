@@ -1677,6 +1677,7 @@ int pmk()
 							tcsetattr(STDIN_FILENO,TCSANOW,&n);
 							auto ps=ml[mls];
 							size_t ssp=ps.find(';')+1;
+							st.dpv.push({51,4,45,7,51,2,75});
 							while(1)
 							{
 								auto nsp=std::string::npos;
