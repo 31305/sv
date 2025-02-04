@@ -1488,7 +1488,7 @@ struct vks
 			if(jt&&(ccs.size()>0||st.cc))
 			{
 #ifdef EMSCRIPTEN
-				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(!cc&&ccpd.src!=""){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
+				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(!cc&&ccpd.src!=""){ccpd.currentTime=0;cc=1;ccpd.pause();}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
@@ -1502,10 +1502,10 @@ struct vks
 		}
 		else if(tn(0,5))
 		{
-			if(jt&&ccs.size()>0&&st.cc)
+			if(jt&&ccs=="pc.mp4")
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({ccpd.currentTime=ccpd.currentTime-10;});
+				EM_ASM({if(ccpd.src=="")ccss("kc.mp4");});
 #endif
 				skk=0;
 			}
