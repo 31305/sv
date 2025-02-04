@@ -23,15 +23,22 @@ navigator.serviceWorker.register('ss.js')
 <canvas width=0 height=0 id="canvas" style="position:absolute;display:block;width:100%;height:100%" oncontextmenu="event.preventDefault()"></canvas>
 <input id="tp" style="position:absolute;display:block;opacity:0;width:0;height:0" oncontextmenu="event.preventDefault()"></input>
 <video oncontextmenu="return false;" disablePictureInPicture crossorigin id="ccpd" disableRemotePlayback preload="metadata" style="position:fixed" playsinline hidden>
-	<source src="kc.mp4"/>
-	<source src="https://ik.imagekit.io/mentic/pc.mp4?updatedAt=1698197381808" />
-	<source src="pc.mp4" />
 </video>
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script src='./node_modules/xterm-pty/index.js'></script>
 <script type='text/javascript'>
 vpv1=0;vpv2=0;
 svsg={s1:0,s2:0,k:false,kp:0}
+function ccss(n)
+{
+	let s=new XMLHttpRequest();
+	s.open("GET",n);
+	s.responseType="arraybuffer";
+	s.onload=(p)=>{let ps=new Blob([p.target.response],{type:"video/mp4"});ccpd.src=URL.createObjectURL(ps);};
+	s.onprogress=(p)=>{console.log(p.loaded)};
+	s.onerror=()=>{setTimeout(()=>{console.log('ccpp');ccss(n);},2000);};
+	s.send();	
+}
 function svsgsk(p)
 {
 	let s=cp.getBoundingClientRect();

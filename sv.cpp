@@ -1488,7 +1488,7 @@ struct vks
 			if(jt&&(ccs.size()>0||st.cc))
 			{
 #ifdef EMSCRIPTEN
-				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(!cc){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
+				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(!cc&&ccpd.src!=""){ccpd.currentTime=0;cc=1;ccpd.play()}else if(ccpd.paused)ccpd.play();else ccpd.pause()},);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
