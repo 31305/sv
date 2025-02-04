@@ -29,15 +29,15 @@ navigator.serviceWorker.register('ss.js')
 <script type='text/javascript'>
 vpv1=0;vpv2=0;
 svsg={s1:0,s2:0,k:false,kp:0}
-function ccss(n)
+function ccss(n,pk)
 {
 	let s=new XMLHttpRequest();
 	s.open("GET",n);
 	s.responseType="arraybuffer";
-	s.onload=(p)=>{let ps=new Blob([p.target.response],{type:"video/mp4"});ccpd.src=URL.createObjectURL(ps);};
+	s.onload=pk;
 	s.onprogress=(p)=>{console.log(p.loaded)};
-	s.onerror=()=>{setTimeout(()=>{console.log('ccpp');ccss(n);},2000);};
-	s.send();	
+	s.onerror=()=>{setTimeout(()=>{console.log('ccpp');ccss(n,pk);},2000);};
+	s.send();
 }
 function svsgsk(p)
 {
