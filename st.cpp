@@ -1059,8 +1059,12 @@ void nk()
 									Module.ccall('dplk',null,['number'],[p])
 								});
 					};
-					ptcv.src='libv86.js';
-					document.head.appendChild(ptcv);
+					ccss('libv86.js',p=>
+					{
+						let ps=new Blob([p.target.response],{type:"application/javascript"});
+						ptcv.src=URL.createObjectURL(ps);
+						document.head.appendChild(ptcv);
+					})
 				});
 			}
 			else if(tkps)EM_ASM({if(typeof ptc!=='undefined')ptc.run();});
