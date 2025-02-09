@@ -11,6 +11,7 @@ const int cls=nc_width;
 #include<memory>
 #include<vector>
 #include<array>
+#include<queue>
 #ifdef EMSCRIPTEN
 #include<emscripten.h>
 #endif
