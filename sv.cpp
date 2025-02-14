@@ -1516,7 +1516,7 @@ struct vks
 					plg=1;
 					ccss(ppks,(p)=>
 					{
-						if(ppks!=ccpd.pks||ccpd.psp==0)return;
+						if(ppks!=ccpd.pks||ccpd.psp!=1)return;
 						let ps=new Blob([p.target.response],{type:"video/mp4"});
 						ccpd.src=URL.createObjectURL(ps);
 						ccpd.psp=2;

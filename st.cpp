@@ -546,15 +546,19 @@ void lk()
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			if(0&&!d)printf("!d %d\n",i);
 			unsigned char cbv=d?255:0;
-			const int vk=3;
+			int vk=3;
 			#ifdef EMSCRIPTEN
 			if(i==12)switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
-					cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=60,.hm=90,.nm=125})();
+					cbv=150;
 					break;
 				case 2:
-					if(!st.cc)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=0,.hm=120,.nm=255})();
+					if(!st.cc)
+					{
+						cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=0,.hm=120,.nm=255})();
+						vk--;
+					}
 					break;
 				default:
 					break;
