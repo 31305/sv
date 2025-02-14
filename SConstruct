@@ -4,7 +4,7 @@ import urllib.request
 import shutil
 e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-g','-Wall'],CXXFLAGS=['--std=c++20'],LIBS='pthread')
 e.AppendENVPath('PATH',os.environ.get('PATH'))
-js=type(ARGUMENTS.get('js'))==str
+js=int(ARGUMENTS.get('js')) if type(ARGUMENTS.get('js'))==str else 0
 cp=type(ARGUMENTS.get('cp'))==str
 if cp:
     import mesonbuild.mesonmain
@@ -14,6 +14,8 @@ if js:
     e.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
     e.Append(CCFLAGS=['-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-sUSE_SDL_TTF=2','-MJs.o.json']+(['-Icairo/src','-Icairo/tp/src','-DCP'] if cp else []))
     e.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=ccall,stringToNewUTF8,FS','-sWASM=1','-O3','-sUSE_SDL=2','-sUSE_SDL_IMAGE=2','-sUSE_SDL_TTF=2','-s','-pthread','--js-library=./tkps.js','--use-preload-plugins','--preload-file=ls','--preload-file=nstp','--preload-file=kv.ttf','-sPTHREAD_POOL_SIZE=4','-sEXPORTED_FUNCTIONS=_main,_malloc,_free'])
+    if js==2:
+        e.Append(LINKFLAGS=['-sERROR_ON_WASM_CHANGES_AFTER_LINK','-sWASM_BIGINT','-O1'])
     st=e.Object('st.cpp')
     if cp:e.Depends(st,'cairo')
     ss+=[st]
