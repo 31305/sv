@@ -540,24 +540,24 @@ void lk()
 		}
 		for(int i=st.dn?0:5;i<15;i++)
 		{
-			const unsigned char m=st.cc?255:255;
+			unsigned char m=st.cc?255:255;
 			int ms1=(int)(mss<0>(nspk(i))*st.sp1);
 			int ms2=(int)(mss<1>(nspk(i))*st.sp2);
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			if(0&&!d)printf("!d %d\n",i);
-			unsigned char cbv=d?255:0;
+			unsigned char cbv=d?m:0;
 			int vk=3;
 			#ifdef EMSCRIPTEN
 			if(i==12)switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
-					cbv=150;
+					m=150;
+					cbv=d?m:0;
 					break;
 				case 2:
 					if(!st.cc)
 					{
 						cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=0,.hm=120,.nm=255})();
-						vk--;
 					}
 					break;
 				default:
