@@ -1427,6 +1427,7 @@ void nk()
 		}
 	}
 #ifdef EMSCRIPTEN
+	if(EM_ASM_INT({let pplg=plg;plg=0;return pplg;}))st.plg=1;
 	bool cc=EM_ASM_INT({return cc;});
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}
 	if(st.cc&&st.ks){st.ksps=1;st.ks=0;}

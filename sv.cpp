@@ -1505,7 +1505,7 @@ struct vks
 			if(jt&&ccs=="pc.mp4")
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({if(ccpd.src=="")ccss("kc.mp4",(p)=>{let ps=new Blob([p.target.response],{type:"video/mp4"});ccpd.src=URL.createObjectURL(ps);});});
+				EM_ASM({if(ccpd.src=="")ccss("kc.mp4",(p)=>{let ps=new Blob([p.target.response],{type:"video/mp4"});ccpd.src=URL.createObjectURL(ps);plg=1;});});
 #endif
 				skk=0;
 			}
