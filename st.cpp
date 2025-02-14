@@ -547,6 +547,19 @@ void lk()
 			if(0&&!d)printf("!d %d\n",i);
 			unsigned char cbv=d?255:0;
 			const int vk=3;
+			#ifdef EMSCRIPTEN
+			switch(EM_ASM_INT({return ccpd.pks===""?0:ccpd.src!==""?2:1}))
+			{
+				case 1:
+					cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=155,.hm=155,.nm=0})();
+					break;
+				case 2:
+					cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=0})();
+					break;
+				default:
+					break;
+			}
+			#endif
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
 			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
 			if(!(st.dp.d&&st.pskt.s))nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
@@ -1427,6 +1440,7 @@ void nk()
 		}
 	}
 #ifdef EMSCRIPTEN
+	EM_ASM({if($0!=ccpd.pks){ccpd.pks=$0;plg=1;}},st.pks.c_str());
 	if(EM_ASM_INT({let pplg=plg;plg=0;return pplg;}))st.plg=1;
 	bool cc=EM_ASM_INT({return cc;});
 	if(st.cc!=cc){st.cc=cc;st.plg=1;}

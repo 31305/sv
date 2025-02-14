@@ -883,8 +883,9 @@ struct vks
 					double ss=0.001*(double)ks();
 					size_t vk=vs;
 					pv.push_back(vs);
-					if(ls[vs].cc.size()>0)ccs=ls[vs].cc;
-					else ccs="";
+					if(ccs!=ls[vs].cc)
+						st.pks="";
+					ccs=ls[vs].cc;
 					auto pnv=[&kp](size_t k)
 					{
 						auto kpn=kp; 
@@ -1488,7 +1489,8 @@ struct vks
 			if(jt&&(ccs.size()>0||st.cc))
 			{
 #ifdef EMSCRIPTEN
-				if(ccs=="pc.mp4"||st.cc)EM_ASM({if(ccpd.src!=""){if(!cc){ccpd.currentTime=0;cc=1;ccpd.pause();}else if(ccpd.paused)ccpd.play();else ccpd.pause()}},);
+				if(ccs.ends_with(".mp4")||st.cc)
+					EM_ASM({if(ccpd.src!=""&&ccpd.pks!=""){if(!cc){ccpd.currentTime=0;cc=1;ccpd.pause();}else if(ccpd.paused)ccpd.play();else ccpd.pause()}},);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
@@ -1502,10 +1504,22 @@ struct vks
 		}
 		else if(tn(0,5))
 		{
-			if(jt&&ccs=="pc.mp4")
+			if(jt&&ccs.ends_with(".mp4"))
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({if(ccpd.src=="")ccss("kc.mp4",(p)=>{let ps=new Blob([p.target.response],{type:"video/mp4"});ccpd.src=URL.createObjectURL(ps);plg=1;});});
+				EM_ASM({if(ccpd.pks=="")
+				{
+					ccpd.pks=$0;
+					ccpd.src="";
+					plg=1;
+					ccss($0,(p)=>
+					{
+						if($0!=ccpd.pks)return;
+						let ps=new Blob([p.target.response],{type:"video/mp4"});
+						ccpd.src=URL.createObjectURL(ps);
+						plg=1;
+					});
+				}},ccs.c_str());
 #endif
 				skk=0;
 			}
