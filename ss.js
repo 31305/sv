@@ -1,5 +1,5 @@
-const ph='p8';
-const nh='n2';
+const ph='p9';
+const nh='n3';
 const phs=['5.html','sv.js','sv.data','sv.wasm','sv.aw.js','sv.ww.js'];
 
 self.addEventListener('install',p=>{p.waitUntil(caches.open(ph).then(p=>p.addAll(phs)).then(self.skipWaiting()))});
