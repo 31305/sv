@@ -884,7 +884,7 @@ struct vks
 					size_t vk=vs;
 					pv.push_back(vs);
 					if(ccs!=ls[vs].cc)
-						st.pks="";
+						st.pspp=1;
 					ccs=ls[vs].cc;
 					auto pnv=[&kp](size_t k)
 					{
@@ -1490,7 +1490,7 @@ struct vks
 			{
 #ifdef EMSCRIPTEN
 				if(ccs.ends_with(".mp4")||st.cc)
-					EM_ASM({if(ccpd.src!=""&&ccpd.pks!=""){if(!cc){ccpd.currentTime=0;cc=1;ccpd.pause();}else if(ccpd.paused)ccpd.play();else ccpd.pause()}},);
+					EM_ASM({if(ccpd.psp==2||cc){if(!cc){ccpd.currentTime=0;cc=1;ccpd.play();}else if(ccpd.paused)ccpd.play();else ccpd.pause()}},);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
@@ -1504,19 +1504,22 @@ struct vks
 		}
 		else if(tn(0,5))
 		{
-			if(jt&&ccs.ends_with(".mp4"))
+			if(jt&&ccs.ends_with(".mp4")&&!st.cc)
 			{
 #ifdef EMSCRIPTEN
-				EM_ASM({if(ccpd.pks=="")
+				EM_ASM({if(ccpd.psp==0)
 				{
-					ccpd.pks=$0;
+					let ppks=UTF8ToString($0);
+					ccpd.pks=ppks;
+					ccpd.psp=1;
 					ccpd.src="";
 					plg=1;
-					ccss($0,(p)=>
+					ccss(ppks,(p)=>
 					{
-						if($0!=ccpd.pks)return;
+						if(ppks!=ccpd.pks||ccpd.psp==0)return;
 						let ps=new Blob([p.target.response],{type:"video/mp4"});
 						ccpd.src=URL.createObjectURL(ps);
+						ccpd.psp=2;
 						plg=1;
 					});
 				}},ccs.c_str());

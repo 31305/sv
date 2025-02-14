@@ -163,7 +163,7 @@ struct stp
 	std::thread vkk;
 	int kgs=0;
 	std::queue<std::vector<unsigned char>> dpv;
-	std::string pks;
+	int pspp=0;
 }; 
 extern stp st;
 extern bool jt;
