@@ -9,7 +9,7 @@ if(0)
 
 if(0)self.addEventListener('activate',p=>{const hs=[ph,nh];p.waitUntil(caches.keys().then(p=>{return p.filter(p=>!hs.includes(p));}).
 	then(p=>{return Promise.all(p.map(d=>{return caches.delete(d);}));}).then(()=>self.clients.claim()));});
-
+self.addEventListener('activate',p=>{p.waitUntil(self.clients.claim());});
 function mk()
 {
 	const hs=[ph,nh];
@@ -19,7 +19,7 @@ function mk()
 
 function pk(m,kn)
 {
-	m.respondWith(caches.open(kn).then(k=>{k.match(m.request).then(p=>{
+	m.respondWith(caches.open(kn).then(k=>{return k.match(m.request).then(p=>{
 		if(p){return p;};
 		return fetch(m.request).then(p=>{return k.put(m.request,p.clone()).then(()=>{return p;});});
 	})}))
