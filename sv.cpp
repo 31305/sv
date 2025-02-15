@@ -730,6 +730,7 @@ std::vector<vv> ls=
 	{.vm=vs({45,31,52,1,71,1,61,61,1,51,2,77}),.nv=18,.cc="cls"},
 	{.vm=vs({53,2,65,3,70,4}),.nv=18,.cc="kgs"},
 	{.vm=vs({51,4,45,1,70,7,44,65,1,43,2,77}),.nv=18,.nsv=1,.cc="knn"},
+	{.vm=vs({51,1,44,66,19,68,1,44,47,2,77}),.nv=18,.cc="sc.mp4"},
 	{.vm=vs({}),.nsv=1},
 };//lsn
 std::vector<size_t> nvk(ls.size());
@@ -1490,7 +1491,18 @@ struct vks
 			{
 #ifdef EMSCRIPTEN
 				if(ccs.ends_with(".mp4")||st.cc)
-					EM_ASM({if(ccpd.psp==2||cc){if(!cc){ccpd.currentTime=0;cc=1;ccpd.play();}else if(ccpd.paused)ccpd.play();else ccpd.pause()}},);
+					EM_ASM({if(ccpd.psp==2||cc)
+					{
+						if(!cc)
+						{
+							pcpck=$0;
+							cc=1;
+							ccpd.currentTime=0;
+							setTimeout(()=>ccpd.play(),pcpck);
+						}
+						else if(ccpd.paused){if(ccpd.currentTime<ccpd.duration)ccpd.play();}
+						else ccpd.pause()
+					}},ccs=="sc.mp4"?400:0);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});

@@ -79,7 +79,8 @@ function nt(s)
 	Module.ccall('nt',null,['number'],[s])
 }
 cc=0
-ccpd.addEventListener('ended',()=>{cc=0;ccpd.hidden=true;scpd.hidden=true},false)
+pcpck=400;
+ccpd.addEventListener('ended',()=>setTimeout(()=>{cc=0;ccpd.hidden=true;scpd.hidden=true},pcpck),false)
 ccpd.addEventListener("loadedmetadata",function(){scpd.width=this.videoWidth,scpd.height=this.videoHeight;},false);
 function pcl(d1,d2,v1,v2)
 {
@@ -151,8 +152,8 @@ function vvk()
 	sk.bindTexture(sk.TEXTURE_2D,ccp)
 	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_WRAP_S,sk.CLAMP_TO_EDGE);
 	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_WRAP_T,sk.CLAMP_TO_EDGE);
-	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MIN_FILTER,sk.NEAREST);
-	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MAG_FILTER,sk.NEAREST);
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MIN_FILTER,sk.LINEAR);
+	sk.texParameteri(sk.TEXTURE_2D,sk.TEXTURE_MAG_FILTER,sk.LINEAR);
 }
 vvk()
 var tkv=0,tkccp=0;
