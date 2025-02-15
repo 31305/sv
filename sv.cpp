@@ -1502,7 +1502,7 @@ struct vks
 						}
 						else if(ccpd.paused){if(ccpd.currentTime<ccpd.duration)ccpd.play();}
 						else ccpd.pause()
-					}},ccs=="sc.mp4"?400:0);
+					}},ccs=="sc.mp4"?200:0);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
