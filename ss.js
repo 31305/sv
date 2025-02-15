@@ -1,15 +1,7 @@
-ph='p11';
-const nh='n5';
+ph='p';
+const nh='cs';
 
-if(0)
-{
-	phs=['/','5.html','sv.js','sv.data','sv.wasm','sv.aw.js','sv.ww.js'];
-	self.addEventListener('install',p=>{p.waitUntil(caches.open(ph).then(p=>p.addAll(phs)).then(self.skipWaiting()))});
-}
-
-if(0)self.addEventListener('activate',p=>{const hs=[ph,nh];p.waitUntil(caches.keys().then(p=>{return p.filter(p=>!hs.includes(p));}).
-	then(p=>{return Promise.all(p.map(d=>{return caches.delete(d);}));}).then(()=>self.clients.claim()));});
-self.addEventListener('activate',p=>{p.waitUntil(self.clients.claim());});
+self.addEventListener('activate',()=>{self.clients.claim()});
 function mk()
 {
 	const hs=[ph,nh];
@@ -29,11 +21,11 @@ function pk(m,kn)
 self.addEventListener('fetch',m=>{
 	if(m.request.url.startsWith(self.location.origin))
 	{
-		if(m.request.url.length<=self.location.origin.length+1||m.request.url.endsWith('html'))
+		if(ph=='p'||m.request.url.length<=self.location.origin.length+1||m.request.url.endsWith('html'))
 		{
 			m.respondWith(fetch(new Request(self.location.origin+'/sks',{method:"GET"}))
 				.then(p=>{
-					if(p.status==404)return pk(m,ph);
+					if(p.status==404)return caches.match(m.request);
 					mk();
 					return p.text().then(p=>{ph=p;return pk(m,ph)})
 				})
