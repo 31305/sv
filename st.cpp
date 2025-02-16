@@ -1450,7 +1450,7 @@ void nk()
 	if(st.pspp)
 	{
 		EM_ASM({ccpd.psp=0;plg=1;});
-		if(st.pspp==2)
+		if(st.pspp==2&&!st.cc)
 			EM_ASM({cdss($0);},st.svsb.ccs->c_str());
 		st.pspp=0;
 	}

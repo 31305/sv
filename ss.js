@@ -21,7 +21,7 @@ self.addEventListener('fetch',m=>{
 	{
 		if(ph=='p'||m.request.url.length<=self.location.origin.length+1||m.request.url.includes('html'))
 		{
-			m.respondWith(fetch(new Request(self.location.origin+'/sks',{method:"GET"}))
+			m.respondWith(fetch(new Request(self.location.origin+'/sks?'+Date.now().toString(),{method:"GET"}))
 				.then(p=>{
 					if(!p.ok)return caches.match(m.request);
 					mk();
