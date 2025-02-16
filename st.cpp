@@ -341,7 +341,7 @@ void ncpk()
 						else if(!(k<st.pskt.jm.pj[st.pskt.ps-1].pj.size()))continue;
 					}
 					auto lm=(st.pskt.ps==-1)?st.pskt.jm.pj[k].dn:st.pskt.jm.pj[st.pskt.ps-1].pj[k].dn;
-					SDL_SetTextureBlendMode(st.lns,st.ks?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
+					SDL_SetTextureBlendMode(st.lns,st.ks||1?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 					for(int pk=0;pk<lm.size();pk++)
 					{
 						SDL_Rect ls=smp(mss<0>(5)-0.125*lm.size()+0.25*pk+0.5*(k%5)*g*8,mss<1>(5)-0.25+(int)(k/5)*g*4,0.5*g,g);
@@ -545,39 +545,43 @@ void lk()
 			int ms2=(int)(mss<1>(nspk(i))*st.sp2);
 			bool d=(i==0?false:!((st.tr.p==1||st.tr.p==2)&&st.tr.n==i));
 			if(0&&!d)printf("!d %d\n",i);
-			unsigned char cbv=d?m:0;
-			int vk=2;
+			unsigned char cbv=44;
+			int vk=3;
 			#ifdef EMSCRIPTEN
 			if(i==12)switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
-					m=150;
-					cbv=d?m:0;
+					cbv=150;
 					break;
 				case 2:
 					if(!st.cc)
 					{
-						cbl({.d1=ms1-4-(vk+2),.d2=ms2-4-(vk+2),.v1=8+2*(vk+2),.v2=8+2*(vk+2),.rm=0,.hm=120,.nm=255})();
+						vk--;
+						cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=0,.hm=120,.nm=255})();
 					}
 					break;
 				default:
 					break;
 			}
 			#endif
+			if(1)if(!d)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=255})();
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
-			if(d)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
+			if(1)cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=0,.hm=0,.nm=0})();
 			if(!(st.dp.d&&st.pskt.s))nl({.n=(i<5?i+11:i-5+50),.p1=mss<0>(nspk(i))-(float)0.5,.p2=mss<1>(nspk(i))-(float)0.5,
-					.v=d,.rm=m,.hm=m,.nm=m})();
+					.v=0,.rm=m,.hm=m,.nm=m})();
 			else
 			{
-				unsigned char nm=cbv;
-				if(st.pskt.ps==-1&&(i==14||i==5)&&d)
+				unsigned char rm=0,hm=0,nm=0;
+				if(st.pskt.ps==-1&&(i==14||i==5))
 				{
-					cbv-=50;
-					nm=cbv;
-					if((i==14&&st.pskt.sn)||(i==5&&st.pskt.nn))nm=255;
+					rm=40;hm=20;nm=20;
+					if((i==14&&st.pskt.sn)||(i==5&&st.pskt.nn))
+					{
+						nm=100;
+						hm=60;
+					}
 				}
-				cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=cbv,.hm=cbv,.nm=nm})();
+				cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=rm,.hm=hm,.nm=nm})();
 			}
 		}
 		if(0)for(int k=1;k<st.s1-1;k++)ns(10,k,st.s2-7);
