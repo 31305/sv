@@ -68,7 +68,7 @@ function svsgsk(p)
 document.body.addEventListener("pointermove",(p)=>{svsgsk(p);svsg.kp=2;});
 document.body.addEventListener("pointerdown",(p)=>{svsgsk(p);svsg.kp=1;});
 document.body.addEventListener("pointerout",(p)=>{svsg.k=false;svsg.kp=3;});
-document.body.addEventListener("pointerup",(p)=>{svsg.k=false;svsg.kp=3;});
+document.body.addEventListener("pointerup",(p)=>{window.drk();svsg.k=false;svsg.kp=3;});
 kg=Date.now()
 tp=document.getElementById('tp');
 cp=document.getElementById('canvas');
