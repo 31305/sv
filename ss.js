@@ -23,7 +23,7 @@ self.addEventListener('fetch',m=>{
 		{
 			m.respondWith(fetch(new Request(self.location.origin+'/sks',{method:"GET"}))
 				.then(p=>{
-					if(p.status==404)return caches.match(m.request);
+					if(!response.ok)return caches.match(m.request);
 					mk();
 					return p.text().then(p=>{ph=p;return pk(m,ph)})
 				})
