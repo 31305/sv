@@ -40,6 +40,24 @@ function ccss(n,pk)
 	s.onerror=()=>{setTimeout(()=>{console.log('ccpp');ccss(n,pk);},2000);};
 	s.send();
 }
+function cdss(n)
+{
+	if(ccpd.psp!=0)return;
+	let ppks=UTF8ToString(n);
+	ccpd.pks=ppks;
+	ccpd.psp=1;
+	ccpd.src="";
+	plg=1;
+	ccss(ppks,(p)=>
+	{
+		if(ppks!=ccpd.pks||ccpd.psp!=1)return;
+		let ps=new Blob([p.target.response],{type:"video/mp4"});
+		if(ccpd.src.startsWith("blob"))URL.revokeObjectURL(ccpd.src);
+		ccpd.src=URL.createObjectURL(ps);
+		ccpd.psp=2;
+		plg=1;
+	});
+}
 function svsgsk(p)
 {
 	let s=cp.getBoundingClientRect();

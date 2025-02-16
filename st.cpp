@@ -1451,8 +1451,10 @@ void nk()
 #ifdef EMSCRIPTEN
 	if(st.pspp)
 	{
-		st.pspp=0;
 		EM_ASM({ccpd.psp=0;plg=1;});
+		if(st.pspp==2)
+			EM_ASM({cdss($0);},st.svccs->c_str());
+		st.pspp=0;
 	}
 	if(EM_ASM_INT({let pplg=plg;plg=0;return pplg;}))st.plg=1;
 	bool cc=EM_ASM_INT({return cc;});
