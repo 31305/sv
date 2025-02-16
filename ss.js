@@ -29,7 +29,7 @@ self.addEventListener('fetch',m=>{
 					mk();
 					return p.text().then(p=>{ph=p;return pk(m,ph)})
 				})
-				.catch(()=>pk(m,ph))
+				.catch(()=>ph=='p'?caches.match(m.request):pk(m,ph))
 			)
 		}
 		else if(!m.request.url.endsWith('mp4'))m.respondWith(pk(m,ph));
