@@ -548,7 +548,7 @@ void lk()
 			unsigned char cbv=44;
 			int vk=3;
 			#ifdef EMSCRIPTEN
-			if(i==12)switch(EM_ASM_INT({return ccpd.psp}))
+			if(i==12&&st.svskk&&!*(st.svskk))switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
 					vk--;

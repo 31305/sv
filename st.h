@@ -164,6 +164,7 @@ struct stp
 	int kgs=0;
 	std::queue<std::vector<unsigned char>> dpv;
 	int pspp=0;
+	int *svskk=0;
 }; 
 extern stp st;
 extern bool jt;

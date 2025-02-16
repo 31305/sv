@@ -1473,6 +1473,7 @@ struct vks
 		if((kk-tk>dpgt)&&(1?skk>0:tn(0,2)||tn(0,4)))
 		{
 			skk=0;
+			st.plg=1;
 			if(yk==0)yk=22;
 		}
 		if(t<0)return;
@@ -2107,6 +2108,7 @@ void npks(int n)
 int main()
 {
 	npk=npks;
+	st.svskk=&sl.v.skk;
 	rk();
 	return 0;
 }
