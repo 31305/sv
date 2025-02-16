@@ -556,7 +556,7 @@ void lk()
 					cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=150,.hm=150,.nm=150})();
 					break;
 				case 2:
-					if(!st.cc)npnv();
+					if(!st.cc&&d)npnv();
 					break;
 				default:
 					break;
