@@ -2,7 +2,7 @@ import os
 import subprocess
 import urllib.request
 import shutil
-e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-O3','-Wall'],CXXFLAGS=['-O3','--std=c++20'],LIBS='pthread')
+e=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-Wall'],CXXFLAGS=['--std=c++20'],LIBS='pthread')
 e.AppendENVPath('PATH',os.environ.get('PATH'))
 js=int(ARGUMENTS.get('js')) if type(ARGUMENTS.get('js'))==str else 0
 cp=type(ARGUMENTS.get('cp'))==str
