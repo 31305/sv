@@ -1469,6 +1469,7 @@ struct vks
 				yk=tn(0,6)?6:3;
 			}
 			skk=0;
+			st.plg=1;
 		}
 		if((kk-tk>dpgt)&&(1?skk>0:tn(0,2)||tn(0,4)))
 		{
