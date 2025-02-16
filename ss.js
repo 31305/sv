@@ -24,8 +24,7 @@ self.addEventListener('fetch',m=>{
 			m.respondWith(fetch(new Request(self.location.origin+'/sks?'+Date.now().toString(),{method:"GET"}))
 				.then(p=>{
 					if(!p.ok)return caches.match(m.request);
-					mk();
-					return p.text().then(p=>{ph=p;return pk(m,ph)})
+					return p.text().then(p=>{ph=p;mk();return pk(m,ph)})
 				})
 				.catch(()=>ph=='p'?caches.match(m.request):pk(m,ph))
 			)
