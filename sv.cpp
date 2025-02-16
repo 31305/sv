@@ -1483,6 +1483,11 @@ struct vks
 		{
 			if(0)st.vtp=1;
 			skk=0;
+			if(yk==0)
+			{
+			 	vs=165;
+				yk=12;	
+			}
 		}
 		else if(tn(0,8)){if(yk==0)yk=8;skk=0;}
 		else if(tn(0,7))
@@ -2094,8 +2099,9 @@ void npks(int n)
 int main()
 {
 	npk=npks;
-	st.svskk=&sl.v.skk;
-	st.svccs=&sl.v.ccs;
+	st.svsb.skk=&sl.v.skk;
+	st.svsb.ccs=&sl.v.ccs;
+	st.svsb.yk=&sl.v.yk;
 	rk();
 	return 0;
 }

@@ -548,7 +548,7 @@ void lk()
 			unsigned char cbv=44;
 			int vk=3;
 			#ifdef EMSCRIPTEN
-			if(i==12&&st.svskk&&!*(st.svskk))switch(EM_ASM_INT({return ccpd.psp}))
+			if(i==12&&!*(st.svsb.skk))switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
 					vk--;
@@ -1453,7 +1453,7 @@ void nk()
 	{
 		EM_ASM({ccpd.psp=0;plg=1;});
 		if(st.pspp==2)
-			EM_ASM({cdss($0);},st.svccs->c_str());
+			EM_ASM({cdss($0);},st.svsb.ccs->c_str());
 		st.pspp=0;
 	}
 	if(EM_ASM_INT({let pplg=plg;plg=0;return pplg;}))st.plg=1;
