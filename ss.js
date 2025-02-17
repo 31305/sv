@@ -11,6 +11,7 @@ function mk()
 
 function pk(m,kn)
 {
+	if(m.request.cache!=='reload')console.log('nnp',m.requset.url)
 	return caches.open(kn).then(k=>{return k.match(m.request).then(p=>{
 		if(p){return p;};
 		return fetch(m.request).then(p=>{return k.put(m.request,p.clone()).then(()=>{return p;});});
