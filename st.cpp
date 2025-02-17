@@ -561,7 +561,7 @@ void lk()
 				default:
 					break;
 			}
-			if(i==5&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc)npnv();
+			if(i==5&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
 			#endif
 			if(1)if(!d)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=255})();
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
