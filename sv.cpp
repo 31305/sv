@@ -1508,7 +1508,7 @@ struct vks
 							setTimeout(()=>ccpd.play(),pcpck);
 						}
 						else if(ccpd.paused){if(ccpd.currentTime<ccpd.duration)ccpd.play();}
-						else ccpd.pause()
+						else if(0)ccpd.pause()
 					}},ccs=="sc.mp4"?0:0);
 				else if(ccs=="pts")EM_ASM({location.hash='pt';});
 				else if(ccs=="nts")EM_ASM({location.hash='nt';});
