@@ -1627,7 +1627,8 @@ int pmk()
 						ml=spl(std::ifstream("ls"));
 					bool bbp=1;
 					tcsetattr(STDIN_FILENO,TCSANOW,&n);
-					auto sp=[](char d,int mks=8)
+					int vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5)/2;
+					auto sp=[vdss](char d,int mks=8)
 					{
 						printf("%c",d);
 						fflush(stdout);
@@ -1655,6 +1656,7 @@ int pmk()
 							if(ks>mks)return -1;
 						}
 						printf("\r");
+						printf("\033[%dC",vdss);
 						for(int ks=0;ks<mks+1;ks++)
 							printf(" ");
 						fflush(stdout);
@@ -1662,8 +1664,9 @@ int pmk()
 					};
 					while(bbp)
 					{
-						printf("\33[0;0H");
+						printf("\33[%d;%dH",vdsd,vdss+1);
 						printf("ML-%ld\r\n",ml.size());
+						printf("\033[%dC",vdss);
 						if(mls!=-1)
 						{
 							auto p=std::to_string(ml.size()).size();
@@ -1676,12 +1679,17 @@ int pmk()
 							}
 							l+=n+std::string("] ");
 							printf("%s\r\n",l.c_str());
+							printf("\033[%dC",vdss);
 							time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
 							l+=std::to_string(ks);
 							auto nj=*std::localtime(&ks);
-							std::cout<<std::put_time(&nj,"%Y-%m-%d\r\n%H:%M:%S %Z\r\n");
+							std::string kl(100,0);
+							kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
+							printf("%s\r\n\033[%dC%s\r\n",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
 						}
 						else printf("?\r\n\n\n");
+						printf("\033[%dC",vdss);
+						fflush(stdout);
 						auto p=mls==-1?'@':getchar();
 						if(st.dpv.size())continue;
 						auto pmls=mls;
