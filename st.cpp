@@ -576,11 +576,12 @@ void lk()
 				unsigned char rm=0,hm=0,nm=0;
 				if(st.pskt.ps==-1&&(i==14||i==5))
 				{
-					rm=40;hm=20;nm=20;
+					rm=100;hm=100;nm=100;
 					if((i==14&&st.pskt.sn)||(i==5&&st.pskt.nn))
 					{
-						nm=100;
-						hm=60;
+						nm=0;
+						rm=150;
+						hm=190;
 					}
 				}
 				cbl({.d1=ms1-4,.d2=ms2-4,.v1=8,.v2=8,.rm=rm,.hm=hm,.nm=nm})();
