@@ -1519,6 +1519,9 @@ struct vks
 		else if(tn(0,1))
 		{
 			skk=0;
+#ifdef EMSCRIPTEN
+			if(!st.cc)EM_ASM({location.hash="nt";});
+#endif
 			if(cvp&&!jt)cvp();
 		}
 		else if(tn(0,5))
