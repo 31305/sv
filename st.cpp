@@ -1687,7 +1687,7 @@ int pmk()
 							kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
 							printf("%s\r\033[%dC\n%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
 						}
-						else printf("?\r\n\n");
+						else printf("?\r\033[2B");
 						printf("\033[%dC\n",vdss);
 						fflush(stdout);
 						auto p=mls==-1?'@':getchar();
