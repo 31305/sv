@@ -552,8 +552,11 @@ void lk()
 			if(i==12&&!*(st.svsb.skk))switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
-					vk--;
-					cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=150,.hm=150,.nm=150})();
+					if(d)
+					{
+						vk--;
+						cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=150,.hm=150,.nm=150})();
+					}
 					break;
 				case 2:
 					if(!st.cc&&d)npnv();
@@ -561,7 +564,7 @@ void lk()
 				default:
 					break;
 			}
-			if(i==5&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
+			if(i==5&&!st.dp.d&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
 			#endif
 			if(1)if(!d)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=255})();
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
@@ -1175,6 +1178,7 @@ void nk()
 			}
 			else continue;
 		}
+		else if(g.type==SDL_MOUSEBUTTONDOWN||g.type==SDL_MOUSEBUTTONUP||g.type==SDL_MOUSEMOTION)continue;
 #endif
 		auto ss=[](int s1,int s2)->int
 		{
@@ -1381,7 +1385,16 @@ void nk()
 				if(!(n>4&&n<15))
 				{
 					st.pttk.ns=1;
-					st.pskt.ps=-1;
+					if(st.pskt.ps==-1)
+					{
+						if(st.dp.d)
+						{
+							char ls[2];
+							ls[0]=10;ls[1]=0;
+							ptlk(ls);
+						}
+					}
+					else st.pskt.ps=-1;
 					st.plg=1;
 				}
 				if(st.tp&&n>0&&n<15)
