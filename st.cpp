@@ -386,8 +386,10 @@ void ncpk()
 			}
 			if(0)
 			{
-				SDL_SetRenderDrawColor(st.ck,0,0,255,100);
+				SDL_SetRenderDrawColor(st.ck,0,0,255,255);
 				SDL_RenderDrawRect(st.ck,&st.pd);
+				SDL_SetRenderDrawColor(st.ck,255,0,0,255);
+				SDL_RenderDrawRect(st.ck,&st.cdp);
 			}
 		}
 		if(st.rrs1>=0)
@@ -768,9 +770,9 @@ void mk()
 		st.pd.x=(x1-st.pd.w)/2;
 		st.pd.y=(x2-st.pd.h)/2;
 	}
-	st.cdp.x=st.pd.x+(mss<0>(5)-0.5)*st.sp1*st.g;
 	st.cdp.y=st.pd.y+st.sp2*st.g;
-	st.cdp.w=(mss<0>(14)-mss<0>(5)+1)*st.sp1*st.g;
+	st.cdp.w=(mss<0>(14)-mss<0>(5)+1.5)*st.sp1*st.g;
+	st.cdp.x=st.pd.x+(st.pd.w-st.cdp.w)/2;
 	st.cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"0");
@@ -1703,7 +1705,7 @@ int pmk()
 							printf("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
 						}
 						else printf("?\r\033[2B");
-						printf("\033[%dC\n",vdss);
+						printf("\033[%dC\033[1B",vdss);
 						fflush(stdout);
 						auto p=mls==-1?'@':getchar();
 						if(st.dpv.size())continue;
