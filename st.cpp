@@ -1681,7 +1681,7 @@ int pmk()
 					{
 						printf("\33[%d;%dH",vdsd,vdss+1);
 						printf("ML-%ld\r",ml.size());
-						printf("\033[%dC\n",vdss);
+						printf("\033[%dC\033[1B",vdss);
 						if(mls!=-1)
 						{
 							auto p=std::to_string(ml.size()).size();
@@ -1694,13 +1694,13 @@ int pmk()
 							}
 							l+=n+std::string("] ");
 							printf("%s\r",l.c_str());
-							printf("\033[%dC\n",vdss);
+							printf("\033[%dC\033[1B",vdss);
 							time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
 							l+=std::to_string(ks);
 							auto nj=*std::localtime(&ks);
 							std::string kl(100,0);
 							kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
-							printf("%s\r\033[%dC\n%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
+							printf("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
 						}
 						else printf("?\r\033[2B");
 						printf("\033[%dC\n",vdss);
