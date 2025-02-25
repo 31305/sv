@@ -1526,7 +1526,7 @@ struct vks
 		}
 		else if(tn(0,5))
 		{
-			if(jt&&ccs.ends_with(".mp4")&&!st.cc)
+			if(jt&&(ccs.ends_with(".mp4")||ccs.ends_with(".webm"))&&!st.cc)
 			{
 #ifdef EMSCRIPTEN
 				EM_ASM({cdss($0);},ccs.c_str());
