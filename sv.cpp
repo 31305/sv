@@ -1497,7 +1497,7 @@ struct vks
 			if(jt&&(ccs.size()>0||st.cc))
 			{
 #ifdef EMSCRIPTEN
-				if(ccs.ends_with(".mp4")||st.cc)
+				if(ccs.ends_with(".mp4")||ccs.ends_with(".webm")||st.cc)
 					EM_ASM({if(ccpd.psp==2||cc)
 					{
 						if(!cc)

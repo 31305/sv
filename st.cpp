@@ -551,7 +551,7 @@ void lk()
 			int vk=3;
 #ifdef EMSCRIPTEN
 			auto npnv=[&](){vk--;cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=0,.hm=120,.nm=255})();};
-			if(i==12&&!*(st.svsb.skk)&&!st.dp.d)switch(EM_ASM_INT({return ccpd.psp}))
+			if(1)if(i==12&&!*(st.svsb.skk)&&!st.dp.d)switch(EM_ASM_INT({return ccpd.psp}))
 			{
 				case 1:
 					if(d)
@@ -566,8 +566,8 @@ void lk()
 				default:
 					break;
 			}
-			if(i==5&&!st.dp.d&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
-			if(i==6&&!st.dp.d&&!*(st.svsb.skk)&&!st.cc&&d)npnv();
+			if(0)if(i==5&&!st.dp.d&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
+			if(0)if(i==6&&!st.dp.d&&!*(st.svsb.skk)&&!st.cc&&d)npnv();
 #endif
 			if(1)if(!d)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=255})();
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();
