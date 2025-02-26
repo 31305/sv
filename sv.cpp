@@ -1520,7 +1520,7 @@ struct vks
 		{
 			skk=0;
 #ifdef EMSCRIPTEN
-			if(!st.cc)EM_ASM({location.hash="nt";});
+			if(!st.cc)EM_ASM({location.hash="ml";});
 #endif
 			if(cvp&&!jt)cvp();
 		}

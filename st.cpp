@@ -618,6 +618,157 @@ void lk()
 		st.plg=1;
 	}
 }
+struct
+{
+	const int dpk=2;
+	std::vector<std::string> ml;
+	int mls=-1;
+	int vdss=0,vdsd=0;
+	char pl[64*1024]={};
+	size_t plss=0;
+	void dpl(const char *l,...)
+	{
+		va_list ps;
+		va_start(ps,l);
+		plss+=vsnprintf(&pl[plss],sizeof(pl)-plss,l,ps);
+	}
+	void cp()
+	{
+		tmt_write(st.dps[dpk],pl,0);
+		plss=0;
+		pl[0]=0;
+	}
+	void slm(){dpl("\033[2J");};
+	char ss='@';
+	int mks=8;
+	int tp=0,ks=mks;
+	void pk()
+	{
+		slm();
+		if(ml.size()==0)
+			ml=spl(std::ifstream("ls"));
+		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5)/2;
+		dpl("\33[%d;%dH",vdsd,vdss+1);
+		dpl("ML-%ld\r",ml.size());
+		dpl("\033[%dC\033[1B",vdss);
+		if(mls!=-1)
+		{
+			auto p=std::to_string(ml.size()).size();
+			auto n=std::to_string(mls+1);
+			std::string l=std::string("[");
+			for(int k=n.size();k<p;k++)
+			{
+				l.resize(l.size()+1);
+				l[l.size()-1]='0';
+			}
+			l+=n+std::string("] ");
+			dpl("%s\r",l.c_str());
+			dpl("\033[%dC\033[1B",vdss);
+			time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
+			l+=std::to_string(ks);
+			auto nj=*std::localtime(&ks);
+			std::string kl(100,0);
+			kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
+			dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
+		}
+		else dpl("?\r\033[2B");
+		dpl("\033[%dC\033[1B",vdss);
+		if(ss)dpl("%c",ss);
+		cp();
+	}
+	void nk(char p)
+	{	
+		auto pmls=mls;
+		if(st.dpv.size())return;
+		else if(!ss)
+		{
+			if(p=='n')
+			{
+#ifdef EMSCRIPTEN
+				EM_ASM({location.hash="";});
+#endif
+			}
+			else if(p>='0'&&p<='9')mls+=p-'0';
+			else if(p=='-'||p=='+'||p=='@')
+			{
+				ss=p;
+				dpl("%c",p);
+				cp();
+				tp=0;
+				ks=mks;
+			}
+		}
+		else
+		{
+			if(p>='0'&&p<='9'&&ks)
+			{
+				tp=tp*10+(p-'0');
+				dpl("%c",p);
+				cp();
+				ks--;
+			}
+			else if(p==127)
+			{
+				ks++;
+				dpl("\b \b");
+				tp/=10;
+				cp();
+			}
+			else if(p=='\n'||p=='\r'||p=='.')
+			{
+				if(ss=='-')mls-=tp;
+				else if(ss=='+')mls+=tp;
+				else if(ss=='@')mls=tp-1;
+				ss=0;
+			}
+			if(ks>mks||p=='n')
+			{
+				ss=0;
+			}	
+			if(!ss)
+			{
+				dpl("\r");
+				dpl("\033[%dC",vdss);
+				for(int ks=0;ks<mks+1;ks++)
+					dpl(" ");
+				dpl("\r");
+				dpl("\033[%dC",vdss);
+				cp();
+			}
+		}
+		if(!ss)
+		{
+			mls=std::min(mls,(int)ml.size()-1);
+			mls=std::max(mls,0);
+		}
+		if(pmls!=mls||p=='0')
+		{
+			auto ps=ml[mls];
+			size_t ssp=ps.find(';')+1;
+			if(p!='0')st.dpv.push({51,4,45,7,51,2,75});
+			while(1)
+			{
+				auto nsp=std::string::npos;
+				if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
+				if(nsp==std::string::npos)break;
+				auto vs=ps.substr(ssp,nsp);
+				std::vector<unsigned char> v;
+				while(vs.size())
+				{
+					size_t pnsp=vs.find(',');
+					if(pnsp==std::string::npos)
+						pnsp=vs.size();
+					v.push_back(std::stoi(vs.substr(0,pnsp)));
+					if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
+					else vs={};
+				}
+				ssp+=nsp+1;
+				st.dpv.push(v);
+			}
+		}
+		if(pmls!=mls)pk();
+	}
+}mlk;
 void lnss(int v1,int v2)
 {
 	TTF_Init();
@@ -813,6 +964,7 @@ void mk()
 	if(0)lnss(st.tpp.g,st.tpp.g*2);
 	for(int k=0;k<st.dps.size();k++)
 		tmt_resize(st.dps[k],st.dp.dv,st.dp.v);
+	mlk.pk();
 	ptdps();
 #ifdef EMSCRIPTEN
 	EM_ASM({});
@@ -880,6 +1032,7 @@ void ptlk(char *l)
 	if(l[1]==0&&l[0]==3&&st.ptc==2)EM_ASM({location.hash="";});
 	else if(st.ptc==1)
 		EM_ASM({if(typeof ptc!=='undefined')ptc.serial0_send(UTF8ToString($0));},l);
+	else if(st.ptc==3)mlk.nk(l[0]);
 	else EM_ASM({ptsc.master.ldisc.writeFromLower(UTF8ToString($0));},l);
 #endif
 }
@@ -1099,6 +1252,10 @@ void nk()
 		case 4:
 			st.dp.d=1;
 			st.ptc=2;
+			break;
+		case 7:
+			st.dp.d=1;
+			st.ptc=3;
 			break;
 		default:
 			st.dp.d=0;
@@ -1576,9 +1733,10 @@ int pmk()
 #endif
 	st.ck=SDL_CreateRenderer(st.cp,-1,SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE);
 	SDL_SetRenderDrawBlendMode(st.ck,SDL_BLENDMODE_BLEND);
-	st.dps.resize(2);
+	st.dps.resize(3);
 	for(int k=0;k<st.dps.size();k++)
 		st.dps[k]=tmt_open(8,8,dppk,&(st.dps[k]),0);
+	mlk.pk();
 #ifdef EMSCRIPTEN
 	std::signal(SIGINT,[](int){});
 	st.vkk=std::thread([](){
@@ -1619,158 +1777,14 @@ int pmk()
 						return new TextDecoder().decode(Module.HEAP8.slice(ns,ns+nl));
 					};
 				});
-			std::vector<std::string> ml;
-			int mls=-1;
 			while(1)
 			{
-				auto slm=[](){printf("\033[2J");};
 				while(st.s!=4)std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				printf("> ");
 				fflush(stdout);
 				std::string l;
 				std::getline(std::cin,l);
-				if(l.compare("ml.")==0)
-				{
-					struct termios p,n;
-					tcgetattr(STDIN_FILENO,&p);
-					n=p;
-					n.c_lflag&=~(ECHO|ICANON|ISIG);
-					n.c_iflag&=~(IXON|ICRNL);
-					n.c_oflag&=~OPOST;
-					n.c_cc[VMIN]=1;
-					n.c_cc[VTIME]=0;
-					slm();
-					if(ml.size()==0)
-						ml=spl(std::ifstream("ls"));
-					bool bbp=1;
-					tcsetattr(STDIN_FILENO,TCSANOW,&n);
-					int vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5)/2;
-					auto sp=[vdss](char d,int mks=8)
-					{
-						printf("%c",d);
-						fflush(stdout);
-						int tp=0;
-						int ks=mks;
-						while(1)
-						{
-							auto p=getchar();
-							if(p>='0'&&p<='9'&&ks)
-							{
-								tp=tp*10+(p-'0');
-								printf("%c",p);
-								fflush(stdout);
-								ks--;
-							}
-							else if(p=='\n'||p=='\r'||p=='.')break;
-							else if(p=='n')return -1;
-							else if(p==127)
-							{
-								ks++;
-								printf("\b \b");
-								tp/=10;
-								fflush(stdout);
-							}
-							if(ks>mks)return -1;
-						}
-						printf("\r");
-						printf("\033[%dC",vdss);
-						for(int ks=0;ks<mks+1;ks++)
-							printf(" ");
-						fflush(stdout);
-						return tp;
-					};
-					while(bbp)
-					{
-						printf("\33[%d;%dH",vdsd,vdss+1);
-						printf("ML-%ld\r",ml.size());
-						printf("\033[%dC\033[1B",vdss);
-						if(mls!=-1)
-						{
-							auto p=std::to_string(ml.size()).size();
-							auto n=std::to_string(mls+1);
-							std::string l=std::string("[");
-							for(int k=n.size();k<p;k++)
-							{
-								l.resize(l.size()+1);
-								l[l.size()-1]='0';
-							}
-							l+=n+std::string("] ");
-							printf("%s\r",l.c_str());
-							printf("\033[%dC\033[1B",vdss);
-							time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
-							l+=std::to_string(ks);
-							auto nj=*std::localtime(&ks);
-							std::string kl(100,0);
-							kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
-							printf("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
-						}
-						else printf("?\r\033[2B");
-						printf("\033[%dC\033[1B",vdss);
-						fflush(stdout);
-						auto p=mls==-1?'@':getchar();
-						if(st.dpv.size())continue;
-						auto pmls=mls;
-						if(p=='n')bbp=0;
-						else if(p>='0'&&p<='9')mls+=p-'0';
-						else if(p=='-'||p=='+'||p=='@')
-						{
-							int tp=sp(p);
-							if(tp!=-1)
-							{
-								if(p=='-')mls-=tp;
-								else if(p=='+')mls+=tp;
-								else if(p=='@')mls=tp-1;
-							}
-						}
-						mls=std::min(mls,(int)ml.size()-1);
-						mls=std::max(mls,0);
-						if(pmls!=mls||p=='0')
-						{
-							struct termios pn,nn;
-							tcgetattr(STDIN_FILENO,&pn);
-							nn=pn;
-							nn.c_cc[VTIME]=0;
-							nn.c_cc[VMIN]=0;
-							tcsetattr(STDIN_FILENO,TCSANOW,&nn);
-							auto ps=ml[mls];
-							size_t ssp=ps.find(';')+1;
-							if(p!='0')st.dpv.push({51,4,45,7,51,2,75});
-							while(1)
-							{
-								auto nsp=std::string::npos;
-								if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
-								if(nsp==std::string::npos)break;
-								auto vs=ps.substr(ssp,nsp);
-								std::vector<unsigned char> v;
-								while(vs.size())
-								{
-									size_t pnsp=vs.find(',');
-									if(pnsp==std::string::npos)
-										pnsp=vs.size();
-									v.push_back(std::stoi(vs.substr(0,pnsp)));
-									if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
-									else vs={};
-								}
-								ssp+=nsp+1;
-								if(0)while(st.dpv.size())
-								{
-									char p;
-									if(0)while(read(0,&p,1)>0);
-									std::this_thread::sleep_for(std::chrono::milliseconds(50));
-								}
-								st.dpv.push(v);
-							}
-
-							tcsetattr(STDIN_FILENO,TCSANOW,&pn);
-						}
-						slm();
-					}
-					slm();
-					printf("\33[0;0H");
-					fflush(stdout);
-					tcsetattr(STDIN_FILENO,TCSANOW,&p);
-				}
-				else
+				if(1)
 				{
 					auto p=(char*)EM_ASM_PTR({let p="";try{p=eval(UTF8ToString($0));if(typeof(p)!=='undefined')p=p.toString();else p="";}catch(v){p=v.toString()}return stringToNewUTF8(p)},l.c_str());
 					if(p[0]!=0)
