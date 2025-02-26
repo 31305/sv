@@ -1711,6 +1711,13 @@ void dppk(tmt_msg_t d,TMT* dp,const void *pt,void* k)
 #ifdef EMSCRIPTEN
 extern "C"
 {
+void EMSCRIPTEN_KEEPALIVE kcsk(size_t s,int v,int d,int k)
+{
+	auto sl=SDL_CreateRGBSurfaceWithFormat(0,v,d,24,SDL_PIXELFORMAT_ARGB32);
+	memcpy(sl->pixels,(void*)s,v*d*4);
+	st.csg[k]=SDL_CreateTextureFromSurface(st.ck,sl);
+	SDL_FreeSurface(sl);
+}
 size_t EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l,int d)
 {
 	if(d==5){std::this_thread::sleep_for(std::chrono::milliseconds(50));return lvss.d==4;}

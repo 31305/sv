@@ -171,7 +171,7 @@ struct stp
 		int *skk=0;
 		int *yk=0;
 	}svsb;
-	std::map<int,SDL_Texture> csg;
+	std::map<int,SDL_Texture*> csg;
 }; 
 extern stp st;
 extern bool jt;

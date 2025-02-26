@@ -77,7 +77,7 @@ function kcsk(n)
 			let l=cps.getImageData(0,0,cp.width,cp.height).data;
 			let s=Module._malloc(l.length);
 			Module.HEAPU8.set(l,s);
-			Module.ccall('kcsp',null,['number','number','number'],[s,cp.width,cp.height]);
+			Module.ccall('kcsp',null,['number','number','number','number'],[s,cp.width,cp.height,n]);
 			Module._free(s);
 		}
 	});
