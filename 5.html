@@ -60,6 +60,28 @@ function cdss(n)
 		plg=1;
 	});
 }
+function kcsk(n)
+{
+	ccss('cs/'+n.toString()+'.jpg',p=>
+	{
+		const c=new Image();
+		let ps=new Blob([p.target.response],{type:"image/jpeg"});
+		c.src=URL.createObjectURL(ps);
+		c.onload=()=>
+		{
+			const cp=document.createElement("canvas");
+			const cps=cp.getContext("2d");
+			cp.width=c.width;
+			cp.height=c.height;
+			cps.drawImage(c,0,0);
+			let l=cps.getImageData(0,0,cp.width,cp.height).data;
+			let s=Module._malloc(l.length);
+			Module.HEAPU8.set(l,s);
+			Module.ccall('kcsp',null,['number','number','number'],[s,cp.width,cp.height]);
+			Module._free(s);
+		}
+	});
+}
 function svsgsk(p)
 {
 	let s=cp.getBoundingClientRect();

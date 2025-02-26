@@ -745,7 +745,7 @@ struct
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
 		}
-		if((p=='1')||p=='0')
+		if((p=='1'&&mls!=pmls)||p=='0')
 		{
 			auto ps=ml[mls];
 			size_t ssp=ps.find(';')+1;
