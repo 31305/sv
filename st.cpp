@@ -624,7 +624,7 @@ struct
 	std::vector<std::string> ml;
 	int mls=-1;
 	int vdss=0,vdsd=0;
-	char pl[64*1024]={};
+	char pl[1024];
 	size_t plss=0;
 	void dpl(const char *l,...)
 	{
@@ -639,14 +639,17 @@ struct
 		pl[0]=0;
 	}
 	void slm(){dpl("\033[2J");};
-	char ss='@';
+	char ss=0;
 	int mks=8;
 	int tp=0,ks=mks;
 	void pk()
 	{
 		slm();
 		if(ml.size()==0)
+		{
 			ml=spl(std::ifstream("ls"));
+			mls=ml.size()-1;
+		}
 		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5)/2;
 		dpl("\33[%d;%dH",vdsd,vdss+1);
 		dpl("ML-%ld\r",ml.size());
@@ -735,13 +738,14 @@ struct
 				dpl("\033[%dC",vdss);
 				cp();
 			}
+			p=0;
 		}
 		if(!ss)
 		{
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
 		}
-		if(pmls!=mls||p=='0')
+		if((p=='1')||p=='0')
 		{
 			auto ps=ml[mls];
 			size_t ssp=ps.find(';')+1;
