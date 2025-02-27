@@ -327,6 +327,10 @@ void ncpk()
 						}
 				tmt_clean(st.dps[st.ptc-1]);
 			}
+			if(0)if(st.csg.find(1)!=st.csg.end())
+			{
+				SDL_RenderCopy(st.ck,st.csg[1],0,0);
+			}
 			if(st.dp.d&&st.tp&&st.pskt.s)
 			{
 				for(size_t k=0;k<10;k++)
@@ -930,7 +934,7 @@ void mk()
 	st.cdp.x=st.pd.x+(st.pd.w-st.cdp.w)/2;
 	st.cdp.h=(mss<1>(5)-2.5)*st.sp2*st.g;
 	int t2=ceil((float)x1/(float)(st.s1*st.sp1));
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"0");
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"2");
 	st.mc1=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_STREAMING,st.s1*st.sp1,st.s2*st.sp2);
 	if(!getenv("NCTV"))SDL_SetTextureScaleMode(st.mc1,SDL_ScaleModeNearest);
 	st.mc2=SDL_CreateTexture(st.ck,SDL_PIXELFORMAT_RGB24,SDL_TEXTUREACCESS_TARGET,st.s1*st.sp1*t2,st.s2*st.sp2*t2);
@@ -1713,7 +1717,7 @@ extern "C"
 {
 void EMSCRIPTEN_KEEPALIVE kcsk(size_t s,int v,int d,int k)
 {
-	auto sl=SDL_CreateRGBSurfaceWithFormat(0,v,d,24,SDL_PIXELFORMAT_ARGB32);
+	auto sl=SDL_CreateRGBSurfaceWithFormat(0,v,d,24,SDL_PIXELFORMAT_RGBA32);
 	memcpy(sl->pixels,(void*)s,v*d*4);
 	st.csg[k]=SDL_CreateTextureFromSurface(st.ck,sl);
 	SDL_FreeSurface(sl);

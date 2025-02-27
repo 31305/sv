@@ -30,7 +30,7 @@ self.addEventListener('fetch',m=>{
 				.catch(()=>ph=='p'?caches.match(m.request):pk(m,ph))
 			)
 		}
-		else if(!m.request.url.endsWith('mp4'))m.respondWith(pk(m,ph));
+		else if(!(m.request.url.endsWith('mp4')||m.request.url.endsWith('jpeg')))m.respondWith(pk(m,ph));
 		else m.respondWith(pk(m,nh));
 	}
 });
