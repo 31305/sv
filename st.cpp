@@ -655,7 +655,7 @@ struct
 			mls=ml.size()-1;
 		}
 		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5)/2;
-		dpl("\33[%d;%dH",vdsd,vdss+1);
+		dpl("\33[%d;%dH",vdsd+1,vdss+1);
 		dpl("ML-%ld\r",ml.size());
 		dpl("\033[%dC\033[1B",vdss);
 		if(mls!=-1)
