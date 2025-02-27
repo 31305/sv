@@ -646,6 +646,8 @@ struct
 	char ss=0;
 	int mks=8;
 	int tp=0,ks=mks;
+	int ck=-1;
+	bool vkvl=0;
 	void pk()
 	{
 		slm();
@@ -681,12 +683,64 @@ struct
 		else dpl("?\r\033[2B");
 		dpl("\033[%dC\033[1B",vdss);
 		if(ss)dpl("%c",ss);
+		if(mls!=-1)
+		{
+			auto ps=ml[mls];
+			size_t ssp=ps.find('c');
+			if(ssp!=std::string::npos)
+			{
+				int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
+#ifdef EMSCRIPTEN
+				if(st.csg.find(k)==st.csg.end())
+				{
+					dpl("... ");
+					EM_ASM({kcsk($0)},k);
+				}
+#endif
+			}
+		}
 		cp();
+	}
+	void vs(bool kv=1)
+	{
+		auto ps=ml[mls];
+		size_t ssp=ps.find('c');
+		if(ssp!=std::string::npos)
+		{
+			int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
+			if(st.csg.find(k)==st.csg.end())
+			{
+				vkvl=1;
+				return;
+			}
+		}
+		ssp=ps.find(';')+1;
+		if(kv)st.dpv.push({51,4,45,7,51,2,75});
+		while(1)
+		{
+			auto nsp=std::string::npos;
+			if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
+			if(nsp==std::string::npos)break;
+			auto vs=ps.substr(ssp,nsp);
+			if(vs[0]=='c')break;
+			std::vector<unsigned char> v;
+			while(vs.size())
+			{
+				size_t pnsp=vs.find(',');
+				if(pnsp==std::string::npos)
+					pnsp=vs.size();
+				v.push_back(std::stoi(vs.substr(0,pnsp)));
+				if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
+				else vs={};
+			}
+			ssp+=nsp+1;
+			st.dpv.push(v);
+		}
 	}
 	void nk(char p)
 	{	
 		auto pmls=mls;
-		if(st.dpv.size())return;
+		if(st.dpv.size()||vkvl)return;
 		else if(!ss)
 		{
 			if(p=='n')
@@ -749,30 +803,10 @@ struct
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
 		}
-		if((p=='1'&&mls!=pmls)||p=='0')
+		if(p=='0')vs(0);
+		if(p=='1'&&mls!=pmls)
 		{
-			auto ps=ml[mls];
-			size_t ssp=ps.find(';')+1;
-			if(p!='0')st.dpv.push({51,4,45,7,51,2,75});
-			while(1)
-			{
-				auto nsp=std::string::npos;
-				if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
-				if(nsp==std::string::npos)break;
-				auto vs=ps.substr(ssp,nsp);
-				std::vector<unsigned char> v;
-				while(vs.size())
-				{
-					size_t pnsp=vs.find(',');
-					if(pnsp==std::string::npos)
-						pnsp=vs.size();
-					v.push_back(std::stoi(vs.substr(0,pnsp)));
-					if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
-					else vs={};
-				}
-				ssp+=nsp+1;
-				st.dpv.push(v);
-			}
+			vs(1);
 		}
 		if(pmls!=mls)pk();
 	}
@@ -1721,6 +1755,9 @@ void EMSCRIPTEN_KEEPALIVE kcsk(size_t s,int v,int d,int k)
 	memcpy(sl->pixels,(void*)s,v*d*4);
 	st.csg[k]=SDL_CreateTextureFromSurface(st.ck,sl);
 	SDL_FreeSurface(sl);
+	st.plg=1;
+	if(mlk.vkvl){mlk.vs();mlk.vkvl=0;}
+	mlk.pk();
 }
 size_t EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l,int d)
 {
