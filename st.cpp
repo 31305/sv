@@ -495,16 +495,16 @@ void ncpk()
 			{
 				auto dp=tmt_screen(st.dps[st.ptc-1]);
 				auto lss=tmt_cursor(st.dps[st.ptc-1]);
-				auto pds=[](int k,int pk)
+				auto pds=[](int pk,int k,int pv=1,int v=1)
 				{
 					const auto g=st.dp.g;
-					return smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-0.75):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g,g);
+					return smp(((mss<1>(14)>mss<1>(5)&&st.tp)?(mss<0>(5)-0.75):1.0)+0.5*(pk)*g,1.0+k*g,0.5*g*pv,g*v);
 				};
 				for(size_t k=0;k<dp->nline;k++)
 					if(dp->lines[k]->dirty||1)
 						for(size_t pk=0;pk<dp->ncol;pk++)
 						{
-							SDL_Rect ls=pds(k,pk);
+							SDL_Rect ls=pds(pk,k);
 							char l=dp->lines[k]->chars[pk].c;
 							SDL_Rect ss=SDL_Rect({.x=(int)(st.dp.g*l*4*st.g)%v1,.y=((int)(st.dp.g*l*4*st.g)/v1)*(int)(st.dp.g*8*st.g),
 									.w=(int)(st.dp.g*4*st.g),.h=(int)(st.dp.g*8*st.g)});
@@ -523,9 +523,15 @@ void ncpk()
 				tmt_clean(st.dps[st.ptc-1]);
 				if(mlk.ck!=-1)
 				{
-					SDL_Rect s=pds(mlk.vdsd-4,(int)((st.dp.v-8)/2));
-					s.w*=8;
-					s.h*=4;
+					SDL_Rect s=pds(0,0,st.dp.v,mlk.vdsd-1);
+					int v=st.sp1*st.g*10;
+					if(v>s.w)v=s.w;
+					if(v>s.h)v=s.h;
+					s.x+=(s.w-v)/2;
+					s.y+=(s.h-v)/2;
+					s.w=v;
+					s.h=v;
+					if(0)s=pds((int)((st.dp.v-8)/2),mlk.vdsd-4,8,4);
 					SDL_RenderCopy(st.ck,st.csg[mlk.ck],0,&s);
 				}
 			}
