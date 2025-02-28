@@ -271,10 +271,11 @@ struct
 	int mks=8;
 	int tp=0,ks=mks;
 	int ck=-1;
-	bool vkvl=0;
+	int vkvl=0;
 	void pk()
 	{
 		slm();
+		if(vkvl==3){cp();return;}
 		if(ml.size()==0)
 		{
 			ml=spl(std::ifstream("ls"));
@@ -318,29 +319,21 @@ struct
 #ifdef EMSCRIPTEN
 				if(st.csg.find(k)==st.csg.end())
 				{
-					dpl("... ");
 					EM_ASM({kcsk($0)},k);
+					vkvl=1;
 				}
-				else ck=k;
+				else {ck=k;vkvl=2;}
 #endif
 			}
+			else vkvl=0;
 		}
+		if(vkvl==1)dpl("... ");
 		cp();
 	}
 	void vs(bool kv=1)
 	{
 		auto ps=ml[mls];
-		size_t ssp=ps.find('c');
-		if(ssp!=std::string::npos)
-		{
-			int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
-			if(st.csg.find(k)==st.csg.end())
-			{
-				vkvl=1;
-				return;
-			}
-		}
-		ssp=ps.find(';')+1;
+		size_t ssp=ps.find(';')+1;
 		if(kv)st.dpv.push({51,4,45,7,51,2,75});
 		while(1)
 		{
@@ -366,16 +359,20 @@ struct
 	void nk(char p)
 	{	
 		auto pmls=mls;
-		if(st.dpv.size()||vkvl)return;
-		else if(!ss)
+		if(st.dpv.size())return;
+		emscripten_console_log((std::to_string(vkvl)+" p "+p).c_str());
+		if(vkvl==3){p='1';vkvl=0;}
+		if(!ss)
 		{
+			if(p=='1'&&vkvl==1)return;
+			if(p=='1'&&vkvl==2){vkvl=3;pk();return;}
 			if(p=='n')
 			{
 #ifdef EMSCRIPTEN
 				EM_ASM({location.hash="";});
 #endif
 			}
-			else if(p>='0'&&p<='9')mls+=p-'0';
+			else if(p>='0'&&p<='1')mls+=p-'0';
 			else if(p=='-'||p=='+'||p=='@')
 			{
 				ss=p;
@@ -511,7 +508,7 @@ void ncpk()
 							if(0)SDL_SetTextureBlendMode(st.lns,dp->lines[k]->chars[pk].a.reverse?SDL_BLENDMODE_BLEND:SDL_ComposeCustomBlendMode(SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_REV_SUBTRACT,SDL_BLENDFACTOR_ONE,SDL_BLENDFACTOR_ONE,SDL_BLENDOPERATION_ADD));
 							SDL_RenderCopy(st.ck,st.lns,&ss,&ls);
 							if(0)SDL_SetTextureBlendMode(st.lns,SDL_BLENDMODE_BLEND);
-							if(k==lss->r&&pk==lss->c&&!(st.ptpr==1&&st.ptc==1))
+							if(k==lss->r&&pk==lss->c&&!(st.ptpr==1&&st.ptc==1)&&!(st.ptc==3&&mlk.ck!=-1&&mlk.vkvl==3))
 							{
 								unsigned r=255,h=255,n=255;
 								SDL_SetRenderDrawColor(st.ck,st.ks?255-r:r,st.ks?255-h:h,st.ks?255-n:n,255);
@@ -521,9 +518,9 @@ void ncpk()
 							}
 						}
 				tmt_clean(st.dps[st.ptc-1]);
-				if(mlk.ck!=-1)
+				if(mlk.ck!=-1&&mlk.vkvl==3&&st.ptc==3)
 				{
-					SDL_Rect s=pds(0,0,st.dp.v,mlk.vdsd-1);
+					SDL_Rect s=pds(0,0,st.dp.v,st.dp.dv);
 					int v=st.sp1*st.g*10;
 					if(v>s.w)v=s.w;
 					if(v>s.h)v=s.h;
@@ -1771,8 +1768,10 @@ void EMSCRIPTEN_KEEPALIVE kcsk(size_t s,int v,int d,int k)
 	st.csg[k]=SDL_CreateTextureFromSurface(st.ck,sl);
 	SDL_FreeSurface(sl);
 	st.plg=1;
-	if(mlk.vkvl){mlk.vs();mlk.vkvl=0;}
-	mlk.pk();
+	if(mlk.vkvl==1)
+	{
+		mlk.pk();
+	}
 }
 size_t EMSCRIPTEN_KEEPALIVE lvs(size_t s,size_t l,int d)
 {
