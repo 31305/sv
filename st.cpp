@@ -360,7 +360,6 @@ struct
 	{	
 		auto pmls=mls;
 		if(st.dpv.size())return;
-		emscripten_console_log((std::to_string(vkvl)+" p "+p).c_str());
 		if(vkvl==3){p='1';vkvl=0;}
 		if(!ss)
 		{
