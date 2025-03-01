@@ -360,7 +360,12 @@ struct
 	{	
 		auto pmls=mls;
 		if(st.dpv.size())return;
-		if(vkvl==3){p='1';vkvl=0;}
+		if(vkvl==3)
+		{
+			vkvl=0;
+			if(p=='0'){pk();return;}
+			else if(p!='1')return;
+		}
 		if(!ss)
 		{
 			if(p=='1'&&vkvl==1)return;
