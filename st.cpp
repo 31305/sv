@@ -251,6 +251,7 @@ struct
 	const int dpk=2;
 	std::vector<std::string> ml;
 	int mls=-1;
+	bool vsn=0;
 	int vdss=0,vdsd=0;
 	char pl[1024];
 	size_t plss=0;
@@ -330,11 +331,12 @@ struct
 		if(vkvl==1)dpl("... ");
 		cp();
 	}
-	void vs(bool kv=1)
+	void vs()
 	{
 		auto ps=ml[mls];
 		size_t ssp=ps.find(';')+1;
-		if(kv)st.dpv.push({51,4,45,7,51,2,75});
+		if(!vsn)st.dpv.push({51,4,45,7,51,2,75});
+		vsn=1;
 		while(1)
 		{
 			auto nsp=std::string::npos;
@@ -370,6 +372,7 @@ struct
 		{
 			if(p=='1'&&vkvl==1)return;
 			if(p=='1'&&vkvl==2){vkvl=3;pk();return;}
+			if(!vsn&&p=='1')p='0';
 			if(p=='n')
 			{
 #ifdef EMSCRIPTEN
@@ -430,12 +433,12 @@ struct
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
 		}
-		if(p=='0')vs(0);
-		if(p=='1'&&mls!=pmls)
+		if(p=='0'||(p=='1'&&mls!=pmls))vs();
+		if(pmls!=mls)
 		{
-			vs(1);
+			pk();
+			vsn=0;
 		}
-		if(pmls!=mls)pk();
 	}
 }mlk;
 void ncpk()
