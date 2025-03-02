@@ -433,12 +433,12 @@ struct
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
 		}
-		if(p=='0'||(p=='1'&&mls!=pmls))vs();
 		if(pmls!=mls)
 		{
 			pk();
 			vsn=0;
 		}
+		if(p=='0'||(p=='1'&&mls!=pmls))vs();
 	}
 }mlk;
 void ncpk()
