@@ -362,9 +362,9 @@ struct
 		if(st.dpv.size())return;
 		if(vkvl==3)
 		{
+			if(p!='1'&&p!='0')return;
 			vkvl=0;
-			if(p=='0'){pk();return;}
-			else if(p!='1')return;
+			if(p=='0')pk();
 		}
 		if(!ss)
 		{
