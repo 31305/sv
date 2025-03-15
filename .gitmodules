@@ -4,3 +4,6 @@
 [submodule "glm"]
 	path = glm
 	url = https://github.com/31305/glm.git
+[submodule "SPTK"]
+	path = SPTK
+	url = https://github.com/31305/SPTK.git
