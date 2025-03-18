@@ -89,7 +89,7 @@ function svsgsk(p)
 	svsg.s2=Math.round(p.clientY*vpv2/s.height);
 	svsg.k=(p.pressure||p.buttons)?true:false;
 }
-document.body.addEventListener("pointermove",(p)=>{svsgsk(p);svsg.kp=2;});
+document.body.addEventListener("pointermove",(p)=>{if(svsg.kp==1)return;svsgsk(p);svsg.kp=2;});
 document.body.addEventListener("pointerdown",(p)=>{svsgsk(p);svsg.kp=1;});
 document.body.addEventListener("pointerout",(p)=>{svsg.k=false;svsg.kp=3;});
 document.body.addEventListener("pointerup",(p)=>{window.drk();svsg.k=false;svsg.kp=3;});
