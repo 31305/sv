@@ -250,7 +250,7 @@ struct
 {
 	const int dpk=2;
 	std::vector<std::string> ml;
-	int mls=-1;
+	int mls=-1,dmls=-1,tmls=-1;
 	bool vsn=0;
 	int vdss=0,vdsd=0;
 	char pl[1024];
@@ -281,9 +281,14 @@ struct
 		{
 #ifdef EMSCRIPTEN
 			mls=EM_ASM_INT({return mls;})-1;
+			tmls=EM_ASM_INT({return tmls;})-1;
 #endif
 			ml=spl(std::ifstream("ls"));
-			if(mls<0||mls>=ml.size())mls=ml.size()-1;
+			if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=1;}
+			if(tmls<0||tmls>=ml.size())
+				tmls=-1;
+			if(tmls!=-1)
+				dmls=mls;
 		}
 		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5+1)/2;
 		dpl("\33[%d;%dH",vdsd+1,vdss+1);
@@ -435,6 +440,12 @@ struct
 		{
 			mls=std::min(mls,(int)ml.size()-1);
 			mls=std::max(mls,0);
+			if(p=='1'&&dmls!=-1&&mls==tmls+1)mls=dmls;
+			if(mls<dmls||mls>tmls)
+			{
+				tmls=-1;
+				dmls=-1;
+			}
 		}
 		if(pmls!=mls)
 		{
@@ -783,6 +794,7 @@ void lk()
 			}
 			if(0)if(i==5&&!st.dp.d&&!*(st.svsb.skk)&&!EM_ASM_INT({return ccpd.psp})&&!st.cc&&d)npnv();
 			if(0)if(i==6&&!st.dp.d&&!*(st.svsb.skk)&&!st.cc&&d)npnv();
+			if(st.ptc==3&&st.dp.d&&mlk.dmls!=-1&&((st.pskt.ps==-1&&i==11)||(st.pskt.ps==6&&i==6)))npnv();
 #endif
 			if(1)if(!d)cbl({.d1=ms1-4-(vk+1),.d2=ms2-4-(vk+1),.v1=8+2*(vk+1),.v2=8+2*(vk+1),.rm=255,.hm=255,.nm=255})();
 			cbl({.d1=ms1-4-vk,.d2=ms2-4-vk,.v1=8+2*vk,.v2=8+2*vk,.rm=cbv,.hm=cbv,.nm=cbv})();

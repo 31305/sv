@@ -29,12 +29,28 @@ navigator.serviceWorker.register('ss.js')
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script src='./node_modules/xterm-pty/index.js'></script>
 <script type='text/javascript'>
-var mls=-1;
+var mls=-1,tmls=-1;
 if(location.hash.substring(1).startsWith('mls'))
 {
-	let s=Number(location.hash.substring(4))
-	if(Number.isInteger(s))
-		mls=s;
+	let l=location.hash.substring(4);
+	let vbs=l.indexOf('c');
+	if(vbs==-1)
+	{
+		let s=Number(l)
+		if(Number.isInteger(s))
+			mls=s;
+	}
+	else
+	{
+		let pl=l.substring(0,vbs);
+		let dl=l.substring(vbs+1);
+		let s=Number(pl)
+		if(Number.isInteger(s))
+			mls=s;
+		s=Number(dl)
+		if(Number.isInteger(s))
+			tmls=s;
+	}
 	location.hash='ml';
 }
 plg=0;
