@@ -29,6 +29,14 @@ navigator.serviceWorker.register('ss.js')
 <canvas hidden oncontextmenu="return false;" id="scpd" style="position:fixed" width=0 height=0 style='width:0;height:0'></canvas>
 <script src='./node_modules/xterm-pty/index.js'></script>
 <script type='text/javascript'>
+var mls=-1;
+if(location.hash.substring(1).startsWith('mls'))
+{
+	let s=Number(location.hash.substring(4))
+	if(Number.isInteger(s))
+		mls=s;
+	location.hash='ml';
+}
 plg=0;
 vpv1=0;vpv2=0;
 svsg={s1:0,s2:0,k:false,kp:0}

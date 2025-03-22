@@ -279,8 +279,11 @@ struct
 		if(vkvl==3){cp();return;}
 		if(ml.size()==0)
 		{
+#ifdef EMSCRIPTEN
+			mls=EM_ASM_INT({return mls;})-1;
+#endif
 			ml=spl(std::ifstream("ls"));
-			mls=ml.size()-1;
+			if(mls<0||mls>=ml.size())mls=ml.size()-1;
 		}
 		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5+1)/2;
 		dpl("\33[%d;%dH",vdsd+1,vdss+1);
