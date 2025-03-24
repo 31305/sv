@@ -810,6 +810,7 @@ size_t snsp(char* n)
 	return s;
 }
 const size_t vms=33;
+void vksk(bool l=0,bool knp=0);
 size_t bkp(char* n)
 {
 	size_t k=vms;
@@ -1537,13 +1538,12 @@ struct vks
 		}
 		else if(tn(0,2))
 		{
-			skk=0;
-			if(0&&t==8)
+			if(t==8)
 			{
 				sk[skk-1]=0;
 				size_t nvs=snsp(sk+1);
 				skk=0;
-				if(nvs==151*151){knp=1;}
+				if(nvs==151*151){knp=1;vksk(0,1);}
 				else if(yk==0)
 				{
 					if(nvs-1<nvk.size()&&nvs!=0)
@@ -1695,7 +1695,6 @@ struct ntv
 {
 
 };
-void vksk(bool l=0);
 int nps(int n)
 {
 	if(n>4)
@@ -1856,7 +1855,7 @@ uint8_t vts(const std::vector<uint8_t> &c,size_t v1,size_t v2,const std::vector<
 	}
 	return s;
 }
-void vksk(bool l)
+void vksk(bool l,bool knp)
 {
 	struct pp{bool p;size_t d;};
 	std::vector<pp> p(ls.size());
@@ -1893,6 +1892,7 @@ void vksk(bool l)
 		}
 	}
 	size_t nvks=0;
+	nvk.resize(ls.size());
 	for(size_t k=0;k<ls.size();k++)
 	{
 		if(!ls[k].nsv)
@@ -1900,7 +1900,7 @@ void vksk(bool l)
 				if(l)printf("%lu: ",k);
 				if(p[k].p){if(l)printf("%lu",p[k].d);}
 				else if(kcp[k]){if(l)printf("kcp");}
-				else if(ls[k].cc.size())
+				else if(ls[k].cc.size()||knp)
 				{
 					nvk[nvks]=k;
 					nvks++;
