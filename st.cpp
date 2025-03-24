@@ -1987,6 +1987,7 @@ void clpp::nk(stp* tp,bool pl)
 	int ns1=EM_ASM_INT({return svsg.s1});
 	int ns2=EM_ASM_INT({return svsg.s2});
 	bool nsk=EM_ASM_INT({return svsg.k});
+	EM_ASM({svsg.kp=0;});
 	SDL_Point n;
 	n.x=ns1;
 	n.y=ns2;
