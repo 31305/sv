@@ -452,19 +452,21 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
+const v vkvl(unsigned char k)
+{
+	if(k<=100)return vc[k];
+	else
+	{
+		auto p=vc[k-100];
+		p.n=1;
+		return p;
+	}
+}
 const std::vector<v> vs(const std::vector<unsigned char> &d)
 {
 	std::vector<v> vk;
 	for(size_t k=0;k<d.size();k++)
-	{
-		if(k<=100)vk.push_back(vc[d[k]]);
-		else
-		{
-			auto p=vc[d[k-100]];
-			p.n=1;
-			vk.push_back(p);
-		}
-	}
+		vk.push_back(vkvl(d[k]));	
 	return vk;
 };
 struct vv
@@ -915,7 +917,7 @@ struct vks
 					gv={};
 					for(size_t k=0;k<64;k++)
 						if(p[k]!=0)
-							gv.push_back(vc[(unsigned char)p[k]]);
+							gv.push_back(vkvl((unsigned char)p[k]));
 				};
 				if(lp)
 				{
@@ -931,7 +933,7 @@ struct vks
 						int v;
 						std::istringstream g(l);
 						while(g>>v)
-							gv.push_back(vc[v]);
+							gv.push_back(vkvl(v));
 						yk=0;
 					}
 					else if(yk==6)
@@ -976,7 +978,7 @@ struct vks
 					gv={};
 					auto p=st.dpv.front();
 					for(size_t k=0;k<p.size();k++)
-						gv.push_back(vc[(unsigned char)p[k]]);
+						gv.push_back(vkvl((unsigned char)p[k]));
 					st.dpv.pop();
 				}
 				else if(yk==3||ls[kp].sv)
