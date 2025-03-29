@@ -1350,7 +1350,7 @@ struct vks
 						if(!nv&&pv.sv&&pv1.sv)
 						{
 							for(size_t k=0;k<svk.size();k++)
-								ps(svk[k],svm(pv1,k,1),vd-dm*m1,1,vd-dm*m2);
+								ps(svk[k],svm(pv1,k,0),vd-dm*m1,1,vd-dm*m2);
 							ps(mt.PARAM_GLOT_VOL,0,vd-vvd+dm*m1,1,vd-vvd);
 						}
 						if(0&&pv.sv)
