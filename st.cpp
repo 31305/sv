@@ -452,7 +452,7 @@ struct
 			pk();
 			vsn=0;
 		}
-		if(p=='0'||(p=='1'&&mls!=pmls))vs();
+		if(p=='0'||(p=='1'&&(mls!=pmls||tmls==dmls)))vs();
 	}
 }mlk;
 void ncpk()
