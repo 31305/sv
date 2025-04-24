@@ -246,215 +246,201 @@ void cnk(int k,int m1,int m2,float p1,float p2)
 		}
 }
 int vdv=2;
-struct
+void mlkp::dpl(const char *l,...)
 {
-	const int dpk=2;
-	std::vector<std::string> ml;
-	int mls=-1,dmls=-1,tmls=-1;
-	bool vsn=0;
-	int vdss=0,vdsd=0;
-	char pl[1024];
-	size_t plss=0;
-	void dpl(const char *l,...)
+	va_list ps;
+	va_start(ps,l);
+	plss+=vsnprintf(&pl[plss],sizeof(pl)-plss,l,ps);
+}
+void mlkp::cp()
+{
+	tmt_write(st.dps[dpk],pl,0);
+	plss=0;
+	pl[0]=0;
+}
+void mlkp::slm(){dpl("\033[2J");};
+void mlkp::pk()
+{
+	slm();
+	if(vkvl==3){cp();return;}
+	if(ml.size()==0)
 	{
-		va_list ps;
-		va_start(ps,l);
-		plss+=vsnprintf(&pl[plss],sizeof(pl)-plss,l,ps);
-	}
-	void cp()
-	{
-		tmt_write(st.dps[dpk],pl,0);
-		plss=0;
-		pl[0]=0;
-	}
-	void slm(){dpl("\033[2J");};
-	char ss=0;
-	int mks=8;
-	int tp=0,ks=mks;
-	int ck=-1;
-	int vkvl=0;
-	void pk()
-	{
-		slm();
-		if(vkvl==3){cp();return;}
-		if(ml.size()==0)
-		{
 #ifdef EMSCRIPTEN
-			mls=EM_ASM_INT({return mls;})-1;
-			tmls=EM_ASM_INT({return tmls;})-1;
+		mls=EM_ASM_INT({return mls;})-1;
+		tmls=EM_ASM_INT({return tmls;})-1;
 #endif
-			ml=spl(std::ifstream("ls"));
-			if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=1;}
-			if(tmls<0||tmls>=ml.size())
-				tmls=-1;
-			if(tmls!=-1)
-				dmls=mls;
-		}
-		vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5+1)/2;
-		dpl("\33[%d;%dH",vdsd+1,vdss+1);
-		dpl("ML-%ld\r",ml.size());
-		dpl("\033[%dC\033[1B",vdss);
-		if(mls!=-1)
-		{
-			auto p=std::to_string(ml.size()).size();
-			auto n=std::to_string(mls+1);
-			std::string l=std::string("[");
-			for(int k=n.size();k<p;k++)
-			{
-				l.resize(l.size()+1);
-				l[l.size()-1]='0';
-			}
-			l+=n+std::string("] ");
-			dpl("%s\r",l.c_str());
-			dpl("\033[%dC\033[1B",vdss);
-			time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
-			l+=std::to_string(ks);
-			auto nj=*std::localtime(&ks);
-			std::string kl(100,0);
-			kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
-			dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
-		}
-		else dpl("?\r\033[2B");
-		dpl("\033[%dC\033[1B",vdss);
-		if(ss)dpl("%c",ss);
-		ck=-1;
-		if(mls!=-1)
-		{
-			auto ps=ml[mls];
-			size_t ssp=ps.find('c');
-			if(ssp!=std::string::npos)
-			{
-				int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
-#ifdef EMSCRIPTEN
-				if(st.csg.find(k)==st.csg.end())
-				{
-					EM_ASM({kcsk($0)},k);
-					vkvl=1;
-				}
-				else {ck=k;vkvl=2;}
-#endif
-			}
-			else vkvl=0;
-		}
-		if(vkvl==1)dpl("... ");
-		cp();
+		ml=spl(std::ifstream("ls"));
+		if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=1;}
+		if(tmls<0||tmls>=ml.size())
+			tmls=-1;
+		if(tmls!=-1)
+			dmls=mls;
 	}
-	void vs()
+	vdss=(st.dp.v-17)/2,vdsd=(st.dp.dv-5+1)/2;
+	dpl("\33[%d;%dH",vdsd+1,vdss+1);
+	dpl("ML-%ld\r",ml.size());
+	dpl("\033[%dC\033[1B",vdss);
+	if(mls!=-1)
+	{
+		auto p=std::to_string(ml.size()).size();
+		auto n=std::to_string(mls+1);
+		std::string l=std::string("[");
+		for(int k=n.size();k<p;k++)
+		{
+			l.resize(l.size()+1);
+			l[l.size()-1]='0';
+		}
+		l+=n+std::string("] ");
+		dpl("%s\r",l.c_str());
+		dpl("\033[%dC\033[1B",vdss);
+		time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
+		l+=std::to_string(ks);
+		auto nj=*std::localtime(&ks);
+		std::string kl(100,0);
+		kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
+		dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
+	}
+	else dpl("?\r\033[2B");
+	dpl("\033[%dC\033[1B",vdss);
+	if(ss)dpl("%c",ss);
+	ck=-1;
+	if(mls!=-1)
 	{
 		auto ps=ml[mls];
-		size_t ssp=ps.find(';')+1;
-		if(!vsn)st.dpv.push({51,4,45,7,51,2,75});
-		vsn=1;
-		while(1)
+		size_t ssp=ps.find('c');
+		if(ssp!=std::string::npos)
 		{
-			auto nsp=std::string::npos;
-			if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
-			if(nsp==std::string::npos)break;
-			auto vs=ps.substr(ssp,nsp);
-			if(vs[0]=='c')break;
-			std::vector<unsigned char> v;
-			while(vs.size())
-			{
-				size_t pnsp=vs.find(',');
-				if(pnsp==std::string::npos)
-					pnsp=vs.size();
-				v.push_back(std::stoi(vs.substr(0,pnsp)));
-				if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
-				else vs={};
-			}
-			ssp+=nsp+1;
-			st.dpv.push(v);
-		}
-	}
-	void nk(char p)
-	{	
-		auto pmls=mls;
-		if(st.dpv.size())return;
-		if(vkvl==3)
-		{
-			if(p!='1'&&p!='0')return;
-			vkvl=0;
-			if(p=='0')pk();
-		}
-		if(!ss)
-		{
-			if(p=='1'&&vkvl==1)return;
-			if(p=='1'&&vkvl==2){vkvl=3;pk();return;}
-			if(!vsn&&p=='1')p='0';
-			if(p=='n')
-			{
+			int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
 #ifdef EMSCRIPTEN
-				EM_ASM({location.hash="";});
+			if(st.csg.find(k)==st.csg.end())
+			{
+				EM_ASM({kcsk($0)},k);
+				vkvl=1;
+			}
+			else {ck=k;vkvl=2;}
 #endif
-			}
-			else if(p>='0'&&p<='1')mls+=p-'0';
-			else if(p=='-'||p=='+'||p=='@')
-			{
-				ss=p;
-				dpl("%c",p);
-				cp();
-				tp=0;
-				ks=mks;
-			}
 		}
-		else
+		else vkvl=0;
+	}
+	if(vkvl==1)dpl("... ");
+	cp();
+}
+void mlkp::vs()
+{
+	auto ps=ml[mls];
+	size_t ssp=ps.find(';')+1;
+	if(!vsn)st.dpv.push({51,4,45,7,51,2,75});
+	vsn=1;
+	while(1)
+	{
+		auto nsp=std::string::npos;
+		if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
+		if(nsp==std::string::npos)break;
+		auto vs=ps.substr(ssp,nsp);
+		if(vs[0]=='c')break;
+		std::vector<unsigned char> v;
+		while(vs.size())
 		{
-			if(p>='0'&&p<='9'&&ks)
-			{
-				tp=tp*10+(p-'0');
-				dpl("%c",p);
-				cp();
-				ks--;
-			}
-			else if(p==127)
-			{
-				ks++;
-				dpl("\b \b");
-				tp/=10;
-				cp();
-			}
-			else if(p=='\n'||p=='\r'||p=='.')
-			{
-				if(ss=='-')mls-=tp;
-				else if(ss=='+')mls+=tp;
-				else if(ss=='@')mls=tp-1;
-				ss=0;
-			}
-			if(ks>mks||p=='n')
-			{
-				ss=0;
-			}	
-			if(!ss)
-			{
-				dpl("\r");
-				dpl("\033[%dC",vdss);
-				for(int ks=0;ks<mks+1;ks++)
-					dpl(" ");
-				dpl("\r");
-				dpl("\033[%dC",vdss);
-				cp();
-			}
-			p=0;
+			size_t pnsp=vs.find(',');
+			if(pnsp==std::string::npos)
+				pnsp=vs.size();
+			v.push_back(std::stoi(vs.substr(0,pnsp)));
+			if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
+			else vs={};
 		}
+		ssp+=nsp+1;
+		st.dpv.push(v);
+	}
+}
+void mlkp::nk(char p)
+{	
+	auto pmls=mls;
+	if(st.dpv.size())return;
+	if(vkvl==3)
+	{
+		if(p!='1'&&p!='0')return;
+		vkvl=0;
+		if(p=='0')pk();
+	}
+	if(!ss)
+	{
+		if(p=='1'&&vkvl==1)return;
+		if(p=='1'&&vkvl==2){vkvl=3;pk();return;}
+		if(!vsn&&p=='1')p='0';
+		if(p=='n')
+		{
+#ifdef EMSCRIPTEN
+			EM_ASM({location.hash="";});
+#endif
+		}
+		else if(p>='0'&&p<='1')mls+=p-'0';
+		else if(p=='-'||p=='+'||p=='@')
+		{
+			ss=p;
+			dpl("%c",p);
+			cp();
+			tp=0;
+			ks=mks;
+		}
+	}
+	else
+	{
+		if(p>='0'&&p<='9'&&ks)
+		{
+			tp=tp*10+(p-'0');
+			dpl("%c",p);
+			cp();
+			ks--;
+		}
+		else if(p==127)
+		{
+			ks++;
+			dpl("\b \b");
+			tp/=10;
+			cp();
+		}
+		else if(p=='\n'||p=='\r'||p=='.')
+		{
+			if(ss=='-')mls-=tp;
+			else if(ss=='+')mls+=tp;
+			else if(ss=='@')mls=tp-1;
+			ss=0;
+		}
+		if(ks>mks||p=='n')
+		{
+			ss=0;
+		}	
 		if(!ss)
 		{
-			mls=std::min(mls,(int)ml.size()-1);
-			mls=std::max(mls,0);
-			if(p=='1'&&dmls!=-1&&mls==tmls+1)mls=dmls;
-			if(mls<dmls||mls>tmls)
-			{
-				tmls=-1;
-				dmls=-1;
-			}
+			dpl("\r");
+			dpl("\033[%dC",vdss);
+			for(int ks=0;ks<mks+1;ks++)
+				dpl(" ");
+			dpl("\r");
+			dpl("\033[%dC",vdss);
+			cp();
 		}
-		if(pmls!=mls)
-		{
-			pk();
-			vsn=0;
-		}
-		if(p=='0'||(p=='1'&&(mls!=pmls||tmls==dmls)))vs();
+		p=0;
 	}
-}mlk;
+	if(!ss)
+	{
+		mls=std::min(mls,(int)ml.size()-1);
+		mls=std::max(mls,0);
+		if(p=='1'&&dmls!=-1&&mls==tmls+1)mls=dmls;
+		if(mls<dmls||mls>tmls)
+		{
+			tmls=-1;
+			dmls=-1;
+		}
+	}
+	if(pmls!=mls)
+	{
+		pk();
+		vsn=0;
+	}
+	if(p=='0'||(p=='1'&&(mls!=pmls||tmls==dmls)))vs();
+}
+mlkp mlk;
 void ncpk()
 {
 	if(0)printf("ncpk\n");

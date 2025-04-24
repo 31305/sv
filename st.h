@@ -172,7 +172,28 @@ struct stp
 		int *yk=0;
 	}svsb;
 	std::map<int,SDL_Texture*> csg;
-}; 
+};
+struct mlkp
+{
+	const int dpk=2;
+	std::vector<std::string> ml;
+	int mls=-1,dmls=-1,tmls=-1;
+	bool vsn=0;
+	int vdss=0,vdsd=0;
+	char pl[1024];
+	size_t plss=0;
+	char ss=0;
+	int mks=8;
+	int tp=0,ks=mks;
+	int ck=-1;
+	int vkvl=0; 
+	void dpl(const char *,...);
+	void cp();
+	void slm();
+	void pk();
+	void vs();
+	void nk(char);
+};
 extern stp st;
 extern bool jt;
 extern int sr;
