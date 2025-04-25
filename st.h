@@ -175,6 +175,7 @@ struct stp
 };
 struct mlkp
 {
+	int lvs=0;
 	const int dpk=2;
 	std::vector<std::string> ml;
 	int mls=-1,dmls=-1,tmls=-1;
@@ -194,6 +195,7 @@ struct mlkp
 	void vs();
 	void nk(char);
 };
+extern mlkp mlk;
 extern stp st;
 extern bool jt;
 extern int sr;

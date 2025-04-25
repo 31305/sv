@@ -18,6 +18,8 @@
 #ifdef EMSCRIPTEN
 #include<emscripten.h>
 #include<emscripten/webaudio.h>
+#else
+#include<curses.h>
 #endif
 #include"st.h"
 struct v
@@ -1725,6 +1727,36 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
+void spn()
+{
+	vksk();
+	SDL_Init(SDL_INIT_EVERYTHING);
+	static vks v;
+	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
+	sr++;
+	v.dk=[](){sr++;};
+	std::thread vkk([](){v.vk();});
+	sr++;
+	initscr();
+	noecho();
+	cbreak();
+	st.dp.v=20;
+	st.dp.dv=20;
+	mlk.lvs=1;
+	mlk.pk();
+	int nd=0;
+	while(st.cs)
+	{
+		nd=getch();
+		mlk.nk((char)nd);
+	}
+	v.ck=0;
+	echo();
+	nocbreak();
+	endwin();
+	vkk.join();
+	SDL_Quit();
+}
 void k(int p,bool lp=0,bool sl=0,bool svk=1)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -1953,6 +1985,8 @@ int main(int argc,char** argv)
 		k(-1,1,1,0);
 	else if(dn==13)
 		k(-1,1,1,1);
+	else if(dn==14)
+		spn();
 	else if(dn==2)
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;

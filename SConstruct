@@ -21,8 +21,8 @@ if js:
     ss+=[st]
     if cp:ss+=['cairo/tp/src/libcairo.a','cairo/tp/subprojects/pixman/pixman/libpixman-1.a']
 else:
-    e.ParseConfig('pkg-config --cflags --libs x11 sdl2 SDL2_image SDL2_ttf'+(' cairo' if cp else ''))
-    e.Append(CCFLAGS=['-DKG']+(['-DCP'] if cp else []))
+    e.ParseConfig('pkg-config --cflags --libs ncurses x11 sdl2 SDL2_image SDL2_ttf'+(' cairo' if cp else ''))
+    e.Append(CCFLAGS=['-g']+['-DKG']+(['-DCP'] if cp else []))
     e.Tool('compilation_db')
     e.CompilationDatabase()
     ss+=['st.cpp']

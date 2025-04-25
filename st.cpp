@@ -254,7 +254,12 @@ void mlkp::dpl(const char *l,...)
 }
 void mlkp::cp()
 {
-	tmt_write(st.dps[dpk],pl,0);
+	if(!lvs)tmt_write(st.dps[dpk],pl,0);
+	else
+	{
+		printf("%s",pl);
+		fflush(stdout);
+	}
 	plss=0;
 	pl[0]=0;
 }
@@ -372,6 +377,7 @@ void mlkp::nk(char p)
 #ifdef EMSCRIPTEN
 			EM_ASM({location.hash="";});
 #endif
+			if(lvs)st.cs=0;
 		}
 		else if(p>='0'&&p<='1')mls+=p-'0';
 		else if(p=='-'||p=='+'||p=='@')
