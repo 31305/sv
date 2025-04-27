@@ -19,7 +19,8 @@
 #include<emscripten.h>
 #include<emscripten/webaudio.h>
 #else
-#include<curses.h>
+#include<termios.h>
+#include<sys/ioctl.h>
 #endif
 #include"st.h"
 struct v
@@ -1737,23 +1738,35 @@ void spn()
 	v.dk=[](){sr++;};
 	std::thread vkk([](){v.vk();});
 	sr++;
-	initscr();
-	noecho();
-	cbreak();
-	st.dp.v=20;
-	st.dp.dv=20;
+	printf("\033[?1049h");
+	fflush(stdout);
+	struct termios p,n;
+	tcgetattr(STDIN_FILENO,&p);
+	n=p;
+	n.c_lflag&=~(ECHO|ICANON|ISIG);
+	n.c_iflag&=~(IXON|ICRNL);
+	n.c_oflag&=~OPOST;
+	n.c_cc[VMIN]=1;
+	n.c_cc[VTIME]=0;
+	tcsetattr(STDIN_FILENO,TCSANOW,&n);
+	struct winsize vd;
+	ioctl(STDOUT_FILENO,TIOCGWINSZ,&vd);
+	st.dp.v=vd.ws_col;
+	st.dp.dv=vd.ws_row;
 	mlk.lvs=1;
 	mlk.pk();
 	int nd=0;
 	while(st.cs)
 	{
-		nd=getch();
-		mlk.nk((char)nd);
+		nd=getchar();
+		mlk.nk(nd);
+		if(nd=='n')st.cs=0;
 	}
+	printf("\033[?1049l");
+	fflush(stdout);
+	tcsetattr(STDIN_FILENO,TCSANOW,&p);
 	v.ck=0;
-	echo();
-	nocbreak();
-	endwin();
+	st.cs=0;
 	vkk.join();
 	SDL_Quit();
 }
