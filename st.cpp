@@ -302,8 +302,8 @@ void mlkp::pk()
 		l+=std::to_string(ks);
 		auto nj=*std::localtime(&ks);
 		std::string kl(100,0);
-		kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z\r\n",&nj));
-		dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12,17).c_str());
+		kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z",&nj));
+		dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12).c_str());
 	}
 	else dpl("?\r\033[2B");
 	dpl("\033[%dC\033[1B",vdss);

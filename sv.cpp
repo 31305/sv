@@ -1760,7 +1760,6 @@ void spn()
 	{
 		nd=getchar();
 		mlk.nk(nd);
-		if(nd=='n')st.cs=0;
 	}
 	printf("\033[?1049l");
 	fflush(stdout);
