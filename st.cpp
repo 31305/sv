@@ -334,7 +334,9 @@ void mlkp::vs()
 {
 	auto ps=ml[mls];
 	size_t ssp=ps.find(';')+1;
-	if(!vsn)st.dpv.push({51,4,45,7,51,2,75});
+	if(!(ps.find("nv")!=std::string::npos&&mls==kpls+1)&&!vsn)
+		st.dpv.push({51,4,45,7,51,2,75});
+	kpls=mls;
 	vsn=1;
 	while(1)
 	{
@@ -444,7 +446,7 @@ void mlkp::nk(char p)
 		pk();
 		vsn=0;
 	}
-	if(p=='0'||(p=='1'&&(mls!=pmls||tmls==dmls)))vs();
+	if(p=='0'||(p=='1'&&(mls!=pmls||(tmls==dmls&&tmls!=-1))))vs();
 }
 mlkp mlk;
 void ncpk()

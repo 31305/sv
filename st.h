@@ -178,7 +178,7 @@ struct mlkp
 	int lvs=0;
 	const int dpk=2;
 	std::vector<std::string> ml;
-	int mls=-1,dmls=-1,tmls=-1;
+	int mls=-1,kpls=-1,dmls=-1,tmls=-1;
 	bool vsn=0;
 	int vdss=0,vdsd=0;
 	char pl[1024];
