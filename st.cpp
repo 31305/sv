@@ -315,7 +315,7 @@ void mlkp::pk()
 		size_t ssp=ps.find('c');
 		if(ssp!=std::string::npos)
 		{
-			int k=std::stoi(ps.substr(ssp+1,ps.size()-ssp-2));
+			int k=std::stoi(ps.substr(ssp+1,ps.substr(ssp+1).find(';')));
 #ifdef EMSCRIPTEN
 			if(st.csg.find(k)==st.csg.end())
 			{
@@ -342,7 +342,8 @@ void mlkp::vs()
 		if(ssp<ps.size())nsp=ps.substr(ssp,std::string::npos).find(';');
 		if(nsp==std::string::npos)break;
 		auto vs=ps.substr(ssp,nsp);
-		if(vs[0]=='c')break;
+		ssp+=nsp+1;
+		if(vs[0]=='c')continue;
 		std::vector<unsigned char> v;
 		while(vs.size())
 		{
@@ -353,7 +354,6 @@ void mlkp::vs()
 			if(pnsp<vs.size())vs=vs.substr(pnsp+1,std::string::npos);
 			else vs={};
 		}
-		ssp+=nsp+1;
 		st.dpv.push(v);
 	}
 }
