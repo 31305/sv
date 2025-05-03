@@ -175,6 +175,7 @@ struct stp
 };
 struct mlkp
 {
+	std::string sn="ls";
 	int lvs=0;
 	const int dpk=2;
 	std::vector<std::string> ml;

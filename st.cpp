@@ -274,7 +274,7 @@ void mlkp::pk()
 		mls=EM_ASM_INT({return mls;})-1;
 		tmls=EM_ASM_INT({return tmls;})-1;
 #endif
-		ml=spl(std::ifstream("ls"));
+		ml=spl(std::ifstream(sn));
 		if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=1;}
 		if(tmls<0||tmls>=ml.size())
 			tmls=-1;

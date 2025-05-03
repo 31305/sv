@@ -1728,7 +1728,7 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
-void spn()
+void spn(std::string sn)
 {
 	vksk();
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -1755,6 +1755,7 @@ void spn()
 	st.dp.v=vd.ws_col;
 	st.dp.dv=vd.ws_row;
 	mlk.lvs=1;
+	mlk.sn=sn;
 	mlk.pk();
 	int nd=0;
 	while(st.cs)
@@ -2000,7 +2001,10 @@ int main(int argc,char** argv)
 	else if(dn==13)
 		k(-1,1,1,1);
 	else if(dn==14)
-		spn();
+	{
+		if(argc>2)
+			spn(argv[2]);
+	}
 	else if(dn==2)
 	{
 		GS::VTM::VocalTractModel5<double,1> mt;
