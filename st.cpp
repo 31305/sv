@@ -298,11 +298,15 @@ void mlkp::pk()
 		l+=n+std::string("] ");
 		dpl("%s\r",l.c_str());
 		dpl("\033[%dC\033[1B",vdss);
-		time_t ks=std::stol(ml[mls].substr(0,ml[mls].find(";")));
-		l+=std::to_string(ks);
-		auto nj=*std::localtime(&ks);
+		auto ksl=ml[mls].substr(0,ml[mls].find(";"));
 		std::string kl(100,0);
-		kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z",&nj));
+		if(ksl.size())
+		{
+			time_t ks=std::stol(ksl);
+			auto nj=*std::localtime(&ks);
+			kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z",&nj));
+		}
+		else ksl=std::string(15,' ');
 		dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12).c_str());
 	}
 	else dpl("?\r\033[2B");
