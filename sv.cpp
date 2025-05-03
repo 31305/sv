@@ -1738,6 +1738,7 @@ void spn()
 	v.dk=[](){sr++;};
 	std::thread vkk([](){v.vk();});
 	sr++;
+	printf("\033[1m");
 	printf("\033[?1049h");
 	fflush(stdout);
 	struct termios p,n;
@@ -1762,6 +1763,7 @@ void spn()
 		mlk.nk(nd);
 	}
 	printf("\033[?1049l");
+	printf("\033[0m");
 	fflush(stdout);
 	tcsetattr(STDIN_FILENO,TCSANOW,&p);
 	v.ck=0;
