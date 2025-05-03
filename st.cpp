@@ -300,14 +300,14 @@ void mlkp::pk()
 		dpl("\033[%dC\033[1B",vdss);
 		auto ksl=ml[mls].substr(0,ml[mls].find(";"));
 		std::string kl(100,0);
-		if(ksl.size()>2)
+		if(ksl.size())
 		{
 			time_t ks=std::stol(ksl);
+			if(ks<256)st.cs=0;
 			auto nj=*std::localtime(&ks);
 			kl.resize(std::strftime(&kl[0],kl.size(),"%Y-%m-%d\r\n%H:%M:%S %Z",&nj));
 		}
-		else if(ksl.size()==0)kl=std::string(15,' ');
-		else st.cs=0;
+		else kl=std::string(15,' ');
 		dpl("%s\r\033[%dC\033[1B%s\r",kl.substr(0,10).c_str(),vdss,kl.substr(12).c_str());
 	}
 	else dpl("?\r\033[2B");
