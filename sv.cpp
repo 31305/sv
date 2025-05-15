@@ -1089,7 +1089,7 @@ struct vks
 					if(0)printf("%d",pv.sv);
 					double dm=mk;
 					double vvd=dm*0.75;
-					double vd=pv.sv?(pv.sd?dm*2:dm):vvd;
+					double vd=pv.sv?(pv.vg?dm*2.5:pv.sd?dm*2:dm):vvd;
 					if(0&&pv.sg&&!nv&&pv1.sv&&!(!dv&&!pv0.sv))vd*=1.2;
 					if(!nv&&pv.sv&&pv1.sv)
 						vd+=vvd;
@@ -1263,7 +1263,7 @@ struct vks
 								double vds=vd;
 								if(!nv&&pv.sv&&pv1.sv)vds-=vvd;
 								if(0)ps(svk[k],0.5*(svm(pv,k),svm(pv,k,1)),dm,1,dm*m2);
-								ps(svk[k],svm(pv,k,1),vds-dm*m2,1,dm);
+								ps(svk[k],svm(pv,k,1),vds-dm*m2,1,vds-dm*m2*3);
 							}
 						if(!dv&&pv0.mp)
 						{
