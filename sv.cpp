@@ -1728,50 +1728,6 @@ void dk()
 	vkk.join();
 	SDL_Quit();
 }
-void spn(std::string sn)
-{
-	vksk();
-	SDL_Init(SDL_INIT_EVERYTHING);
-	static vks v;
-	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
-	sr++;
-	v.dk=[](){sr++;};
-	std::thread vkk([](){v.vk();});
-	sr++;
-	printf("\033[1m");
-	printf("\033[?1049h");
-	fflush(stdout);
-	struct termios p,n;
-	tcgetattr(STDIN_FILENO,&p);
-	n=p;
-	n.c_lflag&=~(ECHO|ICANON|ISIG);
-	n.c_iflag&=~(IXON|ICRNL);
-	n.c_oflag&=~OPOST;
-	n.c_cc[VMIN]=1;
-	n.c_cc[VTIME]=0;
-	tcsetattr(STDIN_FILENO,TCSANOW,&n);
-	struct winsize vd;
-	ioctl(STDOUT_FILENO,TIOCGWINSZ,&vd);
-	st.dp.v=vd.ws_col;
-	st.dp.dv=vd.ws_row;
-	mlk.lvs=1;
-	mlk.sn=sn;
-	mlk.pk();
-	int nd=0;
-	while(st.cs)
-	{
-		nd=getchar();
-		mlk.nk(nd);
-	}
-	printf("\033[?1049l");
-	printf("\033[0m");
-	fflush(stdout);
-	tcsetattr(STDIN_FILENO,TCSANOW,&p);
-	v.ck=0;
-	st.cs=0;
-	vkk.join();
-	SDL_Quit();
-}
 void k(int p,bool lp=0,bool sl=0,bool svk=1)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -1985,6 +1941,50 @@ void vksk(bool l,bool knp)
 }
 
 #ifndef EMSCRIPTEN
+void spn(std::string sn)
+{
+	vksk();
+	SDL_Init(SDL_INIT_EVERYTHING);
+	static vks v;
+	sdvn dn(v.mt.outputSampleRate(),v.pc,(void*)&v.vy);
+	sr++;
+	v.dk=[](){sr++;};
+	std::thread vkk([](){v.vk();});
+	sr++;
+	printf("\033[1m");
+	printf("\033[?1049h");
+	fflush(stdout);
+	struct termios p,n;
+	tcgetattr(STDIN_FILENO,&p);
+	n=p;
+	n.c_lflag&=~(ECHO|ICANON|ISIG);
+	n.c_iflag&=~(IXON|ICRNL);
+	n.c_oflag&=~OPOST;
+	n.c_cc[VMIN]=1;
+	n.c_cc[VTIME]=0;
+	tcsetattr(STDIN_FILENO,TCSANOW,&n);
+	struct winsize vd;
+	ioctl(STDOUT_FILENO,TIOCGWINSZ,&vd);
+	st.dp.v=vd.ws_col;
+	st.dp.dv=vd.ws_row;
+	mlk.lvs=1;
+	mlk.sn=sn;
+	mlk.pk();
+	int nd=0;
+	while(st.cs)
+	{
+		nd=getchar();
+		mlk.nk(nd);
+	}
+	printf("\033[?1049l");
+	printf("\033[0m");
+	fflush(stdout);
+	tcsetattr(STDIN_FILENO,TCSANOW,&p);
+	v.ck=0;
+	st.cs=0;
+	vkk.join();
+	SDL_Quit();
+}
 int main(int argc,char** argv)
 {
 	if(argc<2)
