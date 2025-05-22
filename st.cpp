@@ -350,7 +350,7 @@ void mlkp::vs()
 		if(nsp==std::string::npos)break;
 		auto vs=ps.substr(ssp,nsp);
 		ssp+=nsp+1;
-		if(vs[0]=='c')continue;
+		if(vs[0]>'9'||vs[0]<'0')continue;
 		std::vector<unsigned char> v;
 		while(vs.size())
 		{
