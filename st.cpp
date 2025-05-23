@@ -370,15 +370,14 @@ void mlkp::nk(char p)
 	if(st.dpv.size())return;
 	if(vkvl==3)
 	{
-		if(p!='1'&&p!='0'&&p!='2')return;
-		if(p=='0'){vs();return;}
-		if(p=='2'){vkvl=0;pk();return;}
-		if(p=='1')vkvl=0;
+		if(p!='1'&&p!='0')return;
+		vkvl=0;
+		if(p=='0')pk();
 	}
 	if(!ss)
 	{
 		if(p=='1'&&vkvl==1)return;
-		if(p=='1'&&vkvl==2){vkvl=3;pk();vs();return;}
+		if(p=='1'&&vkvl==2){vkvl=3;pk();return;}
 		if(!vsn&&p=='1')p='0';
 		if(p=='n')
 		{
@@ -452,8 +451,7 @@ void mlkp::nk(char p)
 		pk();
 		vsn=0;
 	}
-	if(ml[mls].find('c')==std::string::npos)
-		if(p=='0'||(p=='1'&&(mls!=pmls||(tmls==dmls&&tmls!=-1))))vs();
+	if(p=='0'||(p=='1'&&(mls!=pmls||(tmls==dmls&&tmls!=-1))))vs();
 }
 mlkp mlk;
 void ncpk()
