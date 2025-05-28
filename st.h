@@ -181,7 +181,7 @@ struct mlkp
 	std::vector<std::string> ml;
 	bool psv=0;
 	int mls=-1,kpls=-2,dmls=-1,tmls=-1;
-	bool vsn=0;
+	int vsn=0;
 	int vdss=0,vdsd=0;
 	char pl[1024];
 	size_t plss=0;
