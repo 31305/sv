@@ -275,6 +275,7 @@ void mlkp::pk()
 		tmls=EM_ASM_INT({return tmls;})-1;
 #endif
 		ml=spl(std::ifstream(sn));
+		if(ml[0][0]==';')psv=1;
 		if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=1;}
 		if(tmls<0||tmls>=ml.size())
 			tmls=-1;
@@ -339,8 +340,11 @@ void mlkp::vs()
 {
 	auto ps=ml[mls];
 	size_t ssp=ps.find(';')+1;
-	if(!(ps.find("nv")!=std::string::npos&&mls==kpls+1)&&!vsn)
-		st.dpv.push({51,4,45,7,51,2,75});
+	if(!((psv||ps.find("nv")!=std::string::npos)&&mls==kpls+1)&&!vsn)
+	{
+		if(psv)st.dpv.push({71,44,4,49,1,55,53,7,51,2,75});
+		else st.dpv.push({51,4,45,7,51,2,75});
+	}
 	kpls=mls;
 	vsn=1;
 	while(1)
