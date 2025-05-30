@@ -31,7 +31,7 @@ std::vector<std::string> spl(std::ifstream s)
 	{
 		std::string n;
 		std::getline(s,n);
-		if(n.size()>0)tp.push_back(n);
+		if(n.size()>0&&!n.starts_with("#!"))tp.push_back(n);
 	}
 	return tp;
 }
