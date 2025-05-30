@@ -276,7 +276,7 @@ void mlkp::pk()
 #endif
 		ml=spl(std::ifstream(sn));
 		if(ml[0][0]==';')psv=1;
-		if(mls<0||mls>=ml.size()){mls=ml.size()-1;vsn=2;}
+		if(mls<0||mls>=ml.size()){mls=psv?0:ml.size()-1;vsn=psv?0:2;}
 		if(tmls<0||tmls>=ml.size())
 			tmls=-1;
 		if(tmls!=-1)
