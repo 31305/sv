@@ -832,7 +832,7 @@ size_t bkp(char* n)
 struct vks
 {
 	bool knp=0;
-	const bool lp=0,sl=0,svk=1;
+	const bool lp=0,sl=0,svk=1,smg=getenv("SMG");
 	bool ck=1;
 	int yk=0;
 	std::string ccs;
@@ -1159,7 +1159,8 @@ struct vks
 							else return sdvm(dv,db);
 						};
 						double ds=-15,ns=-19,sts=-21,sds=ds;
-						if(0){ds=-10;ns=-13;sts=-15;}
+						if(0){ds=-10;ns=-13;sts=-15;sds=ds;}
+						if(smg){ds=-16;ns=-19;sts=-21;sds=ds;}
 						const double ndv=1?0.1:vnv(vc[51],1),nnv=0.5;
 						if(vk==0&&k==0)
 						{
