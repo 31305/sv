@@ -832,7 +832,7 @@ size_t bkp(char* n)
 struct vks
 {
 	bool knp=0;
-	const bool lp=0,sl=0,svk=1,smg=getenv("SMG");
+	const bool lp=0,sl=0,svk=1,smg=getenv("SMG"),dvnn=getenv("DVNN");
 	bool ck=1;
 	int yk=0;
 	std::string ccs;
@@ -1406,7 +1406,7 @@ struct vks
 					}
 				}
 				if(0)printf("\n");
-				for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
+				for(int dk=0;dk<(dvnn?4.0:0.5)*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
 				if(ct>ctdm)fprintf(stderr,"%lf > %lf\n",ct,ctdm);
