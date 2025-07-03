@@ -1416,6 +1416,8 @@ struct vks
 					}
 				}
 				if(0)printf("\n");
+				for(int k=0;k<mt.TOTAL_PARAMETERS;k++)
+					mt.setParameter(k,ms[1][k]);
 				for(int dk=0;dk<(dvnn?4.0:0.5)*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
