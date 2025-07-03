@@ -832,7 +832,8 @@ size_t bkp(char* n)
 struct vks
 {
 	bool knp=0;
-	const bool lp=0,sl=0,svk=1,smg=getenv("SMG"),dvnn=getenv("DVNN");
+	const bool lp=0,sl=0,svk=1,smg=getenv("SMG"),dvnn=getenv("DVNN"),sknl=getenv("SKNL");
+	size_t sknlk=0,vsnsl=0;
 	bool ck=1;
 	int yk=0;
 	std::string ccs;
@@ -859,6 +860,8 @@ struct vks
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
 				ms[k][pk]=0;
 		std::vector<size_t> kps;	
+		std::ofstream sknls;
+		if(sknl)sknls=std::ofstream("sknl");
 		while(ssv)
 		{
 			double mk=0.1;
@@ -1057,6 +1060,7 @@ struct vks
 				auto vp=[this,&ct,&ctdm,&mk]()
 				{
 					mt.execSynthesisStep();
+					vsnsl++;
 					auto p=[&](float ls)
 					{
 						while(svk&&vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
@@ -1076,7 +1080,11 @@ struct vks
 						p(ls);
 					}
 					if(mt.outputBuffer().size()>0)
+					{
+						sknlk+=mt.outputBuffer().size();
+						vsnsl=0;
 						mt.outputBuffer().resize(0);
+					}
 				};
 				double vkg=0;
 				for(size_t vk=0;vk<gv.size();vk++)
@@ -1181,6 +1189,7 @@ struct vks
 							}
 							if(1)for(int dk=0;dk<mk*mt.internalSampleRate();dk++)
 								vp();
+							sknls<<(sknlk+(vsnsl*mt.outputSampleRate())/mt.internalSampleRate())<<"\n";
 							vy.v=1;
 						}
 						if(pv.ss==v::ssp::u)
