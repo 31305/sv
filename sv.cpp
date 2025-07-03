@@ -1189,7 +1189,7 @@ struct vks
 							}
 							if(1)for(int dk=0;dk<mk*mt.internalSampleRate();dk++)
 								vp();
-							sknls<<(sknlk+(vsnsl*mt.outputSampleRate())/mt.internalSampleRate())<<"\n";
+							sknls<<(sknlk+(size_t)((vsnsl*mt.outputSampleRate())/mt.internalSampleRate()))<<"\n";
 							vy.v=1;
 						}
 						if(pv.ss==v::ssp::u)
