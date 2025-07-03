@@ -1418,7 +1418,7 @@ struct vks
 				for(int dk=0;dk<(dvnn?4.0:0.5)*mk*mt.internalSampleRate();dk++)
 					vp();
 				vy.v=0;
-				if(ct>ctdm)fprintf(stderr,"%lf > %lf\n",ct,ctdm);
+				if(ct>ctdm)fprintf(stderr,"%lf > %lf @ %lu\n",ct,ctdm,sknlk);
 				vss=0.001*(double)ks();
 			}
 			vy.v=0;
