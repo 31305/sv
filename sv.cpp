@@ -936,6 +936,8 @@ struct vks
 							ck=0;break;
 						}
 						getline(std::cin,l);
+						if(!l.size())
+							continue;
 						int v;
 						std::istringstream g(l);
 						while(g>>v)
