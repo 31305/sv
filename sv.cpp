@@ -569,7 +569,8 @@ std::vector<v> dn(int32_t k)
 		return vs({31,51,1,49,1,71,66,1,66,43,1,69,7,51,1,68,46,7,47,1,66,2,66,3,75,31,53,36,44,37,66,66,1,44,32,50,3,70,7});
 	return vs({51,2,68,6,56,7,66});
 };
-std::vector<vv> ls=
+std::vector<vv*> ls;
+std::vector<vv> lsm=
 {{.nsv=1},
 	{.vm=vs({47,1,73,68,1,58,2,70,3,70,1,75,51,44,7,43,1,66,31}),.nv=18},
 	{.vm=vs({43,1,70,66,44,1,71,44,1,48,61,2,44,9}),.nv=18,.nsv=1},
@@ -822,9 +823,9 @@ size_t bkp(char* n)
 	while(*n)
 	{
 		if(k>=ls.size())return 0;
-		else if((unsigned char)((*n)-'1')>=ls[k].pbs.size())
+		else if((unsigned char)((*n)-'1')>=ls[k]->pbs.size())
 			return 0;
-		else k=ls[k].pbs[(*n)-'1'];
+		else k=ls[k]->pbs[(*n)-'1'];
 		n++;
 	}
 	return k;
@@ -869,7 +870,7 @@ struct vks
 			size_t kp=0;
 			double vss=0;
 			std::vector<v> gv;
-			vv gvm;
+			vv* gvm;
 			bool bn=0;
 			while(ck)
 			{
@@ -877,7 +878,7 @@ struct vks
 				while(1)
 				{
 					pvss=vs;
-					if(!(!sl&&!ls[kp].sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0&&st.dpv.size()==0))break;
+					if(!(!sl&&!ls[kp]->sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0&&st.dpv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
@@ -888,29 +889,29 @@ struct vks
 				auto vsk=[&knp=knp,&pv,&kp,&vss,&bn,&ccs=ccs](size_t vs)
 				{
 					if(vs>=ls.size())return;
-					if(ls[vs].nsv)return;
-					if(!knp&&ls[vs].rv)return;
+					if(ls[vs]->nsv)return;
+					if(!knp&&ls[vs]->rv)return;
 					double ss=0.001*(double)ks();
 					size_t vk=vs;
 					pv.push_back(vs);
-					if(ccs!=ls[vs].cc)
-						st.pspp=ls[vs].cc=="sc.mp4"?2:1;
-					ccs=ls[vs].cc;
+					if(ccs!=ls[vs]->cc)
+						st.pspp=ls[vs]->cc=="sc.mp4"?2:1;
+					ccs=ls[vs]->cc;
 					auto pnv=[&kp](size_t k)
 					{
 						auto kpn=kp; 
 						while(kpn)
 						{
 							if(k==kpn)return 1;
-							kpn=ls[kpn].nv;
+							kpn=ls[kpn]->nv;
 						}
 						return 0;
 					};
-					while(!(ls[vk].nv==0||((ls[vk].nv==ls[kp].nv||ls[vk].nv==kp||(pnv(ls[vk].nv)&&ls[vk].nsv))&&ss-vss<10&&!bn)))
+					while(!(ls[vk]->nv==0||((ls[vk]->nv==ls[kp]->nv||ls[vk]->nv==kp||(pnv(ls[vk]->nv)&&ls[vk]->nsv))&&ss-vss<10&&!bn)))
 					{
-						if(ls[vk].vpv)
-							vk=ls[vk].vpv;
-						else vk=ls[vk].nv;
+						if(ls[vk]->vpv)
+							vk=ls[vk]->vpv;
+						else vk=ls[vk]->nv;
 						pv.push_back(vk);
 					}
 				};
@@ -970,10 +971,10 @@ struct vks
 					if(!sl)
 					{
 						if(0)printf("ls %ld\n",pv[pv.size()-1]);
-						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]].vm.size());
+						if(0)printf("lss %ld\n",ls[pv[pv.size()-1]]->vm.size());
 					}
 					gvm=ls[pv[pv.size()-1]];
-					gv=gvm.vm;
+					gv=gvm->vm;
 					kps.push_back(kp);
 					kp=pv[pv.size()-1];
 					if(0)printf("k %lu\n",kp);
@@ -989,7 +990,7 @@ struct vks
 						gv.push_back(vkvl((unsigned char)p[k]));
 					st.dpv.pop();
 				}
-				else if(yk==3||ls[kp].sv)
+				else if(yk==3||ls[kp]->sv)
 				{
 					if(yk==3)yk=0;
 					size_t s=1<<(pvss-1);
@@ -997,7 +998,7 @@ struct vks
 					if(kp==0&&st.s==5)
 						gs=0;
 					else for(size_t k=0;k<s;k++)
-						if(ls[gs].pv)gs=ls[gs].pv;
+						if(ls[gs]->pv)gs=ls[gs]->pv;
 						else break;
 					if(ccs=="kgs")
 					{
@@ -1878,6 +1879,9 @@ uint8_t vts(const std::vector<uint8_t> &c,size_t v1,size_t v2,const std::vector<
 }
 void vksk(bool l,bool knp)
 {
+	ls.reserve(lsm.size());
+	for(size_t k=0;k<lsm.size();k++)
+		ls.push_back(&lsm[k]);
 	struct pp{bool p;size_t d;};
 	std::vector<pp> p(ls.size());
 	std::vector<bool> kcp(ls.size());
@@ -1890,16 +1894,16 @@ void vksk(bool l,bool knp)
 	{
 		p[k].p=1;
 		p[k].d=0;
-		for(size_t pk=0;pk<ls[k].pbs.size();pk++)
-			pl(ls[k].pbs[pk],pl);
+		for(size_t pk=0;pk<ls[k]->pbs.size();pk++)
+			pl(ls[k]->pbs[pk],pl);
 	};
 	pl(vms,pl);
 	for(size_t k=0;k<ls.size();k++)
 	{
 		size_t pk=k;
-		while(ls[pk].pv)
+		while(ls[pk]->pv)
 		{
-			size_t nk=ls[pk].pv;
+			size_t nk=ls[pk]->pv;
 			kcp[nk]=1;
 			if(!p[nk].p)
 			{
@@ -1916,12 +1920,12 @@ void vksk(bool l,bool knp)
 	nvk.resize(ls.size());
 	for(size_t k=0;k<ls.size();k++)
 	{
-		if(!ls[k].nsv)
+		if(!ls[k]->nsv)
 		{
 				if(l)printf("%lu: ",k);
 				if(p[k].p){if(l)printf("%lu",p[k].d);}
 				else if(kcp[k]){if(l)printf("kcp");}
-				else if(ls[k].cc.size()||knp)
+				else if(ls[k]->cc.size()||knp)
 				{
 					nvk[nvks]=k;
 					nvks++;
@@ -1933,26 +1937,26 @@ void vksk(bool l,bool knp)
 	nvk.resize(nvks);
 	if(l)for(size_t k=0;k<ls.size();k++)
 	{
-		if(ls[k].pv&&ls[k].nsv)
+		if(ls[k]->pv&&ls[k]->nsv)
 			printf("nsvpvk %lu\n",k);
-		if(ls[k].pv&&ls[ls[k].pv].nsv)
-			printf("pvnsvk %lu %lu\n",k,ls[k].pv);
+		if(ls[k]->pv&&ls[ls[k]->pv]->nsv)
+			printf("pvnsvk %lu %lu\n",k,ls[k]->pv);
 	}
 	if(l)
 	{
 		std::vector<bool> nv(ls.size());
 		for(size_t k=0;k<ls.size();k++)
 		{
-			if(ls[k].nv)nv[ls[k].nv]=1;
-			if(ls[k].vpv)nv[ls[k].vpv]=1;
+			if(ls[k]->nv)nv[ls[k]->nv]=1;
+			if(ls[k]->vpv)nv[ls[k]->vpv]=1;
 		}
 		for(size_t k=0;k<ls.size();k++)
-			if(ls[k].nsv&&!nv[k])
+			if(ls[k]->nsv&&!nv[k])
 				printf("nkv %lu\n",k);
 	}
 	for(size_t k=0;k<ls.size();k++)
-		if(ls[k].nv&&ls[ls[k].nv].nv==ls[k].nv)
-			printf("pb %lu %lu\n",k,ls[k].nv);
+		if(ls[k]->nv&&ls[ls[k]->nv]->nv==ls[k]->nv)
+			printf("pb %lu %lu\n",k,ls[k]->nv);
 }
 
 #ifndef EMSCRIPTEN
