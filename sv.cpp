@@ -474,6 +474,7 @@ const std::vector<v> vs(const std::vector<unsigned char> &d)
 };
 struct vv
 {
+	virtual void pjs(){}
 	std::vector<vv> ps;
 	std::vector<v> vm;
 	size_t nv=0;
@@ -495,6 +496,29 @@ struct vv
 		std::function<std::tuple<double,double,bool>(size_t,double,double)> ss;
 	}sg;
 };
+struct jkv:vv
+{
+	bool d=0;
+	size_t dk;
+};
+struct jsp
+{
+	std::vector<jkv> b;
+};
+std::vector<jsp> djl()
+{
+	std::vector<jsp> p;
+	auto ns=[&p]()->jsp&
+	{
+		p.resize(p.size()+1);
+		return p.back();
+	};
+	auto kl=[&p](jsp& d)->size_t
+	{
+		return std::distance(p.data(),&d);
+	};
+	return p;
+}
 std::vector<v> sdk(const std::vector<std::vector<v>> vn)
 {
 	return {};
