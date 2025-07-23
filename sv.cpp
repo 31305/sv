@@ -901,7 +901,7 @@ struct vks
 				while(1)
 				{
 					pvss=vs;
-					if(!(!sl&&!ls[kp]->sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=8&&ck&&pv.size()==0&&st.dpv.size()==0))break;
+					if(!(!sl&&!ls[kp]->sv&&yk!=12&&yk!=3&&yk!=6&&yk!=22&&yk!=7&&yk!=8&&ck&&pv.size()==0&&st.dpv.size()==0))break;
 					double ks=0.016;
 					std::this_thread::sleep_for(std::chrono::milliseconds
 							((int)(ks*1000.0)));
@@ -1034,6 +1034,13 @@ struct vks
 						if(gs!=kp)vsk(gs);
 						continue;
 					}
+				}
+				else if(yk==7)
+				{
+					yk=0;
+					if(ls[kp]->pbs.size()==1)
+						vsk(ls[kp]->pbs[0]);
+					continue;
 				}
 				else if(yk==8)
 				{
@@ -1561,6 +1568,7 @@ struct vks
 				else if(ccs=="cls")EM_ASM({location.hash='cl';});
 #endif
 			}
+			else if(yk==0)yk=7;
 		}
 		else if(tn(0,1))
 		{
