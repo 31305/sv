@@ -782,6 +782,8 @@ void lvl()
 		if(s>1)lsm[lsm.size()-1].pv=d;
 	};
 	size_t lv=ns();
+	lsm[lv].vm=vs({45,37,51,1,46,2,44,65,3,70,1,75});
+	lsm[lv].nv=18;
 }
 std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
