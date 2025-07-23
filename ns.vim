@@ -1,1 +1,1 @@
-noremap <F1> :echo line(".")-search('> ls=','n')-1<cr>
+noremap <F1> :echo line(".")-search('> lsm=','n')-1<cr>
