@@ -793,6 +793,7 @@ void lvl()
 	size_t vvp=ns();
 	lsm[lv].pv=vvp;
 	lsm[vvp].vm=vs({51,8,76,46,3,44,65,43,1,66,4,75});
+	return;
 	size_t nkvs=ns();
 	vj(vvp,nkvs);
 	lsm[nkvs].vm=vs({2,71,7,66,2,66,49,67,5,70,1,76,43,2,66,44,3});
