@@ -474,7 +474,7 @@ const std::vector<v> vs(const std::vector<unsigned char> &d)
 };
 struct vv
 {
-	virtual void pjs(){}
+	virtual ~vv(){}
 	std::vector<vv> ps;
 	std::vector<v> vm;
 	size_t nv=0;
