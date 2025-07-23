@@ -781,9 +781,22 @@ void lvl()
 		}
 		if(s>1)lsm[lsm.size()-1].pv=d;
 	};
+	auto vj=[](size_t p,size_t d)
+	{
+		lsm[p].pv=d;
+		lsm[d].nv=p;
+	};
 	size_t lv=ns();
 	lsm[lv].vm=vs({45,37,51,1,46,2,44,65,3,70,1,75});
 	lsm[lv].nv=18;
+	lsm[lv].cc="lv";
+	size_t vvp=ns();
+	lsm[lv].pv=vvp;
+	lsm[vvp].vm=vs({51,8,76,46,3,44,65,43,1,66,4,75});
+	size_t nkvs=ns();
+	vj(vvp,nkvs);
+	lsm[nkvs].vm=vs({2,71,7,66,2,66,49,67,5,70,1,76,43,2,66,44,3});
+	lsm[nkvs].sv=1;
 }
 std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
@@ -1933,6 +1946,7 @@ uint8_t vts(const std::vector<uint8_t> &c,size_t v1,size_t v2,const std::vector<
 }
 void vksk(bool l,bool knp)
 {
+	lvl();
 	ls.reserve(lsm.size());
 	for(size_t k=0;k<lsm.size();k++)
 		ls.push_back(&lsm[k]);
