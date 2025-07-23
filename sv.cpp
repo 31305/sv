@@ -762,6 +762,27 @@ std::vector<vv> lsm=
 	{.vm=vs({51,1,44,66,19,68,1,44,47,2,77}),.nv=18,.cc="sc.mp4"},
 	{.vm=vs({}),.nsv=1},
 };//lsn
+void lvl()
+{
+	auto ns=[]()
+	{
+		lsm.resize(lsm.size()+1);
+		return lsm.size()-1;
+	};
+	auto vss=[&ns](size_t s)
+	{
+		if(!s)return;
+		size_t d=ns();
+		for(size_t k=1;k<s;k++)
+		{
+			size_t n=ns();
+			lsm[n-1].pv=n;
+			lsm[n].nv=n-1;
+		}
+		if(s>1)lsm[lsm.size()-1].pv=d;
+	};
+	size_t lv=ns();
+}
 std::vector<size_t> nvk(ls.size());
 std::vector<v> sk()
 {
