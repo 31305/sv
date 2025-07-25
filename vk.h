@@ -320,10 +320,8 @@ inline const std::vector<v> vs(const std::vector<unsigned char> &d)
 		vk.push_back(vkvl(d[k]));	
 	return vk;
 };
-struct vks
+struct stslp
 {
-	const bool smg=getenv("SMG");
-	GS::VTM::VocalTractModel5<double,1> mt=GS::VTM::VocalTractModel5<double,1>();
 	struct vyp
 	{
 		vyp(size_t kd):mc(kd){mc.k[0]=0;}
@@ -331,9 +329,42 @@ struct vks
 		size_t d=0,u=1;
 		bool v=0;
 	};
-	vyp vy=vyp(48000);
+	int sbs;
+	vyp vy;
+	stslp(int psbs):sbs(psbs),vy(psbs){};
+	static void pc(void *vy,uint8_t *d,int s)
+	{
+		auto vyk=((vyp*)vy);
+		for(int k=0;k<s;k+=sizeof(float))
+		{
+			if(vyk->mc.ak(vyk->d,vyk->u)==0)
+			{
+				if(vyk->v)fprintf(stderr,"<\n");
+				*((float*)(d+k))=0;
+			}
+			else
+			{
+				*((float*)(d+k))=vyk->mc.k[vyk->d];
+				vyk->d=vyk->mc.v(vyk->d);
+			}
+		}
+	};
+	static void p(void* bnd,float ls)
+	{
+		auto bn=(stslp*)bnd;
+		vyp& vy=bn->vy;
+		while(vy.mc.ak(vy.d,vy.u)>0.1*bn->sbs)
+			std::this_thread::sleep_for(std::chrono::milliseconds(16));
+		vy.u=vy.mc.v(vy.u);
+		vy.mc.k[vy.u]=ls;
+	};
+};
+struct vks
+{
+	const bool smg=getenv("SMG");
+	GS::VTM::VocalTractModel5<double,1> mt=GS::VTM::VocalTractModel5<double,1>();
 	double mk=0.1;
-	void pmb(std::vector<v> gv)
+	void pmb(std::vector<v> gv,void (*p)(void*,float),void* nv)
 	{
 		double ms[2][decltype(mt)::TOTAL_PARAMETERS];
 		for(int k=0;k<2;k++)
@@ -351,25 +382,15 @@ struct vks
 		}
 		const double ctdm=6000;
 		double ct=ctdm;
-		auto vp=[this,&ct,&ctdm]()
+		auto vp=[this,&ct,&ctdm,&p,&nv]()
 		{
 			mt.execSynthesisStep();
-			auto p=[&](float ls)
-			{
-				while(vy.mc.ak(vy.d,vy.u)>mk*mt.outputSampleRate())
-					std::this_thread::sleep_for(std::chrono::milliseconds(16));
-				if(1)
-				{
-					vy.u=vy.mc.v(vy.u);
-					vy.mc.k[vy.u]=ls;
-				}
-			};
 			for(size_t k=0;k<mt.outputBuffer().size();k++)
 			{
 				double tp=mt.outputBuffer()[k];
 				ct=std::max(ct,abs(tp));
 				float ls=std::max(std::min(tp/ctdm,1.0),-1.0);
-				p(ls);
+				p(nv,ls);
 			}
 			mt.outputBuffer().resize(0);
 		};
@@ -476,7 +497,6 @@ struct vks
 					}
 					if(1)for(int dk=0;dk<mk*mt.internalSampleRate();dk++)
 						vp();
-					vy.v=1;
 				}
 				if(pv.ss==v::ssp::u)
 					ps(mt.PARAM_GLOT_PITCH,ds,dm*m1,1);
@@ -705,30 +725,8 @@ struct vks
 			mt.setParameter(k,ms[1][k]);
 		for(int dk=0;dk<0.5*mk*mt.internalSampleRate();dk++)
 			vp();
-		vy.v=0;
 		static size_t vks;
 		vks++;
 		if(ct>ctdm)fprintf(stderr,"%lf > %lf @ %lu\n",ct,ctdm,vks);
-		if(1)
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds((int)(mk*1000.0)));
-		}
 	}
-	static void pc(void *vy,uint8_t *d,int s)
-	{
-		auto vyk=((vyp*)vy);
-		for(int k=0;k<s;k+=sizeof(float))
-		{
-			if(vyk->mc.ak(vyk->d,vyk->u)==0)
-			{
-				if(vyk->v)fprintf(stderr,"<\n");
-				*((float*)(d+k))=0;
-			}
-			else
-			{
-				*((float*)(d+k))=vyk->mc.k[vyk->d];
-				vyk->d=vyk->mc.v(vyk->d);
-			}
-		}
-	};
 };
