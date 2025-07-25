@@ -1,7 +1,6 @@
 #pragma once
 #include"VocalTractModel5.h"
 #include<stdlib.h>
-#include<climits>
 #include<array>
 #include<algorithm>
 #include<thread>
@@ -99,14 +98,6 @@ constexpr v vc[]=
 	{v::csp::o,1,0,0,0,0,0,0,(v::ssp)0,5,0,0},
 	{(v::csp)0,1,0,1},
 	{v::csp::k,0,1},
-};
-const std::vector<v> vs(const std::vector<unsigned char>&);
-size_t vsks(v p)
-{
-	for(size_t k=0;k<100;k++)
-		if(vc[k]==p)
-			return k;
-	return 0;
 };
 template<typename n>
 struct ck
@@ -315,6 +306,13 @@ const v vkvl(unsigned char k)
 		return p;
 	}
 }
+size_t vsks(v p)
+{
+	for(size_t k=0;k<200;k++)
+		if(vkvl(k)==p)
+			return k;
+	return 0;
+};
 const std::vector<v> vs(const std::vector<unsigned char> &d)
 {
 	std::vector<v> vk;
