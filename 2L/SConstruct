@@ -12,7 +12,7 @@ p.Append(CCFLAGS=['-MJs.o.json'])
 p.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=HEAPU8,ccall,stringToNewUTF8,FS','-sWASM=1','-O3','-s','-pthread','--use-preload-plugins','-sPTHREAD_POOL_SIZE=4','-sEXPORTED_FUNCTIONS=_main,_malloc,_free'])
 if js==2:
     p.Append(LINKFLAGS=['-sERROR_ON_WASM_CHANGES_AFTER_LINK','-sWASM_BIGINT','-O1'])
-sv=p.Program('sv',ss)
+dl=p.Program('2L',ss)
 def f(target,source,env):
     l=open('s.o.json','r').read()
     open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
