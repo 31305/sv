@@ -21,6 +21,23 @@ struct jvn
 		WebAudioWorkletProcessorCreateOptions vk={.name="svjs",};
 		emscripten_create_wasm_audio_worklet_processor_async(pv,&vk,dpk,sg);
 	}
+	EMSCRIPTEN_WEBAUDIO_T pv;
+	EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk;
+	void drk(bool kv=0)
+	{
+		EM_ASM({let pv=emscriptenGetAudioObject($0);
+			let vkk=emscriptenGetAudioObject($1);
+			if(pv.state!='running'||$2)
+			{
+				pv.resume();
+				vkk.connect(pv.destination);
+			}
+			else if(0)
+			{
+				pv.suspend();
+			}
+			},pv,vkk,kv);
+	}
 	static void dpk(EMSCRIPTEN_WEBAUDIO_T pv,EM_BOOL ss,void* sg)
 	{
 		if(!ss)
@@ -30,22 +47,10 @@ struct jvn
 		}
 		int ns[1]={1};
 		EmscriptenAudioWorkletNodeCreateOptions vk={.numberOfInputs=1,.numberOfOutputs=1,.outputChannelCounts=ns};
-		[[maybe_unused]]EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"svjs",&vk,&tpk,sg);
-		EM_ASM({window.pv=emscriptenGetAudioObject($0);
-			window.vkk=emscriptenGetAudioObject($1);
-			if(0)navigator.mediaDevices.getUserMedia({audio:true}).then(p=>{window.smss=p;window.smssk=pv.createMediaStreamSource(p);smssk.connect(vkk)});
-			window.drk=(sk=0)=>{
-			if(pv.state!='running'||sk)
-			{
-		pv.resume();
-				vkk.connect(pv.destination);
-			}
-			else if(0)
-			{
-				pv.suspend();
-			}};
-			window.drk(1)
-			},pv,vkk);
+		EMSCRIPTEN_AUDIO_WORKLET_NODE_T vkk=emscripten_create_wasm_audio_worklet_node(pv,"svjs",&vk,&tpk,sg);
+		((jvn*)sg)->pv=pv;
+		((jvn*)sg)->vkk=vkk;
+		((jvn*)sg)->drk(1);
 		((jvn*)sg)->pk();
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
