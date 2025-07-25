@@ -1,7 +1,7 @@
 {
   "hosting": {
 	"site": "200000",
-    "public": "./rs",
+    "public": "../../dlrs",
     "rewrites": [ {
 	    "source": "**",
    		"destination": "/2L.html"
