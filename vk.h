@@ -337,7 +337,7 @@ struct vks
 	double mk=0.1;
 	void pmb(std::vector<v> gv)
 	{
-		double ms[2][mt.TOTAL_PARAMETERS];
+		double ms[2][decltype(mt)::TOTAL_PARAMETERS];
 		for(int k=0;k<2;k++)
 			for(int pk=0;pk<mt.TOTAL_PARAMETERS;pk++)
 				ms[k][pk]=0;
@@ -679,7 +679,7 @@ struct vks
 					ps(mt.PARAM_GLOT_VOL,53,dm,1,dm*m2);
 					if(nv||!pv1.sv)ps(mt.PARAM_GLOT_VOL,60,vd-dm*m2,1,dm);
 				}
-				double ks[mt.TOTAL_PARAMETERS];
+				double ks[decltype(mt)::TOTAL_PARAMETERS];
 				const double vsv=0.05;
 				if(0)for(int k=0;k<(int)svk.size();k++)
 					ms[1][svk[k]]*=(1.0-vsv+2.0*vsv*(double)rand()/(double)RAND_MAX);
