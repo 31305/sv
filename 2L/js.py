@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from os import system
-ls='../../dlrs'
+ls='./rs'
 system('mkdir -p '+ls)
 system('cp 2L.html '+ls)
 system('cp ss.js '+ls)
