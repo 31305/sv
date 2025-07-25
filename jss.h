@@ -1,8 +1,10 @@
 #include<emscripten/webaudio.h>
 #include<cstdio>
+#include<functional>
 struct jvn
 {
 	uint8_t vs[4096];
+	std::function<void()> pk;
 	struct ngp
 	{
 		void(*pc)(void*,unsigned char*,int);
@@ -35,7 +37,7 @@ struct jvn
 			window.drk=(sk=0)=>{
 			if(pv.state!='running'||sk)
 			{
-				pv.resume();
+		pv.resume();
 				vkk.connect(pv.destination);
 			}
 			else if(0)
@@ -44,6 +46,7 @@ struct jvn
 			}};
 			window.drk(1)
 			},pv,vkk);
+		((jvn*)sg)->pk();
 	}
 	static EM_BOOL tpk(int,const AudioSampleFrame*,int nds,AudioSampleFrame* nd,int,const AudioParamFrame*,void* sg)
 	{
@@ -55,8 +58,8 @@ struct jvn
 				memcpy(&nd[k].data[ppk*128],d,sizeof(d));
 		return EM_TRUE;
 	}
-	jvn(int dns,void(*dpc)(void*,unsigned char*,int),void* dvy)
-	:ng({dpc,dvy})
+	jvn(int dns,void(*dpc)(void*,unsigned char*,int),void* dvy,std::function<void()> dpk)
+	:pk(dpk),ng({dpc,dvy})
 	{
 		EmscriptenWebAudioCreateAttributes vv={.latencyHint="interactive",.sampleRate=(uint32_t)dns};
 		EMSCRIPTEN_WEBAUDIO_T pv=emscripten_create_audio_context(&vv);
