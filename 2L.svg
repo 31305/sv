@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs><style>.pv{fill:#420131;}.dv{fill:#f9f0f0}</style></defs>
+<rect class="pv" x="0" y="0" width="16" height="16"/>
+<rect class="dv" x="3" y="6" width="4" height="4"/>
+<rect class="dv" x="9" y="6" width="4" height="4"/>
+</svg>
