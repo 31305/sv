@@ -1,0 +1,19 @@
+import os
+import subprocess
+import urllib.request
+import shutil
+p=Environment(COMPILATIONDB_USE_ABSPATH=True,CCFLAGS=['-Wall','-I../'],CXXFLAGS=['--std=c++20'],LIBS='pthread')
+p.AppendENVPath('PATH',os.environ.get('PATH'))
+js=int(ARGUMENTS.get('js')) if type(ARGUMENTS.get('js'))==str else 0
+ss=['pm.cpp','Log.cpp']
+os.environ['EMSCRIPTEN_ROOT']=os.path.dirname(subprocess.run(['which', 'emcc'],stdout=subprocess.PIPE).stdout.decode('utf-8'))
+p.Tool('emscripten',toolpath=[os.environ['EMSCRIPTEN_TOOL_PATH']])
+p.Append(CCFLAGS=['-MJs.o.json'])
+p.Append(LINKFLAGS=['-sAUDIO_WORKLET=1','-sWASM_WORKERS=1','-sEXPORTED_RUNTIME_METHODS=HEAPU8,ccall,stringToNewUTF8,FS','-sWASM=1','-O3','-s','-pthread','--use-preload-plugins','-sPTHREAD_POOL_SIZE=4','-sEXPORTED_FUNCTIONS=_main,_malloc,_free'])
+if js==2:
+    p.Append(LINKFLAGS=['-sERROR_ON_WASM_CHANGES_AFTER_LINK','-sWASM_BIGINT','-O1'])
+sv=p.Program('sv',ss)
+def f(target,source,env):
+    l=open('pm.o.json','r').read()
+    open('compile_commands.json','w').write('['+l[0:len(l)-2]+']')
+AddPostAction('pm.o',f)
