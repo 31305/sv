@@ -112,11 +112,11 @@ struct ck
 const bool pp=0;
 const double nv=0?0.1:GS_VTM5_MIN_RADIUS;
 const double sgvv=0.1;
-double vnv(const v &dv,bool db)
+inline double vnv(const v &dv,bool db)
 {
 	return (!db&&(1||dv.sg||dv.n))?sgvv:nv;
 }
-double vm(const v& dv,short vk,bool db=0)
+inline double vm(const v& dv,short vk,bool db=0)
 {
 	double vmk[][8]=
 		{{0.8,0.65,0.65,0.65,1.31,1.23,1.31,1.67},
@@ -242,13 +242,13 @@ double vm(const v& dv,short vk,bool db=0)
 	}
 	return 0;
 }
-double sdvm(const v &dv,bool db=0)
+inline double sdvm(const v &dv,bool db=0)
 {
 	if(dv.vv==3)return vnv(dv,db);
 	else if(dv.nt&&dv.cs==v::csp::m)return 1.8;
 	else return vm(dv,6-1,db);
 }
-double hgs(const v &dv)
+inline double hgs(const v &dv)
 {
 	if(dv.sm)
 	{
@@ -264,7 +264,7 @@ double hgs(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 7;
 	return 0;
 }
-double hgv(const v &dv)
+inline double hgv(const v &dv)
 {
 	if(dv.sm)
 	{
@@ -280,7 +280,7 @@ double hgv(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 3300;
 	return 0;
 }
-double hgd(const v &dv)
+inline double hgd(const v &dv)
 {
 	if(dv.sm)
 	{
@@ -296,7 +296,7 @@ double hgd(const v &dv)
 	else if(dv.nt&&dv.cs==v::csp::o)return 1000;
 	return 0;
 }
-const v vkvl(unsigned char k)
+inline const v vkvl(unsigned char k)
 {
 	if(k<=100)return vc[k];
 	else
@@ -306,14 +306,14 @@ const v vkvl(unsigned char k)
 		return p;
 	}
 }
-size_t vsks(v p)
+inline size_t vsks(v p)
 {
 	for(size_t k=0;k<200;k++)
 		if(vkvl(k)==p)
 			return k;
 	return 0;
 };
-const std::vector<v> vs(const std::vector<unsigned char> &d)
+inline const std::vector<v> vs(const std::vector<unsigned char> &d)
 {
 	std::vector<v> vk;
 	for(size_t k=0;k<d.size();k++)
